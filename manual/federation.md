@@ -5,7 +5,7 @@ iRODS Zones are independent administrative units.  When federated, users of one 
 Primary reasons for using Zone Federation include:
 
 1. Local control. Some iRODS sites want to share resources and collections, yet maintain more local control over those resources, data objects, and collections. Rather than a single iRODS Zone managed by one administrator, they may need two (or more) cooperating iRODS systems managed locally, primarily for security and/or authorization reasons.
-2. iCAT WAN performance. In world-wide networks, the network latency may cause significant iRODS performance degradation. For example, in the United States, the latency between the east coast and the west coast is often 1-2 seconds for a simple query. Many iRODS operations require multiple interations with the iCAT database, which compounds any delays.
+2. iCAT WAN performance. In world-wide networks, the network latency may cause significant iRODS performance degradation. For example, in the United States, the latency between the east coast and the west coast is often 1-2 seconds for a simple query. Many iRODS operations require multiple interactions with the iCAT database, which compounds any delays.
 
 ## Setup
 
@@ -101,8 +101,6 @@ Mutual authentication between servers is always on across Federations.
 iRODS 4.0+ has made some additions to the database tables for the resources (`r_resc_main`) and Data Objects (`r_data_main`) for the purposes of tracking resource hierarchy, children, parents, and other relationships.  These changes would have caused a cross-zone query to fail when the target zone is iRODS 3.x.
 
 In order to support commands such as `ils` and `ilsresc` across a 3.x to 4.0+ federation, iRODS 4.0+ will detect the cross zone query and subsequently strip out any requests for columns which do not exist in the iRODS 3.x table structure in order to allow the query to succeed.
-
-There are currently no known issues with Federation, but this has not yet been comprehensively tested.
 
 ### irods_environment.json for Service Account
 

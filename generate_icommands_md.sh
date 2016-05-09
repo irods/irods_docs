@@ -11,7 +11,7 @@ TARGETFILE=$TARGETDIR/user.$SUFFIX
 echo > $TARGETFILE
 echo "# iCommands - User" >> $TARGETFILE
 
-ihelp -a | grep "iRODS Version " | awk '{print $6}' | while read x ; do
+ihelp -a | grep "iRODS Version " | awk '{print $4}' | while read x ; do
 
   if [ "$x" = "iadmin" ] ; then
     # iadmin has subcommands

@@ -1,6 +1,95 @@
-# Rule Engine
+# Rule Engine Plugin Framework
 
-The Rule Engine, which keeps track of state and interprets both system-defined rules and user-defined rules, is a critical component of the iRODS system.  Rules are definitions of actions that are to be performed by the server.  These actions are defined in terms of microservices and other actions.  The iRODS built-in Rule Engine interprets the rules and calls the appropriate microservices.
+The Rule Engine Plugin Framework (REPF), which keeps track of state and interprets both system-defined rules and user-defined rules, is a critical component of the iRODS system.  Rules are definitions of actions that are to be performed by the server.  These actions are defined in multiple ways, depending on the langauge that is used to define the actions.  In the native iRODS Rule Language, the actions are defined with microservices and other actions.  The REPF determines which defined rules are loaded and active and then delegates to the plugins to execute any relevant action.  In the case of the legacy iRODS Rule Language Rule Engine Plugin, it interprets the rules and calls the appropriate microservices.  For the Python Rule Engine Plugin, it loads the python interpreter and executes the named function definitions as appropriate.
+
+## Configuration (server_config.json)
+
+Because the rule engine plugins are just one of many iRODS plugin types, the REPF is configured within the following stanza in `server_config.json`:
+
+```
+{
+    "plugin_configuration": {
+        "rule_engines": []
+    }
+}
+```
+
+Within the rule engine plugin framework, there is a dynamically created policy enforcement point that is checked before and after the operation.  These are the "_pre" and "_post" PEPs discussed in [Dynamic Policy Enforcement Points](plugins.md#dynamic-policy-enforcement-points).
+
+The framework will look for rules that are defined with the same name as the PEP and execute them if found.  A typical `ils` will trigger over 1200 dynamic PEPs on a basic installation.  Nearly all of them will be undefined (there is no rule that matches their name) and so will not run any code.
+
+However, the ones that *do* match will be executed in the order in which they are loaded.  If there is only one matching rule, then it will fire and its return code will be interpreted by the REPF.  If it fails, then the operation fails as well and an error is returned to the client (or to the log when run by the [delay execution server](#delay-execution).)
+
+If there is more than one matching rule for a particular PEP, the first one loaded will fire first.  If it succeeds, then the others are ignored.  If the first one fails, then the next matching rule is fired.  If it fails, then the framework will continue to "fall through" until there are no more matching rules.  The return code of the last matching rule will be the one that is returned.
+
+This "fall through" mechanism across rule engine plugins (meaning, across language as well).
+
+### Example
+
+Consider the following `server_config.json` with the accompanying `example.re`, `core.re` and `core.py` rulebases:
+
+```
+{
+    "plugin_configuration": {
+        "rule_engines": [
+            {
+                "instance_name": "irods_rule_engine_plugin-python-instance",
+                "plugin_name": "irods_rule_engine_plugin-python",
+                "plugin_specific_configuration": {}
+            }
+            {
+                "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
+                "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
+                "plugin_specific_configuration": {
+                    "re_data_variable_mapping_set": [
+                        "core"
+                    ],
+                    "re_function_name_mapping_set": [
+                        "core"
+                    ],
+                    "re_rulebase_set": [
+                        "example",
+                        "core"
+                    ],
+                    "regexes_for_supported_peps": [
+                        "ac[^ ]*",
+                        "msi[^ ]*",
+                        "[^ ]*pep_[^ ]*_(pre|post)"
+                    ]
+                },
+                "shared_memory_instance": "legacy_re"
+            }
+        ]
+    }
+}
+```
+
+```python
+# core.py
+def pep_resource_close_pre(rule_args, callback):
+    callback.writeLine("serverLog","XXXX - core.py
+```
+
+```
+# example.re
+pep_resource_close_pre(){
+    writeLine("serverLog","XXXX - example.re top"
+}
+```
+
+```
+# core.re
+pep_resource_close_pre(){
+    writeLine("serverLog","XXXX - core.re top"
+}
+
+pep_resource_close_pre(){
+    writeLine("serverLog","XXXX - core.re bottom"
+}
+```
+
+NEED parameters in .re's above
+
 
 ## Delay execution
 

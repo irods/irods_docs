@@ -17,11 +17,19 @@ An Application Programming Interface (API) is a piece of software's set of defin
 
 ## Authentication Mechanisms
 
-iRODS can employ various mechanisms to verify user identity and control access to Data Objects (iRODS files), Collections, etc.  These currently include the default iRODS secure password mechanism (challenge-response), Grid Security Infrastructure (GSI), Kerberos, and Operating System authentication (OSAuth).
+iRODS can employ various mechanisms to verify user identity and control access to Data Objects (iRODS files), Collections, etc.  These currently include the default iRODS secure password mechanism (challenge-response), Grid Security Infrastructure (GSI), and Kerberos.
 
 ## Audit Trail
 
 List of all operations performed upon a Data Object, a Collection, a Resource, a User, or other iRODS entities.  When Auditing is enabled, significant events in the iRODS system (affecting the iCAT) are recorded.  Full activity reports can be compiled to verify important preservation and/or security policies have been enforced.
+
+## Catalog Service Consumer (Resource Server)
+
+An iRODS server in a Zone that is *not* a Catalog Service Provider.  There can be zero to many Catalog Service Consumers in a Zone.
+
+## Catalog Service Provider (iCAT Server, IES, or iCAT-Enabled Server)
+
+The iRODS server in a Zone that holds the database connection to the (possibly remote) iCAT.  There is one Catalog Service Provider in a Zone.
 
 ## Client
 
@@ -54,10 +62,6 @@ The Java API for iRODS.  Read more at [https://github.com/DICE-UNC/jargon](https
 ## iCAT
 
 The iCAT, or iRODS Metadata Catalog, stores descriptive state metadata about the Data Objects in iRODS Collections in a DBMS database (e.g. PostgreSQL, MySQL, Oracle). The iCAT can keep track of both system-level metadata and user-defined metadata.  There is one iCAT database per iRODS Zone.
-
-## iCAT Server (IES, or iCAT-Enabled Server)
-
-The iRODS server in a Zone that holds the database connection to the (possibly remote) iCAT.
 
 ## iCommands
 
@@ -99,17 +103,13 @@ A storage system onto which Data Objects may be deposited. iRODS supports a wide
 
 A resource, or storage resource, is a software/hardware system that stores digital data. iRODS clients can operate on local or remote data stored on different types of resources through a common interface.
 
-## Resource Server
-
-An iRODS server in a Zone that is *not* the iCAT Server.  There can be zero to many Resource Servers in a Zone.
-
 ## Rules
 
 Rules are a major innovation in iRODS that let users automate data management tasks, essential as data collections scale to petabytes across hundreds of millions of files. Rules allow users to automate enforcement of complex Management Policies (workflows), controlling the server-side execution (via Microservices) of all data access and manipulation operations, with the capability of verifying these operations.
 
 ## Rule Engine
 
-The Rule Engine interprets Rules following the iRODS rule syntax. The Rule Engine, which runs on all iRODS servers, is invoked by server-side procedure calls and selects, prioritizes, and applies Rules and their corresponding Microservices. The Rule Engine can apply recovery procedures if a Microservice or Action fails.
+The Rule Engine interprets Rules written in one of the supported rule engine plugin languages. The Rule Engine, which runs on all iRODS servers, is invoked by server-side procedure calls and selects, prioritizes, and applies Rules and their corresponding Microservices. The Rule Engine can apply recovery procedures if a Microservice or Action fails.
 
 ## Scalability
 
@@ -141,4 +141,4 @@ An iRODS Vault is a data repository system that iRODS can maintain on any storag
 
 ## Zone
 
-An iRODS Zone is an independent iRODS system consisting of an iCAT-Enabled Server (IES), optional additional distributed iRODS Resource Servers (which can reach hundreds, worldwide), and clients. Each Zone has a unique name. When two iRODS Zones are configured to interoperate with each other securely, it is called (Zone) Federation.  A Zone can report on its configuration and upgrade history via `izonereport`.
+An iRODS Zone is an independent iRODS system consisting of a Catalog Service Provider, optional additional distributed Catalog Service Consumers (which can reach hundreds, worldwide), and clients. Each Zone has a unique name. When two iRODS Zones are configured to interoperate with each other securely, it is called (Zone) Federation.  A Zone can report on its configuration and upgrade history via `izonereport`.

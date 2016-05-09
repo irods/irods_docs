@@ -1,0 +1,304 @@
+# Composable Resources
+
+The second area of modularity to be added to iRODS 4.0+ consists of composable resources.  Composable resources replace the concept of resource groups from iRODS 3.x.  There are no resource groups in iRODS 4.0+.
+
+## Tree Metaphor
+
+In computer science, a tree is a data structure with a hierarchical representation of linked nodes. These nodes can be named based on where they are in the hierarchy. The node at the top of a tree is the root node. Parent nodes and child nodes are on opposite ends of a connecting link, or edge. Leaf nodes are at the bottom of the tree, and any node that is not a leaf node is a branch node. These positional descriptors are helpful when describing the structure of a tree. Composable resources are best represented using this tree metaphor.
+
+An iRODS composite resource is a tree with one 'root' node.  Nodes that are at the bottom of the tree are 'leaf' nodes.  Nodes that are not leaf nodes are 'branch' nodes and have one or more 'child' nodes.  A child node can have one and only one 'parent' node.
+
+The terms root, leaf, branch, child, and parent represent locations and relationships within the structure of a particular tree.  To represent the functionality of a particular resources within a particular tree, the terms 'coordinating' and 'storage' are used in iRODS.  Coordinating resources coordinate the flow of data to and from other resources.  Storage resources are typically 'leaf' nodes and handle the direct reading and writing of data through a POSIX-like interface.
+
+Any resource node can be a coordinating resource and/or a storage resource.  However, for clarity and reuse, it is generally best practice to separate the two so that a particular resource node is either a coordinating resource or a storage resource.
+
+This powerful tree metaphor is best illustrated with an actual example.  You can now use `ilsresc` to visualize the tree structure of a Zone.
+
+```
+irods@hostname:~/ $ ilsresc
+demoResc
+randy:random
+├── pt1:passthru
+│   └── ufs5
+├── repl1:replication
+│   ├── pt2:passthru
+│   │   └── pt3:passthru
+│   │       └── pt4:passthru
+│   ├── ufs10
+│   └── ufs11
+└── ufs1
+robin:roundrobin
+├── repl2:replication
+│   ├── repl3:replication
+│   │   ├── ufs6
+│   │   ├── ufs7
+│   │   └── ufs8
+│   ├── ufs3
+│   └── ufs4
+└── ufs2
+test
+test1
+test2
+test3
+```
+
+## Virtualization
+
+In iRODS, files are stored as Data Objects on disk and have an associated physical path as well as a virtual path within the iRODS file system. iRODS collections, however, only exist in the iCAT database and do not have an associated physical path (allowing them to exist across all resources, virtually).
+
+Composable resources, both coordinating and storage, introduce the same dichotomy between the virtual and physical.  A coordinating resource has built-in logic that defines how it determines, or coordinates, the flow of data to and from its children. Coordinating resources exist solely in the iCAT and exist virtually across all iRODS servers in a particular Zone. A storage resource has a Vault (physical) path and knows how to speak to a specific type of storage medium (disk, tape, etc.). The encapsulation of resources into a plugin architecture allows iRODS to have a consistent interface to all resources, whether they represent coordination or storage.
+
+This virtualization enables the coordinating resources to manage both the placement and the retrieval of Data Objects independent from the types of resources that are connected as children resources. When iRODS tries to retrieve data, each child resource will "vote", indicating whether it can provide the requested data.  Coordinating resources will then decide which particular storage resource (e.g. physical location) the read should come from. The specific manner of this vote is specific to the logic of the coordinating resource.  A coordinating resource may lean toward a particular vote based on the type of optimization it deems best. For instance, a coordinating resource could decide between child votes by opting for the child that will reduce the number of requests made against each storage resource within a particular time frame or opting for the child that reduces latency in expected data retrieval times. We expect a wide variety of useful optimizations to be developed by the community.
+
+An intended side effect of the tree metaphor and the virtualization of coordinating resources is the deprecation of the concept of a resource group. Resource groups in iRODS 3.x could not be put into other resource groups. A specific limiting example is a compound resource that, by definition, was a group and could not be placed into another group.  This significantly limited its functionality as a management tool. Groups in iRODS now only refer to user groups.
+
+Read more about [Composable Resources](https://irods.org/2013/02/e-irods-composable-resources/):
+
+- [Paper (279kB, PDF)](https://irods.org/wp-content/uploads/2013/02/eirods-composable-resources.pdf)
+- [Slides (321kB, PDF)](https://irods.org/wp-content/uploads/2013/02/eirods-cr-slides.pdf)
+- [Poster (6.4MB, PDF)](https://irods.org/wp-content/uploads/2013/02/eirods-composable-resources-poster.pdf)
+
+## Coordinating Resources
+
+Coordinating resources contain the flow control logic which determines both how its child resources will be allocated copies of data as well as which copy is returned when a Data Object is requested.  There are several types of coordinating resources: compound, random, replication, round robin, passthru, and some additional types that are expected in the future.  Each is discussed in more detail below.
+
+### Compound
+
+The compound resource is a continuation of the legacy compound resource type from iRODS 3.x.
+
+A compound resource has two and only two children.  One must be designated as the 'cache' resource and the other as the 'archive' resource.  This designation is made in the "context string" of the `addchildtoresc` command.
+
+An Example:
+
+~~~
+irods@hostname:~/ $ iadmin addchildtoresc parentResc newChildResc1 cache
+irods@hostname:~/ $ iadmin addchildtoresc parentResc newChildResc2 archive
+~~~
+
+Putting files into the compound resource will first create a replica on the cache resource and then create a second replica on the archive resource.
+
+This compound resource auto-replication policy can be controlled with the context string associated with a compound resource.  The key "auto_repl" can have the value "on" (default), or "off".
+
+For example, to turn off the automatic replication when creating a new compound resource (note the empty host/path parameter):
+
+~~~
+irods@hostname:~/ $ iadmin mkresc compResc compound '' auto_repl=off
+~~~
+
+When auto-replication is turned off, it may be necessary to replicate on demand.  For this scenario, there is a microservice named `msisync_to_archive()` which will sync (replicate) a data object from the child cache to the child archive of a compound resource.  This creates a new replica within iRODS of the synchronized data object.
+
+Getting files from the compound resource will behave in a similar way as iRODS 3.x.  By default, the replica from the cache resource will always be returned.  If the cache resource does not have a copy, then a replica is created on the cache resource before being returned.
+
+This compound resource staging policy can be controlled with the policy key-value pair whose keyword is "compound_resource_cache_refresh_policy" and whose values are either "when_necessary" (default), or "always".
+
+From the example near the bottom of the core.re rulebase:
+
+~~~
+# =-=-=-=-=-=-=-
+# policy controlling when a dataObject is staged to cache from archive in a compound coordinating resource
+#  - the default is to stage when cache is not present ("when_necessary")
+# =-=-=-=-=-=-=-
+# pep_resource_resolve_hierarchy_pre( *OUT ){*OUT="compound_resource_cache_refresh_policy=when_necessary";}  # default
+# pep_resource_resolve_hierarchy_pre( *OUT ){*OUT="compound_resource_cache_refresh_policy=always";}
+~~~
+
+Replicas within a compound resource can be trimmed.  There is no rebalance activity defined for a compound resource.  When the cache fills up, the administrator will need to take action as they see fit.  This may include physically moving files to other resources, commissioning new storage, or marking certain resources "down" in the iCAT.
+
+The "--purgec" option for `iput`, `iget`, and `irepl` is honored and will always purge the first replica (usually with replica number 0) for that Data Object (regardless of whether it is held within this compound resource).  This is not an optimal use of the compound resource as the behavior will become somewhat nondeterministic with complex resource compositions.
+
+### Deferred
+
+The deferred resource is designed to be as simple as possible.  A deferred resource can have one or more children.
+
+A deferred resource provides no implicit data management policy.  It defers to its children with respect to routing both puts and gets.  However they vote, the deferred node decides.
+
+### Load Balanced
+
+The load balanced resource provides equivalent functionality as the "doLoad" option for the `msiSetRescSortScheme` microservice.  This resource plugin will query the `r_server_load_digest` table from the iCAT and select the appropriate child resource based on the load values returned from the table.
+
+The `r_server_load_digest` table is part of the Resource Monitoring System and has been incorporated into iRODS 4.x.  The r_server_load_digest table must be populated with load data for this plugin to function properly.
+
+The load balanced resource has an effect on writes only (it has no effect on reads).
+
+### Random
+
+The random resource provides logic to put a file onto one of its children on a random basis.  A random resource can have one or more children.
+
+If the selected target child resource of a put operation is currently marked "down" in the iCAT, the random resource will move on to another random child and try again.  The random resource will try each of its children, and if still not succeeding, throw an error.
+
+### Replication
+
+The replication resource provides logic to automatically manage replicas to all its children.
+
+[Rebalancing](#rebalancing) of the replication node is made available via the "rebalance" subcommand of `iadmin`.  For the replication resource, all Data Objects on all children will be replicated to all other children.  The amount of work done in each iteration as the looping mechanism completes is controlled with the session variable `replication_rebalance_limit`.  The default value is set at 500 Data Objects per loop.
+
+Getting files from the replication resource will show a preference for locality.  If the client is connected to one of the child resource servers, then that replica of the file will be returned, minimizing network traffic.
+
+### Round Robin
+
+The round robin resource provides logic to put a file onto one of its children on a rotating basis.  A round robin resource can have one or more children.
+
+If the selected target child resource of a put operation is currently marked "down" in the iCAT, the round robin resource will move onto the next child and try again.  If all the children are down, then the round robin resource will throw an error.
+
+### Passthru
+
+The passthru resource was originally designed as a testing mechanism to exercise the new composable resource hierarchies.  They have proven to be more useful than that in a couple of interesting ways.
+
+1. A passthru can be used as the root node of a resource hierarchy.  This will allow a Zone's users to have a stable default resource, even as an administrator changes out disks or other resource names in the Zone.
+
+2. A passthru resource's contextString can be set to have an effect on its child's votes for both read and/or write.
+
+To create a resource with priority read, use a 'read' weight greater than 1 (note the empty host:path parameter):
+
+```
+irods@hostname:~/ $ iadmin mkresc newResc passthru '' 'write=1.0;read=2.0'
+Creating resource:
+Name:           "newResc"
+Type:           "passthru"
+Host:           ""
+Path:           ""
+Context:        "write=1.0;read=2.0"
+```
+
+To modify an existing passthru resource to be written to only after other eligible resources, use a 'write' weight less than 1:
+
+```
+irods@hostname:~/ $ iadmin modresc newResc context 'write=0.4;read=1.0'
+```
+
+A passthru resource can have one and only one child.
+
+### Expected
+
+A few other coordinating resource types have been brainstormed but are not functional at this time:
+
+ - Storage Balanced (%-full) (expected)
+ - Storage Balanced (bytes) (expected)
+ - Tiered (expected)
+
+## Storage Resources
+
+Storage resources represent storage interfaces and include the file driver information to talk with different types of storage.
+
+### UnixFileSystem
+
+The unixfilesystem storage resource is the default resource type that can communicate with a device through the standard POSIX interface.
+
+A high water mark capability has been added to the unixfilesystem resource in 4.1.8.  The high water mark can be configured with the context string using the following syntax:
+
+```
+irods@hostname:~/ $ iadmin modresc unixResc context 'high_water_mark=1000'
+```
+
+The value is the total disk space used in bytes.  If a create operation would result in the total bytes on disk being larger than the high water mark, then the resource will return `USER_FILE_TOO_LARGE` and the create operation will not occur.  This feature allows administrators to protect their systems from absolute disk full events.  Writing to, or extending, existing file objects is still allowed.
+
+### Structured File Type (tar, zip, gzip, bzip)
+
+The structured file type storage resource is used to interface with files that have a known format.  By default these are used "under the covers" and are not expected to be used directly by users (or administrators).
+
+These are used mainly for mounted collections.
+
+### Amazon S3 (Archive)
+
+The Amazon S3 archive storage resource is used to interface with an S3 bucket.  It is expected to be used as the archive child of a compound resource composition.  The credentials are stored in a file which is referenced by the context string.
+
+Read more at: [https://github.com/irods/irods_resource_plugin_s3](https://github.com/irods/irods_resource_plugin_s3)
+
+### DDN WOS (Archive)
+
+The DataDirect Networks (DDN) WOS archive storage resource is used to interface with a Web Object Scalar (WOS) Appliance.  It is expected to be used as the archive child of a compound resource composition.  It currently references a single WOS endpoint and WOS policy in the context string.
+
+Read more at: [https://github.com/irods/irods_resource_plugin_wos](https://github.com/irods/irods_resource_plugin_wos)
+
+### HPSS
+
+The HPSS storage resource is used to interface with an HPSS storage management system.  It can be used as the archive child of a compound resource composition or as a first class resource in iRODS.  The connection information is referenced in the context string.
+
+Read more at: [https://github.com/irods/irods_resource_plugin_hpss](https://github.com/irods/irods_resource_plugin_hpss)
+
+### Non-Blocking
+
+The non-blocking storage resource behaves exactly like the standard unix file system storage resource except that the "read" and "write" operations do not block (they return immediately while the read and write happen independently).
+
+### Mock Archive
+
+The mock archive storage resource was created mainly for testing purposes to emulate the behavior of object stores (e.g. WOS).  It creates a hash of the file path as the physical name of the Data Object.
+
+### Universal Mass Storage Service
+
+The univMSS storage resource delegates stage_to_cache and sync_to_arch operations to an external script which is located in the iRODS/server/bin/cmd directory.  It currently writes to the Vault path of that resource instance, treating it as a unix file system.
+
+When creating a "univmss" resource, the context string provides the location of the Universal MSS script.
+
+Example:
+
+~~~
+irods@hostname:~/ $ iadmin mkresc myArchiveResc univmss HOSTNAME:/full/path/to/Vault univMSSInterface.sh
+~~~
+
+### Expected
+
+A few other storage resource types are under development and will be released as additional separate plugins:
+
+ - ERDDAP (expected)
+ - HDFS (expected)
+ - Pydap (expected)
+ - TDS (expected)
+
+## Managing Child Resources
+
+There are two new `iadmin` subcommands introduced with this feature.
+
+`addchildtoresc`:
+
+~~~
+irods@hostname:~/ $ iadmin h addchildtoresc
+ addchildtoresc Parent Child [ContextString] (add child to resource)
+Add a child resource to a parent resource.  This creates an 'edge'
+between two nodes in a resource tree.
+
+Parent is the name of the parent resource.
+Child is the name of the child resource.
+ContextString is any relevant information that the parent may need in order
+  to manage the child.
+~~~
+
+`rmchildfromresc`:
+
+~~~
+irods@hostname:~/ $ iadmin h rmchildfromresc
+ rmchildfromresc Parent Child (remove child from resource)
+Remove a child resource from a parent resource.  This removes an 'edge'
+between two nodes in a resource tree.
+
+Parent is the name of the parent resource.
+Child is the name of the child resource.
+~~~
+
+## Example Usage
+
+Creating a composite resource consists of creating the individual nodes of the desired tree structure and then connecting the parent and children nodes.
+
+### Example 1
+
+![example1 tree](../example1-tree.png)
+
+**Example 1:** Replicates Data Objects to three locations
+
+A replicating coordinating resource with three unix file system storage resources as children would be composed with seven (7) iadmin commands:
+
+~~~
+irods@hostname:~/ $ iadmin mkresc example1 replication
+irods@hostname:~/ $ iadmin mkresc repl_resc1 unixfilesystem renci.example.org:/Vault
+irods@hostname:~/ $ iadmin mkresc repl_resc2 unixfilesystem sanger.example.org:/Vault
+irods@hostname:~/ $ iadmin mkresc repl_resc3 unixfilesystem eudat.example.org:/Vault
+irods@hostname:~/ $ iadmin addchildtoresc example1 repl_resc1
+irods@hostname:~/ $ iadmin addchildtoresc example1 repl_resc2
+irods@hostname:~/ $ iadmin addchildtoresc example1 repl_resc3
+~~~
+
+## Rebalancing
+
+A new subcommand for iadmin allows an administrator to rebalance a coordinating resource.  The coordinating resource can be the root of a tree, or anywhere in the middle of a tree.  The rebalance operation will rebalance for all decendents.  For example, the iadmin command `iadmin modresc myReplResc rebalance` would fire the rebalance operation for the replication resource instance named myReplResc.  Any Data Objects on myReplResc that did not exist on all its children would be replicated as expected.
+
+For other coordinating resource types, rebalance can be defined as appropriate.  For coordinating resources with no concept of "balanced", the rebalance operation is a "no op" and performs no work.

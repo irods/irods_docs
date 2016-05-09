@@ -16,3 +16,46 @@ Inheritance is especially useful when working with shared projects such as a pub
 
 The iRODS setting 'StrictACL' is configured on by default in iRODS 4.x.  This is different from iRODS 3.x and behaves more like standard Unix permissions.  This setting can be found in the `/etc/irods/core.re` file under acAclPolicy{}.
 
+The default setting is:
+
+~~~
+acAclPolicy {msiAclPolicy("STRICT");}
+~~~
+
+To set no policy, change the setting to:
+
+~~~
+acAclPolicy {}
+~~~
+
+or more explicitly:
+
+~~~
+acAclPolicy {msiAclPolicy("REGULAR");}
+~~~
+
+
+## Tickets (Guest Access)
+
+Users are able to create tickets and associate them (one to one) with a Data Object or Collection. These are either system-generated 15-character pseudo-random strings, composed of upper and lower case characters 'A' through 'Z' and 0 thru 9; or optionally specified by the user creating the ticket.
+
+Only users with 'own' permission on objects are allowed to create tickets for those objects (and modify or delete them). When the ticket is used, this will be rechecked and access denied if the original user no longer has 'own' permission.
+
+Each ticket is associated with one Data Object or Collection, although multiple tickets can be defined that refer to the same Data Object or Collection.
+
+Users are able to access Data Objects or Collections using tickets even if they do not have regular access permissions (the regular access is set via 'ichmod' or equivalent, giving users or groups read, write, or own permission). In the case of tickets on collections, all data-objects under that collection (including those in sub-collections) are accessible (readable) via that ticket.
+
+Users can either be normally logged into iRODS (as a regular, specific user) or not (connected as user 'anonymous', with no password).
+
+Tickets can be set to last indefinitely or to expire at a certain time.
+
+Tickets can be set to be usable any number of times, or to only be valid for a specified number of uses.
+
+Tickets can be set to allow a certain amount of data to be written (in bytes).
+
+Tickets can be associated with specific users or groups, in which case access will be granted only if the valid ticket is presented from those users or users in those groups.
+
+Tickets can be set to be valid only from specific computers (DNS host names), in which case ticket-based access will be denied when iRODS clients are connecting from other hosts.
+
+The ticket policy is controlled by 'acTicketPolicy{}' in `/etc/irods/core.re`.  With this policy, the administrator can limit which users may use tickets to access the iRODS Zone.  The default empty policy allows access to all users with valid tickets (including 'anonymous').
+

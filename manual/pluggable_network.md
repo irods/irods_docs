@@ -1,0 +1,33 @@
+# Pluggable Network
+
+iRODS now ships with both TCP and SSL network plugins enabled.  The SSL mechanism is provided via OpenSSL and wraps the activity from the TCP plugin.
+
+The SSL parameters are tunable via the following `irods_environment.json` variables:
+
+~~~
+"irods_client_server_negotiation": "request_server_negotiation",
+"irods_client_server_policy": "CS_NEG_REQUIRE",
+"irods_encryption_key_size": 32,
+"irods_encryption_salt_size": 8,
+"irods_encryption_num_hash_rounds": 16,
+"irods_encryption_algorithm": "AES-256-CBC",
+~~~
+
+The only valid value for 'irods_client_server_negotiation' at this time is 'request_server_negotiation'.  Anything else will not begin the negotiation stage and default to using a TCP connection.
+
+The possible values for 'irods_client_server_policy' include:
+
+- CS_NEG_REQUIRE: This side of the connection requires an SSL connection
+- CS_NEG_DONT_CARE: This side of the connection will connect either with or without SSL
+- CS_NEG_REFUSE: (default) This side of the connection refuses to connect via SSL
+
+On the server side, the `core.re` has a default value of 'CS_NEG_DONT_CARE' in the acPreConnect() rule:
+
+~~~
+acPreConnect(*OUT) { *OUT="CS_NEG_DONT_CARE"; }
+~~~
+
+In order for a connection to be made, the client and server have to agree on the type of connection they will share.  When both sides choose `CS_NEG_DONT_CARE`, iRODS shows an affinity for security by connecting via SSL.  Additionally, it is important to note that all servers in an iRODS Zone are required to share the same SSL credentials (certificates, keys, etc.).  Maintaining per-route certificates is not supported at this time.
+
+The remaining parameters are standard SSL parameters and made available through the EVP library included with OpenSSL.  You can read more about these remaining parameters at [https://www.openssl.org/docs/crypto/evp.html](https://www.openssl.org/docs/crypto/evp.html).
+

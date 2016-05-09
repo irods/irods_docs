@@ -1,6 +1,6 @@
 # iRODS Rule Language
 
-The iRODS Rule Language is a language provided by iRODS to define policies and
+The iRODS Rule Language is a domain specific language (DSL) provided by iRODS to define policies and
 actions in the system. The iRODS Rule Language is tightly integrated with
 other components of iRODS. Many frequently used policies and actions can be
 configured easily by writing simple rules, yet the language is flexible enough
@@ -9,10 +9,10 @@ to allow complex policies or actions to be defined.
 Everything is a rule in the iRODS Rule Language. A typical rule looks like:
 
 ~~~
-acPostProcForPut { 
-  on($objPath like "*.txt") { 
-    msiDataObjCopy($objPath,"$objPath.copy"); 
-  } 
+acPostProcForPut {
+  on($objPath like "*.txt") {
+    msiDataObjCopy($objPath,"$objPath.copy");
+  }
 }
 ~~~
 
@@ -21,11 +21,11 @@ event hook defined in iRODS. iRODS automatically applies this rule when
 certain events are triggered. The `on(...)` clause is a rule condition. The
 `{...}` block following the rule condition is a sequence of actions that is
 executed if the rule condition is true when the rule is applied. And the
-customary hello world rule looks like: 
+customary hello world rule looks like:
 
 ~~~
-HelloWorld { 
-  writeLine("stdout", "Hello, world!"); 
+HelloWorld {
+  writeLine("stdout", "Hello, world!");
 }
 ~~~
 
@@ -38,7 +38,7 @@ line as comments. Therefore, a comment does not have to occupy its own line.
 For example,
 
 ~~~c
-* A=1; # comments 
+* A=1; # comments
 ~~~
 
 Although the parser is able to parse comments starting with `##`, it is not recommended to start comments with `##`, as `##` is also used in the one line rule syntax as the actions connector. It is recommended to start comments with `#`.
@@ -59,7 +59,7 @@ Boolean literals include `true` and `false`.
 
 ### Boolean Operators
 
-Boolean operators include 
+Boolean operators include
 
 ~~~c
 !  # not
@@ -83,10 +83,10 @@ false %% false
 ### Numeric Literals
 
 Numeric literals include integral literals and double literals. An integral
-literal does not have a decimal while a double literal does. For example, 
+literal does not have a decimal while a double literal does. For example,
 
 ~~~c
-1 # integer 
+1 # integer
 1.0 # double
 ~~~
 
@@ -106,10 +106,10 @@ Arithmetic operators include, ordered by precedence:
 ~~~c
 -  # Negation
 ^  # Power
-*  # Multiplication 
-/  # Division 
+*  # Multiplication
+/  # Division
 %  # Modulo
--  # Subtraction 
+-  # Subtraction
 +  # Addition
 >  # Greater than
 <  # Less than
@@ -155,26 +155,26 @@ quotes `"This is a string."`
 
 If a programmer needs to quote strings containing single (double) quotes using single (double) quotes, then the quotes in the
 strings should be escaped using a backslash `"\"`, just as in the C Programming
-Language. For example, 
+Language. For example,
 
 ~~~c
 writeLine("stdout", "\"\"");
-# output "" 
+# output ""
 ~~~
 
-Single quotes inside double quotes are viewed as regular characters, and vice versa. They can be either escaped or not escaped. For example, 
+Single quotes inside double quotes are viewed as regular characters, and vice versa. They can be either escaped or not escaped. For example,
 
 ~~~c
 writeLine("stdout", "'");
-# output ' 
+# output '
 ~~~
 
 ~~~c
 writeLine("stdout", "\'");
-# output ' 
+# output '
 ~~~
 
-The rule engine also supports various escaped characters: 
+The rule engine also supports various escaped characters:
 ~~~c
 \n, \r, \t, \', \", \$, \*
 ~~~
@@ -308,13 +308,13 @@ writeLine("stdout", trimr("This is a string.", "r"));
 ### Variable Expansion
 
 In a quoted string, an asterisk followed immediately by a variable name
-(without whitespaces) makes an expansion of the variable. For example, 
+(without whitespaces) makes an expansion of the variable. For example,
 
 ~~~c
 "This is *x."
 ~~~
 
-is equivalent to 
+is equivalent to
 
 ~~~c
 "This is "++str(*x)++"."
@@ -334,17 +334,17 @@ When a microservice expects a parameter of type string and the argument is not o
 may be thrown. For example,
 
 ~~~c
-*x = 123; 
-strlen(*x); 
+*x = 123;
+strlen(*x);
 ~~~
 
-This error can be fixed by either using the "str" function 
+This error can be fixed by either using the "str" function
 
 ~~~c
 strlen(str(*x));
 ~~~
 
-or putting `*x` into quotes 
+or putting `*x` into quotes
 
 ~~~c
 strlen("*x");
@@ -442,7 +442,7 @@ structure to an options format:
 ~~~c
 *A.a=A;
 *A.b=B;
-*A.c=C; 
+*A.c=C;
 str(*A); # a=A++++b=B++++c=C
 ~~~
 
@@ -490,16 +490,16 @@ it returns `NOT CONSTANT`.
 ## Variable
 
 The rule engine expands variables on demand, like in C. For example, suppose we have
-the following rule 
+the following rule
 
 ~~~c
-ifExec(*A==1,assign(*A,0),assign(*A,1),nop,nop) 
+ifExec(*A==1,assign(*A,0),assign(*A,1),nop,nop)
 ~~~
 
 Expanding `*A` (say, to 1) before the rule is executed would result in something like
 
 ~~~c
-ifExec(1==1,assign(1,0),assign(1,1),nop,nop) 
+ifExec(1==1,assign(1,0),assign(1,1),nop,nop)
 ~~~
 
 As a result, extra code has to be written for system microservices to avoid this. The value of `*A` is retrieved from a runtime environment only when the rule engine tries to evaluate it.
@@ -510,16 +510,16 @@ As a result, extra code has to be written for system microservices to avoid this
 
 The rule engine allows defining functions. Functions can be thought of as
 microservices written in the rule language. The syntax of a function
-definition is 
+definition is
 
 ~~~c
-<name>(<param>, ..., <param>) = <expr> 
+<name>(<param>, ..., <param>) = <expr>
 ~~~
 
 For example
 
 ~~~c
-square(*n) = *n * *n 
+square(*n) = *n * *n
 ~~~
 
 Function names should be unique (no function-function or function-rule
@@ -545,13 +545,13 @@ To use a function, call it as if it was a microservice.
 The syntax of a rule with a nontrivial rule condition is as follows:
 
 ~~~c
-<name>(<param>, ..., <param>) { 
-  on(<expr>) { <actions> } 
+<name>(<param>, ..., <param>) {
+  on(<expr>) { <actions> }
 }
 ~~~
 
 If the rule condition is trivial or unnecessary, the rule can be written in
-the simpler form: 
+the simpler form:
 
 ~~~c
 <name>(<param>, ..., <param>) { <actions> }
@@ -559,12 +559,12 @@ the simpler form:
 
 Multiple rules with the same rule name and parameters list can be combined in
 a more concise syntax where each set of actions is enumerated for each set of
-conditions: 
+conditions:
 
 ~~~c
-<name>(<param>, ..., <param>) { 
+<name>(<param>, ..., <param>) {
   on(<expr>) { <actions> } ...
-  on(<expr>) { <actions> } 
+  on(<expr>) { <actions> }
 }
 ~~~
 
@@ -596,17 +596,17 @@ For example, if we want to run a rule when the microservice "msi" succeeds, we
 can write the rule as
 
 ~~~c
-rule { 
-  on (msi >= 0) { ... } 
-} 
+rule {
+  on (msi >= 0) { ... }
+}
 ~~~
 
 Conversely, if we want to run a rule when the
-microservice fails, we need to write the rule as 
+microservice fails, we need to write the rule as
 
 ~~~c
-rule { 
-  on (errorcode(msi) < 0) { ... } 
+rule {
+  on (errorcode(msi) < 0) { ... }
 }
 ~~~
 
@@ -615,12 +615,12 @@ further processing of the error message, and avoiding the default logging of
 the error message
 
 ~~~c
-rule { 
-  on (errormsg(msi, *msg) < 0 ) { ... } 
-} 
+rule {
+  on (errormsg(msi, *msg) < 0 ) { ... }
+}
 ~~~
 
-By failure condition 3, the following rule condition always fails because msi returns an integer value 
+By failure condition 3, the following rule condition always fails because msi returns an integer value
 
 ~~~c
 on(msi) { ... }
@@ -642,7 +642,7 @@ the error message
 errormsg(msi, *msg)
 ~~~
 
-In a rule, the fail and failmsg microservices can be used to generate errors 
+In a rule, the fail and failmsg microservices can be used to generate errors
 
 ~~~c
 fail(*errorcode)
@@ -690,13 +690,13 @@ retrieved using the "elem" microservice. The index starts from 0. For example,
 elem(list("This","is","a","list"),1)
 ~~~
 
-evaluates to `"is"`. 
+evaluates to `"is"`.
 
-If the index is out of range it fails with error code -1. 
+If the index is out of range it fails with error code -1.
 
-The `setelem()` takes in three parameters, a list, an index, and a value, 
-and returns a new list that is identical with the list given by the first 
-parameter except that the element at the index given by the second parameter 
+The `setelem()` takes in three parameters, a list, an index, and a value,
+and returns a new list that is identical with the list given by the first
+parameter except that the element at the index given by the second parameter
 is replace by the value given by the third parameter.
 
 ~~~c
@@ -709,8 +709,8 @@ evaluates to
 list("This","isn't","a","list").
 ~~~
 
-If the index is out of range it fails with an error code. The `size` 
-microservice takes in on parameter, a list, and returns the size of the list. 
+If the index is out of range it fails with an error code. The `size`
+microservice takes in on parameter, a list, and returns the size of the list.
 
 For example
 
@@ -721,21 +721,21 @@ size(list("This","is","a","list"))
 evaluates to `4`.
 
 The `hd()` microservice returns the first element of a list and
-the `tl()` microservice returns the rest of the list. 
+the `tl()` microservice returns the rest of the list.
 
-If the list is empty then it fails with an error code. 
+If the list is empty then it fails with an error code.
 
 ~~~c
 hd(list("This","is","a","list"))
 ~~~
 
-evaluates to "This" and 
+evaluates to "This" and
 
 ~~~c
 tl(list("This","is","a","list"))
 ~~~
 
-evaluates to 
+evaluates to
 
 ~~~c
 list("is","a","list")
@@ -756,10 +756,10 @@ list("This","is","a","list").
 
 #### Tuples
 
-The rule engine supports the built-in data type tuple. 
+The rule engine supports the built-in data type tuple.
 
 ~~~c
-( <component>, ..., <component> ) 
+( <component>, ..., <component> )
 ~~~
 
 Different components may have different types.
@@ -783,8 +783,8 @@ test {
 }
 ~~~
 
-Even though `*A` is not used in the delay execution block, the rule will 
-still generate an error. One solution to this is to create a rule with only necessary values. 
+Even though `*A` is not used in the delay execution block, the rule will
+still generate an error. One solution to this is to create a rule with only necessary values.
 
 ~~~c
 test {
@@ -820,7 +820,7 @@ data nat =
     | zero : nat
     | succ : nat -> nat
 ~~~
-  
+
 Here the type name defined is "nat." The type parameter list is empty. If the type parameter list is empty, we may omit it. There are two data constructors. The first constructor "zero" has type "nat," which means that "zero" is a nullary constructor of nat. We use "zero" to represent "0". The second constructor "succ" has type "nat -> nat" which means that "succ" is unary constructor of nat. We use "succ" to represent the successor. With these two constructors we can represent all natural numbers: `zero, succ(zero), succ(succ(zero)), ...` As another example, we can define a data type that represents binary trees of natural numbers
 
 ~~~c
@@ -841,7 +841,7 @@ data tree(X) =
     | empty : tree(X)
     | node : X * tree(X) * tree(X) -> tree(X)
 ~~~
-  
+
 With a type parameter, `tree` is not a type, but a unary type constructor. A
 type constructor constructs types from other types. For example, the data type
 of binary trees of natural numbers is `tree(nat)`. By default, the rule engine
@@ -854,7 +854,7 @@ For example
 data pair(X, Y) =
     | pair : X * Y -> pair(X, Y)
 ~~~
-  
+
 Given the data type definition of "pair", we can construct a pair using "pair"
 the data constructor. For example,
 
@@ -898,7 +898,7 @@ data constructors on them for pattern matching purposes. Pseudo data
 constructors are like data constructors but can only be used in patterns.
 Pseudo data constructor definitions are like function definitions except that
 a pseudo data constructor definition starts with a tilde and must return a
-tuple. The general syntax is 
+tuple. The general syntax is
 
 ~~~c
 <name>(<param>, ..., <param>) = <expr>
@@ -987,8 +987,8 @@ if <expr> then <expr> else <expr>
 For example, the following are "functional if"s
 
 ~~~c
-if true then 1 else 0 
-if *A==1 then true else false 
+if true then 1 else 0
+if *A==1 then true else false
 ~~~
 
 To compare, if written in the "logical if" form, the
@@ -999,10 +999,10 @@ if (*A==1) then { true; } else { false; }
 ~~~
 
 To make the syntax of "logical if" more concise, the rule engine allows
-the following abbreviation (where the greyed out part can be abbreviated): 
+the following abbreviation (where the greyed out part can be abbreviated):
 
 ~~~c
-if (...) then { ... } else { ... } 
+if (...) then { ... } else { ... }
 if (...) then { ... } else { if (...) then {...} else {...} }
 ~~~
 
@@ -1010,9 +1010,9 @@ Multiple abbreviations can be combined for
 example:
 
 ~~~c
-if (*X==1) { *A = "Mon"; } 
-else if (*X==2) {*A = "Tue"; } 
-else if (*X==3) {*A = "Wed"; } 
+if (*X==1) { *A = "Mon"; }
+else if (*X==2) {*A = "Tue"; }
+else if (*X==3) {*A = "Wed"; }
 ...
 ~~~
 
@@ -1023,15 +1023,15 @@ variables in the foreach action. For example
 
 ~~~c
 foreach(*E in *C) {
-  writeLine("stdout", *E); 
-} 
+  writeLine("stdout", *E);
+}
 ~~~
 
 This is equivalent to
 
 ~~~c
 foreach(*C) {
-  writeLine("stdout", *C); 
+  writeLine("stdout", *C);
 }
 ~~~
 
@@ -1039,9 +1039,9 @@ This feature allows the collection to be a complex expression. For
 example
 
 ~~~c
-foreach(*E in list("This", "is", "a", "list")) { 
-  writeLine("stdout", *E); 
-} 
+foreach(*E in list("This", "is", "a", "list")) {
+  writeLine("stdout", *E);
+}
 ~~~
 
 This is equivalent to
@@ -1057,23 +1057,23 @@ foreach(*C) {
 
 As function definitions are based on expressions rather than action sequences,
 we cannot put an assignment directly inside an expression. For example, the
-following is not a valid function definition 
+following is not a valid function definition
 
 ~~~c
 quad(*n) = *t = *n * *n; *t * *t
 ~~~
 
 To solve this problem, the let expression provides scoped values in an
-expression. The general syntax for the let expression is 
+expression. The general syntax for the let expression is
 
 ~~~c
-let <assignment> in <expr> 
+let <assignment> in <expr>
 ~~~
 
 For example
 
 ~~~c
-quad(*n) = let *t = *n * *n in *t * *t 
+quad(*n) = let *t = *n * *n in *t * *t
 ~~~
 
 The variable on the
@@ -1092,7 +1092,7 @@ match <expr> with
    ...
    | <pattern> => <expr>
 ~~~
-  
+
 For example, given the `nat` data type we defined earlier, we can define the
 following function using the `match` expression
 
@@ -1129,7 +1129,7 @@ Recovery:
 R1##R2##...##Rn
 ~~~
 
-Rulegen syntax: 
+Rulegen syntax:
 
 ~~~c
 A1:::R1
@@ -1142,7 +1142,7 @@ If Ax fails, then `Rx, ..., R1` are executed
 
 ### Branch
 
-Action: 
+Action:
 
 ~~~c
 if(cond, A11##A12##...##A1n, A21##A22##...##A2n,
@@ -1178,7 +1178,7 @@ executed.
 
 #### `while`
 
-Action: 
+Action:
 
 ~~~c
 while(cond, A1##A2##...##An
@@ -1191,7 +1191,7 @@ Recovery:
 R
 ~~~
 
-Rulegen syntax: 
+Rulegen syntax:
 
 ~~~
 while(cond) {
@@ -1209,20 +1209,20 @@ from the loop invariant to before the loop is executed.
 
 #### `foreach`
 
-Action: 
+Action:
 
 ~~~c
-foreach(coll, A1##A2##...##An 
-              R1##R2##...##Rn) 
+foreach(coll, A1##A2##...##An
+              R1##R2##...##Rn)
 ~~~
 
-Recovery: 
+Recovery:
 
 ~~~c
 R
 ~~~
 
-Rulegen syntax: 
+Rulegen syntax:
 
 ~~~c
 foreach(coll) {
@@ -1325,7 +1325,7 @@ The function parameter and return types can be
           | iRODS types              back quoted string
           | <btype>
           | ?                        dynamic type
-          | <stype> * … * <stype>    tuple types 
+          | <stype> * … * <stype>    tuple types
           | c[(<stype>, …, <stype>)] inductive data types
 ~~~
 
@@ -1388,7 +1388,7 @@ All coercion functions in the coercion relation are total.
 ### Types by Examples
 
 For example binary arithmetic operators such as addition and subtraction are
-given type: 
+given type:
 
 ~~~c
 forall X in {integer double}, f X * f X -> X
@@ -1400,19 +1400,19 @@ double}, which means that the microservice applies to only integers or
 doubles, but the "f" indicates that if anything can be coerced to these types,
 they can also be accepted with a runtime conversion inserted. Examples:
 
-(a) double + double => X = double 
+(a) double + double => X = double
 
 ~~~c
-1.0+1.0 
+1.0+1.0
 ~~~
 
-(b) int + double => X = double 
+(b) int + double => X = double
 
 ~~~c
 1+1.0
 ~~~
 
-(c) integer + integer => X = {integer double} 
+(c) integer + integer => X = {integer double}
 
 ~~~c
 1+1
@@ -1534,8 +1534,8 @@ concat(*a, *b) = *a ++ *b
 add(*a, *b) = concat(*a, *b)
 ~~~
 
-does not generate a static type error, `add(0, 1)` will generate a dynamic 
-type error. This can be solved (generate static type errors instead of dynamic 
+does not generate a static type error, `add(0, 1)` will generate a dynamic
+type error. This can be solved (generate static type errors instead of dynamic
 type errors) by declaring the types of the functions
 
 ~~~c
@@ -1549,9 +1549,9 @@ add(*a, *b) = concat(*a, *b)
 
 ### Automatic Evaluation of Arguments
 
-The rule engine automatically evaluates expressions within arguments of 
-actions, which is useful when a program needs to pass the result of an 
-expression in as an argument to an action. For example, to pass the result of an expression "1+2" as an argument to 
+The rule engine automatically evaluates expressions within arguments of
+actions, which is useful when a program needs to pass the result of an
+expression in as an argument to an action. For example, to pass the result of an expression "1+2" as an argument to
 microservice `msi`, the programmer can write:
 
 ~~~c
@@ -1568,9 +1568,9 @@ and pass the result in.
 
 ### The Return Value of User Defined Microservices
 
-The rule engine views the return value of user 
-defined microservices as an integer "errorcode." If the return value of a 
-microservice is less than zero, the rule engine interprets it as a failure, 
+The rule engine views the return value of user
+defined microservices as an integer "errorcode." If the return value of a
+microservice is less than zero, the rule engine interprets it as a failure,
 rather than an integer value; and if the return value is greater than zero, the rule engine
 interprets it as an integer. Therefore the following expression
 
@@ -1578,9 +1578,9 @@ interprets it as an integer. Therefore the following expression
 msi >= 0
 ~~~
 
-either evaluates to true or fail, since when `msi` returns a negative 
+either evaluates to true or fail, since when `msi` returns a negative
 integer, the rule engine interprets the value as a failure.
-In some applications, there is need for capturing all possible return values as 
+In some applications, there is need for capturing all possible return values as
 regular integers. The "errorcode" microservice can be used to achieve this.
 In the previous example, we can modify the code to
 
@@ -1603,9 +1603,9 @@ There error messages can be found in the server log.
 
 ### Indexing
 
-To improve the performance of rule execution, the rule engine provides two 
-level indexing on applicable rules. The first level of indexing is based on the 
-rule name. The second level of indexing is based on rule conditions. The rule 
+To improve the performance of rule execution, the rule engine provides two
+level indexing on applicable rules. The first level of indexing is based on the
+rule name. The second level of indexing is based on rule conditions. The rule
 condition indexing can be demonstrate by the following example:
 
 ~~~c
@@ -1615,8 +1615,8 @@ testRule(*A) {
 }
 ~~~
 
-In this example, we have two rules with the same rule name, but different rule 
-conditions. The first level of indexing does not improve the performance in a 
+In this example, we have two rules with the same rule name, but different rule
+conditions. The first level of indexing does not improve the performance in a
 rule application like
 
 ~~~c

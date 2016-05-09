@@ -10,9 +10,7 @@
 
 ## Continuous Integration
 
-[Jenkins](https://jenkins.irods.org/) - RENCI is providing continuous building and testing for every commit.
-
-[Hudson](http://ci-dev.renci.org/hudson/view/iRODS/) - RENCI is providing continuous packaging for every commit.
+[Jenkins](https://jenkins.irods.org/) - RENCI is providing continuous building, packaging, and testing for every commit.
 
 [Travis](https://travis-ci.org/irods/irods) - Travis-CI is providing continuous building for every commit.
 

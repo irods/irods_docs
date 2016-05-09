@@ -1,27 +1,28 @@
 # Installation
 
-iRODS is provided in binary form in a collection of interdependent packages.  There are two types of iRODS server, iCAT and Resource:
+iRODS is provided in binary form in a collection of interdependent packages.
 
-1. An iCAT server manages a Zone, handles the database connection to the iCAT metadata catalog (which could be either local or remote), and can provide [Storage Resources](architecture.md#storage-resources).  An iRODS Zone will have exactly one iCAT server.
-2. A Resource server connects to an existing Zone and can provide additional storage resource(s).  An iRODS Zone can have zero or more Resource servers.
+An iRODS server has a 'catalog_service_role' and can be configured as either a 'provider' or a 'consumer'.  These two roles take the place of the previous
+compile-time option which provided two separate binaries, formerly known as 'iCAT server' and 'Resource server'.  Since 4.2, a single server can be configured to serve in either role.
 
-An iCAT server is just a Resource server that also provides the central point of coordination for the Zone and manages the metadata.
+ - **Provider** - A server in the 'provider' role manages a Zone, handles the database connection to the iCAT metadata catalog (which could be either co-resident or hosted on a separate machine or cluster), and can provide [Storage Resources](plugins.md#storage-resources).  At this time, an iRODS Zone will usually have exactly one server in the 'catalog_service_role' of 'provider'.  Configuring iRODS for High Availability is possible with additional work, and would include having more than one server in this role.
+ - **Consumer** - A server in the 'consumer' role connects to an existing Zone and can provide additional storage resource(s).  An iRODS Zone can have zero or more servers in the 'catalog_service_role' of 'consumer'.
 
-A single computer cannot have both an iCAT server and a Resource server installed.
+A 'provider' is just a 'consumer' that also provides the central point of coordination for the Zone and manages the metadata.
 
-The simplest iRODS installation consists of one iCAT server and zero Resource servers.
+The simplest iRODS installation consists of one iRODS server in the 'provider' role.
 
-## iCAT Server
+## Catalog Service Provider
 
-The irods-icat package installs the iRODS binaries and management scripts.
+The irods-server package installs the iRODS binaries and management scripts.
 
-Additionally, an iRODS database plugin is required. iRODS uses this plugin (see [Pluggable Database](architecture.md#pluggable-database) to communicate with the desired database management system (e.g. Oracle, MySQL, PostgreSQL).
+Additionally, an iRODS database plugin is required. iRODS uses this plugin (see [Pluggable Database](plugins.md#pluggable-database) to communicate with the desired database management system (e.g. Oracle, MySQL, PostgreSQL).
 
-The iRODS installation script (which also configures the iRODS database plugin) requires database connection information about an existing database.  iRODS neither creates nor manages a database instance itself, just the tables within the database. Therefore, the database instance should be created and configured before installing iRODS.
+The iRODS setup script (which also configures the iRODS database plugin) requires database connection information about an existing database.  iRODS neither creates nor manages a database instance itself, just the tables within the database. Therefore, the database instance should be created and configured before installing iRODS.
 
 ### Database Setup
 
-iRODS can use many different database configurations.  Local database examples are included below:
+iRODS can use many different database configurations.  Local co-resident database examples are included below:
 
 #### PostgreSQL on Ubuntu 14.04:
 
@@ -72,67 +73,56 @@ N rows in set (0.00 sec)
 
 ### iRODS Setup
 
-Installation of the iCAT DEB and PostgreSQL plugin DEB:
+Installation of the iRODS server and PostgreSQL database plugin:
 
 ~~~
-$ (sudo) dpkg -i irods-icat-TEMPLATE_IRODSVERSION-ubuntu14-x86_64.deb irods-database-plugin-postgres-1.8-ubuntu14-x86_64.deb
-$ (sudo) apt-get -f install
+$ (sudo) apt-get install irods-server irods-database-plugin-postgres
 ~~~
 
-Once the PostgreSQL database plugin has been installed, the following text will be displayed:
+The `setup_irods.py` script below will prompt for, and then create, if necessary, a service account and service group which will own and operate the iRODS server binaries:
 
 ~~~
-=======================================================================
-
-iRODS Postgres Database Plugin installation was successful.
-
-To configure this plugin, the following prerequisites need to be met:
- - an existing database user (to be used by the iRODS server)
- - an existing database (to be used as the iCAT catalog)
- - permissions for existing user on existing database
-
-Please run the following setup script:
-  sudo /var/lib/irods/packaging/setup_irods.sh
-
-=======================================================================
+$ (sudo) python /var/lib/irods/scripts/setup_irods.py
 ~~~
 
-The `setup_irods.sh` script below will prompt for, and then create, if necessary, a service account and service group which will own and operate the iRODS server:
+The `setup_irods.py` script will ask for information in four (possibly five) sections:
 
-~~~
-$ (sudo) /var/lib/irods/packaging/setup_irods.sh
-~~~
+1. Service Account
+    - Service Account Name
+    - Service Account Group
+    - Catalog Service Role
 
-The `setup_irods.sh` script will ask for the following nineteen pieces of information before starting the iRODS server:
+2. Database Connection (if installing a 'provider')
+    - ODBC Driver
+    - Database Server's Hostname or IP
+    - Database Server's Port
+    - Database Name
+    - Database User
+    - Database Password
+    - Stored Passwords Salt
 
-1. Service Account Name
-2. Service Account Group
-3. iCAT Zone
-4. iCAT Port
-5. Parallel Port Range (Begin)
-6. Parallel Port Range (End)
-7. Vault Directory
-8. zone_key
-9. negotiation_key
-10. Control Plane Port
-11. Control Plane Key
-12. Schema Validation Base URI
-13. iRODS Administrator Username
-14. iRODS Administrator Password
-15. Database Server's Hostname or IP
-16. Database Port
-17. Database Name
-18. Database User
-19. Database Password
+3. iRODS Server Options
+    - Zone Name
+    - Zone Port
+    - Parallel Port Range (Begin)
+    - Parallel Port Range (End)
+    - Control Plane Port
+    - Schema Validation Base URI
+    - iRODS Administrator Username
+
+4. Keys and Passwords
+    - zone_key
+    - negotiation_key
+    - Control Plane Key
+    - iRODS Administrator Password
+
+5. Vault Directory
 
 !!! Note
-    A default system PostgreSQL installation does not listen on a TCP port, it only listens on a local socket.  If your PostgreSQL server is localhost, use 'localhost' for 15) above.
+    A default system PostgreSQL installation on Ubuntu does not listen on a TCP port, it only listens on a local socket.  If your PostgreSQL server is localhost, use 'localhost' for "Database Server's Hostname or IP" above.
 
 !!! Note
-    A default system PostgreSQL installation is configured for ident-based authentication which means the unix service account name must match the database user name.  iRODS currently assumes this is the case.
-
-!!! Note
-    Installing the MySQL database plugin will also require [Installing lib_mysqludf_preg](architecture.md#installing-lib_mysqludf_preg).  These functions are required for the internal iRODS SQL which uses regular expressions.
+    A default system PostgreSQL installation may be configured for ident-based authentication which means the unix service account name must match the database user name.  iRODS currently assumes this is the case.
 
 !!! Note
     When running iRODS on pre-8.4 PostgreSQL, it is necessary to remove an optimized specific query which was not yet available:
@@ -141,214 +131,70 @@ The `setup_irods.sh` script will ask for the following nineteen pieces of inform
 irods@hostname:~/ $ iadmin rsq DataObjInCollReCur
 ~~~
 
-## Resource Server
-
-The irods-resource package installs the iRODS binaries and management scripts.
-
-There are no required additional packages, but the administrator will need to run a short setup script that will prompt for iRODS connection information and configure the server.
-
-The `setup_irods.sh` script below will prompt for, and then create if necessary, a service account and service group which will own and operate the iRODS server.
-
-Installation of the Resource RPM:
-
-~~~
-- Make sure to read ./packaging/RPM_INSTALLATION_HOWTO.txt before trying to install the RPM package.
- $ (sudo) rpm -i irods-resource-TEMPLATE_IRODSVERSION-centos6-x86_64.rpm
- $ (sudo) /var/lib/irods/packaging/setup_irods.sh
-~~~
-
-The `setup_irods.sh` script will ask for the following fifteen pieces of information about the existing Zone that the iRODS resource server will need in order to stand up and then connect to its configured iCAT Zone:
-
-1. Service Account Name
-2. Service Account Group
-3. iCAT Port
-4. Parallel Port Range (Begin)
-5. Parallel Port Range (End)
-6. Vault Directory
-7. zone_key
-8. negotiation_key
-9. Control Plane Port
-10. Control Plane Key
-11. Schema Validation Base URI
-12. iRODS Administrator Username
-13. iCAT Host
-14. iCAT Zone
-15. iRODS Administrator Password
-
 ## Default Environment
 
 Once a server is up and running, the default environment can be shown:
 
 ~~~
 irods@hostname:~/ $ ienv
-NOTICE: Release Version = rodsTEMPLATE_IRODSVERSION, API Version = d
-NOTICE: irods_session_environment_file - /var/lib/irods/.irods/irods_environment.json.19345
-NOTICE: irods_user_name - rods
-NOTICE: irods_host - hostname
-NOTICE: xmsg_host is not defined
-NOTICE: irods_home - /tempZone/home/rods
-NOTICE: irods_cwd - /tempZone/home/rods
-NOTICE: irods_authentication_scheme is not defined
-NOTICE: irods_port - 1247
-NOTICE: xmsg_port is not defined
-NOTICE: irods_default_resource - demoResc
-NOTICE: irods_zone_name - tempZone
-NOTICE: irods_client_server_policy - CS_NEG_REFUSE
-NOTICE: irods_client_server_negotiation - request_server_negotiation
-NOTICE: irods_encryption_key_size - 32
-NOTICE: irods_encryption_salt_size - 8
-NOTICE: irods_encryption_num_hash_rounds - 16
-NOTICE: irods_encryption_algorithm - AES-256-CBC
-NOTICE: irods_default_hash_scheme - SHA256
-NOTICE: irods_match_hash_policy - compatible
-NOTICE: irods_gsi_server_dn is not defined
-NOTICE: irods_debug is not defined
-NOTICE: irods_log_level is not defined
-NOTICE: irods_authentication_file is not defined
-NOTICE: irods_ssl_ca_certificate_path is not defined
-NOTICE: irods_ssl_ca_certificate_file is not defined
-NOTICE: irods_ssl_verify_server is not defined
-NOTICE: irods_ssl_certificate_chain_file is not defined
-NOTICE: irods_ssl_certificate_key_file is not defined
-NOTICE: irods_ssl_dh_params_file is not defined
-NOTICE: irods_server_control_plane_key - TEMPORARY__32byte_ctrl_plane_key
-NOTICE: irods_server_control_plane_encryption_num_hash_rounds - 16
-NOTICE: irods_server_control_plane_encryption_algorithm - AES-256-CBC
-NOTICE: irods_server_control_plane_port - 1248
-NOTICE: irods_maximum_size_for_single_buffer_in_megabytes - 32
-NOTICE: irods_default_number_of_transfer_threads - 4
-NOTICE: irods_transfer_buffer_size_for_parallel_transfer_in_megabytes - 4
-NOTICE: irods_plugins_home is not defined
+irods_client_server_negotiation - request_server_negotiation
+irods_client_server_policy - CS_NEG_REFUSE
+irods_cwd - /tempZone/home/rods
+irods_default_hash_scheme - SHA256
+irods_default_number_of_transfer_threads - 4
+irods_default_resource - demoResc
+irods_encryption_algorithm - AES-256-CBC
+irods_encryption_key_size - 32
+irods_encryption_num_hash_rounds - 16
+irods_encryption_salt_size - 8
+irods_environment_file - /var/lib/irods/.irods/irods_environment.json
+irods_home - /tempZone/home/rods
+irods_host - bison.europa.renci.org
+irods_match_hash_policy - compatible
+irods_maximum_size_for_single_buffer_in_megabytes - 32
+irods_port - 1247
+irods_server_control_plane_encryption_algorithm - AES-256-CBC
+irods_server_control_plane_encryption_num_hash_rounds - 16
+irods_server_control_plane_key - 32_byte_server_control_plane_key
+irods_server_control_plane_port - 1248
+irods_session_environment_file - /var/lib/irods/.irods/irods_environment.json.14518
+irods_transfer_buffer_size_for_parallel_transfer_in_megabytes - 4
+irods_user_name - rods
+irods_version - 4.2.0
+irods_zone_name - tempZone
+schema_name - irods_environment
+schema_version - v3
 ~~~
 
-## Run In Place
+## Non-Package Install (Run In Place)
 
 iRODS can be compiled from source and run from the same directory.  Although this is not recommended for production deployment, it may be useful for testing, running multiple iRODS servers on the same system, running iRODS on systems without a package manager, and users who do not have administrator rights on their system.
 
-To run iRODS in place, the build script must be called with the appropriate flag:
+To run iRODS as a non-package install, the build script must be called with the appropriate flag:
 
 ~~~
-user@hostname:~/irods/ $ ./packaging/build.sh --run-in-place icat postgres
+user@hostname:~/irods/ $ mkdir build
+user@hostname:~/irods/build $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/the/non-package/root ../
+user@hostname:~/irods/build $ make non-package-install-postgres
 ~~~
 
-iRODS has several build dependencies (external libraries) which need to be in place before iRODS itself can be compiled successfully.  The following sequence should build the dependencies from source (in `irods/external/`) and guarantee reproducible builds:
+The iCommands are a dependency of the iRODS server, and can be built with the following sequence:
 
 ~~~
-# Populate configuration files (and fail to build)
-user@hostname:~/irods/ $ ./packaging/build.sh --run-in-place icat postgres
-
-# Rebuild the external libraries from source
-user@hostname:~/irods/ $ cd external
-user@hostname:~/irods/external/ $ make clean
-user@hostname:~/irods/external/ $ make generate
-
-# Build iRODS
-user@hostname:~/irods/external/ $ cd ..
-user@hostname:~/irods/ $ ./packaging/build.sh clean
-user@hostname:~/irods/ $ ./packaging/build.sh --run-in-place icat postgres
+user@hostname:~/irods_client_icommands/build $ cmake -DCMAKE_INSTALL_PREFIX=<non-package-root> -DIRODS_DIR=<non-package-root>/usr/lib/irods/cmake ../
+user@hostname:~/irods_client_icommands/build $ export PATH=<non-package-root>/usr/bin:<non-package-root>/usr/sbin:$PATH
+user@hostname:~/irods_client_icommands/build $ export LD_LIBRARY_PATH=<non-package-root>/usr/lib
 ~~~
 
-After the system is built, the setup_irods_database.sh script needs to be run from its original location:
+After the system is built, the setup_irods.py script should be run, the same as a binary installation:
 
 ~~~
-user@hostname:~/irods/ $ ./plugins/database/packaging/setup_irods_database.sh
+user@hostname:~/irods $ python ./scripts/setup_irods.py
 ~~~
-
-The script will prompt for iRODS configuration information that would already be known to a binary installation:
-
-~~~
-===================================================================
-
-You are installing iRODS with the --run-in-place option.
-
-The iRODS server cannot be started until it has been configured.
-
-iRODS server's zone name [tempZone]:
-
-iRODS server's port [1247]:
-
-iRODS port range (begin) [20000]:
-
-iRODS port range (end) [20199]:
-
-iRODS Vault directory [/full/path/to/Vault]:
-
-iRODS server's zone_key [TEMPORARY_zone_key]:
-
-iRODS server's negotiation_key [TEMPORARY_32byte_negotiation_key]:
-
-Control Plane port [1248]:
-
-Control Plane key [TEMPORARY__32byte_ctrl_plane_key]:
-
-Schema Validation Base URI (or 'off') [https://schemas.irods.org/configuration]:
-
-iRODS server's administrator username [rods]:
-
-iRODS server's administrator password:
-
--------------------------------------------
-iRODS Zone:                 tempZone
-iRODS Port:                 1247
-Range (Begin):              20000
-Range (End):                20199
-Vault Directory:            /full/path/to/Vault
-zone_key:                   TEMPORARY_zone_key
-negotiation_key:            TEMPORARY_32byte_negotiation_key
-Control Plane Port:         1248
-Control Plane Key:          TEMPORARY__32byte_ctrl_plane_key
-Schema Validation Base URI: https://schemas.irods.org/configuration
-Administrator Username:     rods
-Administrator Password:     Not Shown
--------------------------------------------
-Please confirm these settings [yes]:
-~~~
-
 
 ### MacOSX
 
-Installation on a MacOSX system requires the use of the --run-in-place build option due to the lack of a system-level package manager.
-
-Building and running iRODS on MacOSX is currently only supported with a locally compiled PostgreSQL.  Once the build.sh script is complete, the PostgreSQL system needs to be configured and made ready to be used by iRODS:
-
-```
- # =-=-=-=-=-=-=-
- # on MacOSX, default postgresql has socket connections managed through /var
- # but its associated helper scripts assume /tmp
- export PGHOST=/tmp
-
- # =-=-=-=-=-=-=-
- # switch into the new database directory
- cd external/postgresql-9.3.4
-
- # =-=-=-=-=-=-=-
- # update $PATH to use this local psql
- export PATH=`pwd`/pgsql/bin:$PATH
-
- # =-=-=-=-=-=-=-
- # initialize the database
- ./pgsql/bin/initdb -D `pwd`/pgsql/data
-
- # =-=-=-=-=-=-=-
- # turn off standard_conforming_strings (postgresql 9.x)
- sed -i '' 's/#standard_conforming_strings = on/standard_conforming_strings = off/' ./pgsql/data/postgresql.conf
-
- # =-=-=-=-=-=-=-
- # start the database, with logging
- ./pgsql/bin/pg_ctl -D `pwd`/pgsql/data -l logfile start
-
- # =-=-=-=-=-=-=-
- # create database, user, and permissions
- ./pgsql/bin/createdb ICAT
- ./pgsql/bin/createuser irods
- ./pgsql/bin/psql ICAT -c "ALTER ROLE irods WITH PASSWORD 'testpassword'"
- ./pgsql/bin/psql ICAT -c "GRANT ALL PRIVILEGES ON DATABASE \"ICAT\" TO irods"
-
- # =-=-=-=-=-=-=-
- # switch back to top level and run setup_irods_database.sh
- cd ../../
- ./plugins/database/packaging/setup_irods_database.sh
-```
+Installation of the iCommands on a MacOSX system requires the use of the "Non-Package Install" steps due to the lack of a system-level package manager.
 
 # Quickstart
 
@@ -409,28 +255,30 @@ For the client, you will need to update your `irods_environment.json` file with 
 ~~~
 irods@hostname:~/ $ cat .irods/irods_environment.json
 {
-    "irods_host": "<hostname>",
-    "irods_port": 1247,
-    "irods_default_resource": "demoResc",
-    "irods_home": "/**<newzonename>**/home/rods",
-    "irods_cwd": "/**<newzonename>**/home/rods",
-    "irods_user_name": "rods",
-    "irods_zone_name": "**<newzonename>**",
     "irods_client_server_negotiation": "request_server_negotiation",
     "irods_client_server_policy": "CS_NEG_REFUSE",
-    "irods_encryption_key_size": 32,
-    "irods_encryption_salt_size": 8,
-    "irods_encryption_num_hash_rounds": 16,
-    "irods_encryption_algorithm": "AES-256-CBC",
+    "irods_cwd": "/**<newzonename>**/home/rods",
     "irods_default_hash_scheme": "SHA256",
-    "irods_match_hash_policy": "compatible",
-    "irods_server_control_plane_port": 1248,
-    "irods_server_control_plane_key": "TEMPORARY__32byte_ctrl_plane_key",
-    "irods_server_control_plane_encryption_num_hash_rounds": 16,
-    "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
-    "irods_maximum_size_for_single_buffer_in_megabytes": 32,
     "irods_default_number_of_transfer_threads": 4,
-    "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4
+    "irods_default_resource": "demoResc",
+    "irods_encryption_algorithm": "AES-256-CBC",
+    "irods_encryption_key_size": 32,
+    "irods_encryption_num_hash_rounds": 16,
+    "irods_encryption_salt_size": 8,
+    "irods_home": "/**<newzonename>**/home/rods",
+    "irods_host": "bison.europa.renci.org",
+    "irods_match_hash_policy": "compatible",
+    "irods_maximum_size_for_single_buffer_in_megabytes": 32,
+    "irods_port": 1247,
+    "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
+    "irods_server_control_plane_encryption_num_hash_rounds": 16,
+    "irods_server_control_plane_key": "32_byte_server_control_plane_key",
+    "irods_server_control_plane_port": 1248,
+    "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
+    "irods_user_name": "rods",
+    "irods_zone_name": "**<newzonename>**",
+    "schema_name": "irods_environment",
+    "schema_version": "v3"
 }
 ~~~
 
@@ -448,8 +296,8 @@ irods@hostname:~/ $ ils
 iRODS 4.1+ servers use the `zone_key` and `negotiation_key` to mutually authenticate.  These two variables should be changed from their default values in `/etc/irods/server_config.json`:
 
 ~~~
-"zone_key": "TEMPORARY_zone_key",
-"negotiation_key":   "TEMPORARY_32byte_negotiation_key",
+"zone_key": "TEMPORARY_ZONE_KEY",
+"negotiation_key":   "32_byte_server_negotiation_key__",
 ~~~
 
 The `zone_key` can be up to 49 alphanumeric characters long and cannot include a hyphen.  The 'negotiation_key' must be exactly 32 alphanumeric bytes long.  These values need to be the same on all servers in the same Zone, or they will not be able to authenticate (see [Server Authentication](federation.md#server-authentication) for more information).
@@ -468,7 +316,7 @@ ERROR: client-server negotiation_key mismatch
 
 ## Add additional resource(s)
 
-The default installation of iRODS comes with a single resource named 'demoResc' which stores its files in the `/var/lib/irods/iRODS/Vault` directory.  You will want to create additional resources at disk locations of your choosing as the 'demoResc' may not have sufficient disk space available for your intended usage scenarios.  The following command will create a basic 'unixfilesystem' resource at a designated host at the designated full path:
+The default installation of iRODS comes with a single resource named 'demoResc' which stores its files in the `/var/lib/irods/Vault` directory.  You will want to create additional resources at disk locations of your choosing as the 'demoResc' may not have sufficient disk space available for your intended usage scenarios.  The following command will create a basic 'unixfilesystem' resource on the designated host at the designated full path:
 
 ~~~
 irods@hostname:~/ $ iadmin mkresc <newrescname> unixfilesystem <fully.qualified.domain.name>:</full/path/to/new/vault>

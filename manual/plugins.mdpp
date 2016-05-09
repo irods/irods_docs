@@ -1,0 +1,368 @@
+# Plugins
+
+iRODS 4.0+ represents a major effort to analyze, harden, and package iRODS for sustainability, modularization, security, and testability.  This has led to a fairly significant refactorization of much of the underlying codebase.  The following descriptions are included to help explain the architecture of iRODS.
+
+The core is designed to be as immutable as possible and serve as a bus for handling the internal logic of the business of iRODS (data storage, policy enforcement, etc.).  Eight or nine major interfaces will be exposed by the core and will allow extensibility and separation of functionality into plugins.  A few plugins are included by default in iRODS to provide a set of base functionality.
+
+The planned plugin interfaces and their status are listed here:
+
+| Plugin Interface               | Status     |  Since   |
+| ------------------------------ | ---------- | -------- |
+| Pluggable Microservices        | Complete   |  3.0b2   |
+| Composable Resources           | Complete   |  3.0b3   |
+| Pluggable Authentication       | Complete   |  3.0.1b1 |
+| Pluggable Network              | Complete   |  3.0.1b1 |
+| Pluggable Database             | Complete   |  4.0.0b1 |
+| Pluggable RPC API              | Complete   |  4.0.0b2 |
+| Pluggable Rule Engine          | Complete   |  4.2.0   |
+| Pluggable Transport            | Planned    |          |
+| Pluggable First Class Objects  | Requested  |          |
+
+
+## Dynamic Policy Enforcement Points
+
+iRODS 4.0+ has introduced the capability for dynamic policy enforcement points (PEP).  For every operation that is called, two policy enforcement points are constructed (both a pre and post variety), and if it has been defined in core.re or any other loaded rulebase file they will be executed by the rule engine plugin framework.
+
+The PEP will be constructed of the form "pep_PLUGINOPERATION_pre" and "pep_PLUGINOPERATION_post".
+
+For example, for "resource_create", the two PEPs that are dynamically evaluated are pep_resource_create_pre() and pep_resource_create_post().  If either or both have been defined in a loaded rulebase file (core.re), they will be executed as appropriate.  If the same PEP is multiply defined, the first one loaded will be executed first.  If the first one fails, the next matching PEP will execute until there are no more matches in the loaded rulebases.  This matching is carried out by the rule engine plugin framework and will match across multiple active rule engine plugins.
+
+The flow of information from the pre PEP to the plugin operation to the post PEP works as follows:
+
+- pep_PLUGINOPERATION_pre() - Should produce an \*OUT variable that will be passed to the calling plugin operation
+- PLUGINOPERATION - Will receive any \*OUT defined by pep_PLUGINOPERATION_pre() above and will pass its own \*OUT variable to pep_PLUGINOPERATION_post()
+- pep_PLUGINOPERATION_post() - Will receive any \*OUT from PLUGINOPERATION.  If the PLUGINOPERATION itself failed, the \*OUT variable will be populated with the string "OPERATION_FAILED".
+
+Note that if pep_PLUGINOPERATION_pre() fails, the PLUGINOPERATION will not be called and the plugin operation call will fail with the resulting error code of the pep_PLUGINOPERATION_pre() rule call.  This ability to fail early allows for fine-grained control of which plugin operations may or may not be allowed as defined by the policy of the data grid administrator.
+
+### Available Plugin Operations
+
+The following operations are available for dynamic PEP evaluation.  At this time, only very few operations themselves consider the output (\*OUT) of its associated pre PEP. Also, not every plugin operation has an available network connection handle which is required for calling out to microservices, these are noted in the table.
+
+<table border="1">
+<tr><th>Plugin Type</th><th>Plugin Operation</th>
+<tr>
+<td>Resource<br/>
+Yes, can call microservices
+</td>
+<td>
+!INCLUDE "op-resource.mdpp"
+</td>
+</tr>
+<tr>
+<td>Authentication <br/>
+No, cannot call microservices
+</td>
+<td>
+!INCLUDE "op-auth.mdpp"
+</td>
+</tr>
+<tr>
+<td>Network<br/>
+No, cannot call microservices
+</td>
+<td>
+!INCLUDE "op-network.mdpp"
+</td>
+</tr>
+<tr>
+<td>Database<br/>
+Some can call microservices</td>
+<td>
+database_start<br/>
+database_stop<br/>
+database_debug<br/>
+database_open<br/>
+database_close<br/>
+database_get_local_zone<br/>
+database_update_resc_obj_count<br/>
+database_mod_data_obj_meta<br/>
+database_reg_data_obj<br/>
+database_reg_replica<br/>
+database_unreg_replica<br/>
+database_reg_rule_exec<br/>
+database_mod_rule_exec<br/>
+database_del_rule_exec<br/>
+database_resc_obj_count<br/>
+database_add_child_resc<br/>
+database_reg_resc<br/>
+database_del_child_resc<br/>
+database_del_resc<br/>
+database_rollback<br/>
+database_commit<br/>
+database_del_user_re<br/>
+database_reg_coll_by_admin<br/>
+database_reg_coll<br/>
+database_mod_coll<br/>
+database_simple_query<br/>
+database_gen_query<br/>
+database_gen_query_access_control_setup<br/>
+database_gen_query_ticket_setup<br/>
+database_specific_query<br/>
+database_general_update<br/>
+database_del_coll_by_admin<br/>
+database_del_coll<br/>
+database_check_auth<br/>
+database_make_tmp_pw<br/>
+database_make_limited_pw<br/>
+database_mod_user<br/>
+database_mod_group<br/>
+database_mod_resc<br/>
+database_mod_resc_data_paths<br/>
+database_mod_resc_freespace<br/>
+database_reg_user_re<br/>
+database_add_avu_metadata<br/>
+database_add_avu_metadata_wild<br/>
+database_del_avu_metadata<br/>
+database_set_avu_metadata<br/>
+database_copy_avu_metadata<br/>
+database_mod_avu_metadata<br/>
+database_mod_access_control<br/>
+database_mod_access_control_resc<br/>
+database_rename_object<br/>
+database_move_object<br/>
+database_reg_token<br/>
+database_del_token<br/>
+database_reg_zone<br/>
+database_mod_zone<br/>
+database_mod_zone_coll_acl<br/>
+database_del_zone<br/>
+database_rename_local_zone<br/>
+database_rename_coll<br/>
+database_reg_server_load<br/>
+database_reg_server_load_digest<br/>
+database_purge_server_load<br/>
+database_purge_server_load_digest<br/>
+database_calc_usage_and_quota<br/>
+database_set_quota<br/>
+database_check_quota<br/>
+database_del_unused_avus<br/>
+database_add_specific_query<br/>
+database_del_specific_query<br/>
+database_debug_query<br/>
+database_debug_gen_update<br/>
+database_is_rule_in_table<br/>
+database_version_rule_base<br/>
+database_version_dvm_base<br/>
+database_ins_rule_table<br/>
+database_ins_dvm_table<br/>
+database_ins_fnm_table<br/>
+database_ins_msrvc_table<br/>
+database_version_fnm_base<br/>
+database_mod_ticket<br/>
+database_update_pam_password<br/>
+database_substitute_resource_hierarchies<br/>
+database_get_distinct_data_objs_missing_from_child_given_parent<br/>
+database_get_distinct_data_obj_count_on_resource<br/>
+database_get_hierarchy_for_resc<br/>
+database_check_and_get_obj_id<br/>
+database_get_rcs
+</td>
+<td>
+No<br/>
+No<br/>
+No<br/>
+No<br/>
+No<br/>
+No<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+No<br/>
+No<br/>
+No<br/>
+Yes<br/>
+No<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+Yes<br/>
+No<br/>
+No<br/>
+No<br/>
+No
+</td>
+</tr>
+<tr>
+<td>API<br/>
+Yes, can call microservices
+</td>
+<td>
+!INCLUDE "op-api.mdpp"
+</td>
+</tr>
+
+</table>
+
+
+Microservice plugins are not wrapped with dynamic policy enforcement points.
+
+
+### Available Values within Dynamic PEPs
+
+The following Key-Value Pairs are made available within the running context of each dynamic policy enforcement point (PEP) based both on the plugin type as well as the first class object of interest.  They are available via the rule engine in the form of `$KVPairs.VARIABLE_NAME` and are originally defined in `lib/core/include/rodsKeyWdDef.h`.
+
+
+<table border="1">
+<tr><th>Plugin Type</th><th>First Class Object</th><th>Variable Name</th></tr>
+<tr>
+<td rowspan="4">Resource</td><td>Data Object</td>
+<td>
+physical_path<br />
+mode_kw<br />
+flags_kw<br />
+resc_hier
+</td>
+</tr>
+<tr><td>File Object</td>
+<td>logical_path<br />
+file_descriptor<br />
+l1_desc_idx<br />
+file_size<br />
+repl_requested<br />
+in_pdmo
+</td>
+</tr>
+<tr><td>Structured Object</td>
+<td>host_addr<br />
+zone_name<br />
+port_num<br />
+sub_file_path<br />
+offset<br />
+dataType<br />
+oprType
+</td>
+</tr>
+<tr><td>Special Collection</td>
+<td>spec_coll_class<br />
+spec_coll_type<br />
+spec_coll_obj_path<br />
+spec_coll_resource<br />
+spec_coll_resc_hier<br />
+spec_coll_phy_path<br />
+spec_coll_cache_dir<br />
+spec_coll_cache_dirty<br />
+spec_coll_repl_num
+</td>
+</tr>
+<tr><td>Authentication</td>
+<td>Native Password<br />
+OS Auth (deprecated, use PAM instead)<br />
+PAM
+</td>
+<td>zone_name<br />
+user_name<br />
+digest
+</td>
+</tr>
+<tr><td rowspan="2">Network</td>
+<td>TCP</td>
+<td>tcp_socket_handle</td>
+</tr>
+<tr><td>SSL</td>
+<td>ssl_host<br />
+ssl_shared_secret<br />
+ssl_key_size<br />
+ssl_salt_size<br />
+ssl_num_hash_rounds<br />
+ssl_algorithm
+</td>
+</tr>
+
+
+<tr>
+<td rowspan="3">Database</td>
+
+<td>Postgres</td>
+<td>No Values Available</td>
+</tr>
+
+<tr>
+<td>MySQL</td>
+<td>No Values Available</td>
+</tr>
+
+<tr>
+<td>Oracle</td>
+<td>No Values Available</td>
+</tr>
+
+
+</table>
+
+
+For example, within a PEP, you could reference $KVPairs.file_size and get the size of the file currently in context.  Likewise, $KVPairs.ssl_host would provide the current hostname involved in an SSL connection.
+
+Also, $pluginInstanceName is an additional available session variable that gives the instance name of the plugin from which the call is made.
+
+For example, when running `iput -R myOtherResc newfile.txt`, a `fileCreate()` operation is called on "myOtherResc".  This delegates the call to the myOtherResc plugin instance which is a "resource_create" operation.  When the pep_resource_create_pre() rule is evaluated, the value of $pluginInstanceName will be "myOtherResc".  This allows rule authors to make decisions at a per-resource basis for this type of operation.
+
+
+
+
