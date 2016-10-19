@@ -5,7 +5,7 @@ iRODS is provided in binary form in a collection of interdependent packages.
 An iRODS server has a 'catalog_service_role' and can be configured as either a 'provider' or a 'consumer'.  These two roles take the place of the previous
 compile-time option which provided two separate binaries, formerly known as 'iCAT server' and 'Resource server'.  Since 4.2, a single server can be configured to serve in either role.
 
- - **Provider** - A server in the 'provider' role manages a Zone, handles the database connection to the iCAT metadata catalog (which could be either co-resident or hosted on a separate machine or cluster), and can provide [Storage Resources](plugins.md#storage-resources).  At this time, an iRODS Zone will usually have exactly one server in the 'catalog_service_role' of 'provider'.  Configuring iRODS for High Availability is possible with additional work, and would include having more than one server in this role.
+ - **Provider** - A server in the 'provider' role manages a Zone, handles the database connection to the iCAT metadata catalog (which could be either co-resident or hosted on a separate machine or cluster), and can provide [Storage Resources](../plugins/composable_resources.md#storage-resources).  At this time, an iRODS Zone will usually have exactly one server in the 'catalog_service_role' of 'provider'.  Configuring iRODS for High Availability is possible with additional work, and would include having more than one server in this role.
  - **Consumer** - A server in the 'consumer' role connects to an existing Zone and can provide additional storage resource(s).  An iRODS Zone can have zero or more servers in the 'catalog_service_role' of 'consumer'.
 
 A 'provider' is just a 'consumer' that also provides the central point of coordination for the Zone and manages the metadata.
@@ -16,7 +16,7 @@ The simplest iRODS installation consists of one iRODS server in the 'provider' r
 
 The irods-server package installs the iRODS binaries and management scripts.
 
-Additionally, an iRODS database plugin is required. iRODS uses this plugin (see [Pluggable Database](plugins.md#pluggable-database) to communicate with the desired database management system (e.g. Oracle, MySQL, PostgreSQL).
+Additionally, an iRODS database plugin is required. iRODS uses this plugin (see [Pluggable Database](../plugins/pluggable_database.md) to communicate with the desired database management system (e.g. Oracle, MySQL, PostgreSQL).
 
 The iRODS setup script (which also configures the iRODS database plugin) requires database connection information about an existing database.  iRODS neither creates nor manages a database instance itself, just the tables within the database. Therefore, the database instance should be created and configured before installing iRODS.
 

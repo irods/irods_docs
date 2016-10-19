@@ -34,7 +34,7 @@ Migrating from iRODS 3.3.x to iRODS 4.0+ is not supported with an automatic scri
 14. Confirm all local at-rest data (any local iRODS Vault paths) have read and write permissions for the new (default) 'irods' unix service account.
 15. Start new 4.0+ iCAT server (`irodsctl start`)
 16. On all resource servers in the same Zone, install and setup 4.0+.  Existing configuration details should be ported as well ('server.config', 'core.re', Vault permissions).
-17. Rebuild Resource Hierarchies from previous Resource Group configurations (`iadmin addchildtoresc`) (See [Composable Resources](plugins.md#composable-resources))
+17. Rebuild Resource Hierarchies from previous Resource Group configurations (`iadmin addchildtoresc`) (See [Composable Resources](../plugins/composable_resources.md))
 18. Install any custom plugins (Microservice, Resources, Authentication)
 19. Perform your conformance testing
 20. Sunset 3.3.x server(s)

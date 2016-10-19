@@ -1,4 +1,4 @@
-# Plugins
+# Plugin Interfaces
 
 iRODS 4.0+ represents a major effort to analyze, harden, and package iRODS for sustainability, modularization, security, and testability.  This has led to a fairly significant refactorization of much of the underlying codebase.  The following descriptions are included to help explain the architecture of iRODS.
 

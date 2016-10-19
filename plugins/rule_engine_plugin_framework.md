@@ -14,7 +14,7 @@ Because the rule engine plugins are just one of many iRODS plugin types, the REP
 }
 ```
 
-Within the rule engine plugin framework, there is a dynamically created policy enforcement point that is checked before and after the operation.  These are the "_pre" and "_post" PEPs discussed in [Dynamic Policy Enforcement Points](plugins.md#dynamic-policy-enforcement-points).
+Within the rule engine plugin framework, there is a dynamically created policy enforcement point that is checked before and after the operation.  These are the "_pre" and "_post" PEPs discussed in [Dynamic Policy Enforcement Points](plugin_interfaces.md#dynamic-policy-enforcement-points).
 
 The framework will look for rules that are defined with the same name as the PEP and execute them if found.  A typical `ils` will trigger over 1200 dynamic PEPs on a basic installation.  Nearly all of them will be undefined (there is no rule that matches their name) and so will not run any code.
 
@@ -206,7 +206,7 @@ remote("farawayicat.example.org","<ZONE>DifferentZone</ZONE>") {
 }
 ~~~
 
-The best practice for using both `delay()` and `remote()` [depends on the use case](best_practices.md#using-both-delay-and-remote-execution).
+The best practice for using both `delay()` and `remote()` [depends on the use case](../manual/best_practices.md#using-both-delay-and-remote-execution).
 
 
 <!--

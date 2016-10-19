@@ -34,7 +34,7 @@ mkdocs : get_irods
 	@grep DATABASE_OP ${IRODSTARGET}/server/core/include/irods_database_constants.hpp | grep "database_" | awk -F'"' '{print $$2}' | sort | sed 's/$$/<br\/>/' > op-database.mdpp
 	@grep -A1 "boost::any" ${IRODSTARGET}/lib/api/include/apiTable.hpp | awk '{mod=NR%3; if (mod==2) {print $$0}} ' | awk -F'"' '{print $$2}' | sort | sed 's/$$/<br\/>/' > op-api.mdpp
 	@if [ ! -d ${VENVTARGET} ] ; then virtualenv ${VENVTARGET}; fi
-	@. ${VENVTARGET}/bin/activate; pip install -r requirements.txt; markdown-pp -e latexrender -o manual/plugins.md manual/plugins.mdpp
+	@. ${VENVTARGET}/bin/activate; pip install -r requirements.txt; markdown-pp -e latexrender -o plugins/plugin_interfaces.md plugins/plugin_interfaces.mdpp
 	@mkdir -p doxygen
 	@touch doxygen/index.html
 	@mkdocs build --clean
@@ -42,4 +42,4 @@ mkdocs : get_irods
 
 clean :
 	@echo "Cleaning..."
-	@rm -rf mkdocs ${IRODSTARGET} ${DOXYGENTARGET} ${VENVTARGET} doxygen icommands op-*.mdpp manual/plugins.md
+	@rm -rf mkdocs ${IRODSTARGET} ${DOXYGENTARGET} ${VENVTARGET} doxygen icommands op-*.mdpp plugins/plugin_interfaces.md
