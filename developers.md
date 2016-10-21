@@ -1,5 +1,19 @@
 # Developer Information
 
+## Client Libraries
+
+C/C++ - [Doxygen](doxygen/group__clientAPI.html)
+
+Java - [https://github.com/DICE-UNC/jargon](https://github.com/DICE-UNC/jargon)
+
+Python - [https://github.com/irods/python-irodsclient](https://github.com/irods/python-irodsclient)
+
+Qt - [https://github.com/modcs/qrods](https://github.com/modcs/qrods)
+
+R (via REST) - [https://github.com/irods/r-irodsclient](https://github.com/irods/r-irodsclient)
+
+REST (via Java) - [https://github.com/DICE-UNC/irods-rest](https://github.com/DICE-UNC/irods-rest)
+
 ## Issue Tracker
 
 [https://github.com/irods/irods/issues](https://github.com/irods/irods/issues) - Every bug and feature are tracked. Every commit is related to an outstanding issue.

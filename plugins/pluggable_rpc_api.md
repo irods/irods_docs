@@ -1,4 +1,4 @@
-## Pluggable RPC API
+# Pluggable RPC API
 
 The iRODS API has traditionally been a hard-coded table of values and names.  With the pluggable RPC API now available, a plugin can provide new API calls.
 

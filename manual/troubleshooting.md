@@ -119,9 +119,46 @@ Modifying the "StrictACL" setting in the iRODS server's `core.re` file will appl
 
 This error can occur when the iRODS user is unknown or invalid in some way (for instance, no password has been defined for the user, or the user does not exist in that Zone).  This error is most common while debugging configuration issues with Zone Federation.
 
-## Rule Engine Variables
+## Rule Engine Plugin Framework Error
 
-The rule engine variable scoping rules are summarized as:
+!!! error
+    RULE_ENGINE_ERROR -1828000
+
+This error can occur when a user sends a rule to the wrong rule engine plugin instance.
+
+In the following case, the Python rule engine plugin is invoked (because it is listed first
+in `server_config.json`), tries to interpret the iRODS Rule Language rule text it is given,
+and then returns a `SyntaxError` since it is not valid Python:
+
+```
+$ irule -vF goodrule.r
+rcExecMyRule: goodrule{
+ writeLine("serverLog","testing...")
+}
+
+outParamDesc:
+ERROR: rcExecMyRule error.  status = -1828000 RULE_ENGINE_ERROR
+```
+
+```
+$ tail -n16 /var/lib/irods/log/rodsLog*
+Oct 21 22:40:35 pid:21170 ERROR: caught python exception:   File "<string>", line 1
+    goodrule{
+            ^
+SyntaxError: invalid syntax
+Oct 21 22:40:35 pid:21170 ERROR: rsExecMyRule : -1828000, [-]   ../irods_rule_engine_plugin-python.cxx:999:irods::error exec_rule_text(irods::default_re_ctx &, std::string, std::list<boost::any> &, irods::callback) :  status [RULE_ENGINE_ERROR]  errno [] -- message [irods_rule_engine_plugin_python::irods::error exec_rule_text(irods::default_re_ctx &, std::string, std::list<boost::any> &, irods::callback) Caught Python exception.
+  File "<string>", line 1
+    goodrule{
+            ^
+SyntaxError: invalid syntax
+]
+
+Oct 21 22:40:35 pid:21170 NOTICE: readAndProcClientMsg: received disconnect msg from client
+```
+
+## iRODS Rule Language Rule Engine Variables
+
+The iRODS Rule Language rule engine variable scoping rules are summarized as:
 
   1. All input and output variables have global scope
   2. All local variables have rule scope

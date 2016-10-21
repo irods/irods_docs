@@ -8,13 +8,13 @@ The planned plugin interfaces and their status are listed here:
 
 | Plugin Interface               | Status     |  Since   |
 | ------------------------------ | ---------- | -------- |
-| Pluggable Microservices        | Complete   |  3.0b2   |
-| Composable Resources           | Complete   |  3.0b3   |
-| Pluggable Authentication       | Complete   |  3.0.1b1 |
-| Pluggable Network              | Complete   |  3.0.1b1 |
-| Pluggable Database             | Complete   |  4.0.0b1 |
-| Pluggable RPC API              | Complete   |  4.0.0b2 |
-| Pluggable Rule Engine          | Complete   |  4.2.0   |
+| [Pluggable Microservices](pluggable_microservices.md)    | Complete   |  3.0b2   |
+| [Composable Resources](composable_resources.md)          | Complete   |  3.0b3   |
+| [Pluggable Authentication](pluggable_authentication.md)  | Complete   |  3.0.1b1 |
+| [Pluggable Network](pluggable_network.md)                | Complete   |  3.0.1b1 |
+| [Pluggable Database](pluggable_database.md)              | Complete   |  4.0.0b1 |
+| [Pluggable RPC API](pluggable_rpc_api.md)                | Complete   |  4.0.0b2 |
+| [Pluggable Rule Engine](pluggable_rule_engine.md)        | Complete   |  4.2.0   |
 | Pluggable Transport            | Planned    |          |
 | Pluggable First Class Objects  | Requested  |          |
 

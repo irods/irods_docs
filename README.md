@@ -1,6 +1,8 @@
 iRODS Documentation
 ===================
 
+[![Build Status](https://travis-ci.org/irods/irods_docs.svg?branch=master)](https://travis-ci.org/irods/irods_docs)
+
 The iRODS documentation is housed in this repository (https://github.com/irods/irods_docs).
 
 Each release is kept in a separate branch.
@@ -8,11 +10,16 @@ Each release is kept in a separate branch.
 Prerequisites
 -------------
 
-- Install doxygen
-- Install iCommands
+- git, g++, cmake, python, virtualenv, mkdocs
+- iCommands (the version the generated docs will reflect)
 
 Build
 -----
 
-- Build documentation
+The `Makefile` default target will build two other targets, 'doxygen' and 'mkdocs'.
 
+```
+$ make
+```
+
+The resulting `mkdocs/html` directory will contain the generated standalone documentation.

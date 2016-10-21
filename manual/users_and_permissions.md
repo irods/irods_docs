@@ -37,7 +37,7 @@ acAclPolicy {msiAclPolicy("REGULAR");}
 
 ## Tickets (Guest Access)
 
-Users are able to create tickets and associate them (one to one) with a Data Object or Collection. These are either system-generated 15-character pseudo-random strings, composed of upper and lower case characters 'A' through 'Z' and 0 thru 9; or optionally specified by the user creating the ticket.
+Users are able to create tickets and associate them (one to one) with a Data Object or Collection. These are either system-generated 15-character pseudo-random strings, composed of upper and lower case characters 'A-Z' and '0-9'; or optionally specified by the user creating the ticket.
 
 Only users with 'own' permission on objects are allowed to create tickets for those objects (and modify or delete them). When the ticket is used, this will be rechecked and access denied if the original user no longer has 'own' permission.
 
