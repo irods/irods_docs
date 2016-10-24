@@ -153,6 +153,17 @@ A service account environment file contains all of the client environment entrie
   - `irods_xmsg_host` (optional) - The host name of the XMessage server (usually localhost)
   - `irods_xmsg_port` (optional) - The port of the XMessage server
 
+To use an environment file other than `~/.irods/irods_environment.json`, set `IRODS_ENVIRONMENT_FILE` to load from a different location:
+
+```
+export IRODS_ENVIRONMENT_FILE=/full/path/to/different.json
+```
+
+Other individual environment variables can be set by using the UPPERCASE versions of the variables named above, for example:
+
+```
+export IRODS_LOG_LEVEL=7
+```
 
 # Checksum Configuration
 
