@@ -82,7 +82,7 @@ Consider the following `server_config.json` with the accompanying `example.re`, 
                         "[^ ]*pep_[^ ]*_(pre|post)"
                     ]
                 },
-                "shared_memory_instance": "legacy_re"
+                "shared_memory_instance": "irods_rule_language_rule_engine"
             }
         ]
     }
