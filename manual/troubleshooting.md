@@ -14,12 +14,13 @@ Some settings within iRODS can be useful when developing for iRODS or when worki
 
  | Verbosity       | spLogLevel   |
  | --------------- | ------------ |
- | LOG_DEBUG1      | 10           |
- | LOG_DEBUG2      |  9           |
- | LOG_DEBUG3      |  8 (XML)     |
+ | LOG_DEBUG10     | 10           |
+ | LOG_DEBUG9      |  9           |
+ | LOG_DEBUG8      |  8 (XML)     |
  | LOG_DEBUG       |  7           |
- | LOG_WARN        |  6           |
+ | LOG_DEBUG6      |  6           |
  | LOG_NOTICE      |  5 (default) |
+ | LOG_WARNING     |  4           |
  | LOG_ERROR       |  3           |
  | LOG_SYS_WARNING |  2           |
  | LOG_SYS_FATAL   |  1           |
@@ -166,6 +167,20 @@ The iRODS Rule Language rule engine variable scoping rules are summarized as:
     1. The iterator variables of `foreach()` have the scope of the `foreach()` block
     2. Variables assigned by an assignment in a `let` expression have the scope of the `let` expression
     3. Variables assigned by a pattern match in a match expression have the scope of the corresponding alternative of match expression
+
+## Parallel Transfer Port Contention
+
+The iRODS Server will issue a LOG_NOTICE when it unsuccessfully attempts to claim an available port while setting up a parallel transfer portal.
+
+```
+Nov  1 11:20:24 pid:16308 NOTICE: setupSrvPortal: listen failed, errno: 98
+Nov  1 11:23:11 pid:4482 NOTICE: setupSrvPortal: listen failed, errno: 98
+Nov  1 11:24:58 pid:5328 NOTICE: setupSrvPortal: listen failed, errno: 98
+Nov  1 11:27:10 pid:15614 NOTICE: setupSrvPortal: listen failed, errno: 98
+Nov  1 11:30:25 pid:11650 NOTICE: setupSrvPortal: listen failed, errno: 98
+```
+
+This occurs when the server is hitting resource contention and may indicate that the server needs a larger parallel transfer port range defined in `server_config.json` (the default is 20000-20199).
 
 ## Using 3.x iCommands with a 4.0+ iRODS Server
 
