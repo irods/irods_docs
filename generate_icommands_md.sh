@@ -4,7 +4,7 @@ SUFFIX=md
 
 DETECTEDDIR=$( cd $(dirname $0) ; pwd -P )
 
-TARGETDIR=$DETECTEDDIR/icommands
+TARGETDIR=$DETECTEDDIR/docs/icommands
 mkdir -p $TARGETDIR
 
 TARGETFILE=$TARGETDIR/user.$SUFFIX

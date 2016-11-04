@@ -2,8 +2,8 @@ site_name: iRODS
 repo_url: https://github.com/irods/irods_docs
 site_description: Control Your Data
 site_author: iRODS Consortium
-site_dir: mkdocs/html
-docs_dir: ./
+site_dir: site
+docs_dir: docs
 theme: readthedocs
 
 markdown_extensions:

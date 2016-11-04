@@ -10,7 +10,7 @@ Each release is kept in a separate branch.
 Prerequisites
 -------------
 
-- git, g++, cmake, python, virtualenv, mkdocs
+- git, g++, flex, bison, cmake, python, virtualenv, mkdocs
 - iCommands (the version the generated docs will reflect)
 
 Build
@@ -22,4 +22,4 @@ The `Makefile` default target will build two other targets, 'doxygen' and 'mkdoc
 $ make
 ```
 
-The resulting `mkdocs/html` directory will contain the generated standalone documentation.
+The resulting `site` directory will contain the generated standalone documentation.
