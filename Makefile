@@ -26,7 +26,7 @@ doxygen : get_irods
 	@cd ${DOXYGENTARGET} ; mkdir -p build ; cd build ; cmake .. ; make
 	@cd ${IRODSTARGET}; ../${DOXYGENTARGET}/build/bin/doxygen Doxyfile 1> /dev/null
 	@rsync -ar ${IRODSTARGET}/doxygen/html/ doxygen/
-	@cp ${IRODSTARGET}/doxygen/doxy-boot.js doxygen/
+#	@cp ${IRODSTARGET}/doxygen/doxy-boot.js doxygen/
 	@cp ${IRODSTARGET}/doxygen/custom.css doxygen/
 
 mkdocs : get_irods

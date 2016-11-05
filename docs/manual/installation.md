@@ -16,7 +16,7 @@ The simplest iRODS installation consists of one iRODS server in the 'provider' r
 
 The irods-server package installs the iRODS binaries and management scripts.
 
-Additionally, an iRODS database plugin is required. iRODS uses this plugin (see [Pluggable Database](../plugins/pluggable_database.md) to communicate with the desired database management system (e.g. Oracle, MySQL, PostgreSQL).
+Additionally, an iRODS database plugin is required. iRODS uses this plugin (see [Pluggable Database](../plugins/pluggable_database.md)) to communicate with the desired database management system (e.g. Oracle, MySQL, PostgreSQL).
 
 The iRODS setup script (which also configures the iRODS database plugin) requires database connection information about an existing database.  iRODS neither creates nor manages a database instance itself, just the tables within the database. Therefore, the database instance should be created and configured before installing iRODS.
 
@@ -57,7 +57,7 @@ mysql> CREATE USER 'irods'@'localhost' IDENTIFIED BY 'testpassword';
 mysql> GRANT ALL ON ICAT.* to 'irods'@'localhost';
 ~~~
 
-Confirmation of the permissions can be viewed:
+Confirmation of the permissions can be viewed within the ``mysql`` console:
 
 ~~~
 mysql> SHOW GRANTS FOR 'irods'@'localhost';
@@ -186,7 +186,7 @@ user@hostname:~/irods_client_icommands/build $ export PATH=<non-package-root>/us
 user@hostname:~/irods_client_icommands/build $ export LD_LIBRARY_PATH=<non-package-root>/usr/lib
 ~~~
 
-After the system is built, the setup_irods.py script should be run, the same as a binary installation:
+After the system is built, the `setup_irods.py` script should be run, the same as a binary installation:
 
 ~~~
 user@hostname:~/irods $ python ./scripts/setup_irods.py
