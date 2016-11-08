@@ -5,6 +5,8 @@ site_author: iRODS Consortium
 site_dir: site
 docs_dir: docs
 theme: readthedocs
+extra_css:
+ - irods.css
 
 markdown_extensions:
  - admonition

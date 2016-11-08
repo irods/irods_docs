@@ -1,0 +1,5 @@
+/* iRODS Custom Theme CSS */
+
+.wy-menu-vertical li.current a { border-left: solid 2px #ff0000 }
+.wy-menu-vertical li.current a { border-right: solid 2px #ff0000 }
+
