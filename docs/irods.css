@@ -1,5 +1,113 @@
-/* iRODS Custom Theme CSS */
-
-.wy-menu-vertical li.current a { border-left: solid 2px #ff0000 }
-.wy-menu-vertical li.current a { border-right: solid 2px #ff0000 }
-
+body {
+    font-family: "tristram","Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+    font-weight: bold;
+    color: #333;
+    min-height: 100%;
+    overflow-x: hidden;
+    background: #edf0f2;
+}
+textarea {
+    overflow: auto;
+    vertical-align: top;
+    width: 100%;
+    font-family: "tristram", "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif
+}
+.main_header{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    height:60px;
+    font-weight: bold;
+    background: #fff url("./top_banner.jpg")repeat-x top;
+    background-size: 240px;
+    color:#2c3e50;
+    border-bottom: solid 1px #aaa;
+    z-index: 1;
+}
+.stickynav{
+    font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+}
+.wy-nav-content {
+    padding: 1.618em 3.236em;
+    height: 100%;
+    max-width: 1200px;
+    margin: auto
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+legend {
+    margin-top: 0;
+    font-weight: 700;
+    font-family: "tristram", "Roboto Slab", "ff-tisa-web-pro", "Georgia", Arial, sans-serif;
+    font-weight: bold;
+    color: #222222;
+}
+h3 {
+    font-size: 26px
+}
+@font-face {
+    font-family: 'tristram';
+    src: url('./fonts/AvenirNext-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'tristram';
+    src: url('./fonts/AvenirNext-UltraLight.woff') format('woff');
+    font-weight: lighter;
+    font-style: normal;
+}
+.fa,
+.rst-content .admonition-title,
+.rst-content h1 .headerlink,
+.rst-content h2 .headerlink,
+.rst-content h3 .headerlink,
+.rst-content h4 .headerlink,
+.rst-content h5 .headerlink,
+.rst-content h6 .headerlink,
+.rst-content dl dt .headerlink,
+.icon {
+    display: inline-block;
+    font-family: tristram;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+nav.stickynav {
+    padding: 60px 0px 0px 0px;
+    z-index: 0;
+}
+a {
+    color: #18bc9c;
+    text-decoration: none
+}
+a:hover {
+    color: #03755f
+}
+.wy-side-nav-search input[type=text] {
+    width: 100%;
+    border-radius: 50px;
+    padding: 6px 12px;
+    border-color: #009276
+}
+.wy-side-nav-search {
+    z-index: 200;
+    background-color: #18bc9c;
+    text-align: center;
+    padding: 0.809em;
+    display: block;
+    color: #fcfcfc;
+    margin-bottom: 0.809em
+}
+.wy-nav-content-wrap {
+    padding: 60px 0px 0px 0px;
+}
+.wy-grid-for-nav {
+    z-index: 0;
+}

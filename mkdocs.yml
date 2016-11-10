@@ -7,6 +7,8 @@ docs_dir: docs
 theme: readthedocs
 extra_css:
  - irods.css
+extra_javascript:
+ - irods.js
 
 markdown_extensions:
  - admonition
