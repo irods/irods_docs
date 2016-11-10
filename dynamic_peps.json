@@ -295,7 +295,7 @@
 		"groupName": "resource"
 	}, {
 		"sigList": [{
-			"funcName": "db_start",
+			"funcName": "database_start",
 			"paramList": [{
 				"paramType": "irods::plugin_context &",
 				"paramName": "_ctx"
@@ -1729,27 +1729,6 @@
 				"paramName": "bulkDataObjRegOut"
 			}]
 		}, {
-			"funcName": "api_chk_nv_path_perm",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "fileOpenInp_t *",
-				"paramName": "chkNVPathPermInp"
-			}]
-		}, {
-			"funcName": "api_chk_nv_path_perm_by_host",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "fileOpenInp_t *",
-				"paramName": "chkNVPathPermInp"
-			}, {
-				"paramType": "rodsServerHost_t *",
-				"paramName": "rodsServerHost"
-			}]
-		}, {
 			"funcName": "api_chk_obj_perm_and_stat",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -1766,15 +1745,6 @@
 			}, {
 				"paramType": "bytesBuf_t **",
 				"paramName": "_bbuf"
-			}]
-		}, {
-			"funcName": "api_close_collection",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": ""
-			}, {
-				"paramType": "int *",
-				"paramName": "handleInxInp"
 			}]
 		}, {
 			"funcName": "api_coll_create",
@@ -1897,15 +1867,6 @@
 				"paramName": "dataObjInp"
 			}]
 		}, {
-			"funcName": "api_data_obj_unlock",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "dataObjInp_t *",
-				"paramName": "dataObjInp"
-			}]
-		}, {
 			"funcName": "api_data_obj_lseek",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -1999,21 +1960,6 @@
 				"paramName": "transStat"
 			}]
 		}, {
-			"funcName": "api_repl_and_reque_data_obj_info",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "dataObjInfo_t **",
-				"paramName": "srcDataObjInfoHead"
-			}, {
-				"paramType": "char *",
-				"paramName": "destRescName"
-			}, {
-				"paramType": "char *",
-				"paramName": "flagStr"
-			}]
-		}, {
 			"funcName": "api_data_obj_rsync",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2024,33 +1970,6 @@
 			}, {
 				"paramType": "msParamArray_t **",
 				"paramName": "outParamArray"
-			}]
-		}, {
-			"funcName": "api_rsync_data_to_file",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "dataObjInp_t *",
-				"paramName": "dataObjInp"
-			}]
-		}, {
-			"funcName": "api_rsync_file_to_data",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "dataObjInp_t *",
-				"paramName": "dataObjInp"
-			}]
-		}, {
-			"funcName": "api_rsync_data_to_data",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "dataObjInp_t *",
-				"paramName": "dataObjInp"
 			}]
 		}, {
 			"funcName": "api_data_obj_trim",
@@ -2078,18 +1997,6 @@
 			}, {
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjUnlinkInp"
-			}]
-		}, {
-			"funcName": "api_mv_data_obj_to_trash",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "dataObjInp_t *",
-				"paramName": "dataObjInp"
-			}, {
-				"paramType": "dataObjInfo_t **",
-				"paramName": "dataObjInfoHead"
 			}]
 		}, {
 			"funcName": "api_data_obj_write",
@@ -2263,18 +2170,6 @@
 				"paramName": "fileOpenInp"
 			}]
 		}, {
-			"funcName": "api_file_open_by_host",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "fileOpenInp_t *",
-				"paramName": "fileOpenInp"
-			}, {
-				"paramType": "rodsServerHost_t *",
-				"paramName": "rodsServerHost"
-			}]
-		}, {
 			"funcName": "api_file_opendir",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2353,18 +2248,6 @@
 				"paramName": "fileStageToCacheInp"
 			}]
 		}, {
-			"funcName": "api_file_stage_to_cache_by_host",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "int *",
-				"paramName": "fileStageToCacheInp"
-			}, {
-				"paramType": "rodsServerHost_t *",
-				"paramName": "rodsServerHost"
-			}]
-		}, {
 			"funcName": "api_file_stat",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2377,21 +2260,6 @@
 				"paramName": "fileStatOut"
 			}]
 		}, {
-			"funcName": "api_file_stat_by_host",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "int *",
-				"paramName": "fileStatInp"
-			}, {
-				"paramType": "rodsStat_t **",
-				"paramName": "fileStatOut"
-			}, {
-				"paramType": "rodsServerHost_t *",
-				"paramName": "rodsServerHost"
-			}]
-		}, {
 			"funcName": "api_file_sync_to_arch",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2402,21 +2270,6 @@
 			}, {
 				"paramType": "int **",
 				"paramName": "sync_out"
-			}]
-		}, {
-			"funcName": "api_file_sync_to_arch_by_host",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "int *",
-				"paramName": "fileSyncToArchInp"
-			}, {
-				"paramType": "int **",
-				"paramName": "sync_out"
-			}, {
-				"paramType": "rodsServerHost_t *",
-				"paramName": "rodsServerHost"
 			}]
 		}, {
 			"funcName": "api_file_truncate",
@@ -2632,7 +2485,7 @@
 				"paramName": "_bbuf"
 			}]
 		}, {
-			"funcName": "api_l_3_file_get_single_buf",
+			"funcName": "api_l3_file_get_single_buf",
 			"paramList": [{
 				"paramType": "rsComm_t *",
 				"paramName": "rsComm"
@@ -2644,7 +2497,7 @@
 				"paramName": "dataObjOutBBuf"
 			}]
 		}, {
-			"funcName": "api_l_3_file_put_single_buf",
+			"funcName": "api_l3_file_put_single_buf",
 			"paramList": [{
 				"paramType": "rsComm_t *",
 				"paramName": "rsComm"
@@ -2741,21 +2594,6 @@
 			}, {
 				"paramType": "structFileExtAndRegInp_t *",
 				"paramName": "phyBundleCollInp"
-			}]
-		}, {
-			"funcName": "api_mk_bundle_path",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "char *",
-				"paramName": "collection"
-			}, {
-				"paramType": "char *",
-				"paramName": "bundlePath"
-			}, {
-				"paramType": "int",
-				"paramName": "myRanNum"
 			}]
 		}, {
 			"funcName": "api_phy_path_reg",
@@ -2855,27 +2693,6 @@
 			}, {
 				"paramType": "collOprStat_t **",
 				"paramName": "collOprStat"
-			}]
-		}, {
-			"funcName": "api_mk_trash_path",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "char *",
-				"paramName": "objPath"
-			}, {
-				"paramType": "char *",
-				"paramName": "trashPath"
-			}]
-		}, {
-			"funcName": "api_mv_coll_to_trash",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "collInp_t *",
-				"paramName": "rmCollInp"
 			}]
 		}, {
 			"funcName": "api_rule_exec_del",

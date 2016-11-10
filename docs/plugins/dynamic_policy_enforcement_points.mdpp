@@ -1,0 +1,118 @@
+# Dynamic Policy Enforcement Points
+
+https://github.com/irods/irods/blob/master/server/drivers/src/fileDriver.cpp#L17
+
+NEED parameters in .re's above
+
+
+
+
+resource fileDriver.cpp
+auth clientLogin.cpp
+network sockComm.cpp
+database icatHighLevelRoutines.cpp
+api apiTable.hpp
+
+## Parameter Serialization
+
+The rule engine plugin framework serializes many of the parameters at the plugin operation point of call.  This provides the maximum amount of information for the administrator to make policy decisions within a particular policy enforcement point (PEP).
+
+Many of these internal types within iRODS have been provided serialization functions. Those that have not will be passed as an empty variable into each dynamic PEP.  Users can reference the types provided for each dynamic PEP with the following table which contains the types that have been serialized.
+
+     float*
+     const std::string*
+     std::string*
+     std::string
+     hierarchy_parser*
+     rodsLong_t
+     rodsLong_t*
+     size_t
+     int
+     int*
+     char*
+     const char*
+     rsComm_t*
+     plugin_context
+     dataObjInp_t*
+     authResponseInp_t*
+     dataObjInfo_t*
+     keyValPair_t*
+     userInfo_t*
+     collInfo_t*
+     modAVUMetadataInp_t*
+     modAccessControlInp_t*
+     modDataObjMeta_t*
+     ruleExecSubmitInp_t*
+     dataObjCopyInp_t*
+     rodsObjStat_t**
+     rodsObjStat_t*
+     genQueryInp_t*
+     genQueryInp_t*
+     char**
+
+### iRODS Rule Language Dynamic PEPs and Signatures
+
+
+Within the iRODS Rule Language the signatures for dynamic PEPs are determined by the invocation of the plugin operation within the iRODS Agent.
+
+Since this is a dynamic process, the following example demonstrates how to implement a chosen dynamic PEP.
+
+For all operations that are not part of the API interface, the context is wrapped by the instance name and the out variable.  Any additional parameters must be included in the signature of the dynamic PEP (the rule name).
+
+For example:
+
+    pep_resource_resolve_hierarchy_pre(irods::plugin_context & _ctx,
+                                       const std::string * _opr,
+                                       const std::string * _curr_host,
+                                       irods::hierarchy_parser * _out_parser,
+                                       float * _out_vote)
+
+should be implemented as:
+
+    pep_resource_resolve_hierarchy_pre(*INSTANCE_NAME, *CONTEXT, *OUT, *OPERATION, *HOST, *PARSER, *VOTE){}
+
+Note the following direct substitutions:
+
+<table>
+<tr><td>(injected)</td><td>*INSTANCE_NAME</td></tr>
+<tr><td>irods::plugin_context & _ctx</td><td>*CONTEXT</td></tr>
+<tr><td>(injected)</td><td>*OUT</td></tr>
+<tr><td>const std::string * _opr</td><td>*OPERATION</td></tr>
+<tr><td>const std::string * _curr_host</td><td>*HOST</td></tr>
+<tr><td>irods::hierarchy_parser * _out_parser</td><td>*PARSER</td></tr>
+<tr><td>float * _out_vote</td><td>*VOTE</td></tr>
+</table>
+
+`*INSTANCE_NAME` and `*OUT` are automatically injected by the rule engine plugin framework.
+
+
+The dynamic PEPs for API operations do not include `*CONTEXT`, and `*OUT`:
+
+    pep_api_data_obj_put_pre(rsComm_t * rsComm,
+                             dataObjInp_t * dataObjInp,
+                             bytesBuf_t * dataObjInpBBuf,
+                             portalOprOut_t ** portalOprOut)
+
+becomes:
+
+    pep_api_data_obj_put_pre(*INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT)
+
+After `*INSTANCE_NAME`, note the next two types of this signature are serialized by the framework, but the last two are not.  This means that the information within `*COMM` and `*DATAOBJINP` will be available in the rule logic whereas `*BUFFER` and `*PORTAL_OPR_OUT` will explain they are not supported.
+
+An example of the five variables and their resolved values are shown here:
+
+
+<table>
+<tr><td>*INSTANCE_NAME</td><td>api_instance</td></tr>
+<tr><td>*COMM</td><td>auth_scheme=native++++client_addr=X.X.X.X++++proxy_auth_info_auth_flag=5++++proxy_auth_info_auth_scheme=++++proxy_auth_info_auth_str=++++proxy_auth_info_flag=0++++proxy_auth_info_host=++++proxy_auth_info_ppid=0++++proxy_rods_zone=tempZone++++proxy_sys_uid=0++++proxy_user_name=rods++++proxy_user_other_info_user_comments=++++proxy_user_other_info_user_create=++++proxy_user_other_info_user_info=++++proxy_user_other_info_user_modify=++++proxy_user_type=++++user_auth_info_auth_flag=5++++user_auth_info_auth_scheme=++++user_auth_info_auth_str=++++user_auth_info_flag=0++++user_auth_info_host=++++user_auth_info_ppid=0++++user_rods_zone=tempZone++++user_sys_uid=0++++user_user_name=rods++++user_user_other_info_user_comments=++++user_user_other_info_user_create=++++user_user_other_info_user_info=++++user_user_other_info_user_modify=++++user_user_type=</td></tr>
+<tr><td>*DATAOBJINP</td><td>create_mode=0++++dataIncluded=++++dataType=generic++++data_size=1904++++num_threads=0++++obj_path=/tempZone/home/rods/foo++++offset=0++++open_flags=2++++opr_type=1</td></tr>
+<tr><td>*BUFFER</td><td>[BytesBuf*] not supported</td></tr>
+<tr><td>*PORTAL_OPR_OUT</td><td>[portalOprOut**] not supported</td></tr>
+</table>
+
+
+
+# AMAZING TABLE
+
+!INCLUDE "plugins/dynamic_peps_table.mdpp"
+

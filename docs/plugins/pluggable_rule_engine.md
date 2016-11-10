@@ -116,21 +116,6 @@ pep_resource_close_pre(*INSTANCE, *CONTEXT, *OUT){
 ```
 
 
-https://github.com/irods/irods/blob/master/server/drivers/src/fileDriver.cpp#L17
-
-NEED parameters in .re's above
-
-
-
-
-resource fileDriver.cpp
-auth clientLogin.cpp
-network sockComm.cpp
-database icatHighLevelRoutines.cpp
-api apiTable.hpp
-
-
-
 
 
 

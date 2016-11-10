@@ -4,6 +4,9 @@ site_description: Control Your Data
 site_author: iRODS Consortium
 site_dir: site
 docs_dir: docs
+google_analytics:
+ - UA-49704995-1
+ - auto
 theme: readthedocs
 extra_css:
  - irods.css
@@ -14,6 +17,7 @@ markdown_extensions:
  - admonition
  - attr_list
  - def_list
+
 
 pages:
  - 'index.md'
@@ -31,6 +35,7 @@ pages:
     - Pluggable Database: 'plugins/pluggable_database.md'
     - Pluggable RPC API: 'plugins/pluggable_rpc_api.md'
     - Pluggable Rule Engine: 'plugins/pluggable_rule_engine.md'
+    - Dynamic Policy Enforcement Points: 'plugins/dynamic_policy_enforcement_points.md'
     - iRODS Rule Language: 'plugins/irods_rule_language.md'
  - Manual:
     - 'manual/download.md'
@@ -41,6 +46,7 @@ pages:
     - Backing Up: 'manual/backing_up.md'
     - 'manual/federation.md'
     - Control Plane: 'manual/control_plane.md'
+    - Process Model: 'manual/process_model.md'
     - Distributing iCommands: 'manual/distributing_icommands.md'
     - 'manual/glossary.md'
     - Best Practices: 'manual/best_practices.md'

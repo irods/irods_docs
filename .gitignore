@@ -1,0 +1,15 @@
+docs/doxygen/
+docs/icommands/
+docs/op-api.mdpp
+docs/op-auth.mdpp
+docs/op-database.mdpp
+docs/op-network.mdpp
+docs/op-resource.mdpp
+docs/plugins/dynamic_peps_table.mdpp
+doxygen/
+doxygen_for_docs/
+irods_for_doxygen/
+site/
+venv/
+docs/plugins/dynamic_policy_enforcement_points.md
+docs/plugins/plugin_interfaces.md
