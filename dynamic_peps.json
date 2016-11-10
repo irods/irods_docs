@@ -1,0 +1,3267 @@
+{
+	"sigGroupList": [{
+		"sigList": [{
+			"funcName": "auth_client_start",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "rcComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "const char *",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "auth_establish_context",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "auth_client_request",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "rcComm_t *",
+				"paramName": "_comm"
+			}]
+		}, {
+			"funcName": "auth_agent_request",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "auth_client_response",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "rcComm_t *",
+				"paramName": "_comm"
+			}]
+		}, {
+			"funcName": "auth_agent_response",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "int *",
+				"paramName": "_resp"
+			}]
+		}, {
+			"funcName": "auth_agent_verify",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": ""
+			}, {
+				"paramType": "const char *",
+				"paramName": ""
+			}, {
+				"paramType": "const char *",
+				"paramName": ""
+			}, {
+				"paramType": "const char *",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "auth_agent_start",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": ""
+			}, {
+				"paramType": "const char *",
+				"paramName": ""
+			}]
+		}],
+		"groupName": "auth"
+	}, {
+		"sigList": [{
+			"funcName": "resource_copy",
+			"paramList": [{
+				"paramType": "int",
+				"paramName": "mode"
+			}, {
+				"paramType": "const char *",
+				"paramName": "srcFileName"
+			}, {
+				"paramType": "const char *",
+				"paramName": "destFileName"
+			}]
+		}, {
+			"funcName": "resource_mkdir_r",
+			"paramList": [{
+				"paramType": "const std::string &",
+				"paramName": "path"
+			}, {
+				"paramType": "mode_t",
+				"paramName": "mode"
+			}]
+		}, {
+			"funcName": "resource_registered",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_unregistered",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_modified",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_notify",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "resource_getfs_freespace",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_create",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_open",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_read",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "void *",
+				"paramName": "_buf"
+			}, {
+				"paramType": "int",
+				"paramName": "_len"
+			}]
+		}, {
+			"funcName": "resource_write",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "void *",
+				"paramName": "_buf"
+			}, {
+				"paramType": "int",
+				"paramName": "_len"
+			}]
+		}, {
+			"funcName": "resource_close",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_unlink",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_stat",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "struct stat *",
+				"paramName": "_statbuf"
+			}]
+		}, {
+			"funcName": "resource_lseek",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "long long",
+				"paramName": "_offset"
+			}, {
+				"paramType": "int",
+				"paramName": "_whence"
+			}]
+		}, {
+			"funcName": "resource_mkdir",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_rmdir",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_opendir",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_closedir",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_readdir",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "struct rodsDirent **",
+				"paramName": "_dirent_ptr"
+			}]
+		}, {
+			"funcName": "resource_rename",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_file_name"
+			}]
+		}, {
+			"funcName": "resource_truncate",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "resource_stage_to_cache",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_cache_file_name"
+			}]
+		}, {
+			"funcName": "resource_sync_to_arch",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_cache_file_name"
+			}]
+		}, {
+			"funcName": "resource_resolve_hierarchy",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": "_opr"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": "_curr_host"
+			}, {
+				"paramType": "irods::hierarchy_parser *",
+				"paramName": "_out_parser"
+			}, {
+				"paramType": "float *",
+				"paramName": "_out_vote"
+			}]
+		}, {
+			"funcName": "resource_rebalance",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}],
+		"groupName": "resource"
+	}, {
+		"sigList": [{
+			"funcName": "db_start",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "database_debug",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_mode"
+			}]
+		}, {
+			"funcName": "database_open",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "database_close",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "database_check_and_get_object_id",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_access"
+			}]
+		}, {
+			"funcName": "database_get_local_zone",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "std::string *",
+				"paramName": "_zone"
+			}]
+		}, {
+			"funcName": "database_update_resc_obj_count",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": "_resc"
+			}, {
+				"paramType": "int",
+				"paramName": "_delta"
+			}]
+		}, {
+			"funcName": "database_mod_data_obj_meta",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "dataObjInfo_t *",
+				"paramName": "_data_obj_info"
+			}, {
+				"paramType": "keyValPair_t *",
+				"paramName": "_reg_param"
+			}]
+		}, {
+			"funcName": "database_reg_data_obj",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "dataObjInfo_t *",
+				"paramName": "_data_obj_info"
+			}]
+		}, {
+			"funcName": "database_reg_replica",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "dataObjInfo_t *",
+				"paramName": "_src_data_obj_info"
+			}, {
+				"paramType": "dataObjInfo_t *",
+				"paramName": "_dst_data_obj_info"
+			}, {
+				"paramType": "keyValPair_t *",
+				"paramName": "_cond_input"
+			}]
+		}, {
+			"funcName": "database_unreg_replica",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "dataObjInfo_t *",
+				"paramName": "_data_obj_info"
+			}, {
+				"paramType": "keyValPair_t *",
+				"paramName": "_cond_input"
+			}]
+		}, {
+			"funcName": "database_reg_rule_exec",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "ruleExecSubmitInp_t *",
+				"paramName": "_re_sub_inp"
+			}]
+		}, {
+			"funcName": "database_mod_rule_exec",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_re_id"
+			}, {
+				"paramType": "keyValPair_t *",
+				"paramName": "_reg_param"
+			}]
+		}, {
+			"funcName": "database_del_rule_exec",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_re_id"
+			}]
+		}, {
+			"funcName": "database_add_child_resc",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "std::map<std::string, std::string> *",
+				"paramName": "_resc_input"
+			}]
+		}, {
+			"funcName": "database_reg_resc",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "std::map<std::string, std::string> *",
+				"paramName": "_resc_input"
+			}]
+		}, {
+			"funcName": "database_del_child_resc",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "std::map<std::string, std::string> *",
+				"paramName": "_resc_input"
+			}]
+		}, {
+			"funcName": "database_del_resc",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "int",
+				"paramName": "_dry_run"
+			}]
+		}, {
+			"funcName": "database_rollback",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "database_commit",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "database_del_user_re",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "userInfo_t *",
+				"paramName": "_user_info"
+			}]
+		}, {
+			"funcName": "database_reg_coll_by_admin",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "collInfo_t *",
+				"paramName": "_coll_info"
+			}]
+		}, {
+			"funcName": "database_reg_coll",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "collInfo_t *",
+				"paramName": "_coll_info"
+			}]
+		}, {
+			"funcName": "database_mod_coll",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "collInfo_t *",
+				"paramName": "_coll_info"
+			}]
+		}, {
+			"funcName": "database_reg_zone",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone_type"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone_conn_info"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone_comment"
+			}]
+		}, {
+			"funcName": "database_mod_zone",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option_value"
+			}]
+		}, {
+			"funcName": "database_rename_coll",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_old_coll"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_coll"
+			}]
+		}, {
+			"funcName": "database_mod_zone_coll_acl",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_access_level"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_path_name"
+			}]
+		}, {
+			"funcName": "database_rename_local_zone",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_old_zone"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_zone"
+			}]
+		}, {
+			"funcName": "database_del_zone",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone_name"
+			}]
+		}, {
+			"funcName": "database_simple_query",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_sql"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg1"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg2"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg3"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg4"
+			}, {
+				"paramType": "int",
+				"paramName": "_format"
+			}, {
+				"paramType": "int *",
+				"paramName": "_control"
+			}, {
+				"paramType": "char *",
+				"paramName": "_out_buf"
+			}, {
+				"paramType": "int",
+				"paramName": "_max_out_buf"
+			}]
+		}, {
+			"funcName": "database_del_coll_by_admin",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "collInfo_t *",
+				"paramName": "_coll_info"
+			}]
+		}, {
+			"funcName": "database_del_coll",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "collInfo_t *",
+				"paramName": "_coll_info"
+			}]
+		}, {
+			"funcName": "database_check_auth",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_scheme"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_challenge"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_response"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}, {
+				"paramType": "int *",
+				"paramName": "_user_priv_level"
+			}, {
+				"paramType": "int *",
+				"paramName": "_client_priv_level"
+			}]
+		}, {
+			"funcName": "database_make_temp_pw",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "char *",
+				"paramName": "_pw_value_to_hash"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_other_user"
+			}]
+		}, {
+			"funcName": "database_make_limited_pw",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "int",
+				"paramName": "_ttl"
+			}, {
+				"paramType": "char *",
+				"paramName": "_pw_value_to_hash"
+			}]
+		}, {
+			"funcName": "database_update_pam_password",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}, {
+				"paramType": "int",
+				"paramName": "_ttl"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_test_time"
+			}, {
+				"paramType": "char **",
+				"paramName": "_irods_password"
+			}]
+		}, {
+			"funcName": "database_mod_user",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_value"
+			}]
+		}, {
+			"funcName": "database_mod_group",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_group_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_zone"
+			}]
+		}, {
+			"funcName": "database_mod_resc",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option_value"
+			}]
+		}, {
+			"funcName": "database_mod_resc_data_paths",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_old_path"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_path"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}]
+		}, {
+			"funcName": "database_mod_resc_freespace",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "int",
+				"paramName": "_update_value"
+			}]
+		}, {
+			"funcName": "database_reg_user_re",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "userInfo_t *",
+				"paramName": "_user_info"
+			}]
+		}, {
+			"funcName": "database_set_avu_metadata",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_attribute"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_value"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_unit"
+			}]
+		}, {
+			"funcName": "database_add_avu_metadata_wild",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "int",
+				"paramName": "_admin_mode"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_attribute"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_value"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_units"
+			}]
+		}, {
+			"funcName": "database_add_avu_metadata",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "int",
+				"paramName": "_admin_mode"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_attribute"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_value"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_units"
+			}]
+		}, {
+			"funcName": "database_mod_avu_metadata",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_attribute"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_value"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_unitsOrArg0"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg1"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg2"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg3"
+			}]
+		}, {
+			"funcName": "database_del_avu_metadata",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "int",
+				"paramName": "_option"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_attribute"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_value"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_unit"
+			}, {
+				"paramType": "int",
+				"paramName": "_nocommit"
+			}]
+		}, {
+			"funcName": "database_copy_avu_metadata",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type1"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type2"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name1"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name2"
+			}]
+		}, {
+			"funcName": "database_mod_access_control_resc",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const int",
+				"paramName": "_recursive_flag"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_access_level"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}]
+		}, {
+			"funcName": "database_mod_access_control",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const int",
+				"paramName": "_recursive_flag"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_access_level"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_path_name"
+			}]
+		}, {
+			"funcName": "database_rename_object",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "rodsLong_t",
+				"paramName": "_obj_id"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_name"
+			}]
+		}, {
+			"funcName": "database_move_object",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "rodsLong_t",
+				"paramName": "_obj_id"
+			}, {
+				"paramType": "rodsLong_t",
+				"paramName": "_target_coll_id"
+			}]
+		}, {
+			"funcName": "database_reg_token",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name_space"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_value"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_value2"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_value3"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_comment"
+			}]
+		}, {
+			"funcName": "database_del_token",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name_space"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}]
+		}, {
+			"funcName": "database_reg_server_load",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_host_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_cpu_used"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_mem_used"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_swap_used"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_run_q_load"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_disk_space"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_net_input"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_net_output"
+			}]
+		}, {
+			"funcName": "database_purge_server_load",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_seconds_ago"
+			}]
+		}, {
+			"funcName": "database_reg_server_load_digest",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_load_factor"
+			}]
+		}, {
+			"funcName": "database_purge_server_load_digest",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_seconds_ago"
+			}]
+		}, {
+			"funcName": "database_calc_usage_and_quota",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "database_set_quota",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_type"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_limit"
+			}]
+		}, {
+			"funcName": "database_check_quota",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "rodsLong_t *",
+				"paramName": "_user_quota"
+			}, {
+				"paramType": "int *",
+				"paramName": "_quota_status"
+			}]
+		}, {
+			"funcName": "database_del_unused_avus",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}]
+		}, {
+			"funcName": "database_ins_rule_table",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_base_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_map_priority_str"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_rule_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_rule_head"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_rule_condition"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_rule_action"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_rule_recovery"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_rule_id_str"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_my_time"
+			}]
+		}, {
+			"funcName": "database_ins_dvm_table",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_base_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_var_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_action"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_var_2_cmap"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_my_time"
+			}]
+		}, {
+			"funcName": "database_ins_fnm_table",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_base_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_func_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_func_2_cmap"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_my_time"
+			}]
+		}, {
+			"funcName": "database_ins_msrvc_table",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_module_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msrvc_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msrvc_signature"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msrvc_version"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msrvc_host"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msrvc_location"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msrvc_language"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msrvc_type_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msrvc_status"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_my_time"
+			}]
+		}, {
+			"funcName": "database_version_rule_base",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_base_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_my_time"
+			}]
+		}, {
+			"funcName": "database_version_dvm_base",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_base_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_my_time"
+			}]
+		}, {
+			"funcName": "database_version_fnm_base",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_base_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_my_time"
+			}]
+		}, {
+			"funcName": "database_add_specific_query",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_sql"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_alias"
+			}]
+		}, {
+			"funcName": "database_del_specific_query",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_sql_or_alias"
+			}]
+		}, {
+			"funcName": "database_specific_query",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "specificQueryInp_t *",
+				"paramName": "_spec_query_inp"
+			}, {
+				"paramType": "genQueryOut_t *",
+				"paramName": "_result"
+			}]
+		}, {
+			"funcName": "database_substitute_resource_hierarchies",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_old_hier"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_new_hier"
+			}]
+		}, {
+			"funcName": "database_get_distinct_data_obj_count_on_resource",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "long long *",
+				"paramName": "_count"
+			}]
+		}, {
+			"funcName": "database_get_distinct_data_objs_missing_from_child_given_parent",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": "_parent"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": "_child"
+			}, {
+				"paramType": "int",
+				"paramName": "_limit"
+			}, {
+				"paramType": "dist_child_result_t *",
+				"paramName": "_results"
+			}]
+		}, {
+			"funcName": "database_get_repl_list_for_leaf_bundles",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "rodsLong_t",
+				"paramName": "_count"
+			}, {
+				"paramType": "int",
+				"paramName": "_child_index"
+			}, {
+				"paramType": "int *",
+				"paramName": "_bundles"
+			}, {
+				"paramType": "dist_child_result_t *",
+				"paramName": "_results"
+			}]
+		}, {
+			"funcName": "database_get_hierarchy_for_resc",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": "_resc_name"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": "_zone_name"
+			}, {
+				"paramType": "std::string *",
+				"paramName": "_hierarchy"
+			}]
+		}, {
+			"funcName": "database_mod_ticket",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_op_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_ticket_string"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg3"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg4"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_arg5"
+			}]
+		}, {
+			"funcName": "database_get_icss",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "icatSessionStruct **",
+				"paramName": "_icss"
+			}]
+		}, {
+			"funcName": "database_gen_query",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "genQueryInp_t *",
+				"paramName": "_gen_query_inp"
+			}, {
+				"paramType": "genQueryOut_t *",
+				"paramName": "_result"
+			}]
+		}, {
+			"funcName": "database_gen_query_access_control_setup",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_user"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_host"
+			}, {
+				"paramType": "int",
+				"paramName": "_priv"
+			}, {
+				"paramType": "int",
+				"paramName": "_control_flag"
+			}]
+		}, {
+			"funcName": "database_gen_query_ticket_setup",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_ticket"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_client_addr"
+			}]
+		}, {
+			"funcName": "database_general_update",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "generalUpdateInp_t *",
+				"paramName": "_update_inp"
+			}]
+		}, {
+			"funcName": "database_start_operation",
+			"paramList": [{
+				"paramType": "irods::plugin_property_map &",
+				"paramName": "_props"
+			}]
+		}],
+		"groupName": "database"
+	}, {
+		"sigList": [{
+			"funcName": "network_socket_read",
+			"paramList": [{
+				"paramType": "int",
+				"paramName": "_socket"
+			}, {
+				"paramType": "void *",
+				"paramName": "_buffer"
+			}, {
+				"paramType": "int",
+				"paramName": "_length"
+			}, {
+				"paramType": "int &",
+				"paramName": "_bytes_read"
+			}, {
+				"paramType": "struct timeval *",
+				"paramName": "_time_value"
+			}]
+		}, {
+			"funcName": "network_socket_write",
+			"paramList": [{
+				"paramType": "int",
+				"paramName": "_socket"
+			}, {
+				"paramType": "void *",
+				"paramName": "_buffer"
+			}, {
+				"paramType": "int",
+				"paramName": "_length"
+			}, {
+				"paramType": "int &",
+				"paramName": "_bytes_written"
+			}]
+		}, {
+			"funcName": "network_start",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "network_end",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "network_shutdown",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "network_read_msg_header",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "void *",
+				"paramName": "_buffer"
+			}, {
+				"paramType": "struct timeval *",
+				"paramName": "_time_val"
+			}]
+		}, {
+			"funcName": "network_write_msg_header",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "_header"
+			}]
+		}, {
+			"funcName": "network_send_rods_msg",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_msg_type"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "_msg_buf"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "_stream_bbuf"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "_error_buf"
+			}, {
+				"paramType": "int",
+				"paramName": "_int_info"
+			}, {
+				"paramType": "irodsProt_t",
+				"paramName": "_protocol"
+			}]
+		}, {
+			"funcName": "network_read_msg_body",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "msgHeader_t *",
+				"paramName": "_header"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "_input_struct_buf"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "_bs_buf"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "_error_buf"
+			}, {
+				"paramType": "irodsProt_t",
+				"paramName": "_protocol"
+			}, {
+				"paramType": "struct timeval *",
+				"paramName": "_time_val"
+			}]
+		}, {
+			"funcName": "network_client_stop",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": ""
+			}, {
+				"paramType": "rodsEnv *",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "network_client_start",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "rodsEnv *",
+				"paramName": "_env"
+			}]
+		}, {
+			"funcName": "network_agent_stop",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "network_agent_start",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": ""
+			}]
+		}],
+		"groupName": "network"
+	}, {
+		"sigList": [{
+			"funcName": "api_auth_check",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "authCheckInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "authCheckOut"
+			}]
+		}, {
+			"funcName": "api_auth_plugin_request",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "int *",
+				"paramName": "_req_inp"
+			}, {
+				"paramType": "int **",
+				"paramName": "_req_out"
+			}]
+		}, {
+			"funcName": "api_auth_request",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "int **",
+				"paramName": "_req"
+			}]
+		}, {
+			"funcName": "api_auth_response",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "int *",
+				"paramName": "_resp"
+			}]
+		}, {
+			"funcName": "api_bulk_data_obj_put",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "bulkOprInp_t *",
+				"paramName": "bulkOprInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "bulkOprInpBBuf"
+			}]
+		}, {
+			"funcName": "api_bulk_data_obj_reg",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "genQueryOut_t *",
+				"paramName": "bulkDataObjRegInp"
+			}, {
+				"paramType": "genQueryOut_t **",
+				"paramName": "bulkDataObjRegOut"
+			}]
+		}, {
+			"funcName": "api_chk_nv_path_perm",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileOpenInp_t *",
+				"paramName": "chkNVPathPermInp"
+			}]
+		}, {
+			"funcName": "api_chk_nv_path_perm_by_host",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileOpenInp_t *",
+				"paramName": "chkNVPathPermInp"
+			}, {
+				"paramType": "rodsServerHost_t *",
+				"paramName": "rodsServerHost"
+			}]
+		}, {
+			"funcName": "api_chk_obj_perm_and_stat",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "chkObjPermAndStatInp"
+			}]
+		}, {
+			"funcName": "api_client_hints",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "_bbuf"
+			}]
+		}, {
+			"funcName": "api_close_collection",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": ""
+			}, {
+				"paramType": "int *",
+				"paramName": "handleInxInp"
+			}]
+		}, {
+			"funcName": "api_coll_create",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "collInp_t *",
+				"paramName": "collCreateInp"
+			}]
+		}, {
+			"funcName": "api_coll_repl",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "collInp_t *",
+				"paramName": "collReplInp"
+			}, {
+				"paramType": "collOprStat_t **",
+				"paramName": "collOprStat"
+			}]
+		}, {
+			"funcName": "api_data_copy",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataCopyInp_t *",
+				"paramName": "dataCopyInp"
+			}]
+		}, {
+			"funcName": "api_data_get",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataOprInp_t *",
+				"paramName": "dataOprInp"
+			}, {
+				"paramType": "portalOprOut_t **",
+				"paramName": "portalOprOut"
+			}]
+		}, {
+			"funcName": "api_data_obj_chksum",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjChksumInp"
+			}, {
+				"paramType": "char **",
+				"paramName": "outChksum"
+			}]
+		}, {
+			"funcName": "api_data_obj_close",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "openedDataObjInp_t *",
+				"paramName": "dataObjCloseInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_copy",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjCopyInp_t *",
+				"paramName": "dataObjCopyInp"
+			}, {
+				"paramType": "transferStat_t **",
+				"paramName": "transStat"
+			}]
+		}, {
+			"funcName": "api_data_obj_create",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_create_and_stat",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "openStat_t **",
+				"paramName": "openStat"
+			}]
+		}, {
+			"funcName": "api_data_obj_get",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "portalOprOut_t **",
+				"paramName": "portalOprOut"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "dataObjOutBBuf"
+			}]
+		}, {
+			"funcName": "api_data_obj_lock",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_unlock",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_lseek",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "openedDataObjInp_t *",
+				"paramName": "dataObjLseekInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "dataObjLseekOut"
+			}]
+		}, {
+			"funcName": "api_data_obj_open",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_open_and_stat",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "openStat_t **",
+				"paramName": "openStat"
+			}]
+		}, {
+			"funcName": "api_data_obj_phymv",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "transferStat_t **",
+				"paramName": "transStat"
+			}]
+		}, {
+			"funcName": "api_data_obj_put",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "dataObjInpBBuf"
+			}, {
+				"paramType": "portalOprOut_t **",
+				"paramName": "portalOprOut"
+			}]
+		}, {
+			"funcName": "api_data_obj_read",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "openedDataObjInp_t *",
+				"paramName": "dataObjReadInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "dataObjReadOutBBuf"
+			}]
+		}, {
+			"funcName": "api_data_obj_rename",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjCopyInp_t *",
+				"paramName": "dataObjRenameInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_repl",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "transferStat_t **",
+				"paramName": "transStat"
+			}]
+		}, {
+			"funcName": "api_repl_and_reque_data_obj_info",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInfo_t **",
+				"paramName": "srcDataObjInfoHead"
+			}, {
+				"paramType": "char *",
+				"paramName": "destRescName"
+			}, {
+				"paramType": "char *",
+				"paramName": "flagStr"
+			}]
+		}, {
+			"funcName": "api_data_obj_rsync",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "msParamArray_t **",
+				"paramName": "outParamArray"
+			}]
+		}, {
+			"funcName": "api_rsync_data_to_file",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_rsync_file_to_data",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_rsync_data_to_data",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_trim",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_truncate",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjTruncateInp"
+			}]
+		}, {
+			"funcName": "api_data_obj_unlink",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjUnlinkInp"
+			}]
+		}, {
+			"funcName": "api_mv_data_obj_to_trash",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "dataObjInfo_t **",
+				"paramName": "dataObjInfoHead"
+			}]
+		}, {
+			"funcName": "api_data_obj_write",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "openedDataObjInp_t *",
+				"paramName": "dataObjWriteInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "dataObjWriteInpBBuf"
+			}]
+		}, {
+			"funcName": "api_data_put",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataOprInp_t *",
+				"paramName": "dataOprInp"
+			}, {
+				"paramType": "portalOprOut_t **",
+				"paramName": "portalOprOut"
+			}]
+		}, {
+			"funcName": "api_end_transaction",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "endTransactionInp"
+			}]
+		}, {
+			"funcName": "api_exec_cmd",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "execCmd_t *",
+				"paramName": "execCmdInp"
+			}, {
+				"paramType": "execCmdOut_t **",
+				"paramName": "execCmdOut"
+			}]
+		}, {
+			"funcName": "api_exec_my_rule",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "int *",
+				"paramName": "_exec_inp"
+			}, {
+				"paramType": "msParamArray_t **",
+				"paramName": "_out_arr"
+			}]
+		}, {
+			"funcName": "api_exec_rule_expression",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "int *",
+				"paramName": "_exec_rule"
+			}]
+		}, {
+			"funcName": "api_file_chksum",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileChksumInp"
+			}, {
+				"paramType": "char **",
+				"paramName": "chksumStr"
+			}]
+		}, {
+			"funcName": "api_file_chmod",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileChmodInp"
+			}]
+		}, {
+			"funcName": "api_file_close",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileCloseInp"
+			}]
+		}, {
+			"funcName": "api_file_closedir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileClosedirInp"
+			}]
+		}, {
+			"funcName": "api_file_create",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileCreateInp_t *",
+				"paramName": "fileCreateInp"
+			}, {
+				"paramType": "fileCreateOut_t **",
+				"paramName": "_out"
+			}]
+		}, {
+			"funcName": "api_file_get",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileOpenInp_t *",
+				"paramName": "fileGetInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "fileGetOutBBuf"
+			}]
+		}, {
+			"funcName": "api_file_get_fs_free_space",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileGetFsFreeSpaceInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "fileGetFsFreeSpaceOut"
+			}]
+		}, {
+			"funcName": "api_file_lseek",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileLseekInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "fileLseekOut"
+			}]
+		}, {
+			"funcName": "api_file_mkdir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileMkdirInp"
+			}]
+		}, {
+			"funcName": "api_file_open",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileOpenInp_t *",
+				"paramName": "fileOpenInp"
+			}]
+		}, {
+			"funcName": "api_file_open_by_host",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileOpenInp_t *",
+				"paramName": "fileOpenInp"
+			}, {
+				"paramType": "rodsServerHost_t *",
+				"paramName": "rodsServerHost"
+			}]
+		}, {
+			"funcName": "api_file_opendir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileOpendirInp"
+			}]
+		}, {
+			"funcName": "api_file_put",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileOpenInp_t *",
+				"paramName": "filePutInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "filePutInpBBuf"
+			}, {
+				"paramType": "int **",
+				"paramName": "_put_out"
+			}]
+		}, {
+			"funcName": "api_file_read",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileReadInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "fileReadOutBBuf"
+			}]
+		}, {
+			"funcName": "api_file_readdir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileReaddirInp"
+			}, {
+				"paramType": "rodsDirent_t **",
+				"paramName": "fileReaddirOut"
+			}]
+		}, {
+			"funcName": "api_file_rename",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileRenameInp_t *",
+				"paramName": "fileRenameInp"
+			}, {
+				"paramType": "fileRenameOut_t **",
+				"paramName": "rename_out"
+			}]
+		}, {
+			"funcName": "api_file_rmdir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileRmdirInp"
+			}]
+		}, {
+			"funcName": "api_file_stage_to_cache",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileStageToCacheInp"
+			}]
+		}, {
+			"funcName": "api_file_stage_to_cache_by_host",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileStageToCacheInp"
+			}, {
+				"paramType": "rodsServerHost_t *",
+				"paramName": "rodsServerHost"
+			}]
+		}, {
+			"funcName": "api_file_stat",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileStatInp"
+			}, {
+				"paramType": "rodsStat_t **",
+				"paramName": "fileStatOut"
+			}]
+		}, {
+			"funcName": "api_file_stat_by_host",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileStatInp"
+			}, {
+				"paramType": "rodsStat_t **",
+				"paramName": "fileStatOut"
+			}, {
+				"paramType": "rodsServerHost_t *",
+				"paramName": "rodsServerHost"
+			}]
+		}, {
+			"funcName": "api_file_sync_to_arch",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileSyncToArchInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "sync_out"
+			}]
+		}, {
+			"funcName": "api_file_sync_to_arch_by_host",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileSyncToArchInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "sync_out"
+			}, {
+				"paramType": "rodsServerHost_t *",
+				"paramName": "rodsServerHost"
+			}]
+		}, {
+			"funcName": "api_file_truncate",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "fileOpenInp_t *",
+				"paramName": "fileTruncateInp"
+			}]
+		}, {
+			"funcName": "api_file_unlink",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileUnlinkInp"
+			}]
+		}, {
+			"funcName": "api_file_write",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "fileWriteInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "fileWriteInpBBuf"
+			}]
+		}, {
+			"funcName": "api_gen_query",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "genQueryInp_t *",
+				"paramName": "genQueryInp"
+			}, {
+				"paramType": "genQueryOut_t **",
+				"paramName": "genQueryOut"
+			}]
+		}, {
+			"funcName": "api_general_admin",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "generalAdminInp"
+			}]
+		}, {
+			"funcName": "api_general_row_insert",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "generalRowInsertInp"
+			}]
+		}, {
+			"funcName": "api_general_row_purge",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "generalRowPurgeInp"
+			}]
+		}, {
+			"funcName": "api_general_update",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "generalUpdateInp_t *",
+				"paramName": "generalUpdateInp"
+			}]
+		}, {
+			"funcName": "api_get_hier_from_leaf_id",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "int *",
+				"paramName": "_inp"
+			}, {
+				"paramType": "int **",
+				"paramName": "_out"
+			}]
+		}, {
+			"funcName": "api_get_hierarchy_for_resc",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "int *",
+				"paramName": "_inp"
+			}, {
+				"paramType": "int **",
+				"paramName": "_out"
+			}]
+		}, {
+			"funcName": "api_get_host_for_get",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "char **",
+				"paramName": "outHost"
+			}]
+		}, {
+			"funcName": "api_get_host_for_put",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "char **",
+				"paramName": "outHost"
+			}]
+		}, {
+			"funcName": "api_get_limited_password",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "getLimitedPasswordInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "getLimitedPasswordOut"
+			}]
+		}, {
+			"funcName": "api_get_misc_svr_info",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int **",
+				"paramName": "outSvrInfo"
+			}]
+		}, {
+			"funcName": "api_get_remote_zone_resc",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "rodsHostAddr_t **",
+				"paramName": "rescAddr"
+			}]
+		}, {
+			"funcName": "api_get_resc_quota",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "getRescQuotaInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "rescQuota"
+			}]
+		}, {
+			"funcName": "api_get_temp_password",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int **",
+				"paramName": "getTempPasswordOut"
+			}]
+		}, {
+			"funcName": "api_get_temp_password_for_other",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "getTempPasswordForOtherInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "getTempPasswordForOtherOut"
+			}]
+		}, {
+			"funcName": "api_get_xmsg_ticket",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": ""
+			}, {
+				"paramType": "getXmsgTicketInp_t *",
+				"paramName": "getXmsgTicketInp"
+			}, {
+				"paramType": "xmsgTicketInfo_t **",
+				"paramName": "outXmsgTicketInfo"
+			}]
+		}, {
+			"funcName": "api_ies_client_hints",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "_bbuf"
+			}]
+		}, {
+			"funcName": "api_l_3_file_get_single_buf",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "l1descInx"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "dataObjOutBBuf"
+			}]
+		}, {
+			"funcName": "api_l_3_file_put_single_buf",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "l1descInx"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "dataObjInBBuf"
+			}]
+		}, {
+			"funcName": "api_mod_avu_metadata",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "modAVUMetadataInp"
+			}]
+		}, {
+			"funcName": "api_mod_access_control",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "modAccessControlInp_t *",
+				"paramName": "modAccessControlInp"
+			}]
+		}, {
+			"funcName": "api_mod_coll",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "collInp_t *",
+				"paramName": "modCollInp"
+			}]
+		}, {
+			"funcName": "api_mod_data_obj_meta",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "modDataObjMetaInp"
+			}]
+		}, {
+			"funcName": "api_obj_stat",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "rodsObjStat_t **",
+				"paramName": "rodsObjStatOut"
+			}]
+		}, {
+			"funcName": "api_open_collection",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "collInp_t *",
+				"paramName": "openCollInp"
+			}]
+		}, {
+			"funcName": "api_opr_complete",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "retval"
+			}]
+		}, {
+			"funcName": "api_pam_auth_request",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "pamAuthRequestInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "pamAuthRequestOut"
+			}]
+		}, {
+			"funcName": "api_phy_bundle_coll",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "structFileExtAndRegInp_t *",
+				"paramName": "phyBundleCollInp"
+			}]
+		}, {
+			"funcName": "api_mk_bundle_path",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "char *",
+				"paramName": "collection"
+			}, {
+				"paramType": "char *",
+				"paramName": "bundlePath"
+			}, {
+				"paramType": "int",
+				"paramName": "myRanNum"
+			}]
+		}, {
+			"funcName": "api_phy_path_reg",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "phyPathRegInp"
+			}]
+		}, {
+			"funcName": "api_proc_stat",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "procStatInp"
+			}, {
+				"paramType": "genQueryOut_t **",
+				"paramName": "procStatOut"
+			}]
+		}, {
+			"funcName": "api_query_spec_coll",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "genQueryOut_t **",
+				"paramName": "genQueryOut"
+			}]
+		}, {
+			"funcName": "api_rcv_xmsg",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": ""
+			}, {
+				"paramType": "rcvXmsgInp_t *",
+				"paramName": "rcvXmsgInp"
+			}, {
+				"paramType": "rcvXmsgOut_t **",
+				"paramName": "rcvXmsgOut"
+			}]
+		}, {
+			"funcName": "api_read_collection",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": ""
+			}, {
+				"paramType": "int *",
+				"paramName": "handleInxInp"
+			}, {
+				"paramType": "collEnt_t **",
+				"paramName": "collEnt"
+			}]
+		}, {
+			"funcName": "api_reg_coll",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "collInp_t *",
+				"paramName": "regCollInp"
+			}]
+		}, {
+			"funcName": "api_reg_data_obj",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInfo_t *",
+				"paramName": "dataObjInfo"
+			}, {
+				"paramType": "dataObjInfo_t **",
+				"paramName": "outDataObjInfo"
+			}]
+		}, {
+			"funcName": "api_reg_replica",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "regReplicaInp"
+			}]
+		}, {
+			"funcName": "api_rm_coll",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "collInp_t *",
+				"paramName": "rmCollInp"
+			}, {
+				"paramType": "collOprStat_t **",
+				"paramName": "collOprStat"
+			}]
+		}, {
+			"funcName": "api_mk_trash_path",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "char *",
+				"paramName": "objPath"
+			}, {
+				"paramType": "char *",
+				"paramName": "trashPath"
+			}]
+		}, {
+			"funcName": "api_mv_coll_to_trash",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "collInp_t *",
+				"paramName": "rmCollInp"
+			}]
+		}, {
+			"funcName": "api_rule_exec_del",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "ruleExecDelInp_t *",
+				"paramName": "ruleExecDelInp"
+			}]
+		}, {
+			"funcName": "api_rule_exec_mod",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "ruleExecModInp"
+			}]
+		}, {
+			"funcName": "api_rule_exec_submit",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "ruleExecSubmitInp_t *",
+				"paramName": "ruleExecSubmitInp"
+			}, {
+				"paramType": "char **",
+				"paramName": "ruleExecId"
+			}]
+		}, {
+			"funcName": "api_send_xmsg",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "sendXmsgInp_t *",
+				"paramName": "sendXmsgInp"
+			}]
+		}, {
+			"funcName": "api_server_report",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "_bbuf"
+			}]
+		}, {
+			"funcName": "api_set_round_robin_context",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "int *",
+				"paramName": "_inp"
+			}]
+		}, {
+			"funcName": "api_simple_query",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "simpleQueryInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "simpleQueryOut"
+			}]
+		}, {
+			"funcName": "api_specific_query",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "specificQueryInp_t *",
+				"paramName": "specificQueryInp"
+			}, {
+				"paramType": "genQueryOut_t **",
+				"paramName": "genQueryOut"
+			}]
+		}, {
+			"funcName": "api_ssl_end",
+			"paramList": [{
+				"paramType": "int *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "api_ssl_start",
+			"paramList": [{
+				"paramType": "int *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": ""
+			}]
+		}, {
+			"funcName": "api_stream_close",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "streamCloseInp"
+			}]
+		}, {
+			"funcName": "api_stream_read",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "streamReadInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "streamReadOutBBuf"
+			}]
+		}, {
+			"funcName": "api_struct_file_bundle",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "structFileExtAndRegInp_t *",
+				"paramName": "structFileBundleInp"
+			}]
+		}, {
+			"funcName": "api_struct_file_ext_and_reg",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "structFileExtAndRegInp_t *",
+				"paramName": "structFileExtAndRegInp"
+			}]
+		}, {
+			"funcName": "api_struct_file_extract",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "structFileOprInp_t *",
+				"paramName": "structFileOprInp"
+			}]
+		}, {
+			"funcName": "api_struct_file_sync",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "structFileOprInp_t *",
+				"paramName": "structFileOprInp"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_close",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subStructFileFdOprInp_t *",
+				"paramName": "subStructFileCloseInp"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_closedir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subStructFileFdOprInp_t *",
+				"paramName": "subStructFileClosedirInp"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_create",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_get",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "subFileGetOutBBuf"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_lseek",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "subStructFileLseekInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "subStructFileLseekOut"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_mkdir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_open",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_opendir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_put",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "subFilePutOutBBuf"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_read",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subStructFileFdOprInp_t *",
+				"paramName": "subStructFileReadInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "subStructFileReadOutBBuf"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_readdir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subStructFileFdOprInp_t *",
+				"paramName": "subStructFileReaddirInp"
+			}, {
+				"paramType": "rodsDirent_t **",
+				"paramName": "rodsDirent"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_rename",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "subStructFileRenameInp"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_rmdir",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_stat",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}, {
+				"paramType": "rodsStat_t **",
+				"paramName": "subStructFileStatOut"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_truncate",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_unlink",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subFile_t *",
+				"paramName": "subFile"
+			}]
+		}, {
+			"funcName": "api_sub_struct_file_write",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "subStructFileFdOprInp_t *",
+				"paramName": "subStructFileWriteInp"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "subStructFileWriteOutBBuf"
+			}]
+		}, {
+			"funcName": "api_sync_mounted_coll",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "syncMountedCollInp"
+			}]
+		}, {
+			"funcName": "api_ticket_admin",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "ticketAdminInp"
+			}]
+		}, {
+			"funcName": "api_unbun_and_reg_phy_bunfile",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}]
+		}, {
+			"funcName": "api_unreg_data_obj",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "unregDataObjInp"
+			}]
+		}, {
+			"funcName": "api_user_admin",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "int *",
+				"paramName": "userAdminInp"
+			}]
+		}, {
+			"funcName": "api_zone_report",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "_bbuf"
+			}]
+		}],
+		"groupName": "api"
+	}]
+}
