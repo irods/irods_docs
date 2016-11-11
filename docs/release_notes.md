@@ -1,5 +1,3 @@
-# Release Notes
-
 ## 4.2.0
 
 Release Date: 2016-11-11

@@ -1,5 +1,3 @@
-# Distributing iCommands to Users
-
 If your user community does not have root access to their machines, distributing a set of iCommands they can run is very desirable. This document discusses how to build, bundle and configure the iCommands for use by such a user.
 
 ## Building the iCommands

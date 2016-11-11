@@ -1,5 +1,3 @@
-# Backing Up
-
 Backing up iRODS involves: The data, the iRODS system and configuration files, and the iCAT database itself.
 
 Configuration and maintenance of this type of backup system is out of scope for this document, but is included here as an indication of best practice.

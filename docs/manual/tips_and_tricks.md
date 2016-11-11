@@ -1,5 +1,3 @@
-# Tips and Tricks
-
 ## Confirming checksums
 
 The value reported by `ils -L` for a sha2 checksum is the base64 encoded sha256 checksum.

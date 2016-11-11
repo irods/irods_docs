@@ -1,5 +1,3 @@
-# Installation
-
 iRODS is provided in binary form in a collection of interdependent packages.
 
 An iRODS server has a 'catalog_service_role' and can be configured as either a 'provider' or a 'consumer'.  These two roles take the place of the previous

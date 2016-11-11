@@ -1,5 +1,3 @@
-# Developer Information
-
 ## Client Libraries
 
 C/C++ - [Doxygen](doxygen/group__clientAPI.html)

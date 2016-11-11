@@ -1,5 +1,3 @@
-# Pluggable Database
-
 The iRODS metadata catalog is installed and managed by separate plugins.  iRODS has PostgreSQL, MySQL, and Oracle database plugins available and tested.
 
 The particular type of database is encoded in `/etc/irods/database_config.json` with the following directive:

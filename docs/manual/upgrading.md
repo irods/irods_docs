@@ -1,5 +1,3 @@
-# Upgrading
-
 Upgrading is handled by the host Operating System via the package manager.  Depending on your package manager, your config files will have been preserved with your local changes since the last installation.  Please see [Changing the zone_key and negotiation_key](installation.md#changing-the-zone_key-and-negotiation_key) for information on server-server authentication.
 
 All servers in a Zone must be running the same version of iRODS.  Using inconsistent versions within a Zone may work, but is not rigorously tested.  First, upgrade the iCAT server, then upgrade all the Resource servers.

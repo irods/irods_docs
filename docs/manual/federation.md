@@ -1,5 +1,3 @@
-# Zone Federation
-
 iRODS Zones are independent administrative units.  When federated, users of one Zone may grant access to authenticated users from the other Zone on some of their dataObjects, Collections, and Metadata.  Each Zone will authenticate its own users before a Federated Zone will allow access.  User passwords are never exchanged between Zones.
 
 Primary reasons for using Zone Federation include:

@@ -1,5 +1,3 @@
-# Legacy Release Notes
-
 ## 3.3.1
 
 Release Date: 2014-02-24
@@ -79,7 +77,7 @@ Release Date: 2013-07-17
 
 The following is a brief summary of the additions and improvements made to iRODS 3.3 compared to the previous version, 3.2.
 
-As usual, this release contains many new features developed in response to needs expressed by the user community and which supplement the base iRODS functionality in various ways. Each is very important to some sites but may be unneeded by others and can be configured and used as needed. 
+As usual, this release contains many new features developed in response to needs expressed by the user community and which supplement the base iRODS functionality in various ways. Each is very important to some sites but may be unneeded by others and can be configured and used as needed.
 
 ### New Features
 
@@ -241,7 +239,7 @@ Release Date: 2012-03-16
 
 The following is a brief summary of the additions and improvements made to iRODS 3.1 compared to the previous version, 3.0.
 
-As usual, this release contains many new features developed in response to needs expressed by the user community and which supplement the base iRODS functionality in various ways. Each is very important to some sites but may be unneeded by others and can be configured and used as needed. 
+As usual, this release contains many new features developed in response to needs expressed by the user community and which supplement the base iRODS functionality in various ways. Each is very important to some sites but may be unneeded by others and can be configured and used as needed.
 
 ### Major New Features
 
@@ -317,7 +315,7 @@ This completed 3.0 version includes a few bug fixes and other improvements over 
 
 The following is a brief summary of the additions and improvements made to iRODS 3.0 compared to the previous version, 2.5.
 
-As usual, this release contains many new features developed in response to needs expressed by the user community and which supplement the base iRODS functionality in various ways. Each is very important to some sites but may be unneeded by others and can be configured and used as needed. 
+As usual, this release contains many new features developed in response to needs expressed by the user community and which supplement the base iRODS functionality in various ways. Each is very important to some sites but may be unneeded by others and can be configured and used as needed.
 
 ### Major New Features
 
@@ -401,7 +399,7 @@ Release Date: 2011-02-24
 
 The following is a brief summary of the additions and improvements made to iRODS 2.5 compared to the previous version, 2.4.1.
 
-As usual, this release contains many new features developed in response to needs expressed by the user community and which supplement the base iRODS functionality in various ways. Each is very important to some sites but may be unneeded by others and can be configured and used as needed. 
+As usual, this release contains many new features developed in response to needs expressed by the user community and which supplement the base iRODS functionality in various ways. Each is very important to some sites but may be unneeded by others and can be configured and used as needed.
 
 ### New Features
 

@@ -1,5 +1,3 @@
-# Pluggable Rule Engine
-
 iRODS 4.2+ introduced the iRODS rule engine plugin interface.  This plugin interface allows iRODS administrators and users to write iRODS policy rules in languages other than the [legacy iRODS Rule Language](irods_rule_language.md).
 
 Rule engine plugins are written in C++, installed on a particular iRODS server, and configured in that server's `server_config.json`.
@@ -35,11 +33,11 @@ Within the rule engine plugin framework, there is a dynamically created policy e
 
 The framework will look for rules that are defined with the same name as the PEP and execute them if found.  A typical `ils` will trigger over 1200 dynamic PEPs on a basic installation.  Nearly all of them will be undefined (there is no rule that matches their name) and so will not run any code.
 
-![Rule Engine Plugin Framework Diagram](../rule_engine_plugin_framework_diagram.jpg)
-
 However, any that *do* match a particular PEP will be executed in the order in which they are loaded.  If there is only one matching rule, then it will fire and its return code will be interpreted by the REPF.  If it fails, then the operation fails as well and an error is returned to the client (or to the log when run by the [delay execution server](#delay-execution).)
 
 If there is more than one matching rule for a particular PEP, the first one loaded will fire first.  If it succeeds, then the others are ignored.  If the first one fails, then the next matching rule is fired.  If it fails, then the framework will continue to "fall through" until there are no more matching rules.  The return code of the last matching rule will be the one that is returned.
+
+![Rule Engine Plugin Framework Diagram](../rule_engine_plugin_framework_diagram.jpg)
 
 This "fall through" mechanism also applies across rule engine plugins (meaning, across language as well).
 

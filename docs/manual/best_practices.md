@@ -1,4 +1,3 @@
-# Best Practices
 
 ## Naming Conventions
 

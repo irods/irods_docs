@@ -1,4 +1,4 @@
-site_name: iRODS
+site_name: iRODS Docs
 repo_url: https://github.com/irods/irods_docs
 site_description: Control Your Data
 site_author: iRODS Consortium
@@ -20,12 +20,14 @@ markdown_extensions:
 
 
 pages:
- - 'index.md'
+ - Home: 'index.md'
  - Why iRODS?: 'why_irods.md'
- - Releases:
-    - Release Notes: 'release_notes.md'
-    - Legacy Release Notes: 'legacy_release_notes.md'
- - 'developers.md'
+ - Release Notes: 'release_notes.md'
+ - Developers: 'developers.md'
+ - Getting Started:
+    - Download: 'manual/download.md'
+    - Installation: 'manual/installation.md'
+    - Upgrading: 'manual/upgrading.md'
  - Plugins:
     - Plugin Interfaces: 'plugins/plugin_interfaces.md'
     - Pluggable Microservices: 'plugins/pluggable_microservices.md'
@@ -37,20 +39,17 @@ pages:
     - Pluggable Rule Engine: 'plugins/pluggable_rule_engine.md'
     - Dynamic Policy Enforcement Points: 'plugins/dynamic_policy_enforcement_points.md'
     - iRODS Rule Language: 'plugins/irods_rule_language.md'
- - Manual:
-    - 'manual/download.md'
-    - 'manual/installation.md'
-    - 'manual/upgrading.md'
-    - 'manual/configuration.md'
+ - System Overview:
+    - Process Model: 'manual/process_model.md'
+    - Control Plane: 'manual/control_plane.md'
+    - Configuration: 'manual/configuration.md'
     - Users & Permissions: 'manual/users_and_permissions.md'
     - Backing Up: 'manual/backing_up.md'
-    - 'manual/federation.md'
-    - Control Plane: 'manual/control_plane.md'
-    - Process Model: 'manual/process_model.md'
+    - Federation: 'manual/federation.md'
     - Distributing iCommands: 'manual/distributing_icommands.md'
-    - 'manual/glossary.md'
+    - Glossary: 'manual/glossary.md'
     - Best Practices: 'manual/best_practices.md'
-    - 'manual/troubleshooting.md'
+    - Troubleshooting: 'manual/troubleshooting.md'
     - Tips and Tricks: 'manual/tips_and_tricks.md'
  - iCommands:
     - 'icommands/administrator.md'
@@ -58,6 +57,6 @@ pages:
     - 'icommands/metadata.md'
     - 'icommands/tickets.md'
     - 'icommands/groupadmin.md'
- - Doxygen:
-    - 'doxygen/index.html'
+ - Doxygen: 'doxygen/index.html'
+ - Legacy Release Notes: 'legacy_release_notes.md'
 

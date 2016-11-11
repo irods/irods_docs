@@ -1,5 +1,3 @@
-# Why iRODS?
-
 ## Key Data Management Tasks and iRODS
 
 iRODS, the Integrated Rule-Oriented Data System, is a state-of-the-art open

@@ -1,5 +1,3 @@
-# Troubleshooting
-
 Some of the commonly encountered iRODS errors along with troubleshooting steps are discussed below.
 
 ## The Server Log (rodsLog)

@@ -1,5 +1,3 @@
-# Composable Resources
-
 The second area of modularity to be added to iRODS 4.0+ consists of composable resources.  Composable resources replace the concept of resource groups from iRODS 3.x.  There are no resource groups in iRODS 4.0+.
 
 ## Tree Metaphor
@@ -62,7 +60,7 @@ Read more about [Composable Resources](https://irods.org/2013/02/e-irods-composa
 
 Coordinating resources contain the flow control logic which determines both how its child resources will be allocated copies of data as well as which copy is returned when a Data Object is requested.  There are several types of coordinating resources: compound, random, replication, round robin, passthru, and some additional types that are expected in the future.  Each is discussed in more detail below.
 
-### Compound
+#### Compound
 
 The compound resource is a continuation of the legacy compound resource type from iRODS 3.x.
 
@@ -340,11 +338,9 @@ Child is the name of the child resource.
 
 Creating a composite resource consists of creating the individual nodes of the desired tree structure and then connecting the parent and children nodes.
 
-### Example 1
+![example tree](../example1-tree.png)
 
-![example1 tree](../example1-tree.png)
-
-**Example 1:** Replicates Data Objects to three locations
+**Example:** Replicates Data Objects to three locations
 
 A replicating coordinating resource with three unix file system storage resources as children would be composed with seven (7) iadmin commands:
 

@@ -46,9 +46,6 @@ legend {
     font-weight: bold;
     color: #222222;
 }
-h3 {
-    font-size: 26px
-}
 @font-face {
     font-family: 'tristram';
     src: url('./fonts/AvenirNext-Regular.woff') format('woff');
@@ -79,10 +76,6 @@ h3 {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale
 }
-nav.stickynav {
-    padding: 60px 0px 0px 0px;
-    z-index: 0;
-}
 a {
     color: #18bc9c;
     text-decoration: none
@@ -105,9 +98,24 @@ a:hover {
     color: #fcfcfc;
     margin-bottom: 0.809em
 }
-.wy-nav-content-wrap {
-    padding: 60px 0px 0px 0px;
-}
 .wy-grid-for-nav {
     z-index: 0;
 }
+.wy-menu-vertical li.current a.toctree-l4 {
+    padding-left: 50px
+}
+.wy-menu-vertical .subnav li.current > ul li a.toctree-l4 {
+    padding-left: 65px
+}
+
+
+/* Navigation */
+/*
+.wy-nav-content-wrap {   
+    padding: 60px 0px 0px 0px;
+}
+nav.stickynav {
+    padding: 60px 0px 0px 0px;
+    z-index: 0;
+}
+*/

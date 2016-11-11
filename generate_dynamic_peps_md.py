@@ -13,3 +13,8 @@ for g in d["sigGroupList"]:
         print("<tr><td>pep_{0}_pre</td><td>{1}</td></tr>").format(f["funcName"],params)
         print("<tr><td>pep_{0}_post</td><td>{1}</td></tr>").format(f["funcName"],params)
     print('</table>')
+
+print('### microservices')
+print('<table>')
+print('<tr><td colspan="2">Microservice plugins are not wrapped with dynamic policy enforcement points.</td></tr>')
+print('</table>')

@@ -1,5 +1,3 @@
-# Pluggable Network
-
 iRODS now ships with both TCP and SSL network plugins enabled.  The SSL mechanism is provided via OpenSSL and wraps the activity from the TCP plugin.
 
 The SSL parameters are tunable via the following `irods_environment.json` variables:
