@@ -1,3 +1,10 @@
+If your user community does not have root access to their machines, distributing a set of iCommands they can run is very desirable.
+
+However, this functionality has not yet been ported to 4.2+.  If you need this capability, do not upgrade to 4.2 yet.
+
+
+<!-- PLACEHOLDER COMMENT ONCE THIS CAPABILITY RETURNS TO 4.2+
+
 If your user community does not have root access to their machines, distributing a set of iCommands they can run is very desirable. This document discusses how to build, bundle and configure the iCommands for use by such a user.
 
 ## Building the iCommands
@@ -80,3 +87,5 @@ joe_user:~$ ils
 It is also important to remember there are many other additional parameters available for configuration:
 
   - [https://github.com/irods/irods_schema_configuration](https://github.com/irods/irods_schema_configuration)
+
+-->
