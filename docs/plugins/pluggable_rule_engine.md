@@ -254,7 +254,7 @@ remote("farawayicat.example.org","<ZONE>DifferentZone</ZONE>") {
 }
 ~~~
 
-The best practice for using both `delay()` and `remote()` [depends on the use case](../manual/best_practices.md#using-both-delay-and-remote-execution).
+The best practice for using both `delay()` and `remote()` [depends on the use case](../system_overview/best_practices.md#using-both-delay-and-remote-execution).
 
 
 <!--

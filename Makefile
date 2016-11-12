@@ -51,6 +51,4 @@ clean :
 	@rm -rf ${IRODSTARGET} ${DOXYGENTARGET} ${VENVTARGET}
 	@rm -rf ${DOCS_SOURCE_DIR}/doxygen
 	@rm -rf ${DOCS_SOURCE_DIR}/icommands
-	@rm -rf ${DOCS_SOURCE_DIR}/op-*.mdpp
-	@rm -rf ${DOCS_SOURCE_DIR}/plugins/plugin_interfaces.md
 	@rm -rf ${DOCS_SOURCE_DIR}/plugins/rule_engine_plugin_framework.md

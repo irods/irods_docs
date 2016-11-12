@@ -180,6 +180,19 @@ Nov  1 11:30:25 pid:11650 NOTICE: setupSrvPortal: listen failed, errno: 98
 
 This occurs when the server is hitting resource contention and may indicate that the server needs a larger parallel transfer port range defined in `server_config.json` (the default is 20000-20199).
 
+## Dynamic PEP Signature Mismatches
+
+When writing dynamic PEPs, getting the signature wrong will provide a hint in the rodsLog:
+
+```
+Nov 12 09:57:30 pid:25245 DEBUG: error: cannot find rule for action "pep_resource_resolve_hierarchy_pre" available: 103.
+line 0, col 0
+pep_resource_resolve_hierarchy_pre(*ARG0,*ARG1,*ARG2,*ARG3,*ARG4,*ARG5,*ARG6)
+^
+```
+
+This explains that `pep_resource_resolve_hierarchy_pre` expects exactly seven arguments.  Please check the [Available Dynamic PEP](../plugins/dynamic_policy_enforcement_points.md#available-dynamic-peps) tables to see what those arguments should be for the PEP you are trying to implement.
+
 ## Using 3.x iCommands with a 4.0+ iRODS Server
 
 3.x iCommands retain basic functionality when speaking with a 4.0+ iRODS Server.

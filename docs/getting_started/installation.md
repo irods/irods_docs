@@ -298,7 +298,7 @@ iRODS 4.1+ servers use the `zone_key` and `negotiation_key` to mutually authenti
 "negotiation_key":   "32_byte_server_negotiation_key__",
 ~~~
 
-The `zone_key` can be up to 49 alphanumeric characters long and cannot include a hyphen.  The 'negotiation_key' must be exactly 32 alphanumeric bytes long.  These values need to be the same on all servers in the same Zone, or they will not be able to authenticate (see [Server Authentication](federation.md#server-authentication) for more information).
+The `zone_key` can be up to 49 alphanumeric characters long and cannot include a hyphen.  The 'negotiation_key' must be exactly 32 alphanumeric bytes long.  These values need to be the same on all servers in the same Zone, or they will not be able to authenticate (see [Server Authentication](../system_overview/federation.md#server-authentication) for more information).
 
 The following error will be logged if a negotiation_key is missing:
 

@@ -1,30 +1,44 @@
 ## 4.2.0
 
-Release Date: 2016-11-11
-
-- control scripts all in python
-- schemas pulled back into the source
-- forking, no more process per connection
-- rule engine components renamed
-
+Release Date: 2016-11-12
 
 ### Notable Features
 
- - First Class API Plugins (dynamic PEPs for every operation)
+  - Pluggable Rule Engine - Seventh plugin interface now supports writing rule engines for any language. The iRODS Rule Language has been moved to a plugin, alongside a default policy C++ rule engine.
 
- - Pluggable Rule Engine
+  - First Class API Plugins - Enabling dynamic policy enforcement points (PEPs) and full parameter serializaation for every plugin operation
 
-- Refactored build system - CMake, Clang, APT/YUM repositories
+  - Refactored build system - CMake, Clang, APT/YUM repositories
 
+    - CMake - Now a standard CMake project, much more developer friendly
 
+    - Clang - All supported platforms now building the C++14 codebase
 
-### Notable Bug Fixes
+    - Packages separated - Cleaner dependencies, dev and runtime ready for developers
 
- - Delicious
+    - APT/YUM Repositories - Packages now hosted at RENCI, making installations and upgrades much easier
+
+  - All control scripts in Python - Reusable module, reduced codepaths
+
+  - New process model - Two long running processes to amortize dynamic linking startup cost
+
+  - Configuration schemas now included - Default setups will no longer need a public network connection for validation
+
+### Notes
+
+ - iCommands pulled into a separate client repository
+
+ - Fuse pulled into a separate client repository
+
+ - idbug removed
+
+ - iphybun, ixmsg, irodsXmsgServer marked as deprecated
+
+ - Resource hierarchies refactored to use IDs - Upgrades will experience a one-time full table scan whereby all data objects are updated.  A 10M data object lab test installation took 13 minutes.  100M data objects are estimated to take 2-3 hours to update.
 
 ### Other Issues
 
-[Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.0)
+ - [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.0)
 
 ## 4.1.10
 
@@ -36,11 +50,11 @@ Release Date: 2016-11-04
 
 !!! Note
     Upgrading to 4.1.10 will not automatically add the two new static PEPs
-    to core.re.  To avoid spurious DEBUG messages, add the following two
+    to `core.re`.  To avoid spurious DEBUG messages, add the following two
     empty definitions to core.re:
 
-    acPostProcForParallelTransferReceived(\*leaf_resource) {}
-    acPostProcForDataCopyReceived(\*leaf_resource) {}
+    - acPostProcForParallelTransferReceived(\*leaf_resource) {}
+    - acPostProcForDataCopyReceived(\*leaf_resource) {}
 
 !!! Note
     This updated feature (along with [#3306]) changes the optional

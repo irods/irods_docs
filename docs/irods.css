@@ -107,7 +107,9 @@ a:hover {
 .wy-menu-vertical .subnav li.current > ul li a.toctree-l4 {
     padding-left: 65px
 }
-
+.wy-table thead th, .rst-content table.docutils thead th, .rst-content table.field-list thead th {
+    background-color: rgba(24, 188, 156, 0.28);
+}
 
 /* Navigation */
 /*

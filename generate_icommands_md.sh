@@ -9,7 +9,6 @@ mkdir -p $TARGETDIR
 
 TARGETFILE=$TARGETDIR/user.$SUFFIX
 echo > $TARGETFILE
-echo "# iCommands - User" >> $TARGETFILE
 
 ihelp -a | grep "iRODS Version " | awk '{print $4}' | while read x ; do
 
@@ -17,7 +16,6 @@ ihelp -a | grep "iRODS Version " | awk '{print $4}' | while read x ; do
     # iadmin has subcommands
     TARGETFILE=$TARGETDIR/administrator.$SUFFIX
     echo > $TARGETFILE
-    echo "# iCommands - Administrator" >> $TARGETFILE
     echo "# $x" >> $TARGETFILE
     echo "<pre>" >> $TARGETFILE
     ihelp $x | sed \$d >> $TARGETFILE
@@ -34,7 +32,6 @@ ihelp -a | grep "iRODS Version " | awk '{print $4}' | while read x ; do
     # imeta has subcommands
     TARGETFILE=$TARGETDIR/metadata.$SUFFIX
     echo > $TARGETFILE
-    echo "# iCommands - Metadata" >> $TARGETFILE
     echo "# $x" >> $TARGETFILE
     echo "<pre>" >> $TARGETFILE
     ihelp $x | sed \$d >> $TARGETFILE
@@ -51,7 +48,6 @@ ihelp -a | grep "iRODS Version " | awk '{print $4}' | while read x ; do
     # igroupadmin has subcommands
     TARGETFILE=$TARGETDIR/groupadmin.$SUFFIX
     echo > $TARGETFILE
-    echo "# iCommands - Group Admin" >> $TARGETFILE
     echo "# $x" >> $TARGETFILE
     echo "<pre>" >> $TARGETFILE
     ihelp $x | sed \$d >> $TARGETFILE
@@ -68,7 +64,6 @@ ihelp -a | grep "iRODS Version " | awk '{print $4}' | while read x ; do
     # iticket has subcommands
     TARGETFILE=$TARGETDIR/tickets.$SUFFIX
     echo > $TARGETFILE
-    echo "# iCommands - Tickets" >> $TARGETFILE
     echo "# $x" >> $TARGETFILE
     echo "<pre>" >> $TARGETFILE
     ihelp $x | sed \$d >> $TARGETFILE

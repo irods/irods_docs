@@ -118,6 +118,7 @@ An example of the five variables and their resolved values are shown here:
 </table>
 
 
+Any [PEP signature mismatches](../system_overview/troubleshooting.md#dynamic-pep-signature-mismatches) will appear in the rodsLog.  Please check the tables below for the correct arguments.
 
 ## Available Dynamic PEPs
 

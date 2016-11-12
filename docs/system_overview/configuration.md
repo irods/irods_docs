@@ -17,19 +17,19 @@ This file contains the following top level entries:
 
   - `advanced_settings` (required) - Contains subtle network and password related variables.  These values should be changed only in concert with all connecting clients and other servers in the Zone.
 
-    - `default_number_of_transfer_threads` (optional) (default 4) - The number of threads enabled when parallel transfer is invoked.
+    - `default_number_of_transfer_threads` (required) (default 4) - The number of threads enabled when parallel transfer is invoked.
 
-    - `default_temporary_password_lifetime_in_seconds` (optional) (default 120) - The number of seconds a server-side temporary password is good.
+    - `default_temporary_password_lifetime_in_seconds` (required) (default 120) - The number of seconds a server-side temporary password is good.
 
-    - `maximum_number_of_concurrent_rule_engine_server_processes` (optional) (default 4)
+    - `maximum_number_of_concurrent_rule_engine_server_processes` (required) (default 4)
 
-    - `maximum_size_for_single_buffer_in_megabytes` (optional) (default 32)
+    - `maximum_size_for_single_buffer_in_megabytes` (required) (default 32)
 
-    - `maximum_temporary_password_lifetime_in_seconds` (optional) (default 1000)
+    - `maximum_temporary_password_lifetime_in_seconds` (required) (default 1000)
 
-    - `transfer_buffer_size_for_parallel_transfer_in_megabytes` (optional) (default 4)
+    - `transfer_buffer_size_for_parallel_transfer_in_megabytes` (required) (default 4)
 
-    - `transfer_chunk_size_for_parallel_transfer_in_megabytes` (optional) (default 40)
+    - `transfer_chunk_size_for_parallel_transfer_in_megabytes` (required) (default 40)
 
   - `default_dir_mode` (required) (default "0750") - The unix filesystem octal mode for a newly created directory within a resource vault
 
