@@ -94,6 +94,14 @@ When anotherZone users connect, the system will then confirm that anotherZone's 
 
 Mutual authentication between servers is always on across Federations.
 
+### Catalog Service Consumers and Federation
+
+If a local Zone's user needs to connect to a Catalog Service Consumer, rather than the local Zone's Catalog Service Provider, then the server in the consumer role will also need to have a federation stanza defined in its own `server_config.json`.  It will need to be identical to the stanza on the Catalog Service Provider.
+
+Both servers will then be able to service local Zone user connections that will be redirected across the Federation into the defined remote Zone.
+
+Not having this required additional stanza will likely result in a `REMOTE_SERVER_SID_NOT_DEFINED` error.
+
 ## Federation with iRODS 3.x
 
 iRODS 4.0+ has made some additions to the database tables for the resources (`r_resc_main`) and Data Objects (`r_data_main`) for the purposes of tracking resource hierarchy, children, parents, and other relationships.  These changes would have caused a cross-zone query to fail when the target zone is iRODS 3.x.
