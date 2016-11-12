@@ -166,6 +166,8 @@ irods@hostname:~/ $ iadmin modresc newResc context 'write=0.4;read=1.0'
 
 A passthru resource can have one and only one child.
 
+Nondeterministic behavior will occur if a passthru resource is configured with more than one child.  The plugin will take action on whichever child is returned by the catalog.
+
 ### Expected
 
 A few other coordinating resource types have been brainstormed but are not functional at this time:
