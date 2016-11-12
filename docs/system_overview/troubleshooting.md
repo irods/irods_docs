@@ -180,6 +180,14 @@ Nov  1 11:30:25 pid:11650 NOTICE: setupSrvPortal: listen failed, errno: 98
 
 This occurs when the server is hitting resource contention and may indicate that the server needs a larger parallel transfer port range defined in `server_config.json` (the default is 20000-20199).
 
+## Schema Validation Warnings
+
+To enable validation on Ubuntu 12, install the `jsonschema` module via Python's pip:
+
+```
+sudo pip install jsonschema
+```
+
 ## Dynamic PEP Signature Mismatches
 
 When writing dynamic PEPs, getting the signature wrong will provide a hint in the rodsLog:
