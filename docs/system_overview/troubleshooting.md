@@ -211,3 +211,12 @@ This is largely due to the SSL handshaking and resource hierarchies in 4.0+.
 
 It is recommended to use the supported iCommands from 4.0+.
 
+## Connecting to Oracle via ODBC on CentOS
+
+There is a [documented problem with Oracle's ODBC driver on CentOS](https://bugzilla.redhat.com/show_bug.cgi?id=498311).
+
+As a workaround, a symlink must be created on the Catalog Service Provider:
+
+```
+sudo ln -s /usr/lib64/libodbcinst.so.2 /usr/lib64/libodbcinst.so.1
+```
