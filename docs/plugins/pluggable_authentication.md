@@ -353,6 +353,15 @@ Or this file could just contain the root CA certificate for a CA-signed server c
 
 Then, the client library will only require certificate validation, but will not check that the hostname of the iRODS server matches the hostname(s) embedded within the certificate.
 
+### Encryption Settings
+
+The following SSL encryption settings are required in `irods_environment.json` on both sides of the connection (client and server) and the values must match:
+
+ - `irods_encryption_algorithm` (required) - EVP-supplied encryption algorithm for parallel transfer encryption
+ - `irods_encryption_key_size` (required) - Key size for parallel transfer encryption
+ - `irods_encryption_num_hash_rounds` (required) - Number of hash rounds for parallel transfer encryption
+ - `irods_encryption_salt_size` (required) - Salt size for parallel transfer encryption
+
 ### Environment Variables
 
 All the `irods_environment.json` properties used by the SSL support (both server and client side) are listed below:
