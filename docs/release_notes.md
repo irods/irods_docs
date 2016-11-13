@@ -42,8 +42,9 @@ Release Date: 2016-11-13
 
  - Resource hierarchies refactored to use IDs - Upgrades will experience a one-time full table scan whereby all data objects are updated.  A 10M data object lab test installation took 13 minutes.  100M data objects are estimated to take 2-3 hours to update.
 
- - Run-In-Place now a first clas
  - [Distributing iCommands](system_overview/distributing_icommands.md) to users who do not have root is not yet supported for 4.2. It will be included again in a later release.
+
+ - Quieter rodsLog during normal operations
 
 ### Other Issues
 
