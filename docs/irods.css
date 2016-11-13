@@ -110,10 +110,13 @@ a:hover {
 .wy-table thead th, .rst-content table.docutils thead th, .rst-content table.field-list thead th {
     background-color: rgba(24, 188, 156, 0.28);
 }
+.rst-content .section ol p, .rst-content .section ul p {
+    margin-bottom: 3px;
+}
 
 /* Navigation */
 /*
-.wy-nav-content-wrap {   
+.wy-nav-content-wrap {
     padding: 60px 0px 0px 0px;
 }
 nav.stickynav {

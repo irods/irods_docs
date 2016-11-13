@@ -1,12 +1,12 @@
 ## 4.2.0
 
-Release Date: 2016-11-12
+Release Date: 2016-11-13
 
 ### Notable Features
 
-  - Pluggable Rule Engine - Seventh plugin interface now supports writing rule engines for any language. The iRODS Rule Language has been moved to a plugin, alongside a default policy C++ rule engine.
+  - [Pluggable Rule Engine](plugins/pluggable_rule_engine.md) - Seventh plugin interface now supports writing rule engines for any language. The iRODS Rule Language has been moved to a plugin, alongside a default policy C++ rule engine.
 
-  - First Class API Plugins - Enabling dynamic policy enforcement points (PEPs) and full parameter serializaation for every plugin operation
+  - First Class API Plugins - Enabling dynamic policy enforcement points (PEPs) and full parameter serialization for every plugin operation
 
   - Refactored build system - CMake, Clang, APT/YUM repositories
 
@@ -20,15 +20,21 @@ Release Date: 2016-11-12
 
   - All control scripts in Python - Reusable module, reduced codepaths
 
-  - New process model - Two long running processes to amortize dynamic linking startup cost
+  - New [process model](system_overview/process_model.md) - Two long running processes to amortize dynamic linking startup cost
 
   - Configuration schemas now included - Default setups will no longer need a public network connection for validation
 
+  - Run-In-Place now a first class citizen - Now called [Non-Package Install](getting_started/installation.md#non-package-install-run-in-place)
+
 ### Notes
 
- - iCommands pulled into a separate client repository
+  - Externalization of code into separate repositories
 
- - Fuse pulled into a separate client repository
+    - iCommands client
+
+    - Fuse client
+
+    - Microservice objects (MSOs)
 
  - idbug removed
 
@@ -36,6 +42,7 @@ Release Date: 2016-11-12
 
  - Resource hierarchies refactored to use IDs - Upgrades will experience a one-time full table scan whereby all data objects are updated.  A 10M data object lab test installation took 13 minutes.  100M data objects are estimated to take 2-3 hours to update.
 
+ - Run-In-Place now a first clas
  - [Distributing iCommands](system_overview/distributing_icommands.md) to users who do not have root is not yet supported for 4.2. It will be included again in a later release.
 
 ### Other Issues
