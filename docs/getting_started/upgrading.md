@@ -4,11 +4,13 @@ All servers in a Zone must be running the same version of iRODS.  Using inconsis
 
 Upgrades coming from the APT and YUM repositories require only that the server be restarted after upgrade.  The package does not restart the server because any required database schema updates are applied before starting the server.  A database schema update could be a relatively heavy operation and will require an amount of time on large installations (hundreds of millions of records) that should be handled within a declared maintenance window.
 
-### Removing 4.1 Packages
+### Preserving `VERSION.json` history
 
-After an upgrade from 4.1.x to 4.2+, the 4.1 packages will still be installed and must be removed.
+Before upgrading from iRODS 4.1.x to 4.2+, copy `/var/lib/irods/VERSION.json` to `/var/lib/irods/VERSION.json.previous`.
 
-It is necessary to upgrade first, and then remove the old packages to preserve the information in `VERSION.json`.  It was a packaged file (handled by the package manager) in 4.1 and would be lost if the `irods-icat` or `irods-resource` packages are removed before installing 4.2+.
+With this file in place, the installation history of your deployment will be preserved in the 'previous_version' stanza.
+
+Without this file in place, a dummy stanza will be inserted to allow the upgrade to complete successfully, but any previous deployment history will be lost.
 
 ## Non-Package Installs
 
