@@ -157,6 +157,9 @@ Monitoring the delayed queue is important once your workflows and maintenance sc
 2. iqmod    - modify certain values in existing delayed rules (owned by you).
 3. iqdel    - remove a delayed rule (owned by you) from the queue.
 
+!!! Note
+    Actions that are being executed by a delay are bound to a maximum size. A rule that is over 2700 characters long cannot be executed by a delay or remote command.  This is fixed by using policy functions and loading the functions as a .re file.
+
 ### Syntax
 
 The `delay` microservice is invoked with the following syntax:
