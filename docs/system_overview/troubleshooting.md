@@ -81,6 +81,13 @@ There are two networking requirements for iRODS:
 
 This error could occur if the gethostname() function is not returning the expected value on every machine in the Zone.  The values in the iCAT must match the values returned by gethostname() on each machine.
 
+## Incorrect server authentication
+
+!!! error
+    REMOTE_SERVER_AUTHENTICATION_FAILURE -910000
+
+This error occurs when there is a `zone_key` mismatch (in server_config.json) between two servers in the same Zone.  The `zone_key` is a shared secret and must be the same on all servers within the same Zone.
+
 ## No such file or directory
 
 Common areas to check for this error include:
