@@ -180,6 +180,7 @@ The iCommands are a dependency of the iRODS server, and can be built with the fo
 
 ~~~
 user@hostname:~/irods_client_icommands/build $ cmake -DCMAKE_INSTALL_PREFIX=<non-package-root> -DIRODS_DIR=<non-package-root>/usr/lib/irods/cmake ../
+user@hostname:~/irods_client_icommands/build $ make install
 user@hostname:~/irods_client_icommands/build $ export PATH=<non-package-root>/usr/bin:<non-package-root>/usr/sbin:$PATH
 user@hostname:~/irods_client_icommands/build $ export LD_LIBRARY_PATH=<non-package-root>/usr/lib
 ~~~
