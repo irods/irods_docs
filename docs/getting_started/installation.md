@@ -188,7 +188,7 @@ user@hostname:~/irods_client_icommands/build $ export LD_LIBRARY_PATH=<non-packa
 After the system is built, the `setup_irods.py` script should be run, the same as a binary installation:
 
 ~~~
-user@hostname:~/irods $ python ./scripts/setup_irods.py
+user@hostname:<non-package-root>/var/lib/irods $ python ./scripts/setup_irods.py
 ~~~
 
 ### MacOSX
