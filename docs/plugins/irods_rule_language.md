@@ -36,7 +36,7 @@ line as comments. Therefore, a comment does not have to occupy its own line.
 For example,
 
 ~~~c
-* A=1; # comments
+*A=1; # comments
 ~~~
 
 Although the parser is able to parse comments starting with `##`, it is not recommended to start comments with `##`, as `##` is also used in the one line rule syntax as the actions connector. It is recommended to start comments with `#`.
@@ -131,6 +131,7 @@ min(<num>,<num>,...)
 ~~~
 
 For example:
+
 ~~~c
 exp(10)
 log(10)
@@ -173,7 +174,8 @@ writeLine("stdout", "\'");
 ~~~
 
 The rule engine also supports various escaped characters:
-~~~c
+
+~~~
 \n, \r, \t, \', \", \$, \*
 ~~~
 
@@ -386,13 +388,13 @@ Sometime when you want to pass a string representation of code or regular
 expressions into an action, it is very tedious to escape every special
 character in the string. For example
 
-~~~c
-writeLine(\"stdout\", \*A)
+~~~
+"writeLine(\"stdout\", \*A)"
 ~~~
 
 or
 
-~~~c
+~~~
 *A like regex "a\*c\\\\\\[\\]" # matches the regular expression a*c\\\[\]
 ~~~
 
@@ -404,6 +406,7 @@ The examples can now be written as:
 ``writeLine("stdout", *A)``
 ~~~
 and
+
 ~~~c
 *A like regex ``a*c\\\[\]``
 ~~~
@@ -438,9 +441,9 @@ The str() function is extended to support converting a key value pair data
 structure to an options format:
 
 ~~~c
-*A.a=A;
-*A.b=B;
-*A.c=C;
+*A.a="A";
+*A.b="B";
+*A.c="C";
 str(*A); # a=A++++b=B++++c=C
 ~~~
 
@@ -484,23 +487,6 @@ CONSTANT = time()
 ~~~
 
 it returns `NOT CONSTANT`.
-
-## Variable
-
-The rule engine expands variables on demand, like in C. For example, suppose we have
-the following rule
-
-~~~c
-ifExec(*A==1,assign(*A,0),assign(*A,1),nop,nop)
-~~~
-
-Expanding `*A` (say, to 1) before the rule is executed would result in something like
-
-~~~c
-ifExec(1==1,assign(1,0),assign(1,1),nop,nop)
-~~~
-
-As a result, extra code has to be written for system microservices to avoid this. The value of `*A` is retrieved from a runtime environment only when the rule engine tries to evaluate it.
 
 ## Function
 
@@ -806,7 +792,7 @@ general syntax for inductive data type definition is
 
 ~~~c
 data <name> [ ( <type parameter list> ) ] =
-    |  : <data constructor type>
+    | <data constructor name> : <data constructor type>
     ...
     | <data constructor name> : <data constructor type>
 ~~~
@@ -899,7 +885,7 @@ a pseudo data constructor definition starts with a tilde and must return a
 tuple. The general syntax is
 
 ~~~c
-<name>(<param>, ..., <param>) = <expr>
+~<name>(<param>) = <expr>
 ~~~
 
 A pseudo data constructor can be thought of an inverse function that maps the values in
@@ -907,7 +893,7 @@ the codomain to values in the domain. For example, we can define the following
 pseudo data constructor
 
 ~~~c
-lowerdigits(*n) = let *a = *n % 10 in ((*n - *a) / 10 % 10, *a)
+~lowerdigits(*n) = let *a = *n % 10 in ((*n - *a) / 10 % 10, *a)
 ~~~
 
 The assignment
@@ -930,10 +916,10 @@ block has the form
 
 ~~~c
 {
-   A1 ::: R1
-   A2 ::: R2
+   <A1> [ ::: <R1> ]
+   <A2> [ ::: <R2> ]
    ...
-   An ::: Rn
+   <An> [ ::: <Rn> ]
 }
 ~~~
 
@@ -1115,58 +1101,33 @@ size(*t) =
 
 ### Sequence
 
-Actions:
+Syntax:
 
-~~~c
-A1##A2##...##An
 ~~~
-
-Recovery:
-
-~~~c
-R1##R2##...##Rn
-~~~
-
-Rulegen syntax:
-
-~~~c
-A1:::R1
-A2:::R2
+<A1> [ ::: <R1> ]
+<A2> [ ::: <R2> ]
 ...
-An:::Rn
+<An> [ ::: <Rn> ]
 ~~~
 
 If Ax fails, then `Rx, ..., R1` are executed
 
 ### Branch
 
-Action:
+Syntax:
 
 ~~~c
-if(cond, A11##A12##...##A1n, A21##A22##...##A2n,
-         R11##R12##...##R1n, R21##R22##...##R2n)
-~~~
-
-Recovery:
-
-~~~c
-R
-~~~
-
-Rulegen syntax:
-
-~~~c
-if(cond) then {
-    A11:::R11
-    A12:::R12
+if(<cond>) then {
+    <A11> [ ::: <R11> ]
+    <A12> [ ::: <R12> ]
     ...
-    A1n:::R1n
+    <A1n> [ ::: <R1n> ]
 } else {
-    A21:::R21
-    A22:::R22
+    <A21> [ ::: <R21> ]
+    <A22> [ ::: <R22> ]
     ...
-    A2n:::R2n
-}:::R
+    <A2n> [ ::: <R2n> ]
+} [ ::: R ]
 ~~~
 
 If Axy fails, then `Rxy, ..., Rx1, R` are executed. If `cond` fails, then `R` is
@@ -1176,28 +1137,15 @@ executed.
 
 #### `while`
 
-Action:
-
-~~~c
-while(cond, A1##A2##...##An
-            R1##R2##...##Rn)
-~~~
-
-Recovery:
-
-~~~c
-R
-~~~
-
-Rulegen syntax:
+Syntax:
 
 ~~~
-while(cond) {
-    A1:::R1
-    A2:::R2
+while(<cond>) {
+    <A1> [ ::: <R1> ]
+    <A2> [ ::: <R2> ]
     ...
-    An:::Rn
-}:::R
+    <An> [ ::: <Rn> ]
+} [ ::: <R> ]
 ~~~
 
 If `Ax` fails, then `Rx, ..., R1, R` are executed. If `cond` fails, then `R` is
@@ -1207,56 +1155,30 @@ from the loop invariant to before the loop is executed.
 
 #### `foreach`
 
-Action:
+Syntax:
 
-~~~c
-foreach(coll, A1##A2##...##An
-              R1##R2##...##Rn)
 ~~~
-
-Recovery:
-
-~~~c
-R
-~~~
-
-Rulegen syntax:
-
-~~~c
-foreach(coll) {
-    A1:::R1
-    A2:::R2
+foreach(<var> in <expr>) {
+    <A1> [ ::: <R1> ]
+    <A2> [ ::: <R2> ]
     ...
-    An:::Rn
-}:::R
+    <An> [ ::: <Rn> ]
+} [ ::: <R> ]
 ~~~
 
 If `Ax` fails, then `Rx, ..., R1, R` are executed.
 
 #### "for"
 
-Action:
+Syntax:
 
-~~~c
-for(init, cond, incr, A1##A2##...##An
-                      R1##R2##...##Rn)
 ~~~
-
-Recovery:
-
-~~~c
-R
-~~~
-
-Rulegen syntax:
-
-~~~c
-for(init; cond; incr) {
-    A1:::R1
-    A2:::R2
+for(<init>; <cond>; <incr>) {
+    <A1> [ ::: <R1> ]
+    <A2> [ ::: <R2> ]
     ...
-    An:::Rn
-}:::R
+    <An> [ ::: <Rn> ]
+} [ ::: <R> ]
 ~~~
 
 If `Ax` fails, then `Rx, ..., R1, R` are executed. If `init`, `cond`, or `incr` fails, then `R` is executed.
