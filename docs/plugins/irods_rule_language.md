@@ -367,7 +367,7 @@ The rule engine supports the `*` wildcard. For example
 In case of ambiguity with variable expansion, the `*` has to be escaped. For example
 
 ~~~c
-"abcd" like "a\\*d"
+"abcd" like "a\*d"
 ~~~
 
 because `"a*d"` is interpreted as `"a"++str(*d)+""`
