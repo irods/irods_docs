@@ -82,10 +82,10 @@ Add an object to the "federation" array for each remote zone, for example:
 ~~~
 "federation": [
     {
-        "icat_host": "otherzone.example.org",
-        "zone_name": "anotherZone",
+        "catalog_provider_hosts": ["otherzone.example.org"],
+        "negotiation_key": "abcdefghijklmnopqrstuvwxyzabcdef",
         "zone_key": "ghjk6789",
-        "negotiation_key": "abcdefghijklmnopqrstuvwxyzabcdef"
+        "zone_name": "anotherZone"
     }
 ]
 ~~~
