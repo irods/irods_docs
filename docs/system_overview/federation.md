@@ -9,7 +9,7 @@ Primary reasons for using Zone Federation include:
 
 To federate Zone A and Zone B, administrators in each zone must:
 
-1. Coordinate and share their `icat_host`, `zone_name`, `zone_key`, and `negotiation_key` information
+1. Coordinate and share their `catalog_service_providers`, `negotiation_key`, `zone_key`, and `zone_name` information
 2. Define the remote zone in their respective iCAT, and
 3. Define any remote users in their respective iCAT before any access permissions can be granted.
 
