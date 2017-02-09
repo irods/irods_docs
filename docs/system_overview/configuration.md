@@ -44,12 +44,14 @@ This file contains the following top level entries:
   - `environment_variables` (required) - Contains a set of key/value properties of the form VARIABLE=VALUE such as "ORACLE_HOME=/full/path" from the server's environment.  Can be empty.
 
   - `federation` (required) - Contains an array of objects which each contain the parameters necessary for federating with another grid.  The array can be empty, but if an object exists, it must contain the following properties:
-    - `icat_host` (required) -  The hostname of the iCAT server in the federated zone.
-    - `zone_name` (required) -  The name of the federated zone.
-    - `zone_key` (required) - The shared authentication secret of the federated zone.
+    - `catalog_service_providers` (required) -  An array of hostnames of the catalog_service_providers in the federated zone.
     - `negotiation_key` (required) - The 32-byte encryption key of the federated zone.
+    - `zone_key` (required) - The shared authentication secret of the federated zone.
+    - `zone_name` (required) -  The name of the federated zone.
 
-  - `icat_host` (required) - The fully qualified domain name of the iCAT Enabled Server
+  - `catalog_service_providers` (required) - An array of fully qualified domain names of this Zone's catalog_service_provider
+
+  - `catalog_service_role` (required) - The role of this server, either 'provider' or 'consumer'
 
   - `kerberos_name` (optional) - Kerberos Distinguished Name for KRB and GSI authentication
 
@@ -65,11 +67,11 @@ This file contains the following top level entries:
 
   - `pam_password_min_time` (optional) - Minimum allowed PAM password lifetime
 
-  - `re_data_variable_mapping_set` (required) - an array of file names comprising the list of data to variable mappings used by the rule engine, for example: { "filename": "core" } which references 'core.dvm'
+  - `re_data_variable_mapping_set` (required) - An array of file names comprising the list of data to variable mappings used by the rule engine, for example: { "filename": "core" } which references 'core.dvm'
 
-  - `re_function_name_mapping_set` (required) - an array of file names comprising the list of function name map used by the rule engine, for example: { "filename": "core" } which references 'core.fnm'
+  - `re_function_name_mapping_set` (required) - An array of file names comprising the list of function name map used by the rule engine, for example: { "filename": "core" } which references 'core.fnm'
 
-  - `re_rulebase_set` (required) - this is an array of file names comprising the list of rule files used by the rule engine, for example: { "filename": "core" } which references 'core.re'.  This array is ordered as the order of the rule files affects which (multiply) matching rule would fire first.
+  - `re_rulebase_set` (required) - An array of file names comprising the list of rule files used by the rule engine, for example: { "filename": "core" } which references 'core.re'.  This array is ordered as the order of the rule files affects which (multiply) matching rule would fire first.
 
   - `schema_validation_base_uri` (required) - The URI against which the iRODS server configuration is validated.  By default, this will be the schemas.irods.org domain.  It can be set to any http(s) endpoint as long as that endpoint has a copy of the irods_schema_configuration repository.  This variable allows a clone of the git repository to live behind an organizational firewall, but still perform its duty as a preflight check on the configuration settings for the entire server.
 
@@ -81,7 +83,7 @@ This file contains the following top level entries:
 
   - `server_control_plane_port` (required) (default 1248) - The port on which the control plane operates. This must be the same across all iRODS servers in a Zone.
 
-  - `server_control_plane_timeout_milliseconds` (required) (default 10000) -
+  - `server_control_plane_timeout_milliseconds` (required) (default 10000) - The amount of time before a control plane operation will timeout
 
   - `server_port_range_start` (required) (default 20000) - The beginning of the port range available for parallel transfers. This must be the same across all iRODS servers in a Zone.
   - `server_port_range_end` (required) (default 20199) - The end of the port range available for parallel transfers.  This must be the same across all iRODS servers in a Zone.
