@@ -44,12 +44,12 @@ This file contains the following top level entries:
   - `environment_variables` (required) - Contains a set of key/value properties of the form VARIABLE=VALUE such as "ORACLE_HOME=/full/path" from the server's environment.  Can be empty.
 
   - `federation` (required) - Contains an array of objects which each contain the parameters necessary for federating with another grid.  The array can be empty, but if an object exists, it must contain the following properties:
-    - `catalog_service_providers` (required) -  An array of hostnames of the catalog_service_providers in the federated zone.
+    - `catalog_provider_hosts` (required) -  An array of hostnames of the catalog service providers in the federated zone.
     - `negotiation_key` (required) - The 32-byte encryption key of the federated zone.
     - `zone_key` (required) - The shared authentication secret of the federated zone.
     - `zone_name` (required) -  The name of the federated zone.
 
-  - `catalog_service_providers` (required) - An array of fully qualified domain names of this Zone's catalog_service_provider
+  - `catalog_provider_hosts` (required) - An array of fully qualified domain names of this Zone's catalog service provider
 
   - `catalog_service_role` (required) - The role of this server, either 'provider' or 'consumer'
 
