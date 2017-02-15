@@ -35,7 +35,7 @@ The rule engine parses characters between the `#` token and the end of
 line as comments. Therefore, a comment does not have to occupy its own line.
 For example,
 
-~~~c
+~~~
 *A=1; # comments
 ~~~
 
@@ -59,7 +59,7 @@ Boolean literals include `true` and `false`.
 
 Boolean operators include
 
-~~~c
+~~~
 !  # not
 && # and
 || # or
@@ -68,7 +68,7 @@ Boolean operators include
 
 For example:
 
-~~~c
+~~~
 true && true
 false && true
 true || false
@@ -83,7 +83,7 @@ false %% false
 Numeric literals include integral literals and double literals. An integral
 literal does not have a decimal while a double literal does. For example,
 
-~~~c
+~~~
 1 # integer
 1.0 # double
 ~~~
@@ -101,7 +101,7 @@ Integers and doubles can be converted to booleans using the `bool()` function.
 
 Arithmetic operators include, ordered by precedence:
 
-~~~c
+~~~
 -  # Negation
 ^  # Power
 *  # Multiplication
@@ -119,7 +119,7 @@ Arithmetic operators include, ordered by precedence:
 
 Arithmetic functions include:
 
-~~~c
+~~~
 exp(<num>)
 log(<num>)
 abs(<num>)
@@ -132,7 +132,7 @@ min(<num>,<num>,...)
 
 For example:
 
-~~~c
+~~~
 exp(10)
 log(10)
 abs(-10)
@@ -156,19 +156,19 @@ If a programmer needs to quote strings containing single (double) quotes using s
 strings should be escaped using a backslash `"\"`, just as in the C Programming
 Language. For example,
 
-~~~c
+~~~
 writeLine("stdout", "\"\"");
 # output ""
 ~~~
 
 Single quotes inside double quotes are viewed as regular characters, and vice versa. They can be either escaped or not escaped. For example,
 
-~~~c
+~~~
 writeLine("stdout", "'");
 # output '
 ~~~
 
-~~~c
+~~~
 writeLine("stdout", "\'");
 # output '
 ~~~
@@ -187,21 +187,21 @@ character and is followed by letters.
 The `str()` function converts a value of type BOOLEAN, INTEGER, DOUBLE,
 DATETIME, or STRING to string. For example
 
-~~~c
+~~~
 writeLine("stdout", str(123));
 # output 123
 ~~~
 
 In addition
 
-~~~c
+~~~
 timestrf(*time, *format)
 ~~~
 
 converts a datetime stored in `*time` to a string, according to the `*format`
 parameter.
 
-~~~c
+~~~
 timestr(*time)
 ~~~
 
@@ -215,7 +215,7 @@ The format string uses the same directives as [the standard C library](http://en
 String can be converted to values of type BOOLEAN, INTEGER, DOUBLE, DATETIME,
 or STRING. For example
 
-~~~c
+~~~
 int("123")
 double("123")
 bool("true")
@@ -223,13 +223,13 @@ bool("true")
 
 In addition
 
-~~~c
+~~~
 datetimef(*str, *format)
 ~~~
 
 converts a string stored in `*str` to a datetime, according to the `*format` parameter
 
-~~~c
+~~~
 datetime(*str)
 ~~~
 
@@ -238,7 +238,7 @@ format (`%b %d %Y %H:%M:%S`, e.g. `Jun 01 2015 16:12:13`). It can also be used t
 
 The following are examples of string datetime conversion
 
-~~~c
+~~~
 datetime(*str)
 datetimef(*str, "%Y %m %d %H:%M:%S")
 timestr(*time)
@@ -249,28 +249,28 @@ timestrf(*time, "%Y %m %d %H:%M:%S")
 
 The rule engine supports the infix string concatenation operator `"++"`
 
-~~~c
+~~~
 writeLine("stdout", "This "++" is "++" a string.");
 # output This is a string.
 ~~~
 
 **Infix wildcard expression matching operator**: `like`
 
-~~~c
+~~~
 writeLine("stdout", "This is a string." like "This is*");
 # Output: true
 ~~~
 
 **Infix regular expression matching operator**: `like regex`
 
-~~~c
+~~~
 writeLine("stdout", "This is a string." like regex "This.*string[.]");
 # Output: true
 ~~~
 
 **Substring**: `substr()`
 
-~~~c
+~~~
 writeLine("stdout", substr("This is a string.", 5, 9));
 # or
 writeLine("stdout", substr("This is a string.", 5, 5+4));
@@ -279,28 +279,28 @@ writeLine("stdout", substr("This is a string.", 5, 5+4));
 
 **Length**: `strlen()`
 
-~~~c
+~~~
 writeLine("stdout", strlen("This is a string."));
 # Output: 17
 ~~~
 
 **Split**: `split()`
 
-~~~c
+~~~
 writeLine("stdout", split("This is a string.", " "));
 # Output: [This,is,a,string.]
 ~~~
 
 **Trim left**: `triml(*str, *del)`, which trims from `*str` the leftmost `*del`, inclusive.
 
-~~~c
+~~~
 writeLine("stdout", triml("This is a string.", "i"));
 # Output: s is a string.
 ~~~
 
 **Trim right**: `trimr(*str, *del)`, which trims from `*str` the rightmost `*del`, inclusive.
 
-~~~c
+~~~
 writeLine("stdout", trimr("This is a string.", "r"));
 # Output: This is a st
 ~~~
@@ -310,13 +310,13 @@ writeLine("stdout", trimr("This is a string.", "r"));
 In a quoted string, an asterisk followed immediately by a variable name
 (without whitespaces) makes an expansion of the variable. For example,
 
-~~~c
+~~~
 "This is *x."
 ~~~
 
 is equivalent to
 
-~~~c
+~~~
 "This is "++str(*x)++"."
 ~~~
 
@@ -326,27 +326,27 @@ A parameter to a microservice is of type string if the expected type is
 `MS_STR_T` or `STRING`. When a microservice expects a parameter of type string and
 the argument is a string constant, the argument has to be quoted. For example,
 
-~~~c
+~~~
 writeLine("stdout", "This is a string.");
 ~~~
 
 When a microservice expects a parameter of type string and the argument is not of type string, a type error
 may be thrown. For example,
 
-~~~c
+~~~
 *x = 123;
 strlen(*x);
 ~~~
 
 This error can be fixed by either using the "str" function
 
-~~~c
+~~~
 strlen(str(*x));
 ~~~
 
 or putting `*x` into quotes
 
-~~~c
+~~~
 strlen("*x");
 ~~~
 
@@ -360,13 +360,13 @@ two separate keywords.)
 
 The rule engine supports the `*` wildcard. For example
 
-~~~c
+~~~
 "abcd" like "ab*"
 ~~~
 
 In case of ambiguity with variable expansion, the `*` has to be escaped. For example
 
-~~~c
+~~~
 "abcd" like "a\\*d"
 ~~~
 
@@ -375,7 +375,7 @@ because `"a*d"` is interpreted as `"a"++str(*d)+""`
 When wildcard is not expressive enough, regular expression matching operator
 can be used. For example
 
-~~~c
+~~~
 "abcd" like regex "a.c."
 ~~~
 
@@ -402,12 +402,12 @@ For ease of reading, you can use two backticks ("\`\`") instead of the regular q
 engine does not further look for variables, etc. in strings between two "\`\`"s.
 The examples can now be written as:
 
-~~~c
+~~~
 ``writeLine("stdout", *A)``
 ~~~
 and
 
-~~~c
+~~~
 *A like regex ``a*c\\\[\]``
 ~~~
 
@@ -418,14 +418,14 @@ values pair.
 
 To write to a key value pair, use the dot operator on the left hand side:
 
-~~~c
+~~~
 *A.key = "val"
 ~~~
 
 If the key is not a syntactically valid identifier, quotes can be used, escape
 rules for strings also apply:
 
-~~~c
+~~~
 *A."not an identifier" = "val"
 ~~~
 
@@ -440,7 +440,7 @@ Currently key value pairs only support the string type for values.
 The str() function is extended to support converting a key value pair data
 structure to an options format:
 
-~~~c
+~~~
 *A.a="A";
 *A.b="B";
 *A.c="C";
@@ -452,7 +452,7 @@ str(*A); # a=A++++b=B++++c=C
 A constant can be defined as a function that returns a constant. A constant
 defintion has the following syntax:
 
-~~~c
+~~~
 <constant name> = <constant value>
 ~~~
 
@@ -468,13 +468,13 @@ a nonconstant is treated as a constructor). For example,
 
 With
 
-~~~c
+~~~
 CONSTANT = 1
 ~~~
 
 the following expression
 
-~~~c
+~~~
 match CONSTANT with
    CONSTANT => "CONSTANT"
    *_ => "NOT CONSTANT"
@@ -482,7 +482,7 @@ match CONSTANT with
 
 returns `CONSTANT`. With a nonconstant function definition such as
 
-~~~c
+~~~
 CONSTANT = time()
 ~~~
 
@@ -496,13 +496,13 @@ The rule engine allows defining functions. Functions can be thought of as
 microservices written in the rule language. The syntax of a function
 definition is
 
-~~~c
+~~~
 <name>(<param>, ..., <param>) = <expr>
 ~~~
 
 For example
 
-~~~c
+~~~
 square(*n) = *n * *n
 ~~~
 
@@ -510,7 +510,7 @@ Function names should be unique (no function-function or function-rule
 name conflict). Functions can be defined in a mutually exclusive manner. For
 example
 
-~~~c
+~~~
 odd(*n) = if *n==0 then false else even(*n-1)
 even(*n) = if *n==1 then true else odd(*n-1)
 ~~~
@@ -528,7 +528,7 @@ To use a function, call it as if it was a microservice.
 
 The syntax of a rule with a nontrivial rule condition is as follows:
 
-~~~c
+~~~
 <name>(<param>, ..., <param>) {
   on(<expr>) { <actions> }
 }
@@ -537,7 +537,7 @@ The syntax of a rule with a nontrivial rule condition is as follows:
 If the rule condition is trivial or unnecessary, the rule can be written in
 the simpler form:
 
-~~~c
+~~~
 <name>(<param>, ..., <param>) { <actions> }
 ~~~
 
@@ -545,7 +545,7 @@ Multiple rules with the same rule name and parameters list can be combined in
 a more concise syntax where each set of actions is enumerated for each set of
 conditions:
 
-~~~c
+~~~
 <name>(<param>, ..., <param>) {
   on(<expr>) { <actions> } ...
   on(<expr>) { <actions> }
@@ -557,14 +557,14 @@ conditions:
 Function and rule names have to be valid identifiers. Identifiers start with
 letters followed by letters or digits. For example,
 
-~~~c
+~~~
 ThisIsAValidFunctionNameOrRuleName
 ~~~
 
 There should not be whitespaces in a
 function name or a rule name. For example
 
-~~~c
+~~~
 This Is Not A Valid Function Name or Rule Name
 ~~~
 
@@ -579,7 +579,7 @@ Rule conditions should be expressions of type `boolean`. The rule is executed on
 For example, if we want to run a rule when the microservice "msi" succeeds, we
 can write the rule as
 
-~~~c
+~~~
 rule {
   on (msi >= 0) { ... }
 }
@@ -588,7 +588,7 @@ rule {
 Conversely, if we want to run a rule when the
 microservice fails, we need to write the rule as
 
-~~~c
+~~~
 rule {
   on (errorcode(msi) < 0) { ... }
 }
@@ -598,7 +598,7 @@ The errormsg microservice captures the error message, allows
 further processing of the error message, and avoiding the default logging of
 the error message
 
-~~~c
+~~~
 rule {
   on (errormsg(msi, *msg) < 0 ) { ... }
 }
@@ -606,7 +606,7 @@ rule {
 
 By failure condition 3, the following rule condition always fails because msi returns an integer value
 
-~~~c
+~~~
 on(msi) { ... }
 ~~~
 
@@ -614,7 +614,7 @@ on(msi) { ... }
 
 In a rule, we can also prevent the rule from failing when a microservice fails
 
-~~~c
+~~~
 errorcode(msi)
 ~~~
 
@@ -622,32 +622,32 @@ The errormsg microservice captures the error message, allows
 further processing of the error message, and avoiding the default logging of
 the error message
 
-~~~c
+~~~
 errormsg(msi, *msg)
 ~~~
 
 In a rule, the fail and failmsg microservices can be used to generate errors
 
-~~~c
+~~~
 fail(*errorcode)
 ~~~
 
 generates an error with an error code
 
-~~~c
+~~~
 failmsg(*errorcode, *errormsg)
 ~~~
 
 generates an error with an error code and an error message. For example
 
-~~~c
+~~~
 fail(-1)
 failmsg(-1, "this is a user generated error message")
 ~~~
 
 The msiExit microservice is similar to failmsg
 
-~~~c
+~~~
 msiExit("-1", "msi")
 ~~~
 
@@ -663,14 +663,14 @@ To use a rule, call it as if it was a microservice.
 
 A list can be created using the `list()` microservice. For example
 
-~~~c
+~~~
 list("This","is","a","list")
 ~~~
 
 The elements of a list should have the same type. Elements of a list can be
 retrieved using the "elem" microservice. The index starts from 0. For example,
 
-~~~c
+~~~
 elem(list("This","is","a","list"),1)
 ~~~
 
@@ -683,13 +683,13 @@ and returns a new list that is identical with the list given by the first
 parameter except that the element at the index given by the second parameter
 is replace by the value given by the third parameter.
 
-~~~c
+~~~
 setelem(list("This","is","a","list"),1,"isn't")
 ~~~
 
 evaluates to
 
-~~~c
+~~~
 list("This","isn't","a","list").
 ~~~
 
@@ -698,7 +698,7 @@ microservice takes in on parameter, a list, and returns the size of the list.
 
 For example
 
-~~~c
+~~~
 size(list("This","is","a","list"))
 ~~~
 
@@ -709,32 +709,32 @@ the `tl()` microservice returns the rest of the list.
 
 If the list is empty then it fails with an error code.
 
-~~~c
+~~~
 hd(list("This","is","a","list"))
 ~~~
 
 evaluates to "This" and
 
-~~~c
+~~~
 tl(list("This","is","a","list"))
 ~~~
 
 evaluates to
 
-~~~c
+~~~
 list("is","a","list")
 ~~~
 
 The `cons()` microservice returns a list by combining an
 element with another list. For example
 
-~~~c
+~~~
 cons("This",list("is","a","list"))
 ~~~
 
 evaluates to
 
-~~~c
+~~~
 list("This","is","a","list").
 ~~~
 
@@ -742,7 +742,7 @@ list("This","is","a","list").
 
 The rule engine supports the built-in data type tuple.
 
-~~~c
+~~~
 ( <component>, ..., <component> )
 ~~~
 
@@ -757,7 +757,7 @@ lists. When remote execute or delay execution is called while there is a
 complex list in the current runtime environment, an error will be generated.
 For example, in the following rule
 
-~~~c
+~~~
 test {
    *A = list(list(1,2),list(3,4));
    *B = elem(*A, 1);
@@ -770,7 +770,7 @@ test {
 Even though `*A` is not used in the delay execution block, the rule will
 still generate an error. One solution to this is to create a rule with only necessary values.
 
-~~~c
+~~~
 test {
    *A = list(list(1,2),list(3,4));
    *B = elem(*A, 1);
@@ -790,7 +790,7 @@ type is a data type for values that can be defined inductively, i.e. more
 complex values can be constructed from simpler values using constructors. The
 general syntax for inductive data type definition is
 
-~~~c
+~~~
 data <name> [ ( <type parameter list> ) ] =
     | <data constructor name> : <data constructor type>
     ...
@@ -799,7 +799,7 @@ data <name> [ ( <type parameter list> ) ] =
 
 For example, a data type that represents the natural numbers can be defined as
 
-~~~c
+~~~
 data nat =
     | zero : nat
     | succ : nat -> nat
@@ -807,7 +807,7 @@ data nat =
 
 Here the type name defined is "nat." The type parameter list is empty. If the type parameter list is empty, we may omit it. There are two data constructors. The first constructor "zero" has type "nat," which means that "zero" is a nullary constructor of nat. We use "zero" to represent "0". The second constructor "succ" has type "nat -> nat" which means that "succ" is unary constructor of nat. We use "succ" to represent the successor. With these two constructors we can represent all natural numbers: `zero, succ(zero), succ(succ(zero)), ...` As another example, we can define a data type that represents binary trees of natural numbers
 
-~~~c
+~~~
 data tree =
     | empty : tree
     | node : nat * tree * tree -> tree
@@ -820,7 +820,7 @@ define a polymorphic data type. Suppose that we want to generalize our binary
 tree data type to those trees whose value type is not "nat." We give the type
 tree a type parameter `X`
 
-~~~c
+~~~
 data tree(X) =
     | empty : tree(X)
     | node : X * tree(X) * tree(X) -> tree(X)
@@ -834,7 +834,7 @@ parses all types with that starts with uppercase letter as type variables.
 Just as data constructors, type constructor can also take multiple parameters.
 For example
 
-~~~c
+~~~
 data pair(X, Y) =
     | pair : X * Y -> pair(X, Y)
 ~~~
@@ -842,7 +842,7 @@ data pair(X, Y) =
 Given the data type definition of "pair", we can construct a pair using "pair"
 the data constructor. For example,
 
-~~~c
+~~~
 *A = pair(1, 2);
 ~~~
 
@@ -852,7 +852,7 @@ the data constructor. For example,
 
 Patterns are similar to expressions. For example
 
-~~~c
+~~~
 pair(*X, *Y)
 ~~~
 
@@ -861,14 +861,14 @@ patterns. Second, each variable only occurs once in a pattern (sometimes
 called linearity). To retrieve the components of `*A`, we can use patterns on
 the left hand side of an assignment. For example
 
-~~~c
+~~~
 pair(*X, *Y) = *A;
 ~~~
 
 When this action is executed, `*X` will be assigned to 1 and `*Y` will be assigned to `2`.
 Patterns can be combined with let expressions. For example
 
-~~~c
+~~~
 fib(*n) = if *n==0 then pair(-1, 0)
     else if *n==1 then (0, 1)
     else let pair(*a, *b) = fib(*n - 1) in
@@ -884,7 +884,7 @@ Pseudo data constructor definitions are like function definitions except that
 a pseudo data constructor definition starts with a tilde and must return a
 tuple. The general syntax is
 
-~~~c
+~~~
 ~<name>(<param>) = <expr>
 ~~~
 
@@ -892,13 +892,13 @@ A pseudo data constructor can be thought of an inverse function that maps the va
 the codomain to values in the domain. For example, we can define the following
 pseudo data constructor
 
-~~~c
+~~~
 ~lowerdigits(*n) = let *a = *n % 10 in ((*n - *a) / 10 % 10, *a)
 ~~~
 
 The assignment
 
-~~~c
+~~~
 lowerdigits(*a, *b) = 256;
 ~~~
 
@@ -914,7 +914,7 @@ when the action fails. This allows iRODS rules to rollback some side effects
 and restore most of the system state to a previous point. An action recovery
 block has the form
 
-~~~c
+~~~
 {
    <A1> [ ::: <R1> ]
    <A2> [ ::: <R2> ]
@@ -958,19 +958,19 @@ an additional way of using if, which will be referred to as the `functional if`.
 `functional if` may return a value of any type if it succeeds. The two
 different usages have different syntax. The `logical if` has the expected syntax of
 
-~~~c
+~~~
 if <expr> then { <actions> } else { <actions> }
 ~~~
 
 while the "functional if" has the following syntax
 
-~~~c
+~~~
 if <expr> then <expr> else <expr>
 ~~~
 
 For example, the following are "functional if"s
 
-~~~c
+~~~
 if true then 1 else 0
 if *A==1 then true else false
 ~~~
@@ -978,14 +978,14 @@ if *A==1 then true else false
 To compare, if written in the "logical if" form, the
 second example would be
 
-~~~c
+~~~
 if (*A==1) then { true; } else { false; }
 ~~~
 
 To make the syntax of "logical if" more concise, the rule engine allows
 the following abbreviation (where the greyed out part can be abbreviated):
 
-~~~c
+~~~
 if (...) then { ... } else { ... }
 if (...) then { ... } else { if (...) then {...} else {...} }
 ~~~
@@ -993,7 +993,7 @@ if (...) then { ... } else { if (...) then {...} else {...} }
 Multiple abbreviations can be combined for
 example:
 
-~~~c
+~~~
 if (*X==1) { *A = "Mon"; }
 else if (*X==2) {*A = "Tue"; }
 else if (*X==3) {*A = "Wed"; }
@@ -1005,7 +1005,7 @@ else if (*X==3) {*A = "Wed"; }
 The rule engine allows defining a different variable name for the iterator
 variables in the foreach action. For example
 
-~~~c
+~~~
 foreach(*E in *C) {
   writeLine("stdout", *E);
 }
@@ -1013,7 +1013,7 @@ foreach(*E in *C) {
 
 This is equivalent to
 
-~~~c
+~~~
 foreach(*C) {
   writeLine("stdout", *C);
 }
@@ -1022,7 +1022,7 @@ foreach(*C) {
 This feature allows the collection to be a complex expression. For
 example
 
-~~~c
+~~~
 foreach(*E in list("This", "is", "a", "list")) {
   writeLine("stdout", *E);
 }
@@ -1030,7 +1030,7 @@ foreach(*E in list("This", "is", "a", "list")) {
 
 This is equivalent to
 
-~~~c
+~~~
 *C = list("This", "is", "a", "list");
 foreach(*C) {
    writeLine("stdout", *C);
@@ -1043,20 +1043,20 @@ As function definitions are based on expressions rather than action sequences,
 we cannot put an assignment directly inside an expression. For example, the
 following is not a valid function definition
 
-~~~c
+~~~
 quad(*n) = *t = *n * *n; *t * *t
 ~~~
 
 To solve this problem, the let expression provides scoped values in an
 expression. The general syntax for the let expression is
 
-~~~c
+~~~
 let <assignment> in <expr>
 ~~~
 
 For example
 
-~~~c
+~~~
 quad(*n) = let *t = *n * *n in *t * *t
 ~~~
 
@@ -1070,7 +1070,7 @@ bound variable should not be reassigned inside the let expression.
 If a data type has more than one data structure, then the "match" expression
 is useful
 
-~~~c
+~~~
 match <expr> with
    | <pattern> => <expr>
    ...
@@ -1080,7 +1080,7 @@ match <expr> with
 For example, given the `nat` data type we defined earlier, we can define the
 following function using the `match` expression
 
-~~~c
+~~~
 add(*x, *y) =
    match *x with
        | zero => *y
@@ -1090,7 +1090,7 @@ add(*x, *y) =
 For another example, given the "tree" data type we defined earlier, we can
 define the following function
 
-~~~c
+~~~
 size(*t) =
    match *t with
        | empty => 0
@@ -1116,7 +1116,7 @@ If Ax fails, then `Rx, ..., R1` are executed
 
 Syntax:
 
-~~~c
+~~~
 if(<cond>) then {
     <A11> [ ::: <R11> ]
     <A12> [ ::: <R12> ]
@@ -1231,7 +1231,7 @@ existing iRODS types by viewing the existing iRODS types as opaque types.
 
 The function parameter and return types can be
 
-~~~c
+~~~
 <btype> ::= boolean
           | integer
           | double
@@ -1240,7 +1240,7 @@ The function parameter and return types can be
           | path
 ~~~
 
-~~~c
+~~~
 <stype> ::= <tvar>                   identifiers starting with uppercase letters
           | iRODS types              back quoted string
           | <btype>
@@ -1251,7 +1251,7 @@ The function parameter and return types can be
 
 A function type is
 
-~~~c
+~~~
   <ftype> ::= <quanti>, …, <quanti>, <ptype> * <ptype> * … * <ptype> [*|+|?] -> <stype>
 ~~~
 
@@ -1261,7 +1261,7 @@ where
 * the optional `*`, `+`, or `?` indicates varargs
 * the `<ptype>` are parameter types of the form
 
-~~~c
+~~~
   <ptype> ::= [(input|output)*|dynamic|actions|expression] [f] <stype>
 ~~~
 
@@ -1276,7 +1276,7 @@ where the optional
 
 the `<quanti>` are quantifiers of the form
 
-~~~c
+~~~
   <quanti> ::= forall <tvar> [in {<btype> … <btype>}]
 ~~~
 
@@ -1297,7 +1297,7 @@ vertices, and type coercion functions as its edges.
 The current coercion relation, denoted by `->` below, consists of the
 following rules.
 
-~~~c
+~~~
 SCIntegerDouble: integer -> double
 SCDynamicLeft: dynamic -> y
 SCDynamicRight: x -> dynamic
@@ -1310,7 +1310,7 @@ All coercion functions in the coercion relation are total.
 For example binary arithmetic operators such as addition and subtraction are
 given type:
 
-~~~c
+~~~
 forall X in {integer double}, f X * f X -> X
 ~~~
 
@@ -1322,26 +1322,26 @@ they can also be accepted with a runtime conversion inserted. Examples:
 
 (a) double + double => X = double
 
-~~~c
+~~~
 1.0+1.0
 ~~~
 
 (b) int + double => X = double
 
-~~~c
+~~~
 1+1.0
 ~~~
 
 (c) integer + integer => X = {integer double}
 
-~~~c
+~~~
 1+1
 ~~~
 
 (d) unknown + double => X = double
 Assuming that *A is a fresh variable
 
-~~~c
+~~~
 *A+1.0
 ~~~
 
@@ -1351,7 +1351,7 @@ The type checker generate a constraint that the type of `*A` can be coerced to d
 
 Assuming that `*A` and `*B` are fresh variables
 
-~~~c
+~~~
 *A+*B
 ~~~
 
@@ -1360,7 +1360,7 @@ The type checker generate a constraint that the type of `*A` can be coerced to e
 Some typing constraints can be solved within certain context. For example, if
 we put (e) in to the following context
 
-~~~c
+~~~
 *B = 1.0;
 *B = *A + *B;
 ~~~
@@ -1369,7 +1369,7 @@ then we can eliminate the possibility that `*B` is an integer, thereby narrowing
 
 Some typing constraints can be proved unsolvable. For example,
 
-~~~c
+~~~
 *B = *A + *B;
 *B == "";
 ~~~
@@ -1384,7 +1384,7 @@ solved at runtime.
 As in C, all variables in the rule language have a fixed type that can not be updated through an assignment.
 For example, the following does not work:
 
-~~~c
+~~~
 testTyping1 {
     *A = 1;
     *A = "str";
@@ -1393,19 +1393,19 @@ testTyping1 {
 
 Once a variable `*A` is assigned a value `X` the type of the variable is given by a typing constraint
 
-~~~c
+~~~
 type of X can be coerced to type of *A
 ~~~
 
 For brevity, we sometimes denote the "can be coerced to" relation by `<=`. For example,
 
-~~~c
+~~~
 type of X <= type of *A
 ~~~
 
 The reason why the type of `*A` is not directly assigned to the type of `*X` is to allow the following usage
 
-~~~c
+~~~
 testTyping2 {
     *A = 1; # integer <= type of *A
     *A = 2.0; # double <= type of *A
@@ -1414,7 +1414,7 @@ testTyping2 {
 
 Otherwise, the programmer would have to write
 
-~~~c
+~~~
 testTyping3 {
     *A = 1.0;
     *A = 2.0;
@@ -1425,7 +1425,7 @@ to make the rule pass the type checker.
 
 As a more complex example, the following generates a type error:
 
-~~~c
+~~~
 testTyping4 {
     *A = 1; # integer <= type of *A
     if(*A == "str") { # type error
@@ -1435,7 +1435,7 @@ testTyping4 {
 
 If the value of a variable is dynamically typed, then a coercion is inserted. The following example works, with a runtime coercion:
 
-~~~c
+~~~
 testTyping2 {
    msi(*A);
    if(*A == "str") { # insert coercion type of *A <= string
@@ -1449,7 +1449,7 @@ In the rule engine, you can declare the type of a rule function or a
 microservice. If the type of an action is declared, then the rule engine will do
 more static type checking. For example, although
 
-~~~c
+~~~
 concat(*a, *b) = *a ++ *b
 add(*a, *b) = concat(*a, *b)
 ~~~
@@ -1458,7 +1458,7 @@ does not generate a static type error, `add(0, 1)` will generate a dynamic
 type error. This can be solved (generate static type errors instead of dynamic
 type errors) by declaring the types of the functions
 
-~~~c
+~~~
 concat : string * string -> string
 concat(*a, *b) = *a ++ *b
 add : integer * integer -> integer
@@ -1474,13 +1474,13 @@ actions, which is useful when a program needs to pass the result of an
 expression in as an argument to an action. For example, to pass the result of an expression "1+2" as an argument to
 microservice `msi`, the programmer can write:
 
-~~~c
+~~~
 msi(1+2);
 ~~~
 
 and the rule engine will evaluate the expression
 
-~~~c
+~~~
 1+2
 ~~~
 
@@ -1494,7 +1494,7 @@ microservice is less than zero, the rule engine interprets it as a failure,
 rather than an integer value; and if the return value is greater than zero, the rule engine
 interprets it as an integer. Therefore the following expression
 
-~~~c
+~~~
 msi >= 0
 ~~~
 
@@ -1504,7 +1504,7 @@ In some applications, there is need for capturing all possible return values as
 regular integers. The "errorcode" microservice can be used to achieve this.
 In the previous example, we can modify the code to
 
-~~~c
+~~~
 errorcode(msi) >= 0
 ~~~
 
@@ -1528,7 +1528,7 @@ level indexing on applicable rules. The first level of indexing is based on the
 rule name. The second level of indexing is based on rule conditions. The rule
 condition indexing can be demonstrate by the following example:
 
-~~~c
+~~~
 testRule(*A) {
     on (*A == "a") { ... }
     on (*A == "b") { ... }
@@ -1539,13 +1539,13 @@ In this example, we have two rules with the same rule name, but different rule
 conditions. The first level of indexing does not improve the performance in a
 rule application like
 
-~~~c
+~~~
 testRule("a")
 ~~~
 
 However, the second level indexing does. The second level indexing works on rules with similar rule conditions. In particular, the rule conditions have to be of the form
 
-~~~c
+~~~
 <expression> == <string>
 ~~~
 
@@ -1568,19 +1568,19 @@ delayed execution or remote execution.
 
 Language Integrated General Query (LIGQ) provides native syntax support for GenQueries in the rule language and integrates automatic management of thr continuation index and the input and output data structures into the foreach loop. A query expression starts with the key word SELECT and looks exactly the same as a normal GenQuery:
 
-~~~c
+~~~
 SELECT META_DATA_ATTR_NAME WHERE DATA_NAME = 'data_name'
 ~~~
 
 At runtime this query is evaluated to an object of type genQueryInp_t * genQueryOut_t. This object can be assigned to a variable:
 
-~~~c
+~~~
 *A = SELECT META_DATA_ATTR_NAME WHERE DATA_NAME = 'data_name';
 ~~~
 
 and iterated in a foreach loop:
 
-~~~c
+~~~
 foreach(*Row in *A) {
     ...
 }
@@ -1588,7 +1588,7 @@ foreach(*Row in *A) {
 
 Or we can skip the assignment:
 
-~~~c
+~~~
 foreach(*Row in SELECT META_DATA_ATTR_NAME WHERE DATA_NAME = 'data_name' AND COLL_NAME = 'coll_name') {
     ...
 }
@@ -1612,19 +1612,19 @@ One potential confusion is that the `like` and `not like` operators in the gen q
 
 A path literal starts with a slash:
 
-~~~c
+~~~
 /tempZone/home/rods
 ~~~
 
 A path literal is just like a string, you can use variable expansion, escape characters, etc:
 
-~~~c
+~~~
 /*Zone/home/*User/\\.txt
 ~~~
 
 In addition to the characters that must be escaped in a string, the following characters must also be escaped in a path literal:
 
-~~~c
+~~~
 ','  comma
 ';'  semicolon
 ')'  right parenthesis
@@ -1633,19 +1633,19 @@ In addition to the characters that must be escaped in a string, the following ch
 
 A path literal can be assigned to a variable:
 
-~~~c
+~~~
 *H = /tempZone/home/rods
 ~~~
 
 New path literals can be constructed from paths but it must start with "/", the rule engine automatically removes redundant leading slashes in a path:
 
-~~~c
+~~~
 *F = /*H/foo.txt
 ~~~
 
 Path literals can be used in various places. If a path literal points to a collection, it can be used in a foreach loop to loop over all data objects under that collection.
 
-~~~c
+~~~
 foreach(*D in *H) {
   ...
 }
@@ -1653,7 +1653,7 @@ foreach(*D in *H) {
 
 A path literal can also be used in collection and data object related microservice calls:
 
-~~~c
+~~~
 msiCollCreate(/*H/newColl, "", *Status);
 msiRmColl(/*H/newColl, "", *Status);
 ~~~
