@@ -1103,7 +1103,7 @@ size(*t) =
 
 Syntax:
 
-~~~
+~~~c
 <A1> [ ::: <R1> ]
 <A2> [ ::: <R2> ]
 ...
@@ -1139,7 +1139,7 @@ executed.
 
 Syntax:
 
-~~~
+~~~c
 while(<cond>) {
     <A1> [ ::: <R1> ]
     <A2> [ ::: <R2> ]
@@ -1157,7 +1157,7 @@ from the loop invariant to before the loop is executed.
 
 Syntax:
 
-~~~
+~~~c
 foreach(<var> in <expr>) {
     <A1> [ ::: <R1> ]
     <A2> [ ::: <R2> ]
@@ -1172,7 +1172,7 @@ If `Ax` fails, then `Rx, ..., R1, R` are executed.
 
 Syntax:
 
-~~~
+~~~c
 for(<init>; <cond>; <incr>) {
     <A1> [ ::: <R1> ]
     <A2> [ ::: <R2> ]
@@ -1618,7 +1618,7 @@ A path literal starts with a slash:
 
 A path literal is just like a string, you can use variable expansion, escape characters, etc:
 
-~~~c
+~~~
 /*Zone/home/*User/\\.txt
 ~~~
 
@@ -1639,7 +1639,7 @@ A path literal can be assigned to a variable:
 
 New path literals can be constructed from paths but it must start with "/", the rule engine automatically removes redundant leading slashes in a path:
 
-~~~c
+~~~
 *F = /*H/foo.txt
 ~~~
 
@@ -1653,7 +1653,7 @@ foreach(*D in *H) {
 
 A path literal can also be used in collection and data object related microservice calls:
 
-~~~c
+~~~
 msiCollCreate(/*H/newColl, "", *Status);
 msiRmColl(/*H/newColl, "", *Status);
 ~~~
