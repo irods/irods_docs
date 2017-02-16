@@ -1596,7 +1596,7 @@ foreach(*Row in SELECT META_DATA_ATTR_NAME WHERE DATA_NAME = 'data_name' AND COL
 
 where *Row is a keyValPair_t object that contains the current row in the result set. The break statement can be used to exit the foreach loop.
 
-LIGQ supports the following gen query syntax:
+LIGQ supports the following the general query (GenQuery) syntax:
 
 * `count`, `sum`, `order_desc`, `order_asc`
 * `=`, `<>`, `>`, `<`, `>=`, `<=`, `in`, `between`, `like`, `not like`
@@ -1606,7 +1606,7 @@ LIGQ also provides support for using `==` and `!=` as equality predicates, in or
 
 The left hand side of comparison operators is always a column name, but the right hand side of a comparison operator is always one (or more in the case of `between`) normal Rule Engine expression(s) which is(are) evaluated by the rule engine first. Therefore, we can use any rule engine expression on the right hand side of a comparison operator. If the right hand side operand is not a simple single quoted string or number, then the LIGQ query cannot be executed from the iquery command.
 
-One potential confusion is that the `like` and `not like` operators in the gen query syntax differ from those in the Rule Language. The right hand side operand is first evaluated by the rule engine to a string which in turn is interpreted by the qen query subsystem. Therefore, LIGQ queries do not use the same syntax for wildcards as the rule engine (unless the wildcards are in a nested rule engine expression). While the rule engine uses `*` for wildcards, qen query uses the standard SQL syntax for wildcards.
+One potential confusion is that the `like` and `not like` operators in the GenQuery syntax differ from those in the Rule Language. The right hand side operand is first evaluated by the rule engine to a string which in turn is interpreted by the qen query subsystem. Therefore, LIGQ queries do not use the same syntax for wildcards as the rule engine (unless the wildcards are in a nested rule engine expression). While the rule engine uses `*` for wildcards, GenQuery uses the standard SQL syntax for wildcards.
 
 ## Path Literals
 
