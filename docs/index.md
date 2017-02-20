@@ -8,7 +8,7 @@ The development infrastructure supports exhaustive testing on supported platform
 
 - iRODS: [https://irods.org](https://irods.org)
 
-- iRODS Consortium: [https://irods.org/pages/about.html](https://irods.org/pages/about.html)
+- iRODS Consortium: [https://irods.org/about](https://irods.org/about)
 
 - RENCI: [http://www.renci.org](http://www.renci.org)
 
