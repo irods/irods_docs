@@ -46,6 +46,12 @@ Confirmation of the permissions can be viewed with ``\l`` within the ``psql`` co
  (N rows)
 ~~~
 
+!!! Note
+    A default system PostgreSQL installation on Ubuntu does not listen on a TCP port, it only listens on a local socket.  If your PostgreSQL server is localhost, use 'localhost' for "Database Server's Hostname or IP" above.
+
+!!! Note
+    A default system PostgreSQL installation may be configured for ident-based authentication which means the unix service account name must match the database user name.  iRODS currently assumes this is the case.
+
 #### MySQL on Ubuntu 14.04:
 
 ~~~
@@ -115,12 +121,6 @@ The `setup_irods.py` script will ask for information in four (possibly five) sec
     - iRODS Administrator Password
 
 5. Vault Directory
-
-!!! Note
-    A default system PostgreSQL installation on Ubuntu does not listen on a TCP port, it only listens on a local socket.  If your PostgreSQL server is localhost, use 'localhost' for "Database Server's Hostname or IP" above.
-
-!!! Note
-    A default system PostgreSQL installation may be configured for ident-based authentication which means the unix service account name must match the database user name.  iRODS currently assumes this is the case.
 
 !!! Note
     When running iRODS on pre-8.4 PostgreSQL, it is necessary to remove an optimized specific query which was not yet available:
