@@ -130,7 +130,36 @@ The replication resource provides logic to automatically manage replicas to all 
 
 [Rebalancing](#rebalancing) of the replication node is made available via the "rebalance" subcommand of `iadmin`.  For the replication resource, all Data Objects on all children will be replicated to all other children.  The amount of work done in each iteration as the looping mechanism completes is controlled with the session variable `replication_rebalance_limit`.  The default value is set at 500 Data Objects per loop.
 
+The following rule would set the rebalance limit to 200 Data Objects per loop:
+```
+pep_resource_rebalance_pre(*OUT) {
+    *OUT="replication_rebalance_limit=200";
+}
+```
+
 Getting files from the replication resource will show a preference for locality.  If the client is connected to one of the child resource servers, then that replica of the file will be returned, minimizing network traffic.
+
+The replication coordinating resource implementation gathers only good replicas that need to be replicated to other leaf nodes in the tree.
+
+If the rebalance operation is interrupted, then the next time it is run, any unfinished work would still be 'unbalanced' and will appear in the next gathered set.
+
+The behavior is independent of where the command is issued.
+
+The total number of replicas that need to be rebalanced is the sum of the stale replicas and the missing replicas in a particular resource hierarchy:
+
+```
+StaleReplicasInTree
+select count(*) from r_data_main where resc_name = 'ROOT_OF_TREE' and data_is_dirty = '0'
+```
+
+and
+
+```
+MissingReplicasInTree
+select count(*) from (select data_id from r_data_main where resc_name = 'ROOT_OF_TREE' group by data_id having count(*) = 1)
+```
+
+These two queries can be added as specific queries via `iadmin asq`.
 
 ### Round Robin
 
