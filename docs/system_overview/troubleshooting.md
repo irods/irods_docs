@@ -234,3 +234,18 @@ As a workaround, a symlink must be created on the Catalog Service Provider:
 ```
 sudo ln -s /usr/lib64/libodbcinst.so.2 /usr/lib64/libodbcinst.so.1
 ```
+
+## Database schema upgrade needs more memory
+
+When upgrading to 4.2+ (schema 5) on MySQL, the default memory allocation of 8MB may not be sufficient to handle the conversion in R_DATA_MAIN from resource hierarchies as strings to resource id as integers.
+
+!!! ERROR
+    ERROR 1206 (HY000): The total number of locks exceeds the lock table size
+
+On a database with 11 million rows in R_DATA_MAIN, the following setting allowed for the upgrade to complete.
+
+Increase the memory allocated to a sufficient size in `/etc/my.cnf`:
+
+```
+innodb_buffer_pool_size=100M
+```
