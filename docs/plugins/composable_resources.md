@@ -128,6 +128,16 @@ If the selected target child resource of a put operation is currently marked "do
 
 The replication resource provides logic to automatically manage replicas to all its children.
 
+Getting files from the replication resource will show a preference for locality.  If the client is connected to one of the child resource servers, then that replica of the file will be returned, minimizing network traffic.
+
+#### num_repl and read keywords
+
+By default, the replication resource will create and manage replicas on all of its children.  This can be overridden by using the `num_repl=N` keyword in the context string.  If `N` is less than or equal to zero, an error is thrown.  If `N` is greater than or equal to the number of children, all children will receive a replica (same as the default behavior).  Otherwise, `N` children will be randomly chosen to receive a replica.
+
+By default, the replication resource will read the replica that votes highest (usually to provide locality of reference).  This can be overridden by using the `read=random` keyword in the context string.  If this setting is used, a random replica will be selected to be accessed and sent to the client.
+
+#### Rebalance
+
 [Rebalancing](#rebalancing) of the replication node is made available via the "rebalance" subcommand of `iadmin`.  For the replication resource, all Data Objects on all children will be replicated to all other children.  The amount of work done in each iteration as the looping mechanism completes is controlled with the session variable `replication_rebalance_limit`.  The default value is set at 500 Data Objects per loop.
 
 The following rule would set the rebalance limit to 200 Data Objects per loop:
@@ -137,9 +147,7 @@ pep_resource_rebalance_pre(*OUT) {
 }
 ```
 
-Getting files from the replication resource will show a preference for locality.  If the client is connected to one of the child resource servers, then that replica of the file will be returned, minimizing network traffic.
-
-The replication coordinating resource implementation gathers only good replicas that need to be replicated to other leaf nodes in the tree.
+The replication coordinating resource rebalance implementation gathers only good replicas that need to be replicated to other leaf nodes in the tree.
 
 If the rebalance operation is interrupted, then the next time it is run, any unfinished work would still be 'unbalanced' and will appear in the next gathered set.
 
