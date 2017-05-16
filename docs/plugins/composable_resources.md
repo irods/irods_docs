@@ -52,9 +52,9 @@ An intended side effect of the tree metaphor and the virtualization of coordinat
 
 Read more about [Composable Resources](https://irods.org/2013/02/e-irods-composable-resources/):
 
-- [Paper (279kB, PDF)](https://irods.org/wp-content/uploads/2013/02/eirods-composable-resources.pdf)
-- [Slides (321kB, PDF)](https://irods.org/wp-content/uploads/2013/02/eirods-cr-slides.pdf)
-- [Poster (6.4MB, PDF)](https://irods.org/wp-content/uploads/2013/02/eirods-composable-resources-poster.pdf)
+- [Paper (279kB, PDF)](https://irods.org/uploads/2013/02/eirods-composable-resources.pdf)
+- [Slides (321kB, PDF)](https://irods.org/uploads/2013/02/eirods-cr-slides.pdf)
+- [Poster (6.4MB, PDF)](https://irods.org/uploads/2013/02/eirods-composable-resources-poster.pdf)
 
 ## Coordinating Resources
 
