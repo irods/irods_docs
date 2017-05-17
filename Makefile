@@ -22,7 +22,7 @@ get_irods :
 doxygen : get_irods
 	@echo "Generating Doxygen..."
 	@if [ ! -d ${DOXYGENTARGET} ] ; then git clone https://github.com/doxygen/doxygen ${DOXYGENTARGET}; fi
-	@cd ${DOXYGENTARGET}; git pull; git checkout ${MAKEDOXYGENVERSION}
+	@cd ${DOXYGENTARGET}; git checkout master; git pull; git checkout ${MAKEDOXYGENVERSION}
 	@mkdir -p ${DOXYGENTARGET}/build
 	@if [ ! -f ${DOXYGENTARGET}/build/CMakeCache.txt ] ; then cd ${DOXYGENTARGET}/build; cmake ..; fi
 	@cd ${DOXYGENTARGET}/build ; make
