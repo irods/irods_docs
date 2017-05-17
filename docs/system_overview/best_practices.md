@@ -44,6 +44,14 @@ acSetRescSchemeForRepl {msiSetDefaultResc("rootResc","null"); }
 iRODS is initially configured with the motivation of having a usable system.  To prepare a new installation for production, `demoResc` should be removed and replaced with a resource backed by a suitable production-quality storage system.  The Vault for `demoResc` is, by default, in the iRODS service account home directory (`/var/lib/irods/iRODS/Vault`) and not ready for production use.
 
 
+## Adding custom rulebases rather than editing core.re
+
+Each iRODS server in a Zone has its own policy.  This policy is comprised of the active rulebases on each server (possibly from multiple rule engine plugins and in different languages).  Different servers may have different policies in force.  [Deploying custom policy in the iRODS Rule Language to a particular server is best done by creating additional rulebases](../plugins/pluggable_rule_engine/#example), rather than editing the existing default `core.re`.
+
+By adding a new `.re` file and adding it to the correct `re_rulebase_set` array within `/etc/irods/server_config.json`, an administrator can more easily keep track of customizations to a particular server.
+
+This approach is also easier to deploy using configuration management solutions like Ansible, Chef, or Puppet.
+
 ## Using free_space check on unixfilesystem resources
 
 Since 4.1.10, the unixfilesystem resource context string can set 'minimum_free_space_for_create_in_bytes" which will be checked against the 'free_space' value set in the iCAT catalog for that resource before voting to accept any create operations.
