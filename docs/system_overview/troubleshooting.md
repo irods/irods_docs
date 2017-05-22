@@ -249,3 +249,25 @@ Increase the memory allocated to a sufficient size in `/etc/my.cnf`:
 ```
 innodb_buffer_pool_size=100M
 ```
+
+## Variable out of scope in a remote block
+
+When executing a microservice on a remote server, the output variable cannot be used in the original rule unless it has been previously declared.
+
+!!! ERROR
+    SYS_PACK_INSTRUCT_FORMAT_ERR -15000
+
+This is a variable scoping problem.  The remote block has its own scope, and any output variables used for the first time within the remote block will not be available to the outer block.
+
+The following empty string declaration will ensure `*out` is available for use by `OUTPUT`:
+
+```
+testRule {
+    *out = "";
+    remote("otherserver.example.org", "") {
+        test_microservice(*out);
+    }
+}
+INPUT null
+OUTPUT *out
+```
