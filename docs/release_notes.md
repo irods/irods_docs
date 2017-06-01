@@ -36,15 +36,17 @@ Release Date: 2016-11-14
 
     - Microservice objects (MSOs)
 
- - idbug removed
+  - Consolidation of database plugin connection code to use unixODBC for PostgreSQL, MySQL, and Oracle
 
- - iphybun, ixmsg, irodsXmsgServer marked as deprecated
+  - idbug removed
 
- - Resource hierarchies refactored to use IDs - Upgrades will experience a one-time full table scan whereby all data objects are updated.  A 10M data object lab test installation took 13 minutes to update.  100M data objects are estimated to take 2-3 hours to update.
+  - iphybun, ixmsg, irodsXmsgServer marked as deprecated
 
- - [Distributing iCommands](system_overview/distributing_icommands.md) to users who do not have root is not yet supported for 4.2. It will be included again in a later release.
+  - Resource hierarchies refactored to use IDs - Upgrades will experience a one-time full table scan whereby all data objects are updated.  A 10M data object lab test installation took 13 minutes to update.  100M data objects are estimated to take 2-3 hours to update.
 
- - Quieter rodsLog during normal operations
+  - [Distributing iCommands](system_overview/distributing_icommands.md) to users who do not have root is not yet supported for 4.2. It will be included again in a later release.
+
+  - Quieter rodsLog during normal operations
 
 ### Other Issues
 
