@@ -13,6 +13,12 @@ Prerequisites
 - git, g++, flex, bison, cmake, python, virtualenv, mkdocs
 - iCommands (the version the generated docs will reflect)
 
+Update for correct version
+--------------------------
+
+- Update Makefile with correct MAKEIRODSVERSION
+- Update irods_for_doxygen/Doxyfile with correct PROJECT_NUMBER
+
 Build
 -----
 
@@ -23,3 +29,5 @@ $ make
 ```
 
 The resulting `site` directory will contain the generated standalone documentation.
+
+
