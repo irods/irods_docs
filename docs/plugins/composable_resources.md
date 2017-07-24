@@ -221,14 +221,6 @@ Storage resources represent storage interfaces and include the file driver infor
 
 The unixfilesystem storage resource is the default resource type that can communicate with a device through the standard POSIX interface.
 
-A high water mark capability has been added to the unixfilesystem resource in 4.1.8.  The high water mark can be configured with the context string using the following syntax:
-
-```
-irods@hostname:~/ $ iadmin modresc unixResc context 'high_water_mark=1000'
-```
-
-The value is the total disk space used in bytes.  If a create operation would result in the total bytes on disk being larger than the high water mark, then the resource will return `USER_FILE_TOO_LARGE` and the create operation will not occur.  This feature allows administrators to protect their systems from absolute disk full events.  Writing to, or extending, existing file objects is still allowed.
-
 A free_space check capability has been added to the unixfilesystem resource in 4.1.10.  The free_space check can be configured with the context string using the following syntax:
 
 ```
