@@ -112,6 +112,20 @@ Servers in the catalog provider role have the following additional top level ent
 
   - `db_username` (required) - The database user name
 
+## /etc/irods/database_config.json
+
+This file defines the database settings for the iRODS installation. It is created and populated by the installer package.
+
+This file contains the following top level entries:
+
+  - `catalog_database_type` (required) - The type of database iRODS is using for the iCAT, either 'postgres', 'mysql', or 'oracle'
+  - `db_host` (required) - The hostname of the database server (can be localhost)
+  - `db_odbc_type` (required) - The ODBC type, usually 'unix'
+  - `db_password` (required) - The password for the `db_username` to connect to the `db_name`
+  - `db_port` (required) - The port on which the database server is listening
+  - `db_name` (required) - The name of the database used as the iCAT
+  - `db_username` (required) - The database user name
+
 ## /etc/irods/hosts_config.json
 
 This file serves as an iRODS-owned version of /etc/hosts.  It defines network aliases when you may not have permission to update hostnames on the servers in the Zone.
