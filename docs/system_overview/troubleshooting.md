@@ -2,7 +2,7 @@ Some of the commonly encountered iRODS errors along with troubleshooting steps a
 
 ## The Server Log (rodsLog)
 
-The iRODS server log (rodsLog) is the best place to find a history of what has happened and any error codes and file paths that may explain unexpected behavior.  The rodsLog is found at `/var/lib/irods/server/log/rodsLog*`.  The rodsLog is rotated every few days, so make sure you're looking at the latest file for recent error messages.  The debugging level (below) affects how many messages are written to the rodsLog.
+The iRODS server log (rodsLog) is the best place to find a history of what has happened and any error codes and file paths that may explain unexpected behavior.  The rodsLog is found at `/var/lib/irods/log/rodsLog*`.  The rodsLog is rotated every few days, so make sure you're looking at the latest file for recent error messages.  The debugging level (below) affects how many messages are written to the rodsLog.
 
 ## Debugging Levels
 
