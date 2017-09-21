@@ -229,7 +229,7 @@ irods@hostname:~/ $ iadmin modresc unixResc context 'minimum_free_space_for_crea
 
 The example requires this unixfilesystem plugin instance (unixResc) to keep 20GiB free when considering whether to accept a create operation.  If a create operation would result in the bytes free on disk being smaller than the set value, then the resource will return `USER_FILE_TOO_LARGE` and the create operation will not occur.  This feature allows administrators to protect their systems from absolute disk full events.  Writing to, or extending, existing file objects is still allowed and not affected by this setting.
 
-The check that is performed by the unixfilesystem plugin instance compares the 'minimum_free_space_for_create_in_bytes' value from the context string to the 'free_space' value stored in the 'R_RESC_MAIN' (resource) table in the iCAT.  The 'free_space' value in the catalog can be updated with 'iadmin modresc <rescName> freespace <value>' or with the 'msi_update_unixfilesystem_resource_free_space(*leaf_resource)' on every server where unixfilesystems are active.
+The check that is performed by the unixfilesystem plugin instance compares the 'minimum_free_space_for_create_in_bytes' value from the context string to the 'free_space' value stored in the 'R_RESC_MAIN' (resource) table in the iCAT.  The 'free_space' value in the catalog can be updated with 'iadmin modresc &lt;rescName&gt; freespace &lt;value&gt;' or with the 'msi_update_unixfilesystem_resource_free_space(*leaf_resource)' on every server where unixfilesystems are active.
 
 To update the 'free_space' value from the command line (manually) to 1TiB, the following 'iadmin' command can be used:
 
