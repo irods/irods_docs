@@ -6,7 +6,7 @@ The iRODS administrator can 'force' a particular authentication scheme for a rod
 
 ## GSI (Grid Security Infrastructure)
 
-Grid Security Infrastructure (GSI) setup in iRODS 4.0+ has been greatly simplified.  The functionality itself is provided by the [GSI authentication plugin](https://github.com/irods/irods_auth_plugin_gsi).
+The functionality for GSI authentication in iRODS is provided by the [GSI authentication plugin](https://github.com/irods/irods_auth_plugin_gsi).
 
 ### GSI Configuration
 
@@ -15,6 +15,9 @@ Configuration of GSI is out of scope for this document, but consists of the foll
 1. Install GSI (most easily done via package manager)
 2. Confirm the (default) irods service account has a certificate in good standing (signed)
 3. Confirm the local system account for client "newuser" has a certificate in good standing (signed)
+
+!!! Note
+    Once installed, the `X509_USER_CERT` and `X509_USER_KEY` are necessary to be set for the service **even if** the default paths are used. (i.e. /etc/grid-security/service/servicekey(cert).pem)
 
 ### iRODS Configuration
 
