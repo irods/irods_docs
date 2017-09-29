@@ -181,7 +181,7 @@ user@hostname:/tmp/irods-externals $ make
 Use the newly built version of CMake:
 
 ~~~
-user@hostname:/tmp/irods-externals $ export PATH=$IRODS_EXTERNALS/cmake3.5.2/bin:$PATH
+user@hostname:/tmp/irods-externals $ export PATH=$IRODS_EXTERNALS/cmake3.5.2-0/bin:$PATH
 ~~~
 
 Then, when building iRODS itself, CMake must be called with the appropriate flags:
