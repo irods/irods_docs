@@ -282,7 +282,7 @@ irods@hostname:~/ $ cat .irods/irods_environment.json
     "irods_encryption_num_hash_rounds": 16,
     "irods_encryption_salt_size": 8,
     "irods_home": "/**<newzonename>**/home/rods",
-    "irods_host": "bison.europa.renci.org",
+    "irods_host": "<your.hostname>",
     "irods_match_hash_policy": "compatible",
     "irods_maximum_size_for_single_buffer_in_megabytes": 32,
     "irods_port": 1247,
