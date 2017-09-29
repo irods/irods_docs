@@ -168,21 +168,38 @@ schema_version - v3
 
 iRODS can be compiled from source and run from the same directory.  Although this is not recommended for production deployment, it may be useful for testing, running multiple iRODS servers on the same system, running iRODS on systems without a package manager, and users who do not have administrator rights on their system.
 
-To run iRODS as a non-package install, the build script must be called with the appropriate flag:
+In order to build from source, iRODS needs its external dependencies satisfied:
 
 ~~~
+user@hostname:~/ $ export IRODS_EXTERNALS=/tmp/irods-externals
+user@hostname:~/ $ git clone https://github.com/irods/externals $IRODS_EXTERNALS
+user@hostname:~/ $ cd $IRODS_EXTERNALS
+user@hostname:/tmp/irods-externals $ ./install_prerequisites.py
+user@hostname:/tmp/irods-externals $ make
+~~~
+
+Use the newly built version of CMake:
+
+~~~
+user@hostname:/tmp/irods-externals $ export PATH=$IRODS_EXTERNALS/cmake3.5.2/bin:$PATH
+~~~
+
+Then, when building iRODS itself, CMake must be called with the appropriate flags:
+
+~~~
+user@hostname:~/irods/ $ export IRODS_INSTALL_DIR=/path/to/the/non-package-root
 user@hostname:~/irods/ $ mkdir build
-user@hostname:~/irods/build $ cmake -DCMAKE_INSTALL_PREFIX=/path/to/the/non-package/root ../
+user@hostname:~/irods/build $ cmake -DCMAKE_INSTALL_PREFIX=$IRODS_INSTALL_DIR -DIRODS_EXTERNALS_PACKAGE_ROOT=$IRODS_EXTERNALS ../
 user@hostname:~/irods/build $ make non-package-install-postgres
 ~~~
 
 The iCommands are a dependency of the iRODS server, and can be built with the following sequence:
 
 ~~~
-user@hostname:~/irods_client_icommands/build $ cmake -DCMAKE_INSTALL_PREFIX=<non-package-root> -DIRODS_DIR=<non-package-root>/usr/lib/irods/cmake ../
+user@hostname:~/irods_client_icommands/build $ cmake -DCMAKE_INSTALL_PREFIX=$IRODS_INSTALL_DIR -DIRODS_DIR=$IRODS_INSTALL_DIR/usr/lib/irods/cmake ../
 user@hostname:~/irods_client_icommands/build $ make install
-user@hostname:~/irods_client_icommands/build $ export PATH=<non-package-root>/usr/bin:<non-package-root>/usr/sbin:$PATH
-user@hostname:~/irods_client_icommands/build $ export LD_LIBRARY_PATH=<non-package-root>/usr/lib
+user@hostname:~/irods_client_icommands/build $ export LD_LIBRARY_PATH=$IRODS_INSTALL_DIR/usr/lib
+user@hostname:~/irods_client_icommands/build $ export PATH=$IRODS_INSTALL_DIR/usr/bin:$IRODS_INSTALL_DIR/usr/sbin:$PATH
 ~~~
 
 After the system is built, the `setup_irods.py` script should be run, the same as a binary installation:
