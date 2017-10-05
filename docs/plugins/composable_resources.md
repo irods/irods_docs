@@ -147,12 +147,6 @@ pep_resource_rebalance_pre(*OUT) {
 }
 ```
 
-By default, the rebalance operation issued to a replication resource will be issued to each of its children, recursively.  The replication resource's context string can be set to avoid this recursive behavior:
-
-~~~
-irods@hostname:~/ $ iadmin modresc myReplResc context 'recursive_rebalance=false'
-~~~
-
 The replication coordinating resource rebalance implementation gathers only good replicas that need to be replicated to other leaf nodes in the tree.
 
 If the rebalance operation is interrupted, then the next time it is run, any unfinished work would still be 'unbalanced' and will appear in the next gathered set.
