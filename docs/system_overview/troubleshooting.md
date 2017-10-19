@@ -125,6 +125,15 @@ Modifying the "StrictACL" setting in the iRODS server's `core.re` file will appl
 
 This error can occur when the iRODS user is unknown or invalid in some way (for instance, no password has been defined for the user, or the user does not exist in that Zone).  This error is most common while debugging configuration issues with Zone Federation.
 
+## Incorrect or Non-Existent Default Resource
+
+!!! error
+    USER_NO_RESC_INPUT_ERR -321000
+
+This error can occur when the iRODS server does not have a storage resource by the name specified by the user or, perhaps, incorrectly set by default by the server administrator (probably in core.re).
+
+A client can use `iput -R` or update their `irods_environment.json` value of 'irods_default_resource' to override the default storage resource settings. 
+
 ## Rule Engine Plugin Framework Error
 
 !!! error
