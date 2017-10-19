@@ -67,11 +67,11 @@ This file contains the following top level entries:
 
   - `pam_password_min_time` (optional) - Minimum allowed PAM password lifetime
 
-  - `re_data_variable_mapping_set` (required) - An array of file names comprising the list of data to variable mappings used by the rule engine, for example: { "filename": "core" } which references 'core.dvm'
+  - `re_data_variable_mapping_set` (required) - An array of file names comprising the list of data to variable mappings used by the rule engine, for example: [ "core" ] which references 'core.dvm'
 
-  - `re_function_name_mapping_set` (required) - An array of file names comprising the list of function name map used by the rule engine, for example: { "filename": "core" } which references 'core.fnm'
+  - `re_function_name_mapping_set` (required) - An array of file names comprising the list of function name map used by the rule engine, for example: [ "core" ] which references 'core.fnm'
 
-  - `re_rulebase_set` (required) - An array of file names comprising the list of rule files used by the rule engine, for example: { "filename": "core" } which references 'core.re'.  This array is ordered as the order of the rule files affects which (multiply) matching rule would fire first.
+  - `re_rulebase_set` (required) - An array of file names comprising the list of rule files used by the rule engine, for example: [ "core" ] which references 'core.re'.  This array is ordered as the order of the rule files affects which (multiply) matching rule would fire first.
 
   - `schema_validation_base_uri` (required) - The URI against which the iRODS server configuration is validated.  By default, this will be the schemas.irods.org domain.  It can be set to any http(s) endpoint as long as that endpoint has a copy of the irods_schema_configuration repository.  This variable allows a clone of the git repository to live behind an organizational firewall, but still perform its duty as a preflight check on the configuration settings for the entire server.
 
