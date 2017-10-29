@@ -1,3 +1,61 @@
+## 4.2.2
+
+Release Date: 2017-10-31
+
+### Features
+
+ - Enable more flexible plugin factory functions [#3703]
+
+ - Generate relocatable RPMs [#3618]
+
+### Bug Fixes
+
+ - Fixes for memory management [#3178] [#3184] [#3587] [#3605] [#3640] [#3641] [#3644] [#3649] [#3656]
+
+ - Questions about REPF, byte range support, and tiny files [#3431] [#3471] [#3521]
+
+ - Better documentation [#3442] [#3597]
+
+ - Fix for REPF writeLine support using expected location [#3477] [#3638]
+
+ - Fix for too-often expensive replication [#3525]
+
+ - Fix for CMake linker flags [#3552]
+
+ - Fix for logs being written to older logfile [#3563]
+
+ - Fix for rebalance batching behavior [#3570]
+
+ - Fix for type checker in iRODS Rule Language [#3575] [#3632]
+
+ - Fixes for test harness [#3577] [#3579]
+
+ - Fix for upgrade process [#3578]
+
+ - Fix for exception handling [#3596]
+
+ - Fix for iadmin modrescdatapaths [#3598]
+
+ - Fixes for imeta output [#3600] [#3606]
+
+ - Fix for logging when environment file is missing [#3608]
+
+ - Fix for REPF start and stop operations [#3619]
+
+ - Fix for detecting changes to rulefiles [#3651]
+
+ - Fix for ireg and recursive checksums [#3662]
+
+ - Fix for irsync with fully qualified paths [#3663]
+
+ - Fix for logging PAM activity too often [#3673]
+
+ - Fix for unattended setup via json file [#3704]
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.2)
+
+ [All issues assigned to 4.1.11 are also included](https://github.com/irods/irods/issues?q=milestone%3A4.1.11).
+
 ## 4.2.1
 
 Release Date: 2017-06-08
