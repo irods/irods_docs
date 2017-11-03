@@ -63,9 +63,9 @@ This file contains the following top level entries:
 
   - `pam_password_length` (optional) - Maximum length of a PAM password
 
-  - `pam_password_max_time` (optional) - Maximum allowed PAM password lifetime
+  - `pam_password_max_time` (optional) - Maximum allowed PAM password lifetime, in seconds
 
-  - `pam_password_min_time` (optional) - Minimum allowed PAM password lifetime
+  - `pam_password_min_time` (optional) - Minimum allowed PAM password lifetime, in seconds
 
   - `re_data_variable_mapping_set` (required) - An array of file names comprising the list of data to variable mappings used by the rule engine, for example: [ "core" ] which references 'core.dvm'
 
