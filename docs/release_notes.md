@@ -1,6 +1,6 @@
 ## 4.2.2
 
-Release Date: 2017-11-07
+Release Date: 2017-11-08
 
 ### Features
 
