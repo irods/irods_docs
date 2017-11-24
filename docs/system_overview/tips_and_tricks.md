@@ -33,3 +33,12 @@ IRODS_SERVICE_GROUP_NAME=irods
 
 This shows the contents of the `/etc/irods/service_account.config` file from the iCAT server.
 
+## Tuning PostgreSQL on SSDs
+
+[From this post](https://amplitude.engineering/how-a-single-postgresql-config-change-improved-slow-query-performance-by-50x-85593b8991b0), when running your database server on a solid state drive, the follow setting can help select a faster query plan.
+
+~~~
+random_page_cost = 1
+~~~
+
+More general PostgreSQL Tuning information may be found [in this set of slides](https://speakerdeck.com/ongres/postgresql-configuration-for-humans).
