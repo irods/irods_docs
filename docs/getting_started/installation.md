@@ -47,7 +47,7 @@ Confirmation of the permissions can be viewed with ``\l`` within the ``psql`` co
 ~~~
 
 !!! Note
-    A default system PostgreSQL installation on Ubuntu does not listen on a TCP port, it only listens on a local socket.  If your PostgreSQL server is localhost, use 'localhost' for "Database Server's Hostname or IP" above.
+    A default system PostgreSQL installation on Ubuntu does not listen on a TCP port, it only listens on a local socket.  If your PostgreSQL server is localhost, use 'localhost' for "Database Server's Hostname or IP" in setup_irods.py below.
 
 !!! Note
     A default system PostgreSQL installation may be configured for ident-based authentication which means the unix service account name must match the database user name.  iRODS currently assumes this is the case.
