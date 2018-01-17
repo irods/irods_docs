@@ -29,14 +29,14 @@ First, if GSI is being configured for a new user, it must be created:
 iadmin mkuser newuser rodsuser
 ~~~
 
-Then that user must be configured so its Distiguished Name (DN) matches its certificate:
+Then that user must be configured so its Distinguished Name (DN) matches its certificate:
 
 ~~~
 iadmin aua newuser '/DC=org/DC=example/O=Example/OU=People/CN=New User/CN=UID:drexample'
 ~~~
 
 !!! Note
-    The comma characters (,) in the Distiguished Name (DN) must be replaced with forward slash characters (/).
+    The comma characters (,) in the Distinguished Name (DN) must be replaced with forward slash characters (/).
 
 On the client side, the user's 'irods_authentication_scheme' must be set to 'GSI'.  This can be configured via an `irods_environment.json` property:
 
