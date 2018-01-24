@@ -304,7 +304,7 @@ The server expects to have the following irods service account's `irods_environm
 Restart the server:
 
 ~~~
-irods@hostname:~/ $ ./iRODS/irodsctl restart
+irods@hostname:~/ $ ./irodsctl restart
 ~~~
 
 ### Client SSL Setup
