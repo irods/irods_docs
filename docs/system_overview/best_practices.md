@@ -41,7 +41,7 @@ acSetRescSchemeForRepl {msiSetDefaultResc("rootResc","null"); }
 
 ## Do not use demoResc in production
 
-iRODS is initially configured with the motivation of having a usable system.  To prepare a new installation for production, `demoResc` should be removed and replaced with a resource backed by a suitable production-quality storage system.  The Vault for `demoResc` is, by default, in the iRODS service account home directory (`/var/lib/irods/iRODS/Vault`) and not ready for production use.
+iRODS is initially configured with the motivation of having a usable system.  To prepare a new installation for production, `demoResc` should be removed and replaced with a resource backed by a suitable production-quality storage system.  The Vault for `demoResc` is, by default, in the iRODS service account home directory (`/var/lib/irods/Vault`) and not ready for production use.
 
 
 ## Adding custom rulebases rather than editing core.re
