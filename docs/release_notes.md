@@ -219,7 +219,7 @@ Release Date 2017-10-18
 
  - Fixes for itrim output [#3531] [#3554] [#3589] [#3590] [#3591] [#3633] [#3635] [#3639] [#3669] [#3670]
 
- - Fixes for unencrypted network traffic [#3551] [#3572]
+ - Fixes for unencrypted network traffic [#3551] [#3572] (breaking change, see note below)
 
  - Fix for tickets [#3553]
 
@@ -238,6 +238,9 @@ Release Date 2017-10-18
  - Fix for postinstall.sh script, chown will now de-reference symlinks [#3677]
 
  - Fix for checking negotiation results [#3684]
+
+!!! Note
+    Breaking Change - Due to the fix for [#3551], iRODS deployments using SSL will need to update clients and servers to 4.1.11 at the same time.
 
  [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.1.11)
 
