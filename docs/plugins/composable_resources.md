@@ -169,6 +169,20 @@ select count(*) from (select data_id from r_data_main where resc_name = 'ROOT_OF
 
 These two queries can be added as specific queries via `iadmin asq`.
 
+#### Replication retry
+
+The replication resource can be configured to retry (or not) a replication upon failure via three settings in the context string. The retry mechanism also applies to replications in a Rebalance operation. Note: The retry will only occur on failure to *replicate* from one sibling to another. If the initial file transfer fails for some reason, the retry mechanism will not be initiated.
+
+The settings are configured via `iadmin modresc`, like the example below (default values used):
+
+```
+iadmin modresc <repl name> context="retry_attempts=1;first_retry_delay_in_seconds=1;backoff_multiplier=1.0"
+```
+
+ - `retry_attempts` is an non-negative integer representing the number of times the replication resource will retry a replication.
+ - `first_retry_delay_in_seconds` is a positive integer representing the number of seconds to wait before attempting the first retry of the replication.
+ - `backoff_multiplier` is a positive floating point number >=1.0 which multiplies `first_retry_delay_in_seconds` after each retry. As the multiplier is only applied *after* the first retry, `backoff_multiplier` is only relevant when `retry_attempts` is > 1.
+
 ### Round Robin
 
 The round robin resource provides logic to put a file onto one of its children on a rotating basis.  A round robin resource can have one or more children.
