@@ -225,7 +225,7 @@ A service account environment file contains all of the client environment entrie
   - `irods_encryption_salt_size` (required) - Salt size for parallel transfer encryption
   - `irods_gsi_server_dn` (optional) - The Distinguished Name of the GSI Server
   - `irods_home` (required) - The home directory within the iRODS Zone for a given user
-  - `irods_log_level` (optional) - Desired verbosity of the iRODS logging
+  - `irods_log_level` (optional) - Desired [verbosity](troubleshooting.md#debugging-levels) of the iRODS logging
   - `irods_match_hash_policy` (required) - Use 'strict' to refuse defaulting to another scheme or 'compatible' for supporting alternate schemes
   - `irods_plugins_home` (optional) - Directory to use for the client side plugins (useful when [Distributing iCommands to Users](distributing_icommands.md))
   - `irods_ssl_ca_certificate_file` (optional) - Location of a file of trusted CA certificates in PEM format. Note that the certificates in this file are used in conjunction with the system default trusted certificates.
