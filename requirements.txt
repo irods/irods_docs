@@ -2,3 +2,4 @@ MarkdownPP==1.1
 argparse==1.2.1
 wsgiref==0.1.2
 mkdocs==0.16.0
+tornado>=4.0,<5.0
