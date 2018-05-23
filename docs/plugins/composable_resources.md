@@ -14,30 +14,30 @@ This powerful tree metaphor is best illustrated with an actual example.  You can
 
 ```
 irods@hostname:~/ $ ilsresc
-demoResc
+demoResc:unixfilesystem
 randy:random
 ├── pt1:passthru
-│   └── ufs5
+│   └── ufs5:unixfilesystem
 ├── repl1:replication
 │   ├── pt2:passthru
 │   │   └── pt3:passthru
 │   │       └── pt4:passthru
-│   ├── ufs10
-│   └── ufs11
-└── ufs1
-robin:roundrobin
+│   ├── ufs10:unixfilesystem
+│   └── ufs11:unixfilesystem
+└── ufs1:unixfilesystem
+deffy:deferred
 ├── repl2:replication
 │   ├── repl3:replication
-│   │   ├── ufs6
-│   │   ├── ufs7
-│   │   └── ufs8
-│   ├── ufs3
-│   └── ufs4
-└── ufs2
-test
-test1
-test2
-test3
+│   │   ├── ufs6:unixfilesystem
+│   │   ├── ufs7:unixfilesystem
+│   │   └── ufs8:unixfilesystem
+│   ├── ufs3:unixfilesystem
+│   └── ufs4:unixfilesystem
+└── ufs2:unixfilesystem
+test:unixfilesystem
+test1:unixfilesystem
+test2:unixfilesystem
+test3:unixfilesystem
 ```
 
 ## Virtualization
@@ -58,7 +58,7 @@ Read more about [Composable Resources](https://irods.org/2013/02/e-irods-composa
 
 ## Coordinating Resources
 
-Coordinating resources contain the flow control logic which determines both how its child resources will be allocated copies of data as well as which copy is returned when a Data Object is requested.  There are several types of coordinating resources: compound, random, replication, round robin, passthru, and some additional types that are expected in the future.  Each is discussed in more detail below.
+Coordinating resources contain the flow control logic which determines both how its child resources will be allocated copies of data as well as which copy is returned when a Data Object is requested.  There are several types of coordinating resources: compound, random, replication, round robin (deprecated), passthru, and some additional types that are expected in the future.  Each is discussed in more detail below.
 
 #### Compound
 
@@ -185,9 +185,17 @@ iadmin modresc <repl name> context="retry_attempts=1;first_retry_delay_in_second
 
 ### Round Robin
 
+(DEPRECATED - Marked for removal in 4.3.0. Use `random` instead.)
+
 The round robin resource provides logic to put a file onto one of its children on a rotating basis.  A round robin resource can have one or more children.
 
 If the selected target child resource of a put operation is currently marked "down" in the iCAT, the round robin resource will move onto the next child and try again.  If all the children are down, then the round robin resource will throw an error.
+
+Update a round robin resource to a random resource with the following single-row update to the catalog:
+
+```
+iadmin modresc rrResc type random
+```
 
 ### Passthru
 
@@ -225,7 +233,6 @@ A few other coordinating resource types have been brainstormed but are not funct
 
  - Storage Balanced (%-full) (expected)
  - Storage Balanced (bytes) (expected)
- - Tiered (expected)
 
 ## Storage Resources
 
