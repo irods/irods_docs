@@ -1,6 +1,6 @@
 ## 4.2.3
 
-Release Date: 2018-05-25
+Release Date: 2018-05-31
 
 ### Features
 
@@ -16,6 +16,8 @@ Release Date: 2018-05-25
 
 ### Bug Fixes
 
+ - Marked as resolved/invalid or duplicate [#2797] [#3237] [#3318] [#3504] [#3664] [#3825] [#3846] [#3847]
+
  - Marked as workaround and question answered [#2972] [#3028]
 
  - Fix for dangling symlinks [#3072]
@@ -29,8 +31,6 @@ Release Date: 2018-05-25
  - Allow usernames with "_ts" [#3170]
 
  - Update libarchive to latest stable release [#3201] [#3291]
-
- - Marked as resolved/invalid or duplicate [#3237] [#3318] [#3664] [#3825] [#3846] [#3847]
 
  - Fix for msiCheckAccess honoring ownership of collection via group [#3309]
 
@@ -82,6 +82,8 @@ Release Date: 2018-05-25
 
  - Fix for SQL logging to rodsLog [#3865]
 
+ - Fix for dynpeps called around msiExecCmd() [#3867]
+
  - Fix for control plane [#3878] [#3911]
 
  - Fix segfault in serialization of rule engine parameters [#3879]
@@ -104,7 +106,7 @@ Release Date: 2018-05-25
 
  [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.3)
 
- [All closed issues at the time of this release assigned to 4.1.12 are also included](https://github.com/irods/irods/issues?q=milestone%3A4.1.12%20closed%3A%3C2018-05-25).
+ [All closed issues at the time of this release assigned to 4.1.12 are also included](https://github.com/irods/irods/issues?q=milestone%3A4.1.12%20closed%3A%3C%3D2018-05-31).
 
 ## 4.2.2
 
