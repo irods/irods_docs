@@ -2,7 +2,7 @@
 
 The value reported by `ils -L` for a sha2 checksum is the base64 encoded sha256 checksum.
 
-This can be reproduced with: `sha256sum ${FILENAME} | xxd -r -p | base64`.
+This can be reproduced with: `sha256sum ${FILENAME} | awk '{print $1}' | xxd -r -p | base64`.
 
 Example:
 ~~~bash
@@ -16,7 +16,7 @@ $ ils -L foo
 $ sha256sum foo
 cc4d6c47bd195656cf6b0b8778de5f6adfb1345558f5107f70ede050bbcf7ecf  foo
 
-$ sha256sum foo | xxd -r -p | base64
+$ sha256sum foo | awk '{print $1}' | xxd -r -p | base64
 zE1sR70ZVlbPawuHeN5fat+xNFVY9RB/cO3gULvPfs8=
 ~~~
 
