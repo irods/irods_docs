@@ -17,20 +17,39 @@ To federate Zone A and Zone B, administrators in each zone must:
 In Zone A, add Zone B and define a remote user:
 
 ~~~
-ZoneA $ iadmin mkzone ZoneB remote zoneB-iCAT.hostname.example.org:ZoneBPort
+ZoneA $ iadmin mkzone ZoneB remote <zoneB-iCAT.hostname.example.org>:<ZoneBPort>
 ZoneA $ iadmin mkuser bobby#ZoneB rodsuser
+~~~
+
+Examples:
+~~~
+iadmin mkzone pears remote 123.456.789.012:1247
+iadmin mkzone pears remote my-server.com:1247
+iadmin mkuser bobby#pears rodsuser
 ~~~
 
 In Zone B, add Zone A, but skip adding any remote users at this time:
 
 ~~~
-ZoneB $ iadmin mkzone ZoneA remote zoneA-iCAT.hostname.example.org:ZoneAPort
+ZoneB $ iadmin mkzone ZoneA remote <zoneA-iCAT.hostname.example.org>:<ZoneAPort>
+~~~
+
+Examples:
+~~~
+iadmin mkzone apples remote 987.654.321.098:1247
+iadmin mkzone apples remote their-server.com:1247
 ~~~
 
 Then, any user of Zone A will be able to grant permissions to `bobby#ZoneB`:
 
 ~~~
 ZoneA $ ichmod read bobby#ZoneB myFile
+~~~
+
+
+Examples:
+~~~
+ichmod read bobby#pears someFile.txt
 ~~~
 
 Once permission is granted, it will appear like any other ACL:
