@@ -204,6 +204,16 @@ To enable validation on Ubuntu 12, install the `jsonschema` module via Python's 
 sudo pip install jsonschema
 ```
 
+## Policy firing on unexpected server
+
+Since iRODS servers make server-to-server connections when necessary, where policy is fired can be surprising within a Zone.  Every server in a Zone defines its own policy, and that policy is not required to be identical across the Zone.  There are valid use cases for some servers to handle things differently than their peers.
+
+When a [server spins up an iRODS Agent to service an initial incoming API request from a client](process_model.md), that server handling the connection is the one where policy will be evaluated and executed.  Particular PEPs will fire on the server that is handling that part of the request.
+
+This means that PEPs related to database connectivity (talking to the catalog) will only fire on the catalog provider, while PEPs related to the spinning disk where a replica is located will fire on the server handling that resource.
+
+So, as an example, the `acTrashPolicy {msiNoTrashCan;}` policy can be set per server.  But whether the policy is in force depends on which server services the incoming connection (and therefore where the irodsAgent is running), not where the resources are hosted.
+
 ## Dynamic PEP Signature Mismatches
 
 When writing dynamic PEPs, getting the signature wrong will provide a hint in the rodsLog:
