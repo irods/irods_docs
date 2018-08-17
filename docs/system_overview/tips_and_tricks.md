@@ -42,3 +42,52 @@ random_page_cost = 1
 ~~~
 
 More general PostgreSQL Tuning information may be found [in this set of slides](https://speakerdeck.com/ongres/postgresql-configuration-for-humans).
+
+## Decommissioning a storage resource
+
+There are multiple reasons that decommissioning an iRODS resource may be necessary.  Two scenarios are covered here.
+
+### Migration to newer hardware
+
+Use the following steps if newer hardware has been purchased and a migration of data has been planned:
+
+1. Determine which iRODS server will host the new device.
+2. Create a new iRODS resource that uses the new device.
+3. Add the new resource to the appropriate resource hierarchy (could be standalone).
+4. Replicate data to the new resource.
+5. Trim data from the to-be-retired resource.
+6. Remove the to-be-retired resource.
+7. Safely disconnect the to-be-retired device.
+
+### Existing storage device failure
+
+Use the following steps if an existing device fails and is not recoverable:
+
+1. Mark the bad resource 'down'
+
+    `iadmin modresc <badRescName> status down`
+
+2. Bring new resource online, alongside good replicas, under a replication resource
+
+    `iadmin mkresc <newResc> ...`
+
+    `iadmin addchildtoresc <replResc> <newResc>`
+
+3. Run rebalance
+
+    `iadmin modresc <replResc> rebalance`
+
+4. Remove all replica listings on the bad resource from the catalog
+
+    `itrim -M -r -S <badRescName> /<zoneName>`
+
+
+5. Remove the bad resource
+
+    `iadmin rmresc <badRescName>`
+
+These steps allow for:
+
+ - new incoming data to be synchronously redundant and
+
+ - existing data to continue to be read from good resources while the new resource is being populated with good replicas
