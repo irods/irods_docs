@@ -91,3 +91,32 @@ These steps allow for:
  - new incoming data to be synchronously redundant and
 
  - existing data to continue to be read from good resources while the new resource is being populated with good replicas
+
+## Using temporaryStorage in the iRODS Rule Language
+
+It is sometimes necessary or helpful to share a variable value across different PEPs.  This can be achieved through the use of `temporaryStorage`.
+
+`temporaryStorage` is a global variable (of type `keyValPair_t`) available in the iRODS Rule Language Rule Engine Plugin that persists for the life of the `irodsAgent` process.
+
+```
+pep_resource_create_pre(*INSTANCE, *CONTEXT, *OUT) {
+    temporaryStorage.example_important_variable = "create"
+}
+pep_resource_open_pre(*INSTANCE, *CONTEXT, *OUT) {
+    temporaryStorage.example_important_variable = "open"
+}
+pep_resource_close_post(*INSTANCE, *CONTEXT, *OUT) {
+    if (errorcode(temporaryStorage.example_important_variable) != 0){
+        writeLine("serverLog", "temporary variable does not exist")
+    } else if (temporaryStorage.example_important_variable == "create"){
+        writeLine("serverLog", "this was a create")
+    } else if (temporaryStorage.example_important_variable == "open"){
+        writeLine("serverLog", "this was an open")
+    }
+}
+```
+
+When a data object is created, the close PEP could now 'know' that it was part of a create-write-close series of file operations, rather than an open-write-close or open-read-close.
+
+
+`temporaryStorage` is not necessary in the Python Rule Engine Plugin.  To achieve the same effect, just use a Python variable that holds scope across different PEPs in a rule file.
