@@ -1,3 +1,42 @@
+## 4.2.4
+
+Release Date: 2018-09-03
+
+### Features
+
+### Bug Fixes
+
+ - Fixes for collections named . [#2010] [#3543]
+ - Clean up stale hierarchy information in catalog [#3853] [#3981]
+ - Fix for rebalancing files created with ibun -x [#3855]
+ - Fix for delayed rule behavior [#3906]
+ - Fix for imkdir and long paths with spaces [#3913]
+ - Fix for parallel delayed rule execution [#3941]
+ - Marked as workaround and question answered [#3961] [#4020]
+ - Fix for icp [#3962]
+ - Fix for internal path behavior [#3964] [#3970]
+ - Update documentation about trash policy [#3969]
+ - Fix for ireg --repl [#3980]
+ - Fix for irepl -Ua [#3982]
+ - Marked as resolved/invalid or duplicate [#3984] [#4024]
+ - Update sha256sum usage documentation [#3985]
+ - Document temporaryStorage with PEPs [#3987]
+ - Fixes for irsync -r and iput with symbolic links [#3988] [#4013] [#4016]
+ - Fixes for irsync/icp/iput with multiple source directories [#3997] [#4006]
+ - Fix for irule and remote calls to support Python Rule Engine Plugin [#4007]
+ - Fix for irsync/icp/iput into root collection (/) [#4030]
+ - Provide templated univMSSInterface.sh by default [#4045]
+ - Fix for irsync into target collection [#4048]
+ - Fix for direct registration via keywords [#4066]
+
+### Deprecated
+
+ - Marking iCommand iexecmd as deprecated - to be removed in 4.3.0.  Use irule and a rulefile calling msiExecCmd instead.
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.4)
+
+ [All closed issues at the time of this release assigned to 4.1.12 are also included](https://github.com/irods/irods/issues?q=milestone%3A4.1.12%20closed%3A%3C%3D2018-09-03).
+
 ## 4.2.3
 
 Release Date: 2018-05-31
