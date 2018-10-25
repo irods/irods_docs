@@ -18,7 +18,7 @@ Since 4.2.4, iRODS populates no-longer-used database columns with known values. 
 
 Upon upgrading from 4.2.3 or earlier, the administrator should manually run the script located at `scripts/update_deprecated_database_columns.py`.
 
-This script updates the following columns in R_DATA_MAIN to contain "known values":
+This script updates the following columns in `R_DATA_MAIN` to contain these known values:
 
  - resc_name: `EMPTY_RESC_NAME`
  - resc_hier: `EMPTY_RESC_HIER`
