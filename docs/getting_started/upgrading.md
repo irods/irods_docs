@@ -12,6 +12,22 @@ With this file in place, the installation history of your deployment will be pre
 
 Without this file in place, a dummy stanza will be inserted to allow the upgrade to complete successfully, but any previous deployment history will be lost.
 
+### Updating stale information in unused catalog columns
+
+Since 4.2.4, iRODS populates no-longer-used database columns with known values. Prior to 4.2.4, the values had been populated or updated inconsistently and may have been empty strings or NULL.
+
+Upon upgrading from 4.2.3 or earlier, the administrator should manually run the script located at `scripts/update_deprecated_database_columns.py`.
+
+This script updates the following columns in R_DATA_MAIN to contain "known values":
+
+ - resc_name: `EMPTY_RESC_NAME`
+ - resc_hier: `EMPTY_RESC_HIER`
+ - resc_group_name: `EMPTY_RESC_GROUP_NAME`
+
+It skips any rows with an "invalid" `resc_id` value. A `resc_id` is considered invalid if it does not exist in the `R_RESC_MAIN` table or it maps to a known non-storage resource (i.e. coordinating resource).
+
+The script has a `--dry-run` option and can safely be interrupted and run again (it is only querying the database for values to update, and then updating them).
+
 ## Non-Package Installs
 
 Non-package installs have been made available for development, testing, and backwards compatibility.  The lack of managed update scripts, coupled with a growing array of possible plugin combinations, will make sustaining a non-package installation much more challenging.
