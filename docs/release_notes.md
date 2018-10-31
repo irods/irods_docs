@@ -337,7 +337,7 @@ Release Date: 2016-11-14
 
 ## 4.1.12
 
-Release Date 2018-10-25
+Release Date 2018-11-01
 
 ### Enhancements
 
