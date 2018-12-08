@@ -1,11 +1,9 @@
-# New iRODS Logging Library
-A replacement library for the rodsLog API.
+Logging in 4.3+ has been changed significantly.  There is a new logging library that utilizes spdlog and syslog.
 
-For details on why the rodsLog API is being replaced, see [irods_rfcs/0001_logging.md](https://github.com/irods/irods_rfcs/blob/master/0001_logging.md).
-
-rodsLog is called from several places within the iRODS code base. Replacing all calls to it with the new library is going to take some time. In order to help with this transition, the rodsLog implementation has been modified. It will continue to operate as it has in the past, but it will now forward all messages to the new library as well.
+rodsLog() is called from several places within the iRODS code base.  Replacing all calls to it with the new library is going to take some time.  In order to help with this transition, the rodsLog implementation has been modified. It will continue to operate as it has in the past, but it will now forward all messages to the new library as well.
 
 ## Features
+
 - Uses Syslog
 - No files to manage or write to
 - Output is in JSON format and is easily parseable
@@ -13,6 +11,7 @@ rodsLog is called from several places within the iRODS code base. Replacing all 
 - Cleaner API
 
 ## Usage
+
 ```c++
 #include "irods_logger.hpp"
 using log = irods::experimental::log;
@@ -20,6 +19,7 @@ log::<category>::<log_level>(args ...);
 ```
 
 Where `<category>` can be one of the following:
+
 - legacy
 - server
 - agent
@@ -34,6 +34,7 @@ Where `<category>` can be one of the following:
 A **category** is simply a tag that identifies a particular logger. All logger properties are keyed off of the category.
 
 Where `<log_level>` is one of the following:
+
 - trace
 - debug
 - info
@@ -42,28 +43,31 @@ Where `<log_level>` is one of the following:
 - critical
 
 Where `args` is one of the following:
-- std::string
-- std::initializer_list\<log::key_value\>
-- Container\<log::key_value\> (**Container** must support **begin/end** iterators)
 
-## Can I create my own Category?
-Yes! All you have to do is follow three steps:
+- std::string
+- std::initializer_list <log::key_value\>
+- Container <log::key_value\> (**Container** must support **begin/end** iterators)
+
+## Creating a new Category
+
+Three steps:
+
 1. Declare a category tag.
-2. Specialize the logger_config for your category tag.
-3. Use the logger with your category tag.
+2. Specialize the `logger_config` for the new category tag.
+3. Use the logger with the category tag.
     
-See the example below.
+See the example below:
 
 ```c++
 #include "irods_logger.hpp"
 
-// 1. Declare your custom category tag.
-//    This does not actually need to have a body.
-//    This tag allows the logger to locate data specific to your category.
+// 1. Declare the custom category tag.
+//    This does not need to have a body.
+//    This tag allows the logger to locate data specific to the new category.
 struct my_category;
 
-// 2. Specialize the logger configuration for your category.
-//    This also defines the default configuration for your category.
+// 2. Specialize the logger configuration for the new category.
+//    This also defines the default configuration for the new category.
 namespace irods::experimental
 {
     template <>
@@ -71,7 +75,7 @@ namespace irods::experimental
     {
         // This defines the name that will appear in the log under
         // the "src" key.  The "src" key defines where the message originated.
-        // You should try to use a name that makes it easy for administrators
+        // Try to use a name that makes it easy for administrators
         // to determine what produced the message.
         static constexpr char name[] = "my_category";
 
@@ -86,12 +90,12 @@ namespace irods::experimental
     };
 } // namespace irods::experimental
 
-// 3. Use the logger with your new category!
+// 3. Use the logger with the new category
 void example()
 {
     using log = irods::experimental::log;
 
-    // Here is the logger with our new category.
+    // Here is the logger with the new category.
     using logger = log::logger<my_category>; 
 
     // This message will be recorded.

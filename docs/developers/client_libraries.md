@@ -28,8 +28,6 @@ REST (via Java) - [https://github.com/DICE-UNC/irods-rest](https://github.com/DI
 
 ## Static Analysis
 
-[cppcheck](http://ci-dev.renci.org/hudson/view/iRODS/job/irods-cppcheck) - RENCI is providing continuous static analysis of the iRODS codebase.
-
 [Coverity](https://scan.coverity.com/projects/2605) - Coverity is providing static analysis of the iRODS codebase.
 
 ## Code Coverage

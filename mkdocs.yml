@@ -23,7 +23,6 @@ nav:
  - Home: 'index.md'
  - Why iRODS?: 'why_irods.md'
  - Release Notes: 'release_notes.md'
- - Developers: 'developers.md'
  - Getting Started:
     - Download: 'getting_started/download.md'
     - Installation: 'getting_started/installation.md'
@@ -59,5 +58,10 @@ nav:
     - Tickets: 'icommands/tickets.md'
     - Groupadmin: 'icommands/groupadmin.md'
  - Doxygen: 'doxygen/index.html'
+ - Developers:
+    - Client Libraries: 'developers/client_libraries.md'
+    - Build and Test: 'developers/build_and_test.md'
+    - Logging Library: 'developers/logging_library.md'
+    - Debugging: 'developers/debugging.md'
  - Legacy Release Notes: 'legacy_release_notes.md'
 
