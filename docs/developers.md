@@ -1,6 +1,6 @@
 ## Client Libraries
 
-C/C++ - [Doxygen](doxygen/group__clientAPI.html)
+C/C++ - [Doxygen](../../doxygen/group__clientAPI.html)
 
 Java - [https://github.com/DICE-UNC/jargon](https://github.com/DICE-UNC/jargon)
 

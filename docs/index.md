@@ -1,4 +1,4 @@
-[![iRODS](iRODS-Logo.png)](https://docs.irods.org)
+[![iRODS](images/iRODS-Logo.png)](https://docs.irods.org)
 
 [![Build Status](https://travis-ci.org/irods/irods.svg?branch=master)](https://travis-ci.org/irods/irods) [![Coverity Scan Build Status](https://scan.coverity.com/projects/2605/badge.svg)](https://scan.coverity.com/projects/2605)
 

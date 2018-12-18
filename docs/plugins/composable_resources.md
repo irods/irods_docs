@@ -390,7 +390,7 @@ Child is the name of the child resource.
 
 Creating a composite resource consists of creating the individual nodes of the desired tree structure and then connecting the parent and children nodes.
 
-![example tree](../example1-tree.png)
+![example tree](../images/example1-tree.png)
 
 **Example:** Replicates Data Objects to three locations
 

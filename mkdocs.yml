@@ -19,7 +19,7 @@ markdown_extensions:
  - def_list
 
 
-pages:
+nav:
  - Home: 'index.md'
  - Why iRODS?: 'why_irods.md'
  - Release Notes: 'release_notes.md'

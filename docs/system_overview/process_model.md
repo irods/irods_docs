@@ -25,7 +25,7 @@ Agent processes are listed with the IP address of the connecting client.
 
 iRODS uses a dynamic linking model, rather than a static linking model, which adds significant overhead for short running processes (e.g. `ils`).  In order to mitigate this overhead, the irodsServer no longer calls `fork()` and `exec()` as a separate executable (pre-4.2).  In addition, since calling `fork()` within a threaded environment creates undefined behavior, the irodsServer calls `fork()` to spawn the Agent Factory process early, before any threading begins and any configuration is determined.
 
-![iRODS Process Model Diagram](../process_model_diagram.jpg)
+![iRODS Process Model Diagram](../images/process_model_diagram.jpg)
 
 
 

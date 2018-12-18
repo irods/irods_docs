@@ -37,7 +37,7 @@ However, any that *do* match a particular PEP will be executed in the order in w
 
 If there is more than one matching rule for a particular PEP, the first one loaded will fire first.  If it succeeds, then the others are ignored.  If the first one fails, then the next matching rule is fired.  If it fails, then the framework will continue to "fall through" until there are no more matching rules.  The return code of the last matching rule will be the one that is returned.
 
-![Rule Engine Plugin Framework Diagram](../rule_engine_plugin_framework_diagram.jpg)
+![Rule Engine Plugin Framework Diagram](../images/rule_engine_plugin_framework_diagram.jpg)
 
 This "fall through" mechanism also applies across rule engine plugins (meaning, across language as well).
 
