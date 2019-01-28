@@ -26,6 +26,10 @@ This file contains the following top level entries:
     - `maximum_size_for_single_buffer_in_megabytes` (required) (default 32)
 
     - `maximum_temporary_password_lifetime_in_seconds` (required) (default 1000)
+    
+    - `rule_engine_server_execution_time_in_seconds` (required) (default 120) - The number of seconds in which the rule execution server is able to distribute rules on the delay queue to worker processes before going to sleep. Note: The amount of time spent by the worker processes executing the rules may exceed this value.
+    
+    - `rule_engine_server_sleep_time_in_seconds` (required) (default 30) - The number of seconds the rule execution server sleeps between checks for rules on the delay queue.
 
     - `transfer_buffer_size_for_parallel_transfer_in_megabytes` (required) (default 4)
 
