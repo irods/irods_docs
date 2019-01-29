@@ -411,3 +411,26 @@ irods@hostname:~/ $ iadmin addchildtoresc example1 repl_resc3
 A new subcommand for iadmin allows an administrator to rebalance a coordinating resource.  The coordinating resource can be the root of a tree, or anywhere in the middle of a tree.  The rebalance operation will rebalance for all decendents.  For example, the iadmin command `iadmin modresc myReplResc rebalance` would fire the rebalance operation for the replication resource instance named myReplResc.  Any Data Objects on myReplResc that did not exist on all its children would be replicated as expected.
 
 For other coordinating resource types, rebalance can be defined as appropriate.  For coordinating resources with no concept of "balanced", the rebalance operation is a "no op" and performs no work.
+
+Running `iadmin modresc <rescName> rebalance` will check if a rebalance is already running for `<rescName>` by looking for an
+AVU on the named resource matching an attribute 'rebalance_operation'.
+
+If it finds a match, it will exit early and return `REBALANCE_ALREADY_ACTIVE_ON_RESOURCE`.
+
+An active (or stale) rebalance will appear in the catalog:
+
+```
+$ imeta ls -R demoResc
+AVUs defined for resource demoResc:
+attribute: rebalance_operation
+value: x.x.x.x:7294
+units: 20180203T140006Z
+
+$ iquest "select RESC_NAME, META_RESC_ATTR_NAME, META_RESC_ATTR_VALUE, order(META_RESC_ATTR_UNITS) where META_RESC_ATTR_NAME = 'rebalance_operation'"
+RESC_NAME = demoResc
+META_RESC_ATTR_NAME = rebalance_operation
+META_RESC_ATTR_VALUE = x.x.x.x:7294
+META_RESC_ATTR_UNITS = 20180203T140006Z
+```
+
+When a rebalance completes successfully, the timestamp AVU is removed.

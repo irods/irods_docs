@@ -291,6 +291,23 @@ INPUT null
 OUTPUT *out
 ```
 
+## Rebalance already running
+
+!!! error
+    REBALANCE_ALREADY_ACTIVE_ON_RESOURCE -1829000
+
+This error is returned when a rebalance operation is attempted on a coordinating resource that is already running a rebalance operation.
+
+```
+A rebalance_operation on resource [resource_name] is still active (or stale) [hostname:pid] [timestamp]
+```
+
+If a rebalance is confirmed to be stale, remove the metadata from the resource:
+
+```
+imeta rm -R <resource_name> rebalance_operation <hostname:pid> <timestamp>
+```
+
 ## Overwriting to a down resource
 
 !!! error
