@@ -1,3 +1,15 @@
+## 4.2.5
+
+Release Date: 2019-XX-XX
+
+## Enhancements
+
+## Bug Fixes
+
+## Deprecated
+
+ - C API function isPathSymlink() marked as deprecated.  Use isPathSymlink_err() instead. [#4005] 
+
 ## 4.2.4
 
 Release Date: 2018-09-03
