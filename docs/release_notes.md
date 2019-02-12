@@ -1,3 +1,19 @@
+## 4.3.0
+
+Release Date: 2019-XX-XX
+
+### Notable Features
+
+  -
+
+### Notes
+
+  - iexit will now remove the saved credential file, without the parameter 'full'
+
+### Other Issues
+
+  -
+
 ## 4.2.5
 
 Release Date: 2019-XX-XX
@@ -8,7 +24,7 @@ Release Date: 2019-XX-XX
 
 ## Deprecated
 
- - C API function isPathSymlink() marked as deprecated.  Use isPathSymlink_err() instead. [#4005] 
+ - C API function isPathSymlink() marked as deprecated.  Use isPathSymlink_err() instead. [#4005]
 
 ## 4.2.4
 
