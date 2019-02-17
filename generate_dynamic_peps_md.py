@@ -12,6 +12,7 @@ for g in d['sigGroupList']:
         params = params[5:]
         print("<tr><td>pep_{0}_pre</td><td>{1}</td></tr>".format(f["funcName"],params))
         print("<tr><td>pep_{0}_post</td><td>{1}</td></tr>".format(f["funcName"],params))
+        print("<tr><td>pep_{0}_except</td><td>{1}</td></tr>".format(f["funcName"],params))
     print('</table>')
 
 print('### microservices')
