@@ -21,16 +21,14 @@ This file contains the following top level entries:
 
     - `default_temporary_password_lifetime_in_seconds` (required) (default 120) - The number of seconds a server-side temporary password is good.
 
-    - `maximum_number_of_concurrent_rule_engine_server_processes` (required) (default 4)
+    - `maximum_number_of_concurrent_rule_engine_server_processes` (optional) (default 4)
 
     - `maximum_size_for_single_buffer_in_megabytes` (required) (default 32)
 
     - `maximum_temporary_password_lifetime_in_seconds` (required) (default 1000)
     
-    - `rule_engine_server_execution_time_in_seconds` (required) (default 120) - The number of seconds in which the rule execution server is able to distribute rules on the delay queue to worker processes before going to sleep. Note: The amount of time spent by the worker processes executing the rules may exceed this value.
+    - `rule_engine_server_sleep_time_in_seconds` (optional) (default 30) - The number of seconds the rule execution server sleeps before checking the delay queue for rules ready for execution.
     
-    - `rule_engine_server_sleep_time_in_seconds` (required) (default 30) - The number of seconds the rule execution server sleeps between checks for rules on the delay queue.
-
     - `transfer_buffer_size_for_parallel_transfer_in_megabytes` (required) (default 4)
 
     - `transfer_chunk_size_for_parallel_transfer_in_megabytes` (required) (default 40)
@@ -217,6 +215,7 @@ A service account environment file contains all of the client environment entrie
   - `irods_authentication_scheme` (optional) - This user's iRODS authentication method, currently: "pam", "krb", "gsi" or "native"
   - `irods_client_server_negotiation` (required) - Set to "request_server_negotiation" indicating advanced negotiation is desired, for use in enabling SSL and other technologies
   - `irods_client_server_policy` (required) - "CS_NEG_REFUSE" for no SSL, "CS_NEG_REQUIRE" to demand SSL, or "CS_NEG_DONT_CARE" to allow the server to decide
+  - `irods_connection_pool_refresh_time_in_seconds` (optional) (default 300) - Number of seconds after which an existing connection in a connection pool is refreshed
   - `irods_control_plane_port` (optional) - The port on which the control plane operates.
   - `irods_control_plane_key` (optional) - The encryption key required for communicating with the iRODS grid control plane.
   - `irods_cwd` (required) - The current working directory within iRODS
