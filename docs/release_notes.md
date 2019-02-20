@@ -4,7 +4,19 @@ Release Date: 2019-XX-XX
 
 ### Notable Features
 
-  -
+  - iRODS now requires C++17
+
+  - New libraries, in use in the server and available to developers
+      - irods::filesystem
+      - irods::iostreams
+      - irods::genquery_iterator
+      - irods::connection_pool
+      - irods::thread_pool
+
+  - New Delay Server
+      - Refactored with the connection_pool and irods::thread_pool to provide a parallel, and distributed delay queue behavior.
+      - Multiple iRODS Servers can be defined as eligible to execute the enqueued rules, and they will be selected randomly at runtime.
+      - The syntax for the delay() operation has been simplified to only include '<ET>', '<PLUSET>', and '<EF>'.
 
 ### Notes
 
@@ -18,11 +30,11 @@ Release Date: 2019-XX-XX
 
 Release Date: 2019-XX-XX
 
-## Enhancements
+### Enhancements
 
-## Bug Fixes
+### Bug Fixes
 
-## Deprecated
+### Deprecated
 
  - C API function isPathSymlink() marked as deprecated.  Use isPathSymlink_err() instead. [#4005]
 
