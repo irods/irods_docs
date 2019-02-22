@@ -1,23 +1,27 @@
 
-iRODS 4.0+ has introduced the capability for dynamic policy enforcement points (PEP).  For every operation that is called, two policy enforcement points are constructed (both a pre and post variety), and if it has been defined in core.re or any other loaded rulebase file they will be executed by the rule engine plugin framework.
+iRODS 4.0+ has introduced the capability for dynamic policy enforcement points (PEP).  For every operation that is called, three policy enforcement points are constructed (pre, post, and except varieties), and if it has been defined in core.re or any other loaded rulebase file they will be executed by the rule engine plugin framework.
 
+The PEP will be constructed of the form "pep_PLUGINOPERATION_pre", "pep_PLUGINOPERATION_post", or "pep_PLUGINOPERATION_except".
 
-
-The PEP will be constructed of the form "pep_PLUGINOPERATION_pre" and "pep_PLUGINOPERATION_post".
-
-For example, for "resource_create", the two PEPs that are dynamically evaluated are pep_resource_create_pre() and pep_resource_create_post().  If either or both have been defined in a loaded rulebase file (`core.re`), they will be executed as appropriate.  If the same PEP is multiply defined, the first one loaded will be executed first.  If the first one fails, the next matching PEP will execute until there are no more matches in the loaded rulebases.  This matching is carried out by the rule engine plugin framework and will match across multiple active rule engine plugins.
+For example, for "resource_create", the three PEPs that are dynamically evaluated are pep_resource_create_pre(), pep_resource_create_post(), and pep_resource_create_except().  If any have been defined in a loaded rulebase file (`core.re`), they will be executed as appropriate.  If the same PEP is multiply defined, the first one loaded will be executed first.  If the first one fails, the next matching PEP will execute until there are no more matches in the loaded rulebases.  This matching is carried out by the rule engine plugin framework and will match across multiple active rule engine plugins.
 
 ## Flow Control
 
-The flow of information from the pre PEP to the plugin operation to the post PEP works as follows:
+The flow of information from the pre PEP to the plugin operation to the post PEP, and possibly the except PEP, works as follows:
 
 <table>
-<tr><td>pep_PLUGINOPERATION_pre()</td><td>Should produce an *OUT variable that will be passed to the calling plugin operation</td></tr>
+<tr>
+<td rowspan='4'><img src="../../images/pep_flow_control.png" alt="PEP Flow Control" width="300px"/></td>
+<td>pep_PLUGINOPERATION_pre()</td><td>Should produce an *OUT variable that will be passed to the calling plugin operation</td>
+</tr>
 <tr><td>PLUGINOPERATION</td><td>Will receive any *OUT defined by pep_PLUGINOPERATION_pre() above and will pass its own *OUT variable to pep_PLUGINOPERATION_post()</td></tr>
 <tr><td>pep_PLUGINOPERATION_post()</td><td>Will receive any *OUT from PLUGINOPERATION.  If the PLUGINOPERATION itself failed, the *OUT variable will be populated with the string "OPERATION_FAILED".</td></tr>
+<tr><td>pep_PLUGINOPERATION_except()</td><td>If any of the pep_PLUGINOPERATION_pre(), PLUGINOPERATION, or pep_PLUGINOPERATION_post() fail, the pep_PLUGINOPERATION_except() will be called and allow for documenting the failure.</td></tr>
 </table>
 
-Note that if pep_PLUGINOPERATION_pre() fails, the PLUGINOPERATION will not be called and the plugin operation call will fail with the resulting error code of the pep_PLUGINOPERATION_pre() rule call.  This ability to fail early allows for fine-grained control of which plugin operations may or may not be allowed as defined by the policy of the data grid administrator.
+Note that 'pep_PLUGINOPERATION__finally' does not yet exist, but could be added pending community demand.
+
+Note that if pep_PLUGINOPERATION_pre() fails, the PLUGINOPERATION will not be called.  If pep_PLUGINOPERATION_except() is defined, it will be executed, otherwise, the error from pep_PLUGINOPERATION_pre() will be returned directly. This ability to fail early allows for fine-grained control of which plugin operations may or may not be allowed as defined by the policy of the data grid administrator.
 
 
 ## Parameter Serialization
