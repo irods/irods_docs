@@ -1768,7 +1768,7 @@
 				"paramName": "collOprStat"
 			}]
 		}, {
-			"funcName": "api_data_copy",
+			"funcName": "api_data_obj_copy",
 			"paramList": [{
 				"paramType": "rsComm_t *",
 				"paramName": "rsComm"
@@ -1777,7 +1777,7 @@
 				"paramName": "dataCopyInp"
 			}]
 		}, {
-			"funcName": "api_data_get",
+			"funcName": "api_data_obj_get",
 			"paramList": [{
 				"paramType": "rsComm_t *",
 				"paramName": "rsComm"
@@ -2011,7 +2011,7 @@
 				"paramName": "dataObjWriteInpBBuf"
 			}]
 		}, {
-			"funcName": "api_data_put",
+			"funcName": "api_data_obj_put",
 			"paramList": [{
 				"paramType": "rsComm_t *",
 				"paramName": "rsComm"
