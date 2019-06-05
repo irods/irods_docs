@@ -1,3 +1,51 @@
+## 4.2.6
+
+Release Date: 2019-06-05
+
+### Enhancements
+
+ - New filesystem library [#4267]
+
+ - New iostreams library [#4268]
+
+ - New query processor library [#4369]
+
+### Bug Fixes
+
+ - Fix for removing data objects with certain characters [#3398]
+
+ - Marked as wontfix or duplicate [#3692] [#4245] [#4329]
+
+ - Marked as resolved/invalid [#3873] [#4117] [#4384] [#4402] [#4406]
+
+ - Fix for scope, move into namespace [#3995]
+
+ - Fix for writeLine() handling of stdout/stderr [#4279]
+
+ - Fix for rename when post PEP is defined [#4301]
+
+ - Fix for replication when all target resources are local [#4319]
+
+ - Fix for log level in rodsConnect [#4322]
+
+ - Fix for when a resource plugin should not move the physical file [#4326]
+
+ - Fixes for collection iterator [#4340] [#4346]
+
+ - Fix for irodsReServer exception handling [#4351]
+
+ - Fix for collInp_t serialization into rule languages [#4370]
+
+ - Fix for rule engine plugin framework continuation behavior [#4383]
+
+ - Fix for libxml2 package dependency declaration [#4390]
+
+ - Fix for ifsck for files larger than 2G [#4391]
+
+ - Fix for dynamic pep firing order after parallel transfer [#4404]
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.6)
+
 ## 4.2.5
 
 Release Date: 2019-02-22
