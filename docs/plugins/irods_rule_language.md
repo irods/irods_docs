@@ -450,7 +450,7 @@ str(*A); # a=A++++b=B++++c=C
 ## Constant
 
 A constant can be defined as a function that returns a constant. A constant
-defintion has the following syntax:
+definition has the following syntax:
 
 ~~~c
 <constant name> = <constant value>
