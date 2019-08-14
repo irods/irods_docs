@@ -1,10 +1,10 @@
-Logging in 4.3+ has been changed significantly.  There is a new logging library that utilizes spdlog and syslog.
+Logging in 4.3+ has been changed significantly.  There is a new logging library that utilizes spdlog and rsyslog.
 
 rodsLog() is called from several places within the iRODS code base.  Replacing all calls to it with the new library is going to take some time.  In order to help with this transition, the rodsLog implementation has been modified. It will continue to operate as it has in the past, but it will now forward all messages to the new library as well.
 
 ## Features
 
-- Uses Syslog
+- Uses rsyslog
 - No files to manage or write to
 - Output is in JSON format and is easily parseable
 - Allows administrators to use common tools for analysis and management
@@ -22,6 +22,7 @@ Where `<category>` can be one of the following:
 
 - legacy
 - server
+- delay_server
 - agent
 - resource
 - database
@@ -77,7 +78,7 @@ namespace irods::experimental
         // the "src" key.  The "src" key defines where the message originated.
         // Try to use a name that makes it easy for administrators
         // to determine what produced the message.
-        static constexpr char name[] = "my_category";
+        static constexpr const char* name = "my_category";
 
         // This is the current log level for the category.
         // This also represents the initial log level.
@@ -109,5 +110,11 @@ void example()
     // This debug message will not be recorded because the log level
     // for the category is set to a higher level (warn > debug).
     logger::debug("This message will not be recorded.");
+
+    // You can also pass in a list of key-value pairs.
+    // All keys and values must have a data type of std::string.
+    logger::info({{"key_1", "value_1"},
+                  {"key_2", "value_2"},
+                  {"key_n", "value_n"}});
 }
 ```
