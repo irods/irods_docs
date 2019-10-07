@@ -540,7 +540,7 @@ the simpler form:
 <name>(<param>, ..., <param>) { <actions> }
 ~~~
 
-Multiple rules with the same rule name and parameters list can be combined in
+Multiple rules with the same rule name and parameter list can be combined in
 a more concise syntax where each set of actions is enumerated for each set of
 conditions:
 
@@ -770,7 +770,7 @@ Different components may have different types.
 
 Complex lists such as lists of lists can be constructed locally, but mapping
 from complex list structures to packing instructions are not yet supported.
-The supported lists types that can be packed are integer lists and string
+The supported list types that can be packed are integer lists and string
 lists. When remote execute or delay execution is called while there is a
 complex list in the current runtime environment, an error will be generated.
 For example, in the following rule
