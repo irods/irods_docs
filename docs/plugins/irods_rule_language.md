@@ -384,7 +384,7 @@ POSIX API.
 
 ### Quoting Code
 
-Sometime when you want to pass a string representation of code or regular
+Sometimes when you want to pass a string representation of code or regular
 expressions into an action, it is very tedious to escape every special
 character in the string. For example
 
@@ -413,10 +413,9 @@ and
 
 ## Dot Expression
 
-The dot oeprator provides a simple syntax for creating and accessing key
-values pair.
+The dot operator provides a simple syntax for creating and accessing key/value pairs.
 
-To write to a key value pair, use the dot operator on the left hand side:
+To write to a key/value pair, use the dot operator on the left hand side:
 
 ~~~c
 *A.key = "val"
@@ -429,15 +428,15 @@ rules for strings also apply:
 *A."not an identifier" = "val"
 ~~~
 
-If the variable `*A` is undefined, a new key value pair data structure will be
+If the variable `*A` is undefined, a new key/value pair data structure will be
 created.
 
-To read from a key value pair, use the dot operator as binary infix operation
+To read from a key/value pair, use the dot operator as binary infix operation
 in any expression.
 
-Currently key value pairs only support the string type for values.
+Currently key/value pairs only support the string type for values.
 
-The str() function is extended to support converting a key value pair data
+The str() function is extended to support converting a key/value pair data
 structure to an options format:
 
 ~~~c
