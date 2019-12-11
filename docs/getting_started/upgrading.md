@@ -1,6 +1,8 @@
 Upgrading is handled by the host Operating System via the package manager.  Depending on your package manager, your config files will have been preserved with your local changes since the last installation.  Please see [Changing the zone_key and negotiation_key](installation.md#changing-the-zone_key-and-negotiation_key) for information on server-server authentication.
 
-All servers in a Zone must be running the same version of iRODS.  Using inconsistent versions within a Zone may work, but is not rigorously tested.  First, upgrade the iCAT server, then upgrade all the Resource servers.
+All servers in a Zone must be running the same version of iRODS.  Using inconsistent versions within a Zone may work, but is not rigorously tested.  First, upgrade the iRODS Catalog Provider, then upgrade all the iRODS Catalog Consumers.
+
+It is best practice to stop an iRODS server before upgrading as it will allow the graceful completion of any ongoing transfers or requests.
 
 Upgrades coming from the APT and YUM repositories require only that the server be restarted after upgrade.  The package does not restart the server because any required database schema updates are applied before starting the server.  A database schema update could be a relatively heavy operation and will require an amount of time on large installations (hundreds of millions of records) that should be handled within a declared maintenance window.
 
@@ -16,7 +18,7 @@ Without this file in place, a dummy stanza will be inserted to allow the upgrade
 
 Since 4.2.4, iRODS populates no-longer-used database columns with known values. Prior to 4.2.4, the values had been populated or updated inconsistently and may have been empty strings or NULL.
 
-Upon upgrading from 4.2.3 or earlier, the administrator should manually run the script located at `scripts/update_deprecated_database_columns.py`.
+After successfully upgrading from 4.2.3 or earlier, the administrator should manually run the script located at `scripts/update_deprecated_database_columns.py`.
 
 This script updates the following columns in `R_DATA_MAIN` to contain these known values:
 
