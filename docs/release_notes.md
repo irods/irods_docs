@@ -88,8 +88,6 @@ Release Date: 2019-12-19
 
  - Fix for irods::query_processor [#4607]
 
- - Documentation about stopping server before upgrading [#4612]
-
  - Fix for irods::query_iterator handling CAT_NO_ROWS_FOUND [#4617]
 
  [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.7)
