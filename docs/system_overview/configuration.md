@@ -166,7 +166,7 @@ An example `hosts_config.json`:
                    {"address" : "ddd.eee.fff.xxx"},
                    {"address" : "another.example.org"}
              ]
-        },
+        }
     ]
 }
 ```
