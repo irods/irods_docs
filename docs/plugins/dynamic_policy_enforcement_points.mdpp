@@ -19,7 +19,7 @@ The flow of information from the pre PEP to the plugin operation to the post PEP
 <tr><td>pep_PLUGINOPERATION_except()</td><td>If any of the pep_PLUGINOPERATION_pre(), PLUGINOPERATION, or pep_PLUGINOPERATION_post() fail, the pep_PLUGINOPERATION_except() will be called and allow for documenting the failure.</td></tr>
 </table>
 
-Note that 'pep_PLUGINOPERATION__finally' does not yet exist, but could be added pending community demand.
+Note that 'pep_PLUGINOPERATION_finally' does not yet exist, but could be added pending community demand.
 
 Note that if pep_PLUGINOPERATION_pre() fails, the PLUGINOPERATION will not be called.  If pep_PLUGINOPERATION_except() is defined, it will be executed, otherwise, the error from pep_PLUGINOPERATION_pre() will be returned directly. This ability to fail early allows for fine-grained control of which plugin operations may or may not be allowed as defined by the policy of the data grid administrator.
 
