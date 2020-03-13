@@ -132,6 +132,8 @@ Getting files from the replication resource will show a preference for locality.
 
 #### num_repl and read keywords
 
+NOTE: The `num_repl` keyword was deprecated in 4.2.8 and will be removed in 4.3.0.
+
 By default, the replication resource will create and manage replicas on all of its children.  This can be overridden by using the `num_repl=N` keyword in the context string.  If `N` is less than or equal to zero, an error is thrown.  If `N` is greater than or equal to the number of children, all children will receive a replica (same as the default behavior).  Otherwise, `N` children will be randomly chosen to receive a replica.
 
 By default, the replication resource will read the replica that votes highest (usually to provide locality of reference).  This can be overridden by using the `read=random` keyword in the context string.  If this setting is used, a random replica will be selected to be accessed and sent to the client.
