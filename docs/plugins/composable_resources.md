@@ -130,9 +130,7 @@ The replication resource provides logic to automatically manage replicas to all 
 
 Getting files from the replication resource will show a preference for locality.  If the client is connected to one of the child resource servers, then that replica of the file will be returned, minimizing network traffic.
 
-#### num_repl and read keywords
-
-By default, the replication resource will create and manage replicas on all of its children.  This can be overridden by using the `num_repl=N` keyword in the context string.  If `N` is less than or equal to zero, an error is thrown.  If `N` is greater than or equal to the number of children, all children will receive a replica (same as the default behavior).  Otherwise, `N` children will be randomly chosen to receive a replica.
+#### read keyword
 
 By default, the replication resource will read the replica that votes highest (usually to provide locality of reference).  This can be overridden by using the `read=random` keyword in the context string.  If this setting is used, a random replica will be selected to be accessed and sent to the client.
 
