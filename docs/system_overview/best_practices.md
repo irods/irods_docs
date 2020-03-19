@@ -52,6 +52,20 @@ By adding a new `.re` file and adding it to the correct `re_rulebase_set` array 
 
 This approach is also easier to deploy using configuration management solutions like Ansible, Chef, or Puppet.
 
+## Removing extra rule_engine_namespaces
+
+Early installations of the pluggable rule engines may leave behind extra `rule_engine_namespaces`, namely `audit_` and `indexing_`.
+
+Including these, when unnecessary, will slow down a deployment as the server must search an extra number of times to find eligible PEPs to fire.
+
+If these are not needed, please remove them from `server_config.json` and use the minimal:
+
+```
+    "rule_engine_namespaces": [
+        ""
+    ], 
+```.
+
 ## Using free_space check on unixfilesystem resources
 
 Since 4.1.10, the unixfilesystem resource context string can set 'minimum_free_space_for_create_in_bytes" which will be checked against the 'free_space' value set in the iCAT catalog for that resource before voting to accept any create operations.
