@@ -58,13 +58,13 @@ Early installations of the pluggable rule engines may leave behind extra `rule_e
 
 Including these, when unnecessary, will slow down a deployment as the server must search an extra number of times to find eligible PEPs to fire.
 
-If these are not needed, please remove them from `server_config.json` and use the minimal:
+If these are not needed, please remove them from `server_config.json` and use the minimal configuration:
 
 ```
     "rule_engine_namespaces": [
         ""
     ], 
-```.
+```
 
 ## Using free_space check on unixfilesystem resources
 
