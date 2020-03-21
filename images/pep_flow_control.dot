@@ -1,0 +1,13 @@
+digraph G {
+  _except [ color = red ];
+  _finally [ color = blue ];
+  _pre    -> op;
+  _pre    -> _except   [ color = red ];
+  op      -> _post;
+  op      -> _except   [ color = red ];
+  _post   -> _except   [ color = red ];
+  _post   -> _finally  [ color = blue ];
+  _except -> _finally  [ color = blue ];
+  { rank=same; _post; _except }
+}
+
