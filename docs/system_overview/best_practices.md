@@ -1,5 +1,18 @@
 
-## Naming Conventions
+## Service account as client to local server
+
+While it is true that any iRODS client can connect to any iRODS Server within a Zone,
+to reduce surprise when debugging, the service account of an iRODS server should be
+configured to connect as a client to the iRODS server running on its own host.
+
+On host `consumer.example.org`, the service account (by default, `irods`) should
+have `/var/lib/irods/.irods/irods_environment.json` with the following entry:
+
+```
+    "irods_host": "consumer.example.org",
+```
+
+## Naming conventions
 
 When debugging a distributed, multi-layered system, it is very helpful to have
 things named well.  The iRODS convention has been to name things in the
