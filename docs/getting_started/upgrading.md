@@ -14,6 +14,29 @@ With this file in place, the installation history of your deployment will be pre
 
 Without this file in place, a dummy stanza will be inserted to allow the upgrade to complete successfully, but any previous deployment history will be lost.
 
+### Temporary swapping of resource host information
+
+During an upgrade from 4.1.x to 4.2.x, due to the renaming of the 4.1 `irods-icat` package to `irods-server` in 4.2, the `preremove.sh` script of the old package is run and may perform a dry-run to check if the iRODS resources pinned to that hostname can be removed.  This was an attempt for an iRODS server to cleanup its resources before being uninstalled.  The `preremove.sh` script no longer attempts this removal since 4.2.8, but when upgrading from 4.1.x, the old code will still fire.
+
+iRODS 4.2.8+ includes a script that generates `iadmin modresc` commands for the rodsadmin to perform before and after the Catalog Consumers are upgraded.
+
+Please see `scripts/generate_iadmin_commands_for_41_to_42_upgrade.py`:
+
+```
+# This script is designed to be run on a newly upgraded (from 4.1.x to 4.2.x)
+# Catalog Provider before upgrading the Catalog Consumers in the same Zone from 4.1.x.
+#
+# This script makes no changes to the iRODS iCAT itself.
+#
+# This script generates two sets of iadmin commands to be run on the Catalog Provider.
+#
+# This script is not required, but provides additional assurance that no
+# resources will be deleted due to any confusion associated with the
+# packaged preremove.sh script included in 4.1 (including and up to 4.1.12).
+```
+
+This is complementary to the [best practice of having the service account for an iRODS server connect as a client to itself](../system_overview/best_practices.md#service-account-as-client-to-local-server).
+
 ### Updating stale information in unused catalog columns
 
 Since 4.2.4, iRODS populates no-longer-used database columns with known values. Prior to 4.2.4, the values had been populated or updated inconsistently and may have been empty strings or NULL.
