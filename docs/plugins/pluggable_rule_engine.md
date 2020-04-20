@@ -8,8 +8,11 @@ The iRODS Consortium currently supports the following rule engine plugins:
  - [Python Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_python)
  - [C++ Default Policy Rule Engine Plugin](https://github.com/irods/irods/tree/master/plugins/rule_engines/irods_rule_engine_plugin-cpp_default_policy)
  - [C++ Audit (AMQP) Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_audit_amqp)
-
-
+ - [C++ Hard Links Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_hard_links)
+ - [C++ Logical Quotas Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_logical_quotas)
+ - [C++ Metadata Guard Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_metadata_guard)
+ - [C++ Storage Tiering Rule Engine Plugin](https://github.com/irods/irods_capability_storage_tiering)
+ - [C++ Update Collection MTime Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_update_collection_mtime)
 
 
 
@@ -29,7 +32,7 @@ Because the rule engine plugins are just one of many iRODS plugin types, the REP
 }
 ```
 
-Within the rule engine plugin framework, there is a dynamically created policy enforcement point that is checked before and after every operation.  These are the "_pre" and "_post" PEPs discussed in [Dynamic Policy Enforcement Points](dynamic_policy_enforcement_points.md).
+Within the rule engine plugin framework, there are dynamically created policy enforcement points that are checked before and after every operation.  These are the "_pre", "_post", "_except", and "_finally" PEPs discussed in [Dynamic Policy Enforcement Points](dynamic_policy_enforcement_points.md).
 
 The framework will look for rules that are defined with the same name as the PEP and execute them if found.  A typical `ils` will trigger over 1200 dynamic PEPs on a basic installation.  Nearly all of them will be undefined (there is no rule that matches their name) and so will not run any code.
 
@@ -79,7 +82,7 @@ Consider the following `server_config.json` with the accompanying `example.re`, 
                     "regexes_for_supported_peps": [
                         "ac[^ ]*",
                         "msi[^ ]*",
-                        "[^ ]*pep_[^ ]*_(pre|post)"
+                        "[^ ]*pep_[^ ]*_(pre|post|except|finally)"
                     ]
                 },
                 "shared_memory_instance": "irods_rule_language_rule_engine"
@@ -91,7 +94,7 @@ Consider the following `server_config.json` with the accompanying `example.re`, 
 
 ```python
 # core.py
-def pep_resource_close_pre(rule_args, callback):
+def pep_resource_close_pre(rule_args, callback, rei):
     callback.writeLine("serverLog","XXXX - core.py")
 ```
 
