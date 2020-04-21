@@ -30,6 +30,8 @@ It skips any rows with an "invalid" `resc_id` value. A `resc_id` is considered i
 
 The script has a `--dry-run` option and can safely be interrupted and run again (it is only querying the database for values to update, and then updating them).
 
+Since 4.2.4, `isysmeta`, `iquest`, and `ils` all present information about resources based on the `resc_id` field.  The `resc_id` is dereferenced and any resource names or hierarchies are then derived and presented to the user.  There is no iRODS code dependent on the values in the no-longer-used database columns.  The columns were scrubbed, rather than removed, out of extreme caution against data loss.
+
 ## Migrating from Static PEPs to Dynamic PEPs
 
 The dynamic policy enforcement points (PEPs) represent the most reliable way to interact with the iRODS rule engine plugin framework (REPF).  Migrating from the legacy static policy enforcement points (PEPs) is recommended.
