@@ -1,3 +1,15 @@
+## Monitoring status of iRODS Servers
+
+iRODS servers respond to a `HEARTBEAT` message.  This can be incorporated into monitoring and reporting infrastructure.
+
+From the command line (with `echo` and `netcat`/`nc`):
+```bash
+$ echo -e "\x00\x00\x00\x33<MsgHeader_PI><type>HEARTBEAT</type></MsgHeader_PI>" | nc localhost 1247
+HEARTBEAT
+```
+
+This technique is used via Python [in the iRODS controller when starting the local iRODS server](https://github.com/irods/irods/blob/a4c97f8a65bd8d2b5d7a505612f2d9d670d33957/scripts/irods/controller.py#L103-L113).
+
 ## Confirming checksums
 
 The value reported by `ils -L` for a sha2 checksum is the base64 encoded sha256 checksum.
