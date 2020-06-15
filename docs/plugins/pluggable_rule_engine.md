@@ -64,7 +64,7 @@ Consider the following `server_config.json` with the accompanying `example.re`, 
                 "instance_name": "irods_rule_engine_plugin-python-instance",
                 "plugin_name": "irods_rule_engine_plugin-python",
                 "plugin_specific_configuration": {}
-            }
+            },
             {
                 "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
                 "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
