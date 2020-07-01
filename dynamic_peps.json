@@ -2743,15 +2743,6 @@
 				"paramName": "_bbuf"
 			}]
 		}, {
-			"funcName": "api_set_round_robin_context",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "_comm"
-			}, {
-				"paramType": "int *",
-				"paramName": "_inp"
-			}]
-		}, {
 			"funcName": "api_simple_query",
 			"paramList": [{
 				"paramType": "rsComm_t *",

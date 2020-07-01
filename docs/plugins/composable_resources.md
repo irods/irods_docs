@@ -58,7 +58,7 @@ Read more about [Composable Resources](https://irods.org/2013/02/e-irods-composa
 
 ## Coordinating Resources
 
-Coordinating resources contain the flow control logic which determines both how its child resources will be allocated copies of data as well as which copy is returned when a Data Object is requested.  There are several types of coordinating resources: compound, random, replication, round robin (deprecated), passthru, and some additional types that are expected in the future.  Each is discussed in more detail below.
+Coordinating resources contain the flow control logic which determines both how its child resources will be allocated copies of data as well as which copy is returned when a Data Object is requested.  There are several types of coordinating resources: compound, random, replication, passthru, and some additional types that are expected in the future.  Each is discussed in more detail below.
 
 #### Compound
 
@@ -180,20 +180,6 @@ iadmin modresc <repl name> context="retry_attempts=1;first_retry_delay_in_second
  - `retry_attempts` is an non-negative integer representing the number of times the replication resource will retry a replication.
  - `first_retry_delay_in_seconds` is a positive integer representing the number of seconds to wait before attempting the first retry of the replication.
  - `backoff_multiplier` is a positive floating point number >=1.0 which multiplies `first_retry_delay_in_seconds` after each retry. As the multiplier is only applied *after* the first retry, `backoff_multiplier` is only relevant when `retry_attempts` is > 1.
-
-### Round Robin
-
-(DEPRECATED - Marked for removal in 4.3.0. Use `random` instead.)
-
-The round robin resource provides logic to put a file onto one of its children on a rotating basis.  A round robin resource can have one or more children.
-
-If the selected target child resource of a put operation is currently marked "down" in the iCAT, the round robin resource will move onto the next child and try again.  If all the children are down, then the round robin resource will throw an error.
-
-Update a round robin resource to a random resource with the following single-row update to the catalog:
-
-```
-iadmin modresc rrResc type random
-```
 
 ### Passthru
 
