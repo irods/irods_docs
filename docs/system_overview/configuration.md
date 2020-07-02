@@ -318,7 +318,7 @@ When the client is an **administrator (rodsadmin)**, the following results can b
 |  iput foo             |  msiSetDefaultResc('svr', 'forced')    |  'svr'    |  SYS_RESC_DOES_NOT_EXIST |
 |  iput -R 'myResc' foo |  msiSetDefaultResc('svr', 'forced')    |  'myResc' |  SYS_RESC_DOES_NOT_EXIST |
 |  iput foo             |  msiSetDefaultResc('svr', 'null')      |  'svr'    |  SYS_RESC_DOES_NOT_EXIST |
-|  iput -R 'myResc' foo |  msiSetDefaultResc('svr', 'null')      |  'myResc' |  'svr'                   |
+|  iput -R 'myResc' foo |  msiSetDefaultResc('svr', 'null')      |  'myResc' |  SYS_RESC_DOES_NOT_EXIST |
 
 When the client is a **regular user (rodsuser)**, the following results can be expected:
 
@@ -329,7 +329,7 @@ When the client is a **regular user (rodsuser)**, the following results can be e
 |  iput foo             |  msiSetDefaultResc('svr', 'forced')    |  'svr'    |  SYS_RESC_DOES_NOT_EXIST |
 |  iput -R 'myResc' foo |  msiSetDefaultResc('svr', 'forced')    |  'svr'    |  SYS_RESC_DOES_NOT_EXIST |
 |  iput foo             |  msiSetDefaultResc('svr', 'null')      |  'svr'    |  SYS_RESC_DOES_NOT_EXIST |
-|  iput -R 'myResc' foo |  msiSetDefaultResc('svr', 'null')      |  'myResc' |  'svr'                   |
+|  iput -R 'myResc' foo |  msiSetDefaultResc('svr', 'null')      |  'myResc' |  SYS_RESC_DOES_NOT_EXIST |
 
 In general, a client preference will be honored by the server.
 
@@ -337,9 +337,7 @@ The only difference between the administrator and regular user behavior is when 
 requests a resource and the server is set to 'forced'.  In this case, an administrator can override the server
 setting and a regular user cannot.
 
-When the determined target resource does not exist, the server will return the 'SYS_RESC_DOES_NOT_EXIST' error,
-except in the case where the client sends a preference and the server is set to 'null'.  In this case, if the
-client's resource preference does not exist, the server's default resource will be used.
+When the determined target resource does not exist, the server will return the 'SYS_RESC_DOES_NOT_EXIST' error.
 
 The data placement policy is evaluated and enforced by the server to which the client is connected.  Any other
 servers involved in the data transfer will honor the evaluation by the initially connected server.
