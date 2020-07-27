@@ -214,6 +214,18 @@ This means that PEPs related to database connectivity (talking to the catalog) w
 
 So, as an example, the `acTrashPolicy {msiNoTrashCan;}` policy can be set per server.  But whether the policy is in force depends on which server services the incoming connection (and therefore where the irodsAgent is running), not where the resources are hosted.
 
+## Connection refused for data transfer over Federation
+
+If you see something like this...
+
+```sh
+$ iput file /remote_zone/home/rods#local_zone/foo
+remote addresses: XXX.XX.X.X ERROR: connectToRhostPortal: connectTo Rhost remote_zone.example.org port YYYYY error, status = -305111
+remote addresses: XXX.XX.X.X ERROR: putUtil: put error for /remote_zone/home/rods#local_zone/foo, status = -305111 status = -305111 USER_SOCK_CONNECT_ERR, Connection refused
+```
+
+...please see [Limitations](federation.md#limitations) in the Federation section of the documentation.
+
 ## Dynamic PEP Signature Mismatches
 
 When writing dynamic PEPs, getting the signature wrong will provide a hint in the rodsLog:
