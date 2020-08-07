@@ -16,7 +16,8 @@ Prerequisites
 Update for correct version
 --------------------------
 
-- Update Makefile with correct MAKEIRODSVERSION
+- Update Makefile with correct MAKEGITHUBACCOUNT (can be deferred to the **make** call)
+- Update Makefile with correct MAKEIRODSVERSION  (can be deferred to the **make** call)
 - Update irods_for_doxygen/Doxyfile with correct PROJECT_NUMBER
 
 Build
@@ -25,7 +26,7 @@ Build
 The `Makefile` default target will build two other targets, 'doxygen' and 'mkdocs'.
 
 ```
-$ make
+$ make [MAKEGITHUBACCOUNT=irods] [MAKEIRODSVERSION=master]
 ```
 
 The resulting `site` directory will contain the generated standalone documentation.
