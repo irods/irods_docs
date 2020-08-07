@@ -2,7 +2,8 @@
 
 SHELL = /bin/bash
 
-MAKEIRODSVERSION = master
+MAKEGITHUBACCOUNT = irods
+MAKEIRODSVERSION = 4-2-stable
 MAKEDOXYGENVERSION = Release_1_8_12
 
 IRODSTARGET = irods_for_doxygen
@@ -16,8 +17,8 @@ default : doxygen mkdocs
 
 get_irods :
 	@echo "Getting iRODS source... v[${MAKEIRODSVERSION}]"
-	@if [ ! -d ${IRODSTARGET} ] ; then git clone https://github.com/irods/irods ${IRODSTARGET}; fi
-	@cd ${IRODSTARGET}; git pull; git checkout ${MAKEIRODSVERSION}
+	@if [ ! -d ${IRODSTARGET} ] ; then git clone https://github.com/${MAKEGITHUBACCOUNT}/irods ${IRODSTARGET}; fi
+	@cd ${IRODSTARGET}; git fetch; git checkout ${MAKEIRODSVERSION}
 
 doxygen : get_irods
 	@echo "Generating Doxygen..."
