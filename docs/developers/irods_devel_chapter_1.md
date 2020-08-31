@@ -2,7 +2,8 @@
 
 ## Start Here
 
-[Beginner iRODS training](https://github.com/irods/irods_training/tree/ugm2019/beginner)
+[Beginner iRODS training](https://github.com/irods/irods_training/blob/ugm2019/beginner/irods_beginner_training_2019.pdf)
+
 
 
 The training examples can be run on an Intel PC or virtual machine.
@@ -50,14 +51,11 @@ If Docker Engine is not already installed on your machine, do so now.
 
 Start a ubuntu container:
    ```
-   $ docker run -it ubuntu:18.04
+   $ docker run -it ubuntu:16.04
    ```
 
-Inside this container, you can use the following commands to expedite the installation 
-and configuration of an older version of irods, 4.2.6 . Never fear, we'll be upgrading it soon.
-
-There's no magic here; the install.sh script merely installs prerequisites for and installs
-(either from internet via APT or local build directories via DPKG) the desired iRODS version.
+Inside this container, you can use the commands below to expedite the installation 
+and configuration of an older version of irods, 4.2.6 . (This is not the latest version, but we'll be upgrading it soon.)
 
    ```
    # apt-get update
@@ -65,7 +63,7 @@ There's no magic here; the install.sh script merely installs prerequisites for a
 
    # git clone https://github.com/d-w-moore/ubuntu_irods_installer
 
-   # /ubuntu_irods_installer/install.sh --w='config-essentials create-db add-needed-runtime' 0
+   # /ubuntu_irods_installer/install.sh --w='config-essentials add-needed-runtime create-db' 0
    # /ubuntu_irods_installer/install.sh -r --i=4.2.6 4 5  # --> install & configure iRODS
 
    # su - irods
@@ -73,19 +71,23 @@ There's no magic here; the install.sh script merely installs prerequisites for a
    /tempZone/home/rods
    ```
 
-Now:
-   - Exit the shell we're running as `irods` (the service account user).
-   - Optionally create a different login account so that wer're not working as root user...
+Now
+  - Exit the shell we're running as `irods` (the service account user).
+    Create a different login account so that we're not working as root user...
+    * eg `# useradd -m -s /bin/bash ubuntu `
+    
 As the new user (in forthcoming example sessions, will be given the generic name "ubuntu")
-   - Run iinit
-      * Enter as answer: hostname , 1247 , rods , tempZone, `rods` (default admin password).
+  - Run iinit
+    * Enter as answers: the hostname , `1247` , `rods` , `tempZone`, `rods` (default admin password).
 
 
 **(Insert optional exercise here to build iRODS from branch 4-2-stable .
    And use ubuntu_irods_installer to de-install , re-install)**
+   
+**(Another exercise here to demonstrate running part of the python test suite)**
 
 
-## Build sample API plugin
+## Build an eample API plugin
 
 The commands above install enough of the build environment (CMake, clang and runtime, and
 Boost and various other dependencies of iRODS) that we can build microservices and other
