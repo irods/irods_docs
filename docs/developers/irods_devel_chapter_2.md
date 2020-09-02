@@ -1,6 +1,5 @@
-# Chapter 1 - iRODS intro and development
+# Chapter 2 - debugging
 
-## Start Here
 
 [Beginner iRODS training](https://github.com/irods/irods_training/blob/ugm2019/beginner/irods_beginner_training_2019.pdf)
 
