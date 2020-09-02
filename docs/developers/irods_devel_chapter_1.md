@@ -84,5 +84,4 @@ Let's use the environment within the container to compile an the training API ex
      $ ./iapi_example
 
      ```
-   - make sure ~/irods_training
 
