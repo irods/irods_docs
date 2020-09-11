@@ -17,10 +17,8 @@ The current best practice for contributing changes to iRODS is as follows:
 
 2. Create a branch to do your work
 
-    Our convention has become to name the branch of the form '####.m' or '####.42' to denote the issue
-number that is being worked on and whether this is a branch off the master branch or the 4-2-stable
-branch, respectively.  The name of the branch will be public, but once merged, will not be part of
-the record of the upstream repository.
+    Our convention has become to name the branch of the form 'issue.branch[.description]'.
+The name of the branch will be public, but once merged, will not be part of the record of the upstream repository.
 
 3. Add new commits to your branch of your fork
 
@@ -40,8 +38,8 @@ will correctly link the commit to the issue in question once the # sign is added
 
     When local development is ready for some review from others, push your local branch to your fork
 at github.com.  On the github.com website, create a pull request to the appropriate upstream branch.
-Name the pull request with a suffix of " (master)" or "(4-2-stable)" to help the reviewers distinguish
-between similar pull requests (in the case of cherry-picks).
+Name the pull request with a suffix of " (master)" or " (4-2-stable)" to help the reviewers distinguish
+between similar pull requests to different branches (in the case of cherry-picks).
 
 5. Go through code review
 
@@ -56,8 +54,8 @@ all feedback.
 
     When the code review has completed and the pull request is ready to be cleaned up for merge, rebase and
 squash the commits down to the ones that should be part of the public timeline.  Once this has been
-agreed to via comments, add the # sign to the commit messages (which will leave a notification on that issue).
-Then, force push your cleaned branch, which will automatically update the existing pull request.
+agreed to via comments and discussion, add the # sign to the commit messages (which will leave a notification
+on those issues). Then, force push your cleaned branch, which will automatically update the existing pull request.
 
     - Rebase
     - Squash
@@ -71,8 +69,7 @@ Then, force push your cleaned branch, which will automatically update the existi
 8. Checkbox and close any completed issues
 
     After the pull request is merged, you can delete your branch (both locally and in your fork at github.com).
-Then, please attend to any checkboxes and issues that may need to be closed.  This bookkeeping is important
-when release notes are compiled and statistics are generated for posterity.  Issues in closed milestones are
-never reopened.
-
+Then, attend to any checkboxes and issues that may need to be closed.  If you do not have edit rights to the
+checkboxes, ask someone with rights to complete this step.  This bookkeeping is important when release notes are
+compiled and statistics are generated for posterity.  Issues in closed milestones are never reopened.
 
