@@ -144,7 +144,7 @@ By default, the replication resource will read the replica that votes highest (u
 
 The following rule would set the rebalance limit to 200 Data Objects per loop:
 ```
-pep_resource_rebalance_pre(*OUT) {
+pep_resource_rebalance_pre(*INSTANCE_NAME, *CONTEXT, *OUT) {
     *OUT="replication_rebalance_limit=200";
 }
 ```
