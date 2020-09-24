@@ -1,11 +1,9 @@
-### Contributing
-
 iRODS source code is currently stored and managed in git repositories, and our 'upstream'
 repositories are currently hosted at github.com.
 
 All contributions to iRODS Consortium code are subject to its existing BSD-3 License.
 
-https://docs.github.com/en/github/site-policy/github-terms-of-service#6-contributions-under-repository-license
+[https://docs.github.com/en/github/site-policy/github-terms-of-service#6-contributions-under-repository-license](https://docs.github.com/en/github/site-policy/github-terms-of-service#6-contributions-under-repository-license)
 
 
 

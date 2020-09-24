@@ -1,6 +1,6 @@
 site_name: iRODS Docs
 repo_url: https://github.com/irods/irods_docs
-site_description: Control Your Data
+site_description: Open Source Data Management
 site_author: iRODS Consortium
 site_dir: site
 docs_dir: docs
@@ -23,7 +23,6 @@ pages:
  - Home: 'index.md'
  - Why iRODS?: 'why_irods.md'
  - Release Notes: 'release_notes.md'
- - Developers: 'developers.md'
  - Getting Started:
     - Download: 'getting_started/download.md'
     - Installation: 'getting_started/installation.md'
@@ -59,5 +58,8 @@ pages:
     - Tickets: 'icommands/tickets.md'
     - Groupadmin: 'icommands/groupadmin.md'
  - Doxygen: 'doxygen/index.html'
+ - Developers:
+    - Contributing: 'developers/contributing.md'
+    - Development Tools: 'developers/development_tools.md'
  - Legacy Release Notes: 'legacy_release_notes.md'
 
