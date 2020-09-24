@@ -1,6 +1,6 @@
 site_name: iRODS Docs
 repo_url: https://github.com/irods/irods_docs
-site_description: Control Your Data
+site_description: Open Source Data Management
 site_author: iRODS Consortium
 site_dir: site
 docs_dir: docs
@@ -59,9 +59,8 @@ nav:
     - Groupadmin: 'icommands/groupadmin.md'
  - Doxygen: 'doxygen/index.html'
  - Developers:
-    - Client Libraries: 'developers/client_libraries.md'
-    - Build and Test: 'developers/build_and_test.md'
-    - Logging Library: 'developers/logging_library.md'
-    - Debugging: 'developers/debugging.md'
+    - Contributing: 'developers/contributing.md'
+    - Development Tools: 'developers/development_tools.md'
+    - Logging: 'developers/logging.md'
  - Legacy Release Notes: 'legacy_release_notes.md'
 

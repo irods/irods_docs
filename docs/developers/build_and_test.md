@@ -1,5 +1,0 @@
-### Docker
-
-### Jenkins
-
-### Pull Requests
