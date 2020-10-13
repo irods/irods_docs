@@ -650,6 +650,27 @@ The msiExit microservice is similar to failmsg
 msiExit("-1", "msi")
 ~~~
 
+When referring to  error codes("SYS_NOT_SUPPORTED") or state conditions ("RULE_ENGINE_CONTINUE")
+it may be desirable to use their symbolic names rather than the integer values to which they map
+(see `irods_error.hpp`).  This can be done via the error and state microservices:
+
+~~~c
+
+pep_api_data_obj_put_post(*INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT) {
+  # policy implemented in rule language ...
+  state("RULE_ENGINE_CONTINUE") # allow processing of this PEP by other rule plugins
+}
+
+get_image (*data_path)
+{
+  *return_code = 0
+  if (*data_path like "*.jpg" || *data_path like "*.gif") {
+    # ...
+  } else { *return_code = error("SYS_NOT_SUPPORTED"); }
+  *return_code
+}
+~~~
+
 ### Calling a Rule
 
 To use a rule, call it as if it was a microservice.
