@@ -651,6 +651,25 @@ The msiExit microservice is similar to failmsg
 msiExit("-1", "msi")
 ~~~
 
+When referring to error condition codes, it may be desirable to use their
+symbolic names rather than the corresponding integer values.  We can use the error
+and state microservices to retrieve the integer code from a symbolic name.
+Thus, to directly determine a rule's reason for failure:
+
+~~~c
+  if ( errorcode(operation()) == error("SYS_NOT_SUPPORTED") ) { ... }
+~~~
+
+or to direct that our implementation of a Policy Enforcement Point not be considered to 
+terminate the chain of policy for the event being handled:
+
+~~~c
+pep_api_data_obj_put_post(*INSTANCE, *COMM, *DATAOBJINP, *BUF, *OPR_OUT) {
+  # ... our policy here ...
+  state("RULE_ENGINE_CONTINUE")
+}
+~~~
+
 ### Calling a Rule
 
 To use a rule, call it as if it was a microservice.
