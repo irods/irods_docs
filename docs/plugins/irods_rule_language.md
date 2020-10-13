@@ -650,9 +650,9 @@ The msiExit microservice is similar to failmsg
 msiExit("-1", "msi")
 ~~~
 
-When referring to condition codes in rule code, it may be desirable to use their
-symbolic names rather than the corresponding integer values.  We can use the 'error'
-and 'state' microservices to retrieve the integer code from a symbolic name.
+When referring to error condition codes, it may be desirable to use their
+symbolic names rather than the corresponding integer values.  We can use the error
+and state microservices to retrieve the integer code from a symbolic name.
 Thus, to directly determine a rule's reason for failure:
 
 ~~~c
