@@ -50,6 +50,7 @@ nav:
     - Glossary: 'system_overview/glossary.md'
     - Best Practices: 'system_overview/best_practices.md'
     - Troubleshooting: 'system_overview/troubleshooting.md'
+    - Limitations and Restrictions: 'system_overview/limitations_and_restrictions.md'
     - Tips and Tricks: 'system_overview/tips_and_tricks.md'
  - iCommands:
     - Administrator: 'icommands/administrator.md'
