@@ -3,7 +3,7 @@ With the release of iRODS 4.3.0 comes two new server options:
 - [Test Mode](#test-mode)
 
 ## Standard Output Mode
-This mode instructs the server and all of it's children to write log messages to **stdout** instead of **rsyslog**. This mode can be enabled in two ways.
+This mode instructs the server and all of its children to write log messages to **stdout** instead of **rsyslog**. This mode can be enabled in two ways.
 
 ### Option 1 (recommended) - Use the control script in the iRODS service account
 ```bash
