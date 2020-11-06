@@ -132,3 +132,15 @@ When a data object is created, the close PEP could now 'know' that it was part o
 
 
 `temporaryStorage` is not necessary in the Python Rule Engine Plugin.  To achieve the same effect, just use a Python variable that holds scope across different PEPs in a rule file.
+
+## Cleaning empty directory trees on managed storage
+
+iRODS does not attempt to remove directories in the storage systems it manages, only the physical replicas of data objects.
+The storage system could be far away and/or slow to access which could hamper other synchronous operations within iRODS.
+In active iRODS deployments, this behavior can leave a large number of 'leftover' empty directories (and therefore, inodes) on the storage system.
+
+The following command will safely 'clean' a directory tree of empty directories:
+
+```
+find ROOTDIR -type d -empty -delete
+```
