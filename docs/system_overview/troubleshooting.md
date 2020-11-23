@@ -380,3 +380,15 @@ Turning off the trash can in iRODS has no effect on any of the above behavior in
 ```
 acTrashPolicy {msiNoTrashCan; }
 ```
+
+## Rsyslog and Message Truncation
+
+This section applies to iRODS v4.3.0 and later.
+
+Messages in iRODS can be very long. Messages that exceed the maximum message size defined by rsyslog will be truncated. To avoid this situation, rsyslog provides the following option:
+
+```
+$MaxMessageSize <size>
+```
+
+This is a global configuration option that affects all applications communicating with rsyslog. The default message size is 8k. See [rsyslog documentation](https://www.rsyslog.com/doc/v8-stable/configuration/global/index.html) for more information about this option.
