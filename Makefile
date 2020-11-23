@@ -18,7 +18,7 @@ default : doxygen mkdocs
 get_irods :
 	@echo "Getting iRODS source... v[${MAKEIRODSVERSION}]"
 	@if [ ! -d ${IRODSTARGET} ] ; then git clone https://github.com/${MAKEGITHUBACCOUNT}/irods ${IRODSTARGET}; fi
-	@cd ${IRODSTARGET}; git fetch; git checkout ${MAKEIRODSVERSION}
+	@cd ${IRODSTARGET}; git fetch; git checkout ${MAKEIRODSVERSION}; git pull --rebase
 
 doxygen : get_irods
 	@echo "Generating Doxygen..."
