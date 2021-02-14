@@ -381,6 +381,16 @@ Turning off the trash can in iRODS has no effect on any of the above behavior in
 acTrashPolicy {msiNoTrashCan; }
 ```
 
+## Misconfigured monitoring
+
+This error is logged when the initial StartupPack of the iRODS protocol from the client is malformed.
+
+```sh
+ERROR: readWorkerTask - readStartupPack failed. -4000
+```
+
+This usually occurs when a monitoring system has been configured but [is not sending the proper `HEARTBEAT`](./tips_and_tricks.md#monitoring-status-of-irods-servers).
+
 ## Rsyslog and Message Truncation
 
 This section applies to iRODS v4.3.0 and later.
