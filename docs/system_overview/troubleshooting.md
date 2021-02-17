@@ -102,7 +102,7 @@ Common areas to check for this error include:
 !!! error
     CAT_NO_ROWS_FOUND -808000
 
-This error is occurs when there are no results for the database query that was executed. This usually happens when either:
+This error occurs when there are no results for the database query that was executed. This usually happens when either:
 
 1. the query itself is not well-formed (e.g. syntax error), or
 2. the well-formed query produced no actual results (i.e. there is no data corresponding to the specified criteria).
