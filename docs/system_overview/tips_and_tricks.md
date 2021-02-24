@@ -10,6 +10,19 @@ HEARTBEAT
 
 This technique is used via Python [in the iRODS controller when starting the local iRODS server](https://github.com/irods/irods/blob/a4c97f8a65bd8d2b5d7a505612f2d9d670d33957/scripts/irods/controller.py#L103-L113).
 
+Example HAProxy configuration:
+```
+backend server
+        balance roundrobin
+        option tcp-check
+        tcp-check connect
+        tcp-check send-binary 00000033
+        tcp-check send <MsgHeader_PI><type>HEARTBEAT</type></MsgHeader_PI>
+        tcp-check expect string HEARTBEAT
+        server server1.example.org IP1:1247  check
+        server server2.example.org IP2:1247  check
+```
+
 ## Confirming checksums
 
 The value reported by `ils -L` for a sha2 checksum is the base64 encoded sha256 checksum.
