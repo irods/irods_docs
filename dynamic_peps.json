@@ -1663,6 +1663,30 @@
 		"groupName": "network"
 	}, {
 		"sigList": [{
+			"funcName": "api_atomic_apply_acl_operations",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "json_input"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "json_output"
+			}]
+		}, {
+			"funcName": "api_atomic_apply_metadata_operations",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "json_input"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "json_output"
+			}]
+		}, {
 			"funcName": "api_auth_check",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2011,6 +2035,27 @@
 				"paramName": "dataObjWriteInpBBuf"
 			}]
 		}, {
+			"funcName": "api_data_object_finalize",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "json_input"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "json_output"
+			}]
+		}, {
+			"funcName": "api_data_object_modify_info",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "modDataObjMeta_t *",
+				"paramName": "modDataObjMetaInp"
+			}]
+		}, {
 			"funcName": "api_data_put",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2350,6 +2395,18 @@
 				"paramName": "generalUpdateInp"
 			}]
 		}, {
+			"funcName": "api_get_file_descriptor_info",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "json_input"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "json_output"
+			}]
+		}, {
 			"funcName": "api_get_hier_from_leaf_id",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2627,6 +2684,27 @@
 			}, {
 				"paramType": "genQueryOut_t **",
 				"paramName": "genQueryOut"
+			}]
+		}, {
+			"funcName": "api_replica_close",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": ""
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "json_input"
+			}]
+		}, {
+			"funcName": "api_replica_open",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": ""
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "json_output"
 			}]
 		}, {
 			"funcName": "api_rcv_xmsg",
@@ -3032,6 +3110,15 @@
 			}, {
 				"paramType": "int *",
 				"paramName": "ticketAdminInp"
+			}]
+		}, {
+			"funcName": "api_touch",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "json_input"
 			}]
 		}, {
 			"funcName": "api_unbun_and_reg_phy_bunfile",
