@@ -231,7 +231,7 @@
 				"paramType": "irods::plugin_context &",
 				"paramName": "_ctx"
 			}, {
-				"paramType": "struct rodsDirent **",
+				"paramType": "struct rodsDirent \\*\\*",
 				"paramName": "_dirent_ptr"
 			}]
 		}, {
@@ -717,7 +717,7 @@
 				"paramType": "const char *",
 				"paramName": "_test_time"
 			}, {
-				"paramType": "char **",
+				"paramType": "char \\*\\*",
 				"paramName": "_irods_password"
 			}]
 		}, {
@@ -1443,7 +1443,7 @@
 				"paramType": "irods::plugin_context &",
 				"paramName": "_ctx"
 			}, {
-				"paramType": "icatSessionStruct **",
+				"paramType": "icatSessionStruct \\*\\*",
 				"paramName": "_icss"
 			}]
 		}, {
@@ -1671,7 +1671,7 @@
 				"paramType": "bytesBuf_t *",
 				"paramName": "json_input"
 			}, {
-				"paramType": "bytesBuf_t **",
+				"paramType": "bytesBuf_t \\*\\*",
 				"paramName": "json_output"
 			}]
 		}, {
@@ -1683,7 +1683,7 @@
 				"paramType": "bytesBuf_t *",
 				"paramName": "json_input"
 			}, {
-				"paramType": "bytesBuf_t **",
+				"paramType": "bytesBuf_t \\*\\*",
 				"paramName": "json_output"
 			}]
 		}, {
@@ -1695,7 +1695,7 @@
 				"paramType": "int *",
 				"paramName": "authCheckInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "authCheckOut"
 			}]
 		}, {
@@ -1707,7 +1707,7 @@
 				"paramType": "int *",
 				"paramName": "_req_inp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "_req_out"
 			}]
 		}, {
@@ -1716,7 +1716,7 @@
 				"paramType": "rsComm_t *",
 				"paramName": "_comm"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "_req"
 			}]
 		}, {
@@ -1749,7 +1749,7 @@
 				"paramType": "genQueryOut_t *",
 				"paramName": "bulkDataObjRegInp"
 			}, {
-				"paramType": "genQueryOut_t **",
+				"paramType": "genQueryOut_t \\*\\*",
 				"paramName": "bulkDataObjRegOut"
 			}]
 		}, {
@@ -1767,7 +1767,7 @@
 				"paramType": "rsComm_t *",
 				"paramName": "_comm"
 			}, {
-				"paramType": "bytesBuf_t **",
+				"paramType": "bytesBuf_t \\*\\*",
 				"paramName": "_bbuf"
 			}]
 		}, {
@@ -1788,7 +1788,7 @@
 				"paramType": "collInp_t *",
 				"paramName": "collReplInp"
 			}, {
-				"paramType": "collOprStat_t **",
+				"paramType": "collOprStat_t \\*\\*",
 				"paramName": "collOprStat"
 			}]
 		}, {
@@ -1809,7 +1809,7 @@
 				"paramType": "dataOprInp_t *",
 				"paramName": "dataOprInp"
 			}, {
-				"paramType": "portalOprOut_t **",
+				"paramType": "portalOprOut_t \\*\\*",
 				"paramName": "portalOprOut"
 			}]
 		}, {
@@ -1821,7 +1821,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjChksumInp"
 			}, {
-				"paramType": "char **",
+				"paramType": "char \\*\\*",
 				"paramName": "outChksum"
 			}]
 		}, {
@@ -1842,7 +1842,7 @@
 				"paramType": "dataObjCopyInp_t *",
 				"paramName": "dataObjCopyInp"
 			}, {
-				"paramType": "transferStat_t **",
+				"paramType": "transferStat_t \\*\\*",
 				"paramName": "transStat"
 			}]
 		}, {
@@ -1863,7 +1863,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "openStat_t **",
+				"paramType": "openStat_t \\*\\*",
 				"paramName": "openStat"
 			}]
 		}, {
@@ -1875,7 +1875,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "portalOprOut_t **",
+				"paramType": "portalOprOut_t \\*\\*",
 				"paramName": "portalOprOut"
 			}, {
 				"paramType": "bytesBuf_t *",
@@ -1899,7 +1899,7 @@
 				"paramType": "openedDataObjInp_t *",
 				"paramName": "dataObjLseekInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "dataObjLseekOut"
 			}]
 		}, {
@@ -1920,7 +1920,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "openStat_t **",
+				"paramType": "openStat_t \\*\\*",
 				"paramName": "openStat"
 			}]
 		}, {
@@ -1932,7 +1932,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "transferStat_t **",
+				"paramType": "transferStat_t \\*\\*",
 				"paramName": "transStat"
 			}]
 		}, {
@@ -1947,7 +1947,7 @@
 				"paramType": "bytesBuf_t *",
 				"paramName": "dataObjInpBBuf"
 			}, {
-				"paramType": "portalOprOut_t **",
+				"paramType": "portalOprOut_t \\*\\*",
 				"paramName": "portalOprOut"
 			}]
 		}, {
@@ -1980,7 +1980,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "transferStat_t **",
+				"paramType": "transferStat_t \\*\\*",
 				"paramName": "transStat"
 			}]
 		}, {
@@ -1992,7 +1992,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "msParamArray_t **",
+				"paramType": "msParamArray_t \\*\\*",
 				"paramName": "outParamArray"
 			}]
 		}, {
@@ -2043,7 +2043,7 @@
 				"paramType": "bytesBuf_t *",
 				"paramName": "json_input"
 			}, {
-				"paramType": "bytesBuf_t **",
+				"paramType": "bytesBuf_t \\*\\*",
 				"paramName": "json_output"
 			}]
 		}, {
@@ -2064,7 +2064,7 @@
 				"paramType": "dataOprInp_t *",
 				"paramName": "dataOprInp"
 			}, {
-				"paramType": "portalOprOut_t **",
+				"paramType": "portalOprOut_t \\*\\*",
 				"paramName": "portalOprOut"
 			}]
 		}, {
@@ -2085,7 +2085,7 @@
 				"paramType": "execCmd_t *",
 				"paramName": "execCmdInp"
 			}, {
-				"paramType": "execCmdOut_t **",
+				"paramType": "execCmdOut_t \\*\\*",
 				"paramName": "execCmdOut"
 			}]
 		}, {
@@ -2097,7 +2097,7 @@
 				"paramType": "int *",
 				"paramName": "_exec_inp"
 			}, {
-				"paramType": "msParamArray_t **",
+				"paramType": "msParamArray_t \\*\\*",
 				"paramName": "_out_arr"
 			}]
 		}, {
@@ -2118,7 +2118,7 @@
 				"paramType": "int *",
 				"paramName": "fileChksumInp"
 			}, {
-				"paramType": "char **",
+				"paramType": "char \\*\\*",
 				"paramName": "chksumStr"
 			}]
 		}, {
@@ -2157,7 +2157,7 @@
 				"paramType": "fileCreateInp_t *",
 				"paramName": "fileCreateInp"
 			}, {
-				"paramType": "fileCreateOut_t **",
+				"paramType": "fileCreateOut_t \\*\\*",
 				"paramName": "_out"
 			}]
 		}, {
@@ -2181,7 +2181,7 @@
 				"paramType": "int *",
 				"paramName": "fileGetFsFreeSpaceInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "fileGetFsFreeSpaceOut"
 			}]
 		}, {
@@ -2193,7 +2193,7 @@
 				"paramType": "int *",
 				"paramName": "fileLseekInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "fileLseekOut"
 			}]
 		}, {
@@ -2235,7 +2235,7 @@
 				"paramType": "bytesBuf_t *",
 				"paramName": "filePutInpBBuf"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "_put_out"
 			}]
 		}, {
@@ -2259,7 +2259,7 @@
 				"paramType": "int *",
 				"paramName": "fileReaddirInp"
 			}, {
-				"paramType": "rodsDirent_t **",
+				"paramType": "rodsDirent_t \\*\\*",
 				"paramName": "fileReaddirOut"
 			}]
 		}, {
@@ -2271,7 +2271,7 @@
 				"paramType": "fileRenameInp_t *",
 				"paramName": "fileRenameInp"
 			}, {
-				"paramType": "fileRenameOut_t **",
+				"paramType": "fileRenameOut_t \\*\\*",
 				"paramName": "rename_out"
 			}]
 		}, {
@@ -2301,7 +2301,7 @@
 				"paramType": "int *",
 				"paramName": "fileStatInp"
 			}, {
-				"paramType": "rodsStat_t **",
+				"paramType": "rodsStat_t \\*\\*",
 				"paramName": "fileStatOut"
 			}]
 		}, {
@@ -2313,7 +2313,7 @@
 				"paramType": "int *",
 				"paramName": "fileSyncToArchInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "sync_out"
 			}]
 		}, {
@@ -2355,7 +2355,7 @@
 				"paramType": "genQueryInp_t *",
 				"paramName": "genQueryInp"
 			}, {
-				"paramType": "genQueryOut_t **",
+				"paramType": "genQueryOut_t \\*\\*",
 				"paramName": "genQueryOut"
 			}]
 		}, {
@@ -2415,7 +2415,7 @@
 				"paramType": "int *",
 				"paramName": "_inp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "_out"
 			}]
 		}, {
@@ -2427,7 +2427,7 @@
 				"paramType": "int *",
 				"paramName": "_inp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "_out"
 			}]
 		}, {
@@ -2439,7 +2439,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "char **",
+				"paramType": "char \\*\\*",
 				"paramName": "outHost"
 			}]
 		}, {
@@ -2451,7 +2451,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "char **",
+				"paramType": "char \\*\\*",
 				"paramName": "outHost"
 			}]
 		}, {
@@ -2463,7 +2463,7 @@
 				"paramType": "int *",
 				"paramName": "getLimitedPasswordInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "getLimitedPasswordOut"
 			}]
 		}, {
@@ -2472,7 +2472,7 @@
 				"paramType": "rsComm_t *",
 				"paramName": "rsComm"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "outSvrInfo"
 			}]
 		}, {
@@ -2484,7 +2484,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "rodsHostAddr_t **",
+				"paramType": "rodsHostAddr_t \\*\\*",
 				"paramName": "rescAddr"
 			}]
 		}, {
@@ -2496,7 +2496,7 @@
 				"paramType": "int *",
 				"paramName": "getRescQuotaInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "rescQuota"
 			}]
 		}, {
@@ -2505,7 +2505,7 @@
 				"paramType": "rsComm_t *",
 				"paramName": "rsComm"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "getTempPasswordOut"
 			}]
 		}, {
@@ -2517,7 +2517,7 @@
 				"paramType": "int *",
 				"paramName": "getTempPasswordForOtherInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "getTempPasswordForOtherOut"
 			}]
 		}, {
@@ -2529,7 +2529,7 @@
 				"paramType": "getXmsgTicketInp_t *",
 				"paramName": "getXmsgTicketInp"
 			}, {
-				"paramType": "xmsgTicketInfo_t **",
+				"paramType": "xmsgTicketInfo_t \\*\\*",
 				"paramName": "outXmsgTicketInfo"
 			}]
 		}, {
@@ -2538,7 +2538,7 @@
 				"paramType": "rsComm_t *",
 				"paramName": "_comm"
 			}, {
-				"paramType": "bytesBuf_t **",
+				"paramType": "bytesBuf_t \\*\\*",
 				"paramName": "_bbuf"
 			}]
 		}, {
@@ -2610,7 +2610,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "rodsObjStat_t **",
+				"paramType": "rodsObjStat_t \\*\\*",
 				"paramName": "rodsObjStatOut"
 			}]
 		}, {
@@ -2640,7 +2640,7 @@
 				"paramType": "int *",
 				"paramName": "pamAuthRequestInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "pamAuthRequestOut"
 			}]
 		}, {
@@ -2670,7 +2670,7 @@
 				"paramType": "int *",
 				"paramName": "procStatInp"
 			}, {
-				"paramType": "genQueryOut_t **",
+				"paramType": "genQueryOut_t \\*\\*",
 				"paramName": "procStatOut"
 			}]
 		}, {
@@ -2682,7 +2682,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "genQueryOut_t **",
+				"paramType": "genQueryOut_t \\*\\*",
 				"paramName": "genQueryOut"
 			}]
 		}, {
@@ -2703,7 +2703,7 @@
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
-				"paramType": "bytesBuf_t **",
+				"paramType": "bytesBuf_t \\*\\*",
 				"paramName": "json_output"
 			}]
 		}, {
@@ -2715,7 +2715,7 @@
 				"paramType": "rcvXmsgInp_t *",
 				"paramName": "rcvXmsgInp"
 			}, {
-				"paramType": "rcvXmsgOut_t **",
+				"paramType": "rcvXmsgOut_t \\*\\*",
 				"paramName": "rcvXmsgOut"
 			}]
 		}, {
@@ -2727,7 +2727,7 @@
 				"paramType": "int *",
 				"paramName": "handleInxInp"
 			}, {
-				"paramType": "collEnt_t **",
+				"paramType": "collEnt_t \\*\\*",
 				"paramName": "collEnt"
 			}]
 		}, {
@@ -2748,7 +2748,7 @@
 				"paramType": "dataObjInfo_t *",
 				"paramName": "dataObjInfo"
 			}, {
-				"paramType": "dataObjInfo_t **",
+				"paramType": "dataObjInfo_t \\*\\*",
 				"paramName": "outDataObjInfo"
 			}]
 		}, {
@@ -2769,7 +2769,7 @@
 				"paramType": "collInp_t *",
 				"paramName": "rmCollInp"
 			}, {
-				"paramType": "collOprStat_t **",
+				"paramType": "collOprStat_t \\*\\*",
 				"paramName": "collOprStat"
 			}]
 		}, {
@@ -2799,7 +2799,7 @@
 				"paramType": "ruleExecSubmitInp_t *",
 				"paramName": "ruleExecSubmitInp"
 			}, {
-				"paramType": "char **",
+				"paramType": "char \\*\\*",
 				"paramName": "ruleExecId"
 			}]
 		}, {
@@ -2817,7 +2817,7 @@
 				"paramType": "rsComm_t *",
 				"paramName": "_comm"
 			}, {
-				"paramType": "bytesBuf_t **",
+				"paramType": "bytesBuf_t \\*\\*",
 				"paramName": "_bbuf"
 			}]
 		}, {
@@ -2829,7 +2829,7 @@
 				"paramType": "int *",
 				"paramName": "simpleQueryInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "simpleQueryOut"
 			}]
 		}, {
@@ -2841,7 +2841,7 @@
 				"paramType": "specificQueryInp_t *",
 				"paramName": "specificQueryInp"
 			}, {
-				"paramType": "genQueryOut_t **",
+				"paramType": "genQueryOut_t \\*\\*",
 				"paramName": "genQueryOut"
 			}]
 		}, {
@@ -2967,7 +2967,7 @@
 				"paramType": "int *",
 				"paramName": "subStructFileLseekInp"
 			}, {
-				"paramType": "int **",
+				"paramType": "int \\*\\*",
 				"paramName": "subStructFileLseekOut"
 			}]
 		}, {
@@ -3030,7 +3030,7 @@
 				"paramType": "subStructFileFdOprInp_t *",
 				"paramName": "subStructFileReaddirInp"
 			}, {
-				"paramType": "rodsDirent_t **",
+				"paramType": "rodsDirent_t \\*\\*",
 				"paramName": "rodsDirent"
 			}]
 		}, {
@@ -3060,7 +3060,7 @@
 				"paramType": "subFile_t *",
 				"paramName": "subFile"
 			}, {
-				"paramType": "rodsStat_t **",
+				"paramType": "rodsStat_t \\*\\*",
 				"paramName": "subStructFileStatOut"
 			}]
 		}, {
@@ -3153,7 +3153,7 @@
 				"paramType": "rsComm_t *",
 				"paramName": "_comm"
 			}, {
-				"paramType": "bytesBuf_t **",
+				"paramType": "bytesBuf_t \\*\\*",
 				"paramName": "_bbuf"
 			}]
 		}],
