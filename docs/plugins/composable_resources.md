@@ -147,25 +147,11 @@ pep_resource_rebalance_pre(*INSTANCE_NAME, *CONTEXT, *OUT) {
 
 The replication coordinating resource rebalance implementation gathers only good replicas that need to be replicated to other leaf nodes in the tree.
 
+The total number of replicas that need to be rebalanced is the sum of the stale replicas (first) and the missing replicas (second) in a particular resource hierarchy.
+
 If the rebalance operation is interrupted, then the next time it is run, any unfinished work would still be 'unbalanced' and will appear in the next gathered set.
 
 The behavior is independent of where the command is issued.
-
-The total number of replicas that need to be rebalanced is the sum of the stale replicas and the missing replicas in a particular resource hierarchy:
-
-```
-StaleReplicasInTree
-select count(*) from r_data_main where resc_name = 'ROOT_OF_TREE' and data_is_dirty = '0'
-```
-
-and
-
-```
-MissingReplicasInTree
-select count(*) from (select data_id from r_data_main where resc_name = 'ROOT_OF_TREE' group by data_id having count(*) = 1)
-```
-
-These two queries can be added as specific queries via `iadmin asq`.
 
 #### Replication retry
 
