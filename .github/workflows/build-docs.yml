@@ -1,0 +1,27 @@
+name: build-docs
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Get Public IP
+        run:  |
+              dig +short myip.opendns.com @resolver1.opendns.com
+      - name: Install Dependencies
+        run:  |
+              sudo apt-get update -qq
+              sudo apt-get install -qq python-virtualenv g++
+      - name: Install iRODS Repository
+        run:  |
+              curl https://packages.irods.org/irods-signing-key.asc -o key.asc
+              cat key.asc
+              sudo apt-key add key.asc
+              echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/renci-irods.list
+              sudo apt-get update
+              sudo apt-get install irods-icommands cmake cmake-data
+      - name: Build
+        run:  |
+              make
