@@ -455,7 +455,7 @@ definition has the following syntax:
 <constant name> = <constant value>
 ~~~
 
-where the constant value can be on of the following:
+where the constant value can be one of the following:
 
 * an integer
 * a double
@@ -486,6 +486,24 @@ CONSTANT = time()
 ~~~
 
 it returns `NOT CONSTANT`.
+
+Also note that a `CONSTANT` must be defined outside the body of a rule:
+
+~~~c
+testRule{
+  writeLine("stdout",CONSTANT);
+}
+CONSTANT = 1
+~~~
+
+rather than
+
+~~~c
+testRule{
+  CONSTANT = 1
+  writeLine("stdout",CONSTANT);
+}
+~~~
 
 ## Function
 
