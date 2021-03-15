@@ -8,7 +8,14 @@ $ echo -e "\x00\x00\x00\x33<MsgHeader_PI><type>HEARTBEAT</type></MsgHeader_PI>" 
 HEARTBEAT
 ```
 
-This technique is used via Python [in the iRODS controller when starting the local iRODS server](https://github.com/irods/irods/blob/a4c97f8a65bd8d2b5d7a505612f2d9d670d33957/scripts/irods/controller.py#L103-L113).
+Unfortunately, `netcat`/`nc` sometimes closes the port before waiting for a response, so a `bash`-only solution would be:
+
+```bash
+$ echo -e "\x00\x00\x00\x33<MsgHeader_PI><type>HEARTBEAT</type></MsgHeader_PI>" | (exec 3<>/dev/tcp/127.0.0.1/1247; cat >&3; cat <&3; exec 3<&-)
+HEARTBEAT
+```
+
+This `HEARTBEAT` technique is used via Python [in the iRODS controller when starting the local iRODS server](https://github.com/irods/irods/blob/a4c97f8a65bd8d2b5d7a505612f2d9d670d33957/scripts/irods/controller.py#L103-L113).
 
 Example HAProxy configuration:
 ```
