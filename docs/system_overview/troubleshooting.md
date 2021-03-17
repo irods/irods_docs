@@ -81,6 +81,13 @@ There are two networking requirements for iRODS:
 
 This error could occur if the gethostname() function is not returning the expected value on every machine in the Zone.  The values in the iCAT must match the values returned by gethostname() on each machine.
 
+## Incorrect jumbo packet configuration
+
+!!! error
+    SYS_COPY_LEN_ERR -27000
+
+This error could occur if the relevant switch (or node) settings are not enabled to allow jumbo packets.  It might appear in the logs with 'Connection reset by peer'.
+
 ## Incorrect server authentication
 
 !!! error
