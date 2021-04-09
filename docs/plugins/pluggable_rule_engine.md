@@ -187,24 +187,25 @@ delay("hints") {
     - `dd.hh:mm:ss` - 2-digit integers representing days, hours, minutes, and seconds, respectively. Most significant values can be omitted (e.g. 20:40 means mm:ss)
     - `YYYY-MM-DD.hh:mm:ss` - Least significant values can be omitted (e.g. 2015-07-29.12 means noon of July 29, 2015)
   - `PLUSET` - Relative Execution Time - Relative to current time when the delayed execution should be performed.
+  - `PRIORITY` - Scheduled Execution Order - Controls the execution order of scheduled rules. Valid priority values are integers in the range [1, 9] where 9 represents the highest priority (executed earlier). Default priority is 5.
   - `INST_NAME` - Rule Engine Instance Name - Rule engine instance on which the delayed rule will execute. If the instance name is not found, the execution will fail with `SYS_INVALID_INPUT_PARAM`.
   - `EF` - Execution Frequency - How often the delayed execution should be performed. The `EF` value is of the form:
     - `nnnnU <directive>` where
-        - `nnnn` is an integer, `U` is the unit (s-seconds, m-minutes, h-hours, d-days, y-years)
-        - `<directive>` can be of the form:
-            - `<empty-directive>` - equivalent to `REPEAT FOR EVER`
-            - `REPEAT FOR EVER`
-            - `REPEAT UNTIL SUCCESS`
-            - `REPEAT nnnn TIMES` - `nnnn` is an integer
-            - `REPEAT UNTIL <time>` - `<time>` is of the form `YYYY-MM-DD.hh:mm:ss`
-            - `REPEAT UNTIL SUCCESS OR UNTIL <time>`
-            - `REPEAT UNTIL SUCCESS OR nnnn TIMES`
-            - `DOUBLE FOR EVER`
-            - `DOUBLE UNTIL SUCCESS`
-            - `DOUBLE nnnn TIMES`
-            - `DOUBLE UNTIL <time>`
-            - `DOUBLE UNTIL SUCCESS OR UNTIL <time>`
-            - `DOUBLE UNTIL SUCCESS OR nnnn TIMES`
+      - `nnnn` is an integer, `U` is the unit (s-seconds, m-minutes, h-hours, d-days, y-years)
+      - `<directive>` can be of the form:
+        - `<empty-directive>` - equivalent to `REPEAT FOR EVER`
+        - `REPEAT FOR EVER`
+        - `REPEAT UNTIL SUCCESS`
+        - `REPEAT nnnn TIMES` - `nnnn` is an integer
+        - `REPEAT UNTIL <time>` - `<time>` is of the form `YYYY-MM-DD.hh:mm:ss`
+        - `REPEAT UNTIL SUCCESS OR UNTIL <time>`
+        - `REPEAT UNTIL SUCCESS OR nnnn TIMES`
+        - `DOUBLE FOR EVER`
+        - `DOUBLE UNTIL SUCCESS`
+        - `DOUBLE nnnn TIMES`
+        - `DOUBLE UNTIL <time>`
+        - `DOUBLE UNTIL SUCCESS OR UNTIL <time>`
+        - `DOUBLE UNTIL SUCCESS OR nnnn TIMES`
 
 ### Examples
 
