@@ -397,3 +397,27 @@ ERROR: readWorkerTask - readStartupPack failed. -4000
 ```
 
 This usually occurs when a monitoring system has been configured but [is not sending the proper `HEARTBEAT`](./tips_and_tricks.md#monitoring-status-of-irods-servers).
+
+## Data object stuck in locked (or intermediate) status
+
+When an agent exits without successfully updating the replica statuses of an open data object, the replicas will be stuck in a locked status. This can happen in 1 of 2 known ways:
+
+1. Agent crashes due to an uncaught exception or other serious failure which did not allow the agent to clean up after itself.
+2. An open replica has been closed, but finalizing the data object fails due to an error updating the catalog.
+
+Both of these cases are serious issues. If either of these are the case you are seeing, [file an issue on Github](https://github.com/irods/irods/issues).
+
+In this situation, replicas can be modified to bring them out of the locked or intermediate status using `iadmin modrepl`. This tool allows a rodsadmin to modify a column for a particular replica of a particular data object. Simply run the following for each out-of-sorts replica:
+```
+$ iadmin modrepl logical_path <full_path_to_data_object> replica_number <replica_number_to_modify> DATA_REPL_STATUS <desired_replica_status>
+```
+For more details, see [iadmin documentation](../icommands/administrator/#modrepl).
+
+The `desired_replica_status` in the usage snippet above is left to the reader to determine, but here are the definitions for the values of `DATA_REPL_STATUS` recognized by iRODS systems:
+
+0. **stale**: The replica is no longer known to be good. Usually indicates that a more recently written-to replica exists. This does not necessarily mean that the data is incorrect but merely that it may not reflect the \"truth\" of this data object.
+1. **good**: The replica is good. Usually the latest replica to be written. When a replica is good, all bytes and system metadata (size and checksum, if present) are understood to have been recorded correctly.
+2. **intermediate**: The replica is actively being written to. The state of the replica cannot be determined because the client writing to it still has the replica opened. Replicas which are intermediate cannot be opened for read or write, nor can they be unlinked or renamed.
+3. **write-locked**: One of this replica's sibling replicas is actively being written to but is itself at rest. Replicas which are write-locked cannot be opened for read or write nor can they be unlinked or renamed.
+
+This technique should only be used to dig out of this serious situation or for testing purposes.
