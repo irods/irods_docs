@@ -433,3 +433,29 @@ The `desired_replica_status` in the usage snippet above is left to the reader to
 3. **write-locked**: One of this replica's sibling replicas is actively being written to but is itself at rest. Replicas which are write-locked cannot be opened for read or write nor can they be unlinked or renamed.
 
 This technique should only be used to dig out of this serious situation or for testing purposes.
+
+## Firewalls dropping long-idle connections during parallel transfer
+
+iRODS 4.2 and prior have three different ways to move data: single-buffer, streaming, and parallel transfer.  Both single-buffer and streaming transfers are on port 1247 and never have an idle connection.  The parallel transfer method connects on port 1247, constructs a portal of high ports, and then moves data over those high ports.  Once the transfer is complete, control returns to port 1247 for the connection cleanup and bookkeeping.  If the transfer takes long enough, local network firewall timeouts may be tripped and the initial port 1247 connection may be severed.
+
+To prevent the connection on port 1247 from being severed, the administrator can lower the `tcp_keepalive_time` kernel setting to make sure the connection remains active.  Note that this setting will affect every TCP connection on that machine.
+
+Reference: [https://tldp.org/HOWTO/html_single/TCP-Keepalive-HOWTO/#usingkeepalive](https://tldp.org/HOWTO/html_single/TCP-Keepalive-HOWTO/#usingkeepalive)
+
+Initially, the default is probably set to 7200 seconds (2 hours):
+```
+root# cat /proc/sys/net/ipv4/tcp_keepalive_time
+7200
+```
+
+Drop it to 10 minutes (something less than the firewall timeout):
+```
+root# echo 600 > /proc/sys/net/ipv4/tcp_keepalive_time
+root# cat /proc/sys/net/ipv4/tcp_keepalive_time
+600
+```
+
+To make the setting rebootable... add this line to `/etc/sysctl.d/99-sysctl.conf` (or similar location):
+```
+net.ipv4.tcp_keepalive_time = 600
+```
