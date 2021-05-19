@@ -26,7 +26,7 @@ doxygen : get_irods
 	@cd ${DOXYGENTARGET}; git checkout master; git pull; git checkout ${MAKEDOXYGENVERSION}
 	@mkdir -p ${DOXYGENTARGET}/build
 	@if [ ! -f ${DOXYGENTARGET}/build/CMakeCache.txt ] ; then cd ${DOXYGENTARGET}/build; cmake ..; fi
-	@cd ${DOXYGENTARGET}/build ; make
+	@cd ${DOXYGENTARGET}/build ; make -j
 	@cd ${IRODSTARGET}; ../${DOXYGENTARGET}/build/bin/doxygen Doxyfile 1> /dev/null
 	@rsync -ar ${IRODSTARGET}/doxygen/html/ doxygen/
 	@cp ${IRODSTARGET}/doxygen/custom.css doxygen/
