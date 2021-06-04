@@ -17,9 +17,19 @@ This file contains the following top level entries:
 
   - `advanced_settings` (required) - Contains subtle network and password related variables.  These values should be changed only in concert with all connecting clients and other servers in the Zone.
 
+    - `default_log_rotation_in_days` (default 5) - The number of days the log is written to before being rotated out.
+
     - `default_number_of_transfer_threads` (required) (default 4) - The number of threads enabled when parallel transfer is invoked.
 
     - `default_temporary_password_lifetime_in_seconds` (required) (default 120) - The number of seconds a server-side temporary password is good.
+
+    - `dns_cache` - Contains options for controlling the behavior of the internal DNS cache.
+        - `eviction_age_in_seconds` (default 3600) - The amount of time an entry stays valid before being evicted from the cache.
+        - `shared_memory_size_in_bytes` (default 5000000) - The maximum amount of shared memory allocated to the DNS cache.
+
+    - `hostname_cache` - Contains options for controlling the behavior of the internal Hostname cache.
+        - `eviction_age_in_seconds` (default 3600) - The amount of time an entry stays valid before being evicted from the cache.
+        - `shared_memory_size_in_bytes` (default 2500000) - The maximum amount of shared memory allocated to the Hostname cache.
 
     - `maximum_number_of_concurrent_rule_engine_server_processes` (optional) (default 4)
 
@@ -32,6 +42,8 @@ This file contains the following top level entries:
     - `transfer_buffer_size_for_parallel_transfer_in_megabytes` (required) (default 4)
 
     - `transfer_chunk_size_for_parallel_transfer_in_megabytes` (required) (default 40)
+
+  - `client_api_whitelist_policy` (default "enforce") - Controls which API operations are accessible to users. If set to "enforce", the server will expose a subset of operations that can be executed by any user. Administrative operations will require rodsadmin level privileges. This option does not apply to rodsadmin users.
 
   - `default_dir_mode` (required) (default "0750") - The unix filesystem octal mode for a newly created directory within a resource vault
 
