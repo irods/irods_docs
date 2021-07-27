@@ -1,3 +1,31 @@
+## 4.2.10
+
+Release Date: 2021-07-27
+
+### Enhancements
+
+- Updates to CMake build system [#5220]
+
+- Limit redirection in data_object_finalize [#5689]
+
+### Bug Fixes
+
+- Marked as resolved/invalid [#2060] [#5171] [#5718] [#5730] [#5747]
+
+- Fixes for spelling errors [#5698]
+
+- Fixes for uninitialized bytesBuf structs [#5699]
+
+- Fix for 32bit limitation in rsDataObjRead() chunking [#5709]
+
+- Fix for correctly setting buffer length on zero-length gets [#5723]
+
+- Fix for removing C++ header from C-only API [#5731]
+
+- Fix to prevent use of already-released L1 descriptor [#5744]
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.10)
+
 ## 4.2.9
 
 Release Date: 2021-06-07
