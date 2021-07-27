@@ -37,6 +37,7 @@ mkdocs : get_irods
 	@python generate_dynamic_peps_md.py > ${DOCS_SOURCE_DIR}/plugins/dynamic_peps_table.mdpp
 	@if [ ! -d ${VENVTARGET} ] ; then virtualenv ${VENVTARGET}; fi
 	@. ${VENVTARGET}/bin/activate; \
+		pip install Markdown==2.5; \
 		pip install -r requirements.txt; \
 		pushd ${DOCS_SOURCE_DIR}; \
 		markdown-pp -e latexrender -o plugins/dynamic_policy_enforcement_points.md plugins/dynamic_policy_enforcement_points.mdpp; \
