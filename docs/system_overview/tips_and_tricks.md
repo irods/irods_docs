@@ -30,6 +30,17 @@ backend server
         server server2.example.org IP2:1247  check
 ```
 
+Example prometheus blackbox configuration:
+```
+modules:
+    irods_check:
+    prober: tcp
+    tcp:
+      query_response:
+      - send: "\x00\x00\x00\x33<MsgHeader_PI><type>HEARTBEAT</type></MsgHeader_PI>"
+      - expect: "HEARTBEAT"
+```
+
 ## Confirming checksums
 
 The value reported by `ils -L` for a sha2 checksum is the base64 encoded sha256 checksum.
