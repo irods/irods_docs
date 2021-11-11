@@ -130,6 +130,9 @@ The `setup_irods.py` script will ask for information in four (possibly five) sec
 
 5. Vault Directory
 
+
+More information about these values can be found in [Chapters 3 and 4 of the iRODS Beginner Training](https://github.com/irods/irods_training/tree/master/beginner).
+
 !!! Note
     When running iRODS on pre-8.4 PostgreSQL, it is necessary to remove an optimized specific query which was not yet available:
 
