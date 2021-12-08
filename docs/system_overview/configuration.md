@@ -150,7 +150,7 @@ The `local` entry can define multiple addresses for the local server.
 
 The `remote` entries each define a remote server with a set of aliases.
 
-The first address in each stanza is the preferred address and will be used for connecting to clients and remote servers.  The additional addresses are the aliases.
+The first address in each stanza is the preferred address and will be used for connecting to clients and remote servers. This first address should be the hostname of the server in question and is expected to match the result of running `hostname` on that server. The additional addresses are the aliases.
 
 An example `hosts_config.json`:
 
