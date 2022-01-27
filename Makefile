@@ -3,7 +3,7 @@
 SHELL = /bin/bash
 
 MAKEGITHUBACCOUNT = irods
-MAKEIRODSVERSION = master
+MAKEIRODSVERSION = main
 MAKEDOXYGENVERSION = Release_1_8_14
 
 IRODSTARGET = irods_for_doxygen
