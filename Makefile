@@ -4,11 +4,11 @@ SHELL = /bin/bash
 
 MAKEGITHUBACCOUNT = irods
 MAKEIRODSVERSION = main
-MAKEDOXYGENVERSION = Release_1_8_14
+MAKEDOXYGENVERSION = Release_1_9_3
 
 IRODSTARGET = irods_for_doxygen
 DOXYGENTARGET = doxygen_for_docs
-VENVTARGET = venv3
+VENVTARGET = venv43
 
 DOCS_SOURCE_DIR = docs
 
@@ -34,15 +34,18 @@ doxygen : get_irods
 mkdocs : get_irods
 	@echo "Generating Mkdocs..."
 	@./generate_icommands_md.sh
-	@python generate_dynamic_peps_md.py > ${DOCS_SOURCE_DIR}/plugins/dynamic_peps_table.mdpp
-	@if [ ! -d ${VENVTARGET} ] ; then virtualenv -ppython3 ${VENVTARGET}; fi
+	@python3 generate_dynamic_peps_md.py > ${DOCS_SOURCE_DIR}/plugins/dynamic_peps_table.mdpp
+	@if [ ! -d ${VENVTARGET} ] ; then python3 -m venv ${VENVTARGET}; fi
 	@. ${VENVTARGET}/bin/activate; \
+		pip install wheel; \
 		pip install -r requirements.txt; \
 		pushd ${DOCS_SOURCE_DIR}; \
 		markdown-pp -e latexrender -o plugins/dynamic_policy_enforcement_points.md plugins/dynamic_policy_enforcement_points.mdpp; \
 		mkdir -p doxygen; \
 		touch doxygen/index.html; \
 		popd; \
+		export LC_ALL=C.UTF-8; \
+		export LANG=C.UTF-8; \
 		mkdocs build --clean
 
 clean :
