@@ -1,6 +1,6 @@
 body {
-    font-family: "tristram","Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
-    font-weight: bold;
+/*    font-family: "tristram","Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif; */
+/*    font-weight: bold; */
     color: #333;
     min-height: 100%;
     overflow-x: hidden;
@@ -10,7 +10,9 @@ textarea {
     overflow: auto;
     vertical-align: top;
     width: 100%;
+/*
     font-family: "tristram", "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif
+*/
 }
 .main_header{
     position: fixed;
@@ -25,7 +27,9 @@ textarea {
     z-index: 1;
 }
 .stickynav{
+/*
     font-family: "Lato", "proxima-nova", "Helvetica Neue", Arial, sans-serif;
+*/
 }
 .wy-nav-content {
     padding: 1.618em 3.236em;
@@ -42,10 +46,13 @@ h6,
 legend {
     margin-top: 0;
     font-weight: 700;
+/*
     font-family: "tristram", "Roboto Slab", "ff-tisa-web-pro", "Georgia", Arial, sans-serif;
+*/
     font-weight: bold;
     color: #222222;
 }
+/*
 @font-face {
     font-family: 'tristram';
     src: url('./fonts/AvenirNext-Regular.woff') format('woff');
@@ -58,6 +65,7 @@ legend {
     font-weight: lighter;
     font-style: normal;
 }
+*/
 .fa,
 .rst-content .admonition-title,
 .rst-content h1 .headerlink,
@@ -69,7 +77,9 @@ legend {
 .rst-content dl dt .headerlink,
 .icon {
     display: inline-block;
+/*
     font-family: tristram;
+*/
     font-style: normal;
     font-weight: bold;
     line-height: 1;
