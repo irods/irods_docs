@@ -1,5 +1,6 @@
 site_name: iRODS Docs
 repo_url: https://github.com/irods/irods_docs
+edit_uri: https://github.com/irods/irods_docs/edit/main/docs
 site_description: Open Source Data Management
 site_author: iRODS Consortium
 site_dir: site
@@ -10,8 +11,8 @@ google_analytics:
 theme: readthedocs
 extra_css:
  - irods.css
-extra_javascript:
- - irods.js
+#extra_javascript:
+# - irods.js
 
 markdown_extensions:
  - admonition
