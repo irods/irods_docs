@@ -1,3 +1,5 @@
+#
+
 iRODS 4.2+ introduced the iRODS rule engine plugin interface.  This plugin interface allows iRODS administrators and users to write iRODS policy rules in languages other than the [legacy iRODS Rule Language](irods_rule_language.md).
 
 Rule engine plugins are written in C++, installed on a particular iRODS server, and configured in that server's `server_config.json`.
@@ -8,11 +10,9 @@ The iRODS Consortium currently supports the following rule engine plugins:
  - [Python Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_python)
  - [C++ Default Policy Rule Engine Plugin](https://github.com/irods/irods/tree/master/plugins/rule_engines/irods_rule_engine_plugin-cpp_default_policy)
  - [C++ Audit (AMQP) Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_audit_amqp)
- - [C++ Hard Links Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_hard_links)
  - [C++ Logical Quotas Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_logical_quotas)
  - [C++ Metadata Guard Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_metadata_guard)
  - [C++ Storage Tiering Rule Engine Plugin](https://github.com/irods/irods_capability_storage_tiering)
- - [C++ Update Collection MTime Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_update_collection_mtime)
 
 
 

@@ -6,39 +6,44 @@ MAKEGITHUBACCOUNT = irods
 MAKEIRODSVERSION = main
 MAKEDOXYGENVERSION = Release_1_9_3
 
-IRODSTARGET = irods_for_doxygen
-DOXYGENTARGET = doxygen_for_docs
-VENVTARGET = venv43
+BUILDAREA = /hostcomputer
+IRODSTARGET = ${BUILDAREA}/irods_for_doxygen
+DOXYGENTARGET = ${BUILDAREA}/doxygen_for_docs
+VENVTARGET = ${BUILDAREA}/venv43
 
 DOCS_SOURCE_DIR = docs
+DOCS_TARGET_DIR = ${BUILDAREA}/site
 
 default : doxygen mkdocs
-	@cp -r doxygen/* site/doxygen
+	@rsync -ar --delete doxygen/ ${DOCS_TARGET_DIR}/doxygen/
 
 get_irods :
 	@echo "Getting iRODS source... v[${MAKEIRODSVERSION}]"
 	@if [ ! -d ${IRODSTARGET} ] ; then git clone https://github.com/${MAKEGITHUBACCOUNT}/irods ${IRODSTARGET}; fi
-	@cd ${IRODSTARGET}; git fetch; git checkout ${MAKEIRODSVERSION}; git pull --rebase
+	@cd ${IRODSTARGET}; git fetch; git checkout ${MAKEIRODSVERSION}
 
 doxygen : get_irods
 	@echo "Generating Doxygen..."
 	@if [ ! -d ${DOXYGENTARGET} ] ; then git clone https://github.com/doxygen/doxygen ${DOXYGENTARGET}; fi
-	@cd ${DOXYGENTARGET}; git checkout master; git pull; git checkout ${MAKEDOXYGENVERSION}
+	@cd ${DOXYGENTARGET}; git fetch; git checkout ${MAKEDOXYGENVERSION}
 	@mkdir -p ${DOXYGENTARGET}/build
 	@if [ ! -f ${DOXYGENTARGET}/build/CMakeCache.txt ] ; then cd ${DOXYGENTARGET}/build; cmake ..; fi
 	@cd ${DOXYGENTARGET}/build ; make -j
-	@cd ${IRODSTARGET}; ../${DOXYGENTARGET}/build/bin/doxygen Doxyfile 1> /dev/null
-	@rsync -ar ${IRODSTARGET}/doxygen/html/ doxygen/
+	@cd ${IRODSTARGET}; ${DOXYGENTARGET}/build/bin/doxygen Doxyfile 1> /dev/null
+	@rsync -ar --delete ${IRODSTARGET}/doxygen/html/ doxygen/
 	@cp ${IRODSTARGET}/doxygen/custom.css doxygen/
 
 mkdocs : get_irods
 	@echo "Generating Mkdocs..."
 	@./generate_icommands_md.sh
 	@python3 generate_dynamic_peps_md.py > ${DOCS_SOURCE_DIR}/plugins/dynamic_peps_table.mdpp
-	@if [ ! -d ${VENVTARGET} ] ; then python3 -m venv ${VENVTARGET}; fi
-	@. ${VENVTARGET}/bin/activate; \
+	@if [ ! -d ${VENVTARGET} ] ; then \
+		python3 -m venv ${VENVTARGET}; \
+		. ${VENVTARGET}/bin/activate; \
 		pip install wheel; \
 		pip install -r requirements.txt; \
+		fi
+	@. ${VENVTARGET}/bin/activate; \
 		pushd ${DOCS_SOURCE_DIR}; \
 		markdown-pp -e latexrender -o plugins/dynamic_policy_enforcement_points.md plugins/dynamic_policy_enforcement_points.mdpp; \
 		mkdir -p doxygen; \
@@ -46,7 +51,8 @@ mkdocs : get_irods
 		popd; \
 		export LC_ALL=C.UTF-8; \
 		export LANG=C.UTF-8; \
-		mkdocs build --clean
+		mkdocs build --clean; \
+		rsync -ar --delete site/ ${DOCS_TARGET_DIR}/
 
 clean :
 	@echo "Cleaning..."

@@ -1,3 +1,5 @@
+#
+
 A fundamental concept within iRODS is virtualization, the separation of the logical from the physical.  This separation is provided by iRODS along several different axes: storage, networking, authentication, and other plugins as well as the iRODS logical namespace itself. To further refine terminology around this concept, we have separated the use of the terms Zone and Grid into two distinct entities. We now use the term Zone to refer to the purely logical portion of an iRODS deployment and the term Grid to describe the purely physical. An iRODS Zone provides services to clients via the iRODS API and the wire-line protocol.
 
 ![Control Plane Diagram](../images/ControlPlaneDiagram.jpg)

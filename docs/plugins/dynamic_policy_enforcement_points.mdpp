@@ -1,3 +1,4 @@
+#
 
 iRODS 4.0+ has introduced the capability for dynamic policy enforcement points (PEP).  For every operation that is called, four policy enforcement points are constructed (pre, post, except, and finally varieties), and if it has been defined in core.re or any other loaded rulebase file they will be executed by the rule engine plugin framework.
 
@@ -11,7 +12,7 @@ The flow of information from the pre PEP to the plugin operation to the post PEP
 
 <table>
 <tr>
-<td rowspan='5'><img src="../../pep_flow_control.png" alt="PEP Flow Control" width="300px"/></td>
+<td rowspan='5'><img src="../../images/pep_flow_control.png" alt="PEP Flow Control" width="300px"/></td>
 <td>pep_PLUGINOPERATION_pre()</td><td>Should produce an *OUT variable that will be passed to the calling plugin operation</td>
 </tr>
 <tr><td>PLUGINOPERATION</td><td>Will receive any *OUT defined by pep_PLUGINOPERATION_pre() above and will pass its own *OUT variable to pep_PLUGINOPERATION_post()</td></tr>

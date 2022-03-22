@@ -1,3 +1,5 @@
+#
+
 iRODS 4.0+ represents a major effort to analyze, harden, and package iRODS for sustainability, modularization, security, and testability.  This has led to a fairly significant refactorization of much of the underlying codebase.  The following descriptions are included to help explain the architecture of iRODS.
 
 The core is designed to be as immutable as possible and serve as a bus for handling the internal logic of the business of iRODS (data storage, policy enforcement, etc.).  Seven interfaces are exposed by the core and allow extensibility and separation of functionality into plugins.  A few plugins are included by default in an iRODS distribution to provide a set of base functionality.

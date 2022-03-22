@@ -1,3 +1,5 @@
+#
+
 Logging in 4.3+ has been changed significantly.  There is a new logging library that utilizes spdlog and rsyslog.
 
 rodsLog() is called from several places within the iRODS code base.  Replacing all calls to it with the new library is going to take some time.  In order to help with this transition, the rodsLog implementation has been modified. It will continue to operate as it has in the past, but it will now forward all messages to the new library as well.
