@@ -2,11 +2,11 @@
 
 ## 4.3.0
 
-Release Date: 2019-XX-XX
+Release Date: 2022-XX-XX
 
 ### Notable Features
 
-  - iRODS now requires C++17
+  - iRODS now requires C++20
 
   - New libraries, in use in the server and available to developers
       - irods::filesystem
@@ -27,6 +27,834 @@ Release Date: 2019-XX-XX
 ### Other Issues
 
   -
+
+## 4.2.11
+
+Release Date: 2021-12-18
+
+### Enhancements
+
+ - Mark package conflicts more completely [#5748]
+
+ - Add support for proxy user scenarios to the client_connection library [#5754]
+
+ - Add better itouch error when a non-leaf resource is named [#5771]
+
+ - Add itree iCommand [#5786] [#5824]
+
+ - Add library for temporary permissions [#5814]
+
+ - Add server option to limit memory usage of the delay server [#5822]
+
+ - Add SNI support for remote iRODS server connections [#5832]
+
+ - Add configurable hostnames option to run_tests.py [#5842]
+
+ - Add support for targeting specific replicas while streaming [#5851]
+
+ - Add better reporting of ignored parameters [#5890]
+
+ - Add efficient serialization for KeyValPairs [#5906] [#5931]
+
+ - Add admin flag to ticket API and iticket [#5933]
+
+ - Add missing serializations [#5950]
+
+ - Add case-insensitivity to query iterator [#5974]
+
+ - Add memory alignment for fixed-size buffers [#5982] [#5993] [#6017] [#6019]
+
+### Bug Fixes
+
+ - Fix for honoring inheritance for icp [#3032]
+
+ - Marked as resolved/invalid [#3194] [#3392] [#4113] [#4123] [#4224] [#4332] [#4333] [#5447] [#5625] [#5770] [#5779] [#5841] [#5880] [#5903] [#5922] [#5936] [#6046]
+
+ - Removal of deprecated 'register' keyword [#3857]
+
+ - Fixes for 'ireg --repl' [#4206] [#4622] [#5265]
+
+ - Disallow remote groups [#4231]
+
+ - Fixes for imeta [#4458] [#5316]
+
+ - Marked as question answered [#4590] [#5840] [#5857] [#5867] [#5943] [#5949] [#5979] [#6005] [#6007] [#6041] [#6061]
+
+ - Fix for creating collection in root collection [#4621]
+
+ - Fixes for memory leaks [#4649]
+
+ - Fixes for rebalance [#5110] [#5227]
+
+ - Fix for GenQuery boundary and ilsresc [#5155]
+
+ - Fix for iuserinfo [#5467]
+
+ - Fix for ils with three or more paths [#5502]
+
+ - Fix for parsing delayed execution frequency [#5503]
+
+ - Fix for delay queue test [#5526]
+
+ - Fix for voting and pre-existing replicas [#5548]
+
+ - Fix for GenQuery column indices [#5566]
+
+ - Fix for schema_name inconsistency [#5630]
+
+ - Fix for build options [#5644]
+
+ - Fix for control plane using hosts_config information [#5700]
+
+ - Fix for accidental string concatenation [#5721]
+
+ - Fix for iticket expiration timestamps [#5736]
+
+ - Fixes for filesystem library [#5750] [#5813]
+
+ - Document installation information [#5757]
+
+ - Fix for redirection with apostrophe in data object name [#5759]
+
+ - Fix for iget leaving object in stale state [#5760]
+
+ - Fix for redirection determination API endpoints [#5761]
+
+ - Fix for itouch when connected to catalog consumer [#5774]
+
+ - Fix for icommands incorrectly requiring irods-server [#5776]
+
+ - Fix stderr microservice [#5791]
+
+ - Fix for server-to-server connections [#5838]
+
+ - Fix for ichksum --verify [#5843]
+
+ - Fix for userspace tarball of icommands [#5845]
+
+ - Fix for archive-only retrieval via compound resource [#5847]
+
+ - Fix for opening multi-replica data object with multiple connections [#5848]
+
+ - Fix for dstream [#5850]
+
+ - Fix for irods-externals elasticlient [#5860]
+
+ - Fix for 'iadmin modresc' [#5861]
+
+ - Fix for default_transport library [#5862]
+
+ - Fix for ctime/mtime consistency [#5863]
+
+ - Fix for key_value_proxy library [#5865]
+
+ - Fix for passthru context error [#5883]
+
+ - Fix for copy across federation [#5894]
+
+ - Fixes for negotiation keys [#5917] [#5923]
+
+ - Fix for chkAllowedUser() [#5928]
+
+ - Fix for GenQuery and ticket times [#5929]
+
+ - Document msiSetACL recursive flag better [#5940]
+
+ - Fix for crash when not using irods rule language plugin [#5968]
+
+ - Fixes for delay rule deletion [#5976] [#5977]
+
+ - Fix for shared memory filename collision [#6006]
+
+ - Fix for CI build hook installation order [#6011]
+
+ - Fix for ilsresc -z [#6022]
+
+ - Fixes for univmss [#6023] [#6030]
+
+ - Fix for msisync_to_archive [#6029]
+
+ - Fix for stopping an already stopped server [#6053]
+
+### Refactors / Packaging / Build
+
+ - Consistent package filenames [#3454] [#5937]
+
+ - Delegate more CMake work to irods-dev(el) package [#5250]
+
+ - Replace bzero with memset [#5563]
+
+ - Better separate development dependencies [#5758]
+
+ - Externalize to_bytes_buffer function [#5768]
+
+ - Use CMake more consistently [#5827]
+
+ - Capture path of irods-externals spdlog [#5876] [#5881]
+
+ - Remove libirods_server from icommands userspace packages [#5885]
+
+ - Better declare package relationships [#5909] [#5918]
+
+ - Better package dependencies [#5962] [#5963]
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.11)
+
+## 4.2.10
+
+Release Date: 2021-07-27
+
+### Enhancements
+
+ - Updates to CMake build system [#5220]
+
+ - Limit redirection in data_object_finalize [#5689]
+
+### Bug Fixes
+
+ - Marked as resolved/invalid [#2060] [#5171] [#5718] [#5730] [#5747]
+
+ - Fixes for spelling errors [#5698]
+
+ - Fixes for uninitialized bytesBuf structs [#5699]
+
+ - Fix for 32bit limitation in rsDataObjRead() chunking [#5709]
+
+ - Fix for correctly setting buffer length on zero-length gets [#5723]
+
+ - Fix for removing C++ header from C-only API [#5731]
+
+ - Fix to prevent use of already-released L1 descriptor [#5744]
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.10)
+
+## 4.2.9
+
+Release Date: 2021-06-07
+
+### Enhancements
+
+ - Add rule priority to delayed rules [#2759]
+
+ - Move delay server context into database [#3049] [#4428] [#5153]
+
+ - Add tests for partial copying via istream [#4698]
+
+ - Replication to hierarchies [#3217] [#4686]
+
+ - Refactor iphymv [#3490] [#4212] [#4563] [#4896] [#5070] [#5177] [#5360] [#5446] [#5454]
+
+ - New msiTouch, itouch, and touch API plugin [#4669] [#4694] [#5152]
+
+ - Refactor checksum API [#3091] [#3282] [#3540] [#5251] [#5252] [#5263] [#5285] [#5288] [#5400] [#5401] [#5496]
+
+ - Add SHA1, SHA512, ADLER32 hashing functions [#3800] [#5392]
+
+ - Add logical locking [#1781] [#3848] [#4170] [#4236] [#4433] [#4958] [#5312] [#5421] [#5486] [#5495] [#5542]
+
+ - Add client support for updating mtime of collections [#4190]
+
+ - New data_object_finalize API plugin [#2719] [#4331] [#5672]
+
+ - New parallel transfer library [#4336] [#4969] [#4970]
+
+ - Add intermediate replica status [#4343] [#4464] [#5018] [#5160] [#5314] [#5478] [#5504] [#5675]
+
+ - Add new msiAddRErrorMsg microservice [#4463]
+
+ - Support iget options as directives, not preferences [#4475]
+
+ - Add case-insensitive search to ilocate [#4761]
+
+ - Tie query processor size to the future object [#4902]
+
+ - Unify storage resource voting [#4941]
+
+ - Allow query builder to clear specific query arguments [#4960]
+
+ - Support DATA_SIZE_KW in rsyncUtil and rcDataObjPut [#4987]
+
+ - istream can now target resources/replicas and calculate checksums [#5000]
+
+ - New atomic_apply_acl_operations API plugin [#5001]
+
+ - Give proper names to anonymous C types [#5003]
+
+ - New replica_open API plugin [#5004] [#5418]
+
+ - New replica_close API plugin [#5005] [#5039] [#5195]
+
+ - New msi_atomic_apply_acl_operations microservice [#5006]
+
+ - New catalog operations library [#5011]
+
+ - New resource administration library [#5020]
+
+ - Add RESOURCE_SKIP_VAULT_PATH_CHECK_ON_UNLINK resource property [#5030]
+
+ - Add IRODS_QUERY_ENABLE_SERVER_SIDE_API macro [#5033]
+
+ - Add IRODS_FOR_DOXYGEN macro [#5037]
+
+ - Add error() and state() system microservices [#5043]
+
+ - Improved client-side collection iterator performance [#5049]
+
+ - Make connection_proxy objects default constructible [#5052]
+
+ - Add ability for irods::hierarchy_parser to add parent [#5057]
+
+ - Tightened use of filesystem::last_write_time [#5061]
+
+ - Merge update_collection_mtime rule engine plugin into server [#5063]
+
+ - Can now build iCommands as a portable userspace tarball for deployment [#5082]
+
+ - Document the user group administration library [#5086]
+
+ - Add client_connection class [#5088]
+
+ - Add replica library [#5103] [#5139] [#5142] [#5143] [#5150] [#5151] [#5156] [#5592]
+
+ - Add data_object_proxy and replica_proxy classes [#5104]
+
+ - Streamline filesystem library [#5118]
+
+ - Expose additional columns to GenQuery [#5132]
+
+ - Add registration checking functions to filesystem library [#5133]
+
+ - Add is_special_collection function to filesystem library [#5134]
+
+ - New metadata library [#5137]
+
+ - Serialize additional structures within the Rule Engine [#5164] [#5408]
+
+ - Optimize building the server for speed [#5223]
+
+ - Add resource_manager overloads for easier error handling [#5236]
+
+ - Delay server, istream, itouch report cleanly to ips [#5264] [#5269] [#5272]
+
+ - Migrate from TravisCI to GitHub Actions [#5302]
+
+ - Set FILE_PATH_KW correctly to support decoupled naming in S3 [#5323]
+
+ - Make scripts output more consistent [#5363]
+
+ - Add DNS lookup and hostname caching [#4911] [#5404] [#5406] [#5557]
+
+ - Add replica access table functionality [#5405] [#5412]
+
+ - Isolate public API of packStruct [#5425]
+
+ - Add two file descriptor microservices [#5431]
+
+ - Clean any S3 shared memory on server startup and shutdown [#5451]
+
+ - Refactor CPP default rule engine plugin for policy composition [#5469] [#5515]
+
+ - Remove usage of PHYOPEN_BY_SIZE_KW in server [#5494]
+
+ - Add capability for ils to skip printing contents of a collection [#5506]
+
+ - Add function to check existence of a server property [#5556]
+
+ - Update default install to use max 4 threads [#5654]
+
+ - Update MySQL development default to skip local socket connection [#5668]
+
+### Bug Fixes
+
+ - Fix packaging issues [#826] [#837] [#3654]
+
+ - Document maximum host name length [#2777]
+
+ - Document ils output [#2840] [#4305]
+
+ - Marked as resolved/invalid or wontfix [#3073] [#3074] [#3077] [#3287] [#3288] [#3837] [#3880] [#4887] [#4948] [#4981] [#5029] [#5045] [#5075] [#5078] [#5097] [#5188] [#5235] [#5274] [#5307] [#5351] [#5472] [#5523] [#5527]
+
+ - Fix for --purgec option and bulk transfer [#3094]
+
+ - Document irm, irmtrash and physical directories [#3124]
+
+ - Fix for missing inline keyword [#3396]
+
+ - Fix for ifsck when it does not have enough permissions [#3428] [#5358]
+
+ - Fix for CMake IRODS_LINUX_DISTRIBUTION_VERSION_CODENAME [#3453]
+
+ - Fix for replication to resource with existing replica [#4010]
+
+ - Fix for delay() not honoring suffixes [#4055]
+
+ - Fix for iput to non-existent resource [#4084]
+
+ - Fix for packStruct to follow XML encoding standards [#4132]
+
+ - Fix for resource name substring bug during rebalance [#4135]
+
+ - Fix for reading from disk past catalog data size [#4195]
+
+ - Ignore the update flag for replication [#4462]
+
+ - Fix for unchecked variable [#4550]
+
+ - Fix for running setup_irods.py with existing database tables [#4602]
+
+ - Fix for iscan when it does not have enough permissions [#4613]
+
+ - Fix for iquest when 'select' used in an argument string [#4697] [#5178]
+
+ - Added test for SQL error when writing via ticket [#4744]
+
+ - Fix for unauthorized icp which left unmanaged data in vault [#4748]
+
+ - Fix for zero-length files not triggering replication [#4779] [#5193]
+
+ - Fix for key_value_proxy::handle API [#4903] [#4972]
+
+ - Fix for duplicate access to logging file descriptor [#4943]
+
+ - Fix for testing via logging, move to metadata in catalog [#4949]
+
+ - Include correct headers [#4954]
+
+ - Fix for pluggable_rule_engine documentation [#4967]
+
+ - Update streaming to not require the force flag [#4971]
+
+ - Document federation between 3.x and 4.x [#4974] [#4978]
+
+ - Fixes for istream [#4986] [#5107] [#5112] [#5187] [#5189] [#5279] [#5294] [#5306] [#5422] [#5477]
+
+ - RULE_ENGINE_SKIP_OPERATION should not skip Post-PEPs [#5002]
+
+ - Fix index usage in msiExtractTemplateMDFromBuf [#5010]
+
+ - Fix for missing O_TRUNC flag for puts [#5012]
+
+ - Replaced C header with C++ header [#5014]
+
+ - Add test for except PEP firing across federation [#5017]
+
+ - Fixes for imeta [#5021] [#5081] [#5101] [#5102] [#5111] [#5184] [#5185] [#5186] [#5518] [#5541]
+
+ - Fix for iscan limiting filenames to 256 characters [#5022]
+
+ - Fix for incorrect reuse of session properties [#5046]
+
+ - Fix for missing 'const noexcept' [#5048]
+
+ - Fix for the connection pool [#5053]
+
+ - Fix for duplicate error symbol in rodsErrorTable [#5056]
+
+ - Fix rebalance PEP documentation [#5062]
+
+ - Fix extraneous logging [#5064]
+
+ - Fix for incorrect reuse of logical path on reused connection [#5072]
+
+ - Fix for detecting empty hostnames [#5085]
+
+ - Fix for documentation of client_connection [#5092]
+
+ - Fixes for returning stale column output [#5099] [#5115]
+
+ - Fixes for irods::filesystem return good replica information [#5105] [#5116] [#5117] [#5119] 
+
+ - Fixes for filesystem function signatures [#5140]
+
+ - Fix for dereferencing std::optional [#5141]
+
+ - Fix for opening replicas of existing data objects [#5157]
+
+ - Fix for izonereport not including resc_id information [#5159] [#5170]
+
+ - Fix for rsDataObjRepl not returning errors from rsDataObjClose [#5179]
+
+ - Fixes for build system [#5198] [#5212] [#5213] [#5232] [#5233] [#5301] [#5311] [#5317] [#5354]
+
+ - Fix for iuserinfo use after free [#5214]
+
+ - Fixes for memory leaks [#5216] [#5299] [#5319] [#5337] [#5338] [#5339] [#5340] [#5341] [#5366] [#5367] [#5368] [#5369] [#5370] [#5371] [#5372] [#5373] [#5374] [#5657]
+
+ - Document tcp_keepalive_time usage for long idle connections [#5218]
+
+ - Fix for leftover rulefile pid files [#5224]
+
+ - Fix for iinit [#5239]
+
+ - Fix for updating delayed rule last_exe_time when run by rodsuser [#5257]
+
+ - Fix for setup_irods.py to not start the server, leave it to systemd [#5275]
+
+ - Fix for POSIX semantics in streaming interface [#5315] [#5546]
+
+ - Add test to confirm reading past end of file is prohibited [#5352]
+
+ - Fix for setup_irods.py consistency [#5361]
+
+ - Fix for vault management during trim or remove [#5362]
+
+ - Fixes for irodsctl verbosity [#5383] [#5386]
+
+ - Fix for nanodbc packaging [#5389]
+
+ - Fix for extra logging from rule engine plugin framework [#5413]
+
+ - Quiet logs when interacting with nonexistent data objects [#5419] [#5444]
+
+ - Fix for unchecked input [#5420]
+
+ - Disable Xmsg tests [#5424]
+
+ - Fix for missing force flag when handling bundle files [#5426]
+
+ - Fix for unlimited rError stack size [#5427]
+
+ - Fix for API plugins triggering too much policy [#5437]
+
+ - Fix for irm with force flag [#5438]
+
+ - Fix for renaming local zone [#5445]
+
+ - Fix for msiRenameCollection to only rename collections [#5452]
+
+ - Fix for overwriting within special collections [#5457]
+
+ - Updated HEARTBEAT documentation [#5484]
+
+ - Fix for overwriting large file with smaller file [#5505]
+
+ - Fix for JSON in bytesBuf when using XML protocol [#5520]
+
+ - Clarify iadmin rmresc error message [#5545]
+
+ - Fix for empty pep_database_reg_data_obj_* fields [#5554]
+
+ - Quiet logs for chlSetAVUMetadata [#5570]
+
+ - Fix for put operation being able to create additional replicas [#5575] [#5691]
+
+ - Fix for put-specific checksum code running against tape [#5576]
+
+ - Fix for failure to move packedRei files during upgrade [#5577]
+
+ - Fix for race condition in testing suite [#5605]
+
+ - Fix for potential use-after-free [#5613]
+
+ - Check for empty attribute and values in atomic_apply_metadata_operations [#5618]
+
+ - Fix for filesystem collection iterator [#5660] [#5661]
+
+ - Fixes for using Oracle via nanodbc [#5671] [#5672] [#5673] [#5674]
+
+ - Fix for ibun operation in topology [#5682]
+
+ - Fix for missing PEP calls due to compiler optimization [#5683]
+
+ - Fix for MySQL connection information [#5684]
+
+ - Fix for SSL test assuming CS_NEG_DONT_CARE [#5685]
+
+ - Fix for msiRenameLocalZoneCollection [#5693]
+
+### Deprecated
+
+ - Deprecate msiSetMultiReplPerResc [#4407]
+
+ - Deprecate rxSetRoundRobinContext [#4964]
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.9)
+
+## 4.2.8
+
+Release Date: 2020-05-22
+
+### Enhancements
+
+ - Define C API in the client library [#2307] [#4768] [#4832] [#4835]
+
+ - Pass connection information everywhere [#3557]
+
+ - Support for Ubuntu 18 packages [#3977]
+
+ - Separate logical file descriptors from physical file descriptors [#4270]
+
+ - Implement fallthrough in rule engine plugin framework [#4299]
+
+ - Refactor delay server as irods::query processor [#4430] [#4616]
+
+ - Add API to atomically manipulate multiple AVUs at once [#4484] [#4809] [#4843] [#4916]
+
+ - Add iunreg iCommand [#4506]
+
+ - New key_value_proxy class [#4585]
+
+ - New lifetime_manager class [#4586] [#4712] [#4840]
+
+ - New istream iCommand [#4626]
+
+ - Enable C++17 [#4627]
+
+ - New irods::administration user and group libraries [#4650]
+
+ - Add delay scheduling to C++ default rule engine plugin [#4668]
+
+ - Add consistency around irods::filesystem exception handling [#4726]
+
+ - New iadmin modrepl subcommand [#4740]
+
+ - Add support for skipping operations in rule engine plugin framework [#4752] [#4800]
+
+ - Add '_finally' PEPs to rule engine plugin framework flow control [#4773]
+
+ - Define error when handling POSIX open(O_RDONLY | O_TRUNC) [#4782]
+
+ - New irods::interprocess library for shared memory objects [#4787]
+
+ - Add support for additional database rows to be updated [#4818]
+
+ - New irods::scoped_privileged_client for safe elevation of privilege [#4819]
+
+ - Add boost::asio::thread_pool in irods::thread_pool [#4824] [#4833]
+
+ - Refactor init_client_api_table() as load_client_api_plugins() [#4827]
+
+ - New irods::scoped_client_identity library for safe user switching [#4836]
+
+ - Never delete, only unregister non-Vault replicas [#4848]
+
+ - New irods::with_durability library [#4867]
+
+ - Add add_metadata function to irods::filesystem [#4890]
+
+ - Refactor and multithread irods::query_processor [#4891]
+
+ - Add atomic bulk metadata operations to irods::filesystem [#4898] [#4901]
+
+### Bug Fixes
+
+ - Fix for phymv into resource hierarchy [#3234]
+
+ - Marked as resolved/invalid [#3235] [#4225] [#4309] [#4663] [#4823]
+
+ - Fix for trailing slash on collections and data objects [#3892]
+
+ - Document migration from static policy enforcement points (PEPs) to Dynamic PEPs [#4054] [#4660]
+
+ - Document msiModAVUMetadata [#4185]
+
+ - Document smoother migration from 4.1.x resource servers [#4307] [#4612]
+
+ - Fix for irmtrash removing non-vault replicas [#4403]
+
+ - Fix for orphan file creation on overwrite over the network [#4410]
+
+ - Fix for imv on non-existent target path [#4414]
+
+ - Fix for imeta qu ignoring the -z option [#4426]
+
+ - Document use of epel-release repository on CentOS [#4450]
+
+ - Fix for irepl in admin mode [#4479]
+
+ - Fix for use of truncation [#4483] [#4628] [#4826]
+
+ - Fix for registration of empty data object names [#4494]
+
+ - Fix for unregistration of in-vault data object as rodsuser [#4510]
+
+ - Fix for structFileBundle message to LOG_DEBUG [#4520]
+
+ - Fix for trailing slash with imeta [#4559]
+
+ - Fix for msiRenameCollection [#4597]
+
+ - Fix for documentation location of example rules [#4625]
+
+ - Fix for collection iterator segfault when empty [#4633]
+
+ - Fix for irods::filesystem fallback when specific query ShowCollAcls is undefined [#4636] [#4648]
+
+ - Fix for missing column mappings for GenQuery [#4640] [#4645]
+
+ - Fix for irods::filesystem missing user and zone information [#4641]
+
+ - Update dependency to avro 1.9.0 [#4642]
+
+ - Fix for debug message during setup [#4651]
+
+ - Update dependency to JSON 3.7.3 [#4652]
+
+ - Fix for recursive iput [#4657]
+
+ - Document removal of extraneous rule_engine_namespaces on upgrade [#4661]
+
+ - Fix for supporting '_except' after upgrade [#4662]
+
+ - Fix for USER_GROUP_NAME with GenQuery [#4672] [#4708]
+
+ - Fix for MySQL database plugin use of 'storage_engine' [#4673]
+
+ - Fix for imeta using relative paths [#4682]
+
+ - Fix for passthrough rule engine plugin callback signature [#4699]
+
+ - Fix for native rule engine plugin when returning parser error [#4700]
+
+ - Fix for inconsistent oracle setup input file [#4706]
+
+ - Fixes for existing tests [#4715] [#4716] [#4719] [#4724] [#4727] [#4797]
+
+ - Fix for irods::filesystem path prefix check [#4721]
+
+ - Fix for irods::filesystem default_transport [#4725]
+
+ - Fix for inefficient query during rebalance [#4731]
+
+ - Fix for icksum with query iterator [#4732]
+
+ - Fix for irods::filesystem to disallow collection named '..' [#4750]
+
+ - Fix for native rule engine plugin to allow positive error codes [#4753]
+
+ - Fix for irmdir [#4788]
+
+ - Fix for iticket [#4790]
+
+ - Fix segfault with relative path in rsDataObjCopy [#4796]
+
+ - Question about locking/disabling user accounts with policy [#4804]
+
+ - Fix for supporting '_finally' after upgrade [#4817]
+
+ - Document INST_NAME (instance name) for delay execution directive in rules [#4822] [#4897]
+
+ - Support for testing with locally built externals [#4828]
+
+ - Fix for substring bug in isInVault [#4839]
+
+ - Update dependency to fmt 6.1.2 [#4846] [#4874]
+
+ - Question about RESC_NAME in isysmeta and GenQuery [#4854]
+
+ - Fix for rsDataObjCopy on failure to create destination replica [#4862]
+
+ - Fix for parallel transfer using hosts_config.json [#4866] [#4875]
+
+ - Document monitoring servers with heartbeat request [#4882]
+
+ - Fix for mysql db plugin build dependency [#4923]
+
+### Deprecated
+
+ - num_repl keyword in replication resource marked as deprecated - to be removed in 4.3.0 [#3548]
+
+ - msiSysChksumDataObj marked as deprecated - to be removed in 4.3.0.  Use msiDataObjChksum instead. [#4615]
+
+ - msiSysReplDataObj marked as deprecated - to be removed in 4.3.0.  Use msiDataObjRepl instead. [#4658]
+
+ - itrim -N marked as deprecated - to be removed in 4.3.0 [#4860]
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.8)
+
+## 4.2.7
+
+Release Date: 2019-12-19
+
+### Enhancements
+
+ - Prepare for Dockerized CI [#3475] [#4471] [#4555] [#4579]
+
+ - Update irods::filesystem library [#3973]
+
+ - Add Unit Testing Framework [#4072]
+
+ - Extend irods::hierarchy_parser [#4487]
+
+ - Add support for row offset in irods::query_iterator [#4488]
+
+ - Add S3 error codes [#4517]
+
+ - Add new msiModAVUMetadata() for setting/modifying full AVU [#4521]
+
+ - Add transfer of ownership of connections via irods::connection_pool [#4566]
+
+ - New irods::query_builder library [#4574]
+
+### Bug Fixes
+
+ - Fix for resource listing in ils [#1051]
+
+ - Fix for special handling of characters in logical paths [#3060] [#4060] [#4467]
+
+ - Marked as resolved/invalid [#3623] [#3826] [#4358] [#4427] [#4491] [#4502] [#4536] [#4565] [#4584] [#4593]
+
+ - Fix for itrim exit codes [#4188]
+
+ - Marked as workaround and question answered [#4077] [#4496]
+
+ - Fix for msiTarFileExtract for large files [#4118]
+
+ - Fix for invalid client irodsProt value handling [#4130]
+
+ - Fix for irmdir -p [#4153]
+
+ - Fix for possible cycles in resource hierarchy [#4363]
+
+ - Fix for ticket access for recursive iget [#4387]
+
+ - Fix for irods::io::dstream basic_data_object_buf segfault [#4422]
+
+ - Fix for irods::io::dstream move semantics [#4423]
+
+ - Fix for irods::io::dstream rdbuf() [#4424]
+
+ - Test for fix for python rule engine plugin statement table exhaustion [#4438]
+
+ - Fix for irods::filesystem to allow update to data object mtimes [#4441]
+
+ - Fix for resc_id population when upgrading on oracle [#4459]
+
+ - Fix for ils -A returning empty permissions [#4476]
+
+ - Fix for irods::filesystem returning all permissions [#4492]
+
+ - Fix for irods::query to allow bind arguments for specific queries [#4493]
+
+ - Fix for ibun to unzip large files [#4495]
+
+ - Fix for testing library [#4527]
+
+ - Refactor of irods::filesystem::get_metadata [#4532]
+
+ - Fix for irods::filesystem::lexically_normal to follow C++17 [#4534]
+
+ - Fix for error handling via PASSMSG [#4537]
+
+ - Fix for ilocate to handle spaces [#4540]
+
+ - Fix for irods::filesystem::get_metadata [#4542]
+
+ - Fix for irods::filesystem::parent_path to follow C++17 [#4551]
+
+ - Fix for irods::filesystem::status during ils across federation [#4570]
+
+ - Fix for irods::query to allow zone hint across federation [#4573]
+
+ - Fix for documentation [#4589]
+
+ - Fix for bytesWritten [#4598]
+
+ - Fix for irods::query_processor [#4607]
+
+ - Fix for irods::query_iterator handling CAT_NO_ROWS_FOUND [#4617]
+
+ [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A4.2.7)
 
 ## 4.2.6
 
