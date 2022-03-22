@@ -32,6 +32,19 @@ Release Date: 2022-XX-XX
 
 Release Date: 2021-12-18
 
+This release represents a focused effort to fortify the 4.2.x series prior to getting iRODS 4.3.0 out the door next year.  This is highlighted by effort to restrict memory usage by the delay server, reduce leaks in the rule engine plugin framework, specifically when used by the Python rule engine plugin, better ticket support for multiple APIs, and a new iCommand, `itree`.  Edge cases around proxy users and streaming of files to particular resources were better defined and fixed.
+
+Significant build and packaging work helped provide more consistent package names and clearer relationships between the various packages we produce.
+
+Notable bug fixes include correcting voting and sync_to_archive within a compound resource, proper server redirection in a couple cases, and correct behavior when using concurrent connections to the same data object that already has multiple replicas.
+
+Alongside the server, the s3 resource plugin's new 'Glacier' compatibility has been tested with Amazon's S3 and Fujifilm's Object Archive.
+
+This release consists of [120 commits from 9 contributors](https://github.com/irods/irods/compare/4.2.10...4.2.11)
+and [closed 124 issues](https://github.com/irods/irods/issues?q=milestone%3A4.2.11).
+
+The latest binary packages for CentOS7, Ubuntu16, and Ubuntu18 are available at <https://packages.irods.org/>.
+
 ### Enhancements
 
  - Mark package conflicts more completely [#5748]
@@ -204,6 +217,14 @@ Release Date: 2021-12-18
 
 Release Date: 2021-07-27
 
+This release includes a few bugfixes, most importantly a fix for a 32bit value which limited downloads to files smaller than 2GB.
+
+This release consists of [11 commits from 5
+contributors](https://github.com/irods/irods/compare/4.2.9...4.2.10) and
+[closed 14 issues](https://github.com/irods/irods/issues?q=milestone%3A4.2.10).
+
+The latest binary packages for CentOS7, Ubuntu16, and Ubuntu18 are available at <https://packages.irods.org/>.
+
 ### Enhancements
 
  - Updates to CMake build system [#5220]
@@ -231,6 +252,29 @@ Release Date: 2021-07-27
 ## 4.2.9
 
 Release Date: 2021-06-07
+
+This release represents the single biggest refactorization of internal iRODS server code since
+the run up to 4.2.0 more than five years ago.  The main thrust of this work was to provide logical locking
+to data objects to increase concurrency support and eliminate race conditions on in-flight
+data transfers.  Supplemental work involved new libraries and APIs for parallel transfer,
+replicas, users and groups, metadata, checksums, resources, and catalog operations.
+
+Jobs put into the delay queue can now be prioritized and the jobs' context information has been moved into the
+iRODS catalog to provide a path forward for more distributed execution of delayed jobs in future releases.
+
+DNS lookups and hostname caching has also been included which significantly reduces DNS traffic from iRODS.
+
+The iCommands can now be more easily installed into HPC and other non-root environments with supported
+userspace packaging.
+
+Notable bugfixes include work on the XML protocol, the continuation functionality in the rule engine plugin
+framework, and many improvements for istream, imeta, and iphymv.  Two functions have been marked as deprecated.
+
+This release consists of [338 commits from 8
+contributors](https://github.com/irods/irods/compare/4.2.8...4.2.9) and
+[closed 314 issues](https://github.com/irods/irods/issues?q=milestone%3A4.2.9).
+
+The latest binary packages for CentOS7, Ubuntu16, and Ubuntu18 are available at <https://packages.irods.org/>.
 
 ### Enhancements
 
@@ -574,6 +618,17 @@ Release Date: 2021-06-07
 
 Release Date: 2020-05-22
 
+This release includes many enhancements to iRODS internals and the published C API, a few new C++17-enabled libraries
+and iCommands (istream and iunreg), and additional flow control within the rule engine plugin framework (REPF).  Notable
+bugfixes include multiple edge cases around file names, better upgrade support from 4.1.x, and a performance improvement
+for rebalance.  Two microservices and two flag usages have been marked as deprecated.
+
+This release consists of [127 commits from 8
+contributors](https://github.com/irods/irods/compare/4.2.7...4.2.8) and
+[closed 122 issues](https://github.com/irods/irods/issues?q=milestone%3A4.2.8).
+
+The latest binary packages for CentOS7, Ubuntu16, and Ubuntu18 are available at <https://packages.irods.org/>.
+
 ### Enhancements
 
  - Define C API in the client library [#2307] [#4768] [#4832] [#4835]
@@ -766,6 +821,14 @@ Release Date: 2020-05-22
 
 Release Date: 2019-12-19
 
+This release includes a number of enhancements to iRODS internals to lay the groundwork for upcoming refactoring including a new irods::query_builder library, a unit test framework, and a general purpose msiModAVUMetadata() microservice.  The bugfixes include attention to polishing the other recent libraries, large tar and zip file extraction, ticket access, upgrading with Oracle, and the Python Rule Engine Plugin.
+
+This release consists of [46 commits from 9
+contributors](https://github.com/irods/irods/compare/4.2.6...4.2.7) and
+[closed 58 issues](https://github.com/irods/irods/issues?q=milestone%3A4.2.7).
+
+The latest binary packages for CentOS7 and Ubuntu16 are available at <https://packages.irods.org/>.
+
 ### Enhancements
 
  - Prepare for Dockerized CI [#3475] [#4471] [#4555] [#4579]
@@ -860,6 +923,14 @@ Release Date: 2019-12-19
 
 Release Date: 2019-06-05
 
+This release includes a few bugfixes, most notably a fix for the optimized irodsReServer introduced in 4.2.5.  It also introduces three new libraries (irods::filesystem, irods::iostreams, and irods::query_processor).
+
+This release consists of [31 commits from 7
+contributors](https://github.com/irods/irods/compare/4.2.5...4.2.6) and
+[closed 27 issues](https://github.com/irods/irods/issues?q=milestone%3A4.2.6).
+
+The latest binary packages for CentOS7, Ubuntu14, and Ubuntu16 are available at <https://packages.irods.org/>.
+
 ### Enhancements
 
  - New filesystem library [#4267]
@@ -907,6 +978,17 @@ Release Date: 2019-06-05
 ## 4.2.5
 
 Release Date: 2019-02-22
+
+This release includes many bugfixes to things found by the community, but also introduces a few new libraries (GenQuery iterator and connection and thread pools) as well as a reimplemented irodsReServer (for delayed rule execution) and improved PEP flow control (via new `_except()` PEPs).
+
+This release consists of [47 commits from 10
+contributors](https://github.com/irods/irods/compare/4.2.4...4.2.5) and
+[closed 57 issues marked 4.2.5](https://github.com/irods/irods/issues?q=milestone%3A4.2.5)
+plus the last [12 closed issues included in 4.1.12](https://github.com/irods/irods/issues?q=milestone%3A4.1.12+closed%3A%3E2018-09-03+).
+
+The latest binary packages for CentOS7, Ubuntu14, and Ubuntu16 are available at <https://packages.irods.org/>.
+
+In addition, a deprecation has been declared for the C API function `isPathSymlink()`.  Use `isPathSymlink_err()` instead.
 
 ### Enhancements
 
@@ -984,6 +1066,17 @@ Release Date: 2019-02-22
 
 Release Date: 2018-09-03
 
+This is largely a bugfix release focused on irsync/iput/icp consistency and delayed/remote rule behavior.
+
+This release consists of [44 commits from 10
+contributors](https://github.com/irods/irods/compare/4.2.3...4.2.4) and
+[closed 31 issues marked for 4.2.4](https://github.com/irods/irods/issues?q=milestone%3A4.2.4)
+and an additional [6 closed issues to be included in the upcoming 4.1.12 release](https://github.com/irods/irods/issues?utf8=%E2%9C%93&q=milestone%3A4.1.12%20closed%3A2018-06-01..2018-09-03).
+
+The latest binary packages for CentOS7, Ubuntu14, and Ubuntu16 are available at <https://packages.irods.org/>.
+
+In addition, a deprecation has been declared for 'iexecmd'.
+
 ### Bug Fixes
 
  - Fixes for collections named . [#2010] [#3543]
@@ -1041,6 +1134,17 @@ Release Date: 2018-09-03
 ## 4.2.3
 
 Release Date: 2018-05-31
+
+This is largely a bugfix release, but also adds support for generic and OpenID authentication plugins, larger rulesets, and registration of data objects to non-leaf resources.
+
+This release consists of [122 commits from 17
+contributors](https://github.com/irods/irods/compare/4.2.2...4.2.3) and
+[closed 76 issues marked for 4.2.3](https://github.com/irods/irods/issues?q=milestone%3A4.2.3)
+and an additional [18 closed issues to be included in the upcoming 4.1.12 release](https://github.com/irods/irods/issues?utf8=%E2%9C%93&q=milestone%3A4.1.12%20closed%3A%3C%3D2018-05-31).
+
+The latest binary packages for CentOS7, Ubuntu14, and Ubuntu16 are available at <https://packages.irods.org/>.  Packages have not been released for CentOS6 or Ubuntu12 due to the age of those releases and their own lack of upstream support.
+
+In addition, two deprecations have been declared, one for 'irm -n' and the other for the roundrobin resource plugin.
 
 ### Features
 
@@ -1152,6 +1256,19 @@ Release Date: 2018-05-31
 
 Release Date: 2017-11-08
 
+This is largely a bugfix release which addresses a few important use cases
+for the community and a stronger foundation for new plugins.
+
+This release includes support for the [iRODS Audit (AMQP) rule engine plugin](https://github.com/irods/irods_rule_engine_plugin_audit_amqp).
+The Audit rule engine plugin requires upgrading to 4.2.2.
+
+This release consists of [77 commits from 7
+contributors](https://github.com/irods/irods/compare/4.2.1...4.2.2) and
+[closed 39 issues marked for 4.2.2](https://github.com/irods/irods/issues?q=milestone%3A4.2.2)
+and an additional [56 closed issues included in the recent 4.1.11 release](https://github.com/irods/irods/issues?utf8=%E2%9C%93&q=milestone%3A4.1.11%20closed%3A%3E2017-06-08%20).
+
+The latest binary packages for CentOS6, CentOS7, Ubuntu12, Ubuntu14, and Ubuntu16 are available at <https://packages.irods.org/>.
+
 ### Features
 
  - Enable more flexible plugin factory functions [#3703]
@@ -1210,6 +1327,22 @@ Release Date: 2017-11-08
 
 Release Date: 2017-06-08
 
+This is largely a bugfix release which addresses many small oversights in the
+4.2.0 release last November.
+
+In addition, this release includes support for the Python rule engine plugin
+(to be released later this week).  The Python rule engine plugin will require
+upgrading to 4.2.1.
+
+This release consists of [108 commits from 10
+contributors](https://github.com/irods/irods/compare/4.2.0...4.2.1) and
+[closed 34 issues marked for 4.2.1](https://github.com/irods/irods/issues?q=milestone%3A4.2.1)
+and includes [36 closed issues marked for inclusion in the upcoming 4.1.11](https://github.com/irods/irods/issues?utf8=%E2%9C%93&q=milestone%3A4.1.11%20closed%3A%3C2017-06-08).
+
+This release fixes [CVE-2017-8799](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-8799).
+
+The latest binary packages are available at <https://packages.irods.org/>.
+
 ### Features
 
  - New iCommand, irmdir [#3117]
@@ -1267,6 +1400,20 @@ Release Date: 2017-06-08
 
 Release Date: 2016-11-14
 
+iRODS 4.2.0 is the product of over a year and a half of refactoring and
+significant reorganization of the rule engine framework into the seventh
+iRODS plugin interface.
+
+This release consists of [951 commits from 9
+contributors](https://github.com/irods/irods/compare/4.1.0...4.2.0) and
+[closed 275
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.2.0).
+
+All the code and current working issues are hosted at GitHub:
+<https://github.com/irods/irods>
+
+APT and YUM Repositories are available at <https://packages.irods.org>.
+
 ### Notable Features
 
   - [Pluggable Rule Engine](plugins/pluggable_rule_engine.md) - Seventh plugin interface now supports writing rule engines for any language. The iRODS Rule Language has been moved to a plugin, alongside a default policy C++ rule engine.
@@ -1320,6 +1467,14 @@ Release Date: 2016-11-14
 ## 4.1.12
 
 Release Date 2018-11-01
+
+This is mainly a bugfix release which addresses various replication and iscan/ifsck issues and provides additional debugging and visibility tooling for administrators.
+
+This release will be the last in the 4.1 series.  The 4-1-stable branch is now EOL.
+
+CentOS6 packages are no longer supported (Our test framework requires Python 2.7+).
+
+This release consists of [39 commits from 3 contributors](https://github.com/irods/irods/compare/4.1.11...4.1.12) and [closed 36 issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.12).
 
 ### Enhancements
 
@@ -1378,6 +1533,14 @@ Release Date 2018-11-01
 ## 4.1.11
 
 Release Date 2017-10-18
+
+This is a bugfix release which addresses checksum and rebalance behavior, continuation for query result sets, maintenance work with ichksum/ifsck/iscan, federation testing, and many other small issues.
+
+In addition, this release fixes [CVE-2017-8799](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-8799).
+
+OpenSUSE13 and POWER8 packages are no longer supported.
+
+This release consists of [83 commits from 9 contributors](https://github.com/irods/irods/compare/4.1.10...4.1.11) and [closed 92 issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.11).
 
 ### Feature
 
@@ -1456,6 +1619,20 @@ Release Date 2017-10-18
 
 Release Date: 2016-11-04
 
+This is a bugfix release which addresses free\_space calculation and
+updating, izonereport and irods-grid behavior, dynamic PEP behavior, and
+other small issues.
+
+This is a required upgrade from 4.1.9 for multi-server Zones. Bug
+[\#3306] prevented multi-server Zones from performing the free\_space
+check correctly, as the calculation was executed too early (on the wrong
+server). iRODS 4.1.8 is not affected by this bug.
+
+This release consists of [42 commits from 4
+contributors](https://github.com/irods/irods/compare/4.1.9...4.1.10) and
+[closed 24
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.10).
+
 ### Feature
 
  - New microservice, static PEPs to update unixfilesystem resource free_space [#3307] [#3312]
@@ -1504,6 +1681,18 @@ Release Date: 2016-11-04
 ## 4.1.9
 
 Release Date: 2016-07-28
+
+This is mainly a bugfix release which addresses federation behavior,
+default resource resolution, disk threshold behavior, and other small
+issues.
+
+It also includes support for additional functionality provided by the
+libs3 plugin.
+
+This release consists of [58 commits from 6
+contributors](https://github.com/irods/irods/compare/4.1.8...4.1.9) and
+[closed 38
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.9).
 
 ### Features
 
@@ -1568,6 +1757,19 @@ Release Date: 2016-07-28
 ## 4.1.8
 
 Release Date: 2016-02-22
+
+This is mainly a bugfix release which addresses SSL and authentication,
+syncing and federation behavior, Oracle detection, and other small
+issues.
+
+It also includes a new 'high water mark' capability for the
+unixfilesystem resource plugin allowing an administrator to protect the
+resource from a 'disk full' event.
+
+This release consists of [108 commits from 5
+contributors](https://github.com/irods/irods/compare/4.1.7...4.1.8) and
+[closed 60
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.8).
 
 ### Features
 
@@ -1654,6 +1856,14 @@ Release Date: 2016-02-22
 
 Release Date: 2015-11-18
 
+This is a bugfix release which addresses memory leaks, compound resource
+behavior, development library organization, and other small issues.
+
+This release consists of [33 commits from 3
+contributors](https://github.com/irods/irods/compare/4.1.6...4.1.7) and
+[closed 17
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.7).
+
 ### Bug Fixes
 
  - Fix for irods-grid --hosts option [#2765]
@@ -1679,6 +1889,14 @@ Release Date: 2015-11-18
 ## 4.1.6
 
 Release Date: 2015-10-01
+
+This is a bugfix release which addresses resource server upgrades,
+development and runtime library organization, and other small issues.
+
+This release consists of [33 commits from 7
+contributors](https://github.com/irods/irods/compare/4.1.5...4.1.6) and
+[closed 24
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.6).
 
 ### Bug Fixes
 
@@ -1722,6 +1940,14 @@ Release Date: 2015-10-01
 
 Release Date: 2015-09-02
 
+This is a bugfix release which addresses fuse, behavior after failed
+queries, and other small issues. CentOS 7 support has been added.
+
+This release consists of [33 commits from 4
+contributors](https://github.com/irods/irods/compare/4.1.4...4.1.5) and
+[closed 17
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.5).
+
 ### Bug Fixes
 
  - Fixes for fuse [#2830] [#2837] [#2856]
@@ -1749,6 +1975,14 @@ Release Date: 2015-09-02
 ## 4.1.4
 
 Release Date: 2015-08-05
+
+This is a bugfix release which addresses fuse, irsync, and many small
+issues.
+
+This release consists of [63 commits from 6
+contributors](https://github.com/irods/irods/compare/4.1.3...4.1.4) and
+[closed 38
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.4).
 
 ### Bug Fixes
 
@@ -1812,6 +2046,14 @@ Release Date: 2015-08-05
 
 Release Date: 2015-06-18
 
+This is a bugfix release which addresses imeta, packaging, and
+run-in-place installations.
+
+This release consists of [10 commits from 2
+contributors](https://github.com/irods/irods/compare/4.1.2...4.1.3) and
+[closed 7
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.3).
+
 ### Bug Fixes
 
   - Fix upgrading with obfuscated password [#2749]
@@ -1834,6 +2076,13 @@ Release Date: 2015-06-18
 
 Release Date: 2015-06-05
 
+This is a quick bugfix release.
+
+This release consists of [9 commits from 3
+contributors](https://github.com/irods/irods/compare/4.1.1...4.1.2) and
+[closed 4
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.2).
+
 ### Bug Fixes
 
   - Fix information leakage in izonereport [#2732]
@@ -1845,6 +2094,13 @@ Release Date: 2015-06-05
 ## 4.1.1
 
 Release Date: 2015-06-02
+
+This is a quick bugfix release which addresses upgrades and development.
+
+This release consists of [7 commits from 4
+contributors](https://github.com/irods/irods/compare/4.1.0...4.1.1) and
+[closed 5
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.1).
 
 ### Bug Fixes
 
@@ -1859,6 +2115,14 @@ Release Date: 2015-06-02
 ## 4.1.0
 
 Release Date: 2015-05-29
+
+iRODS 4.1.0 represents a significant step forward for iRODS technology
+as it incorporates a set of new fundamental features and bug fixes.
+
+This release consists of [1745 commits from 8
+contributors](https://github.com/irods/irods/compare/4.0.3...4.1.0) and
+[closed 377
+issues](https://github.com/irods/irods/issues?q=milestone%3A4.1.0).
 
 ### Notable Features
 
