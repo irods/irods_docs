@@ -5,10 +5,11 @@ site_description: Open Source Data Management
 site_author: iRODS Consortium
 site_dir: site
 docs_dir: docs
-google_analytics:
- - UA-49704995-1
- - auto
-theme: readthedocs
+theme:
+  name: readthedocs
+  navigation_depth: 3
+  analytics:
+    gtag: G-VYE9MFYWBG
 extra_css:
  - irods.css
 #extra_javascript:
@@ -19,11 +20,12 @@ markdown_extensions:
  - attr_list
  - def_list
 
-
 nav:
- - Home: 'index.md'
- - Why iRODS?: 'why_irods.md'
- - Release Notes: 'release_notes.md'
+ - Overview:
+    - Home: 'index.md'
+    - Why iRODS?: 'why_irods.md'
+    - Release Notes: 'release_notes.md'
+    - Legacy Release Notes: 'legacy_release_notes.md'
  - Getting Started:
     - Download: 'getting_started/download.md'
     - Installation: 'getting_started/installation.md'
@@ -59,10 +61,9 @@ nav:
     - Metadata: 'icommands/metadata.md'
     - Tickets: 'icommands/tickets.md'
     - Groupadmin: 'icommands/groupadmin.md'
- - Doxygen: 'doxygen/index.html'
  - Developers:
+    - Doxygen: 'doxygen/index.html'
     - Contributing: 'developers/contributing.md'
     - Development Tools: 'developers/development_tools.md'
     - Logging: 'developers/logging.md'
- - Legacy Release Notes: 'legacy_release_notes.md'
 

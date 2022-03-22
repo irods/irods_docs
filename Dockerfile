@@ -42,5 +42,5 @@ RUN \
   echo "{}" | tee /root/.irods/irods_environment.json
 
 COPY . /irods_docs
-RUN ["chmod", "+x", "/irods_docs/build.sh"]
-ENTRYPOINT ["/irods_docs/build.sh"]
+RUN ["chmod", "+x", "/irods_docs/run_make.sh"]
+ENTRYPOINT ["/irods_docs/run_make.sh"]
