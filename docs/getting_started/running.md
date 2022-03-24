@@ -1,6 +1,24 @@
-With the release of iRODS 4.3.0 comes two new server options:
+#
+
+The iRODS Server can be run in one of three modes:
+
+- [Syslog Mode](#syslog-mode)
 - [Standard Output Mode](#standard-output-mode)
 - [Test Mode](#test-mode)
+
+## Syslog Mode
+This mode is the default when operating the iRODS Server.
+
+This mode instructs the server and all of its children to write log messages to the **rsyslog** service running on the same computer.
+
+rsyslog can be configured to write messages locally (the default), remotely, or both.
+
+
+```bash
+$ ./irodsctl start
+```
+
+Messages can be rotated on a regular basis, most commonly through the **logrotate** service.
 
 ## Standard Output Mode
 This mode instructs the server and all of its children to write log messages to **stdout** instead of **rsyslog**. This mode can be enabled in two ways.
@@ -26,7 +44,7 @@ This mode instructs the server to write all log messages to an additional log fi
 
 This mode was introduced to guarantee that log messages appear in the log file immediately. This mode is only meant to be used for testing. The log file produced by this mode is never rotated.
 
-To enable this mode, you must first define the following environment variable in the iRODS service account like so:
+To enable this mode, you must first define the following environment variable in the iRODS service account:
 ```bash
 export IRODS_ENABLE_TEST_MODE=1
 ```
