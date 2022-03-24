@@ -35,14 +35,17 @@ $ docker run --rm -v $(pwd)/build:/hostcomputer irods_docs_builder
 
 The resulting `build/site` directory will contain the generated standalone documentation.
 
-
+View
 ----
 
-TGR - this should probably go away...  not sure whether still useful/relevant...
+Launch a webserver on port 8080 to show the resulting `build/site` directory:
 
-The `Makefile` default target will build two other targets, 'doxygen' and 'mkdocs'.
-
-```
-$ make [MAKEGITHUBACCOUNT=irods] [MAKEIRODSVERSION=main]
+```bash
+$ docker run -dit --rm --name irods_docs -p 8080:80 -v $(pwd)/build/site:/usr/local/apache2/htdocs/ httpd:2.4
 ```
 
+To stop the webserver:
+
+```bash
+$ docker stop irods_docs
+```
