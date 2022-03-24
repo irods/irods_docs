@@ -12,8 +12,6 @@ theme:
     gtag: G-VYE9MFYWBG
 extra_css:
  - irods.css
-#extra_javascript:
-# - irods.js
 
 markdown_extensions:
  - admonition
@@ -30,6 +28,7 @@ nav:
     - Download: 'getting_started/download.md'
     - Installation: 'getting_started/installation.md'
     - Upgrading: 'getting_started/upgrading.md'
+    - Running: 'getting_started/running.md'
  - Plugins:
     - Plugin Interfaces: 'plugins/plugin_interfaces.md'
     - Pluggable Microservices: 'plugins/pluggable_microservices.md'
