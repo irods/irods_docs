@@ -29,8 +29,7 @@ $ docker build -t irods_docs_builder .
 Running the docker image will save artifacts into `$(pwd)/build`:
 
 ```
-$ docker run --rm -v $(pwd)/build:/hostcomputer irods_docs_builder
-
+$ docker run --rm -v $(pwd):/irods_docs:ro -v $(pwd)/build:/hostcomputer irods_docs_builder
 ```
 
 The resulting `build/site` directory will contain the generated standalone documentation.
