@@ -9,6 +9,7 @@ MAKEDOXYGENVERSION = Release_1_9_3
 BUILDAREA = /hostcomputer
 IRODSTARGET = ${BUILDAREA}/irods_for_doxygen
 DOXYGENTARGET = ${BUILDAREA}/doxygen_for_docs
+DOXYGENMAKEJOBCOUNT = 
 VENVTARGET = ${BUILDAREA}/venv43
 
 DOCS_SOURCE_DIR = docs
@@ -28,7 +29,7 @@ doxygen : get_irods
 	@cd ${DOXYGENTARGET}; git fetch; git checkout ${MAKEDOXYGENVERSION}
 	@mkdir -p ${DOXYGENTARGET}/build
 	@if [ ! -f ${DOXYGENTARGET}/build/CMakeCache.txt ] ; then cd ${DOXYGENTARGET}/build; cmake ..; fi
-	@cd ${DOXYGENTARGET}/build ; make -j
+	@cd ${DOXYGENTARGET}/build ; make -j ${DOXYGENMAKEJOBCOUNT}
 	@cd ${IRODSTARGET}; ${DOXYGENTARGET}/build/bin/doxygen Doxyfile 1> /dev/null
 	@rsync -ar --delete ${IRODSTARGET}/doxygen/html/ doxygen/
 	@cp ${IRODSTARGET}/doxygen/custom.css doxygen/

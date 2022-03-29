@@ -24,4 +24,4 @@ jobs:
               sudo apt-get install irods-icommands cmake cmake-data
       - name: Build
         run:  |
-              make
+              make BUILDAREA=/tmp DOXYGENMAKEJOBCOUNT=1
