@@ -41,6 +41,5 @@ RUN \
   mkdir -p /root/.irods && \
   echo "{}" | tee /root/.irods/irods_environment.json
 
-COPY . /irods_docs
-RUN ["chmod", "+x", "/irods_docs/run_make.sh"]
-ENTRYPOINT ["/irods_docs/run_make.sh"]
+COPY run_make.sh /run_make.sh
+ENTRYPOINT ["bash", "/run_make.sh"]
