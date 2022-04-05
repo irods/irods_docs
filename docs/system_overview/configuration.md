@@ -1,6 +1,6 @@
 #
 
-The following configuration files control nearly all aspects of how an iRODS deployment functions.  All JSON files validate against the  [configuration schemas in each installation](https://github.com/irods/irods/tree/master/configuration_schemas).
+The following configuration files control nearly all aspects of how an iRODS deployment functions. All JSON files validate against the  [configuration schemas in each installation](https://github.com/irods/irods/tree/main/schemas/configuration/v4).
 
 ## ~/.odbc.ini
 
@@ -14,138 +14,385 @@ This scrambled password file is saved after an `iinit` is run. If this file does
 
 This file defines the behavior of the server Agent that answers individual requests coming into iRODS. It is created and populated by the installer package.
 
-This file contains the following top level entries:
+!!! IMPORTANT
+    All configuration settings are required unless marked as optional. The value associated with a key represents the default value. 
 
-  - `advanced_settings` (required) - Contains subtle network and password related variables.  These values should be changed only in concert with all connecting clients and other servers in the Zone.
+```json
+{
+    "advanced_settings": {
+        // The number of threads used for parallel transfers.
+        "default_number_of_transfer_threads": 4,
 
-    - `default_log_rotation_in_days` (default 5) - The number of days the log is written to before being rotated out.
+        // The number of seconds a server-side temporary password is good.
+        "default_temporary_password_lifetime_in_seconds": 120,
 
-    - `default_number_of_transfer_threads` (required) (default 4) - The number of threads enabled when parallel transfer is invoked.
+        // (Optional)
+        // A list of iRODS server hostnames the delay server dispatches rules to for execution.
+        // If the list is empty, the delay server will dispatch rules to the local server for execution.
+        "delay_rule_executors": [],
 
-    - `default_temporary_password_lifetime_in_seconds` (required) (default 120) - The number of seconds a server-side temporary password is good.
+        // (Optional)
+        // The number of seconds the delay server sleeps before checking the catalog for rules
+        // ready for execution.
+        "delay_server_sleep_time_in_seconds": 30,
 
-    - `dns_cache` - Contains options for controlling the behavior of the internal DNS cache.
-        - `eviction_age_in_seconds` (default 3600) - The amount of time an entry stays valid before being evicted from the cache.
-        - `shared_memory_size_in_bytes` (default 5000000) - The maximum amount of shared memory allocated to the DNS cache.
+        // (Optional)
+        // Contains settings for controlling the behavior of the internal DNS cache.
+        "dns_cache": {
+            // The amount of shared memory allocated to the DNS cache.
+            "shared_memory_size_in_bytes": 5000000,
 
-    - `hostname_cache` - Contains options for controlling the behavior of the internal Hostname cache.
-        - `eviction_age_in_seconds` (default 3600) - The amount of time an entry stays valid before being evicted from the cache.
-        - `shared_memory_size_in_bytes` (default 2500000) - The maximum amount of shared memory allocated to the Hostname cache.
+            // The amount of time an entry stays valid before being evicted from the cache.
+            "eviction_age_in_seconds": 3600
+        },
 
-    - `maximum_number_of_concurrent_rule_engine_server_processes` (optional) (default 4)
+        // (Optional)
+        // Contains settings for controlling the behavior of the internal Hostname cache.
+        "hostname_cache": {
+            // The amount of shared memory allocated to the Hostname cache.
+            "shared_memory_size_in_bytes": 2500000,
 
-    - `maximum_size_for_single_buffer_in_megabytes` (required) (default 32)
+            // The amount of time an entry stays valid before being evicted from the cache.
+            "eviction_age_in_seconds": 3600
+        },
 
-    - `maximum_temporary_password_lifetime_in_seconds` (required) (default 1000)
-    
-    - `rule_engine_server_sleep_time_in_seconds` (optional) (default 30) - The number of seconds the rule execution server sleeps before checking the delay queue for rules ready for execution.
-    
-    - `transfer_buffer_size_for_parallel_transfer_in_megabytes` (required) (default 4)
+        // Defines the maximum data size for single buffer transfers.
+        // When the data size exceeds the defined threshold, parallel transfer is used.
+        // Connecting clients and servers within the same zone must use the same value.
+        "maximum_size_for_single_buffer_in_megabytes": 32,
 
-    - `transfer_chunk_size_for_parallel_transfer_in_megabytes` (required) (default 40)
+        // (Optional)
+        // The maximum number of bytes available to the delay queue.
+        // When set to 0, the delay server will use as much memory as it needs to hold queued rules.
+        "maximum_size_of_delay_queue_in_bytes": 0,
 
-  - `client_api_whitelist_policy` (default "enforce") - Controls which API operations are accessible to users. If set to "enforce", the server will expose a subset of operations that can be executed by any user. Administrative operations will require rodsadmin level privileges. This option does not apply to rodsadmin users.
+        // The amount of time a temporary password remains valid.
+        "maximum_temporary_password_lifetime_in_seconds": 1000,
 
-  - `default_dir_mode` (required) (default "0750") - The unix filesystem octal mode for a newly created directory within a resource vault
+        // (Optional)
+        // The number of delay rules allowed to execute simultaneously.
+        "number_of_concurrent_delay_rule_executors": 4,
 
-  - `default_file_mode` (required) (default "0600") - The unix filesystem octal mode for a newly created file within a resource vault
+        // (Optional)
+        // The amount of time the stacktrace file processing thread sleeps before files are
+        // processed and written to the log file.
+        "stacktrace_file_processor_sleep_time_in_seconds": 10,
 
-  - `default_hash_scheme` (required) (default "SHA256") - The hash scheme used for file integrity checking: MD5 or SHA256
+        // Defines the size of the buffer used for sending and receiving bytes across the network
+        // during parallel transfer. Clients and servers within the same zone must use the same value.
+        "transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
 
-  - `default_resource_directory` (optional) - The default Vault directory for the initial resource on server installation
+        // Defines the number of bytes to read-from/write-to the disk during parallel transfer.
+        // Clients and servers within the same zone must use the same value.
+        "transfer_chunk_size_for_parallel_transfer_in_megabytes": 40
+    },
 
-  - `default_resource_name` (optional) - The name of the initial resource on server installation
+    // An array of fully qualified domain names of this Zone's catalog service provider.
+    "catalog_provider_hosts": [],
 
-  - `environment_variables` (required) - Contains a set of key/value properties of the form VARIABLE=VALUE such as "ORACLE_HOME=/full/path" from the server's environment.  Can be empty.
+    // The role of this server.
+    // The following values are supported: provider, consumer
+    "catalog_service_role": "",
 
-  - `federation` (required) - Contains an array of objects which each contain the parameters necessary for federating with another grid.  The array can be empty, but if an object exists, it must contain the following properties:
-    - `catalog_provider_hosts` (required) -  An array of hostnames of the catalog service providers in the federated zone.
-    - `negotiation_key` (required) - The 32-byte encryption key of the federated zone.
-    - `zone_key` (required) - The shared authentication secret of the federated zone.
-    - `zone_name` (required) -  The name of the federated zone.
+    // Controls which API operations are accessible to non-rodsadmin users.
+    //
+    // The following values are supported: enforce, disabled
+    //
+    // When set to "enforce", the server will expose a subset of operations that can be executed by any user.
+    // Administrative operations will require rodsadmin level privileges. This option does not apply to
+    // rodsadmin users.
+    //
+    // When set to "disabled", the server will operate without consulting the allowlist. This is equivalent
+    // to how the server behaved prior to iRODS 4.3.0.
+    "client_api_allowlist_policy": "enforce",
 
-  - `catalog_provider_hosts` (required) - An array of fully qualified domain names of this Zone's catalog service provider
+    // Defines the list of users that can connect to this server.
+    "controlled_user_connection_list": {
+        // Defines the type of list.
+        //
+        // The following values are supported: allowlist, denylist
+        //
+        // When set to "allowlist", all users except the ones defined in "users" will be blocked
+        // from connecting to the server.
+        //
+        // When set to "denylist", all users except the ones defined in "users" will be allowed to
+        // connect to the server.
+        "control_type": "denylist",
 
-  - `catalog_service_role` (required) - The role of this server, either 'provider' or 'consumer'
+        // A list of fully qualified user names in the form of "username#zone".
+        // The interpretation of this list changes based on the "control_type".
+        "users": []
+    },
 
-  - `kerberos_name` (optional) - Kerberos Distinguished Name for KRB and GSI authentication
+    // The unix filesystem octal mode for a newly created directory within a resource vault.
+    "default_dir_mode": "0750",
 
-  - `match_hash_policy` (required) (default "compatible") - Indicates to iRODS whether to use the hash used by the client or the data at rest, or to force the use of the default hash scheme: strict or compatible
+    // The unix filesystem octal mode for a newly created file within a resource vault.
+    "default_file_mode": "0600",
 
-  - `negotiation_key` (required) - A 32-byte encryption key shared by the zone for use in the advanced negotiation handshake at the beginning of an iRODS client connection
+    // The hash scheme used for file integrity checking.
+    //
+    // The following values are supported: MD5, SHA256
+    //
+    // See "Checksum Configuration" for more details.
+    "default_hash_scheme": "SHA256",
 
-  - `pam_no_extend` (optional) - Set PAM password lifetime: 8 hours or 2 weeks, either true or false
+    // Contains a set of key-value pairs of the form VARIABLE=VALUE such as "ORACLE_HOME=/full/path"
+    // from the server's environment. This setting can be empty.
+    "environment_variables": {
+        "VARIABLE_NAME": "VALUE", // This is an example.
 
-  - `pam_password_length` (optional) - Maximum length of a PAM password
+        // ... Additional Entries ...
+    },
 
-  - `pam_password_max_time` (optional) - Maximum allowed PAM password lifetime, in seconds
+    // Contains an array of objects, each containing the parameters necessary for federating with another grid.
+    "federation": [
+        // Defines a single remote zone.
+        {
+            // An array of hostnames of the catalog service providers in the federated zone.
+            "catalog_provider_hosts": [], 
 
-  - `pam_password_min_time` (optional) - Minimum allowed PAM password lifetime, in seconds
+            // The 32-byte encryption key of the federated zone.
+            "negotiation_key": "", 
 
-  - `re_data_variable_mapping_set` (required) - An array of file names comprising the list of data to variable mappings used by the rule engine, for example: [ "core" ] which references 'core.dvm'
+            // The shared authentication secret of the federated zone.
+            "zone_key": "",
 
-  - `re_function_name_mapping_set` (required) - An array of file names comprising the list of function name map used by the rule engine, for example: [ "core" ] which references 'core.fnm'
+            // The name of the federated zone.
+            "zone_name": "",
 
-  - `re_rulebase_set` (required) - An array of file names comprising the list of rule files used by the rule engine, for example: [ "core" ] which references 'core.re'.  This array is ordered as the order of the rule files affects which (multiply) matching rule would fire first.
+            // (Optional)
+            // The port number used by the remote zone for communication.
+            "zone_port": 1247 
+        },
 
-  - `schema_validation_base_uri` (required) - The URI against which the iRODS server configuration is validated.  By default, this will be the schemas.irods.org domain.  It can be set to any http(s) endpoint as long as that endpoint has a copy of the irods_schema_configuration repository.  This variable allows a clone of the git repository to live behind an organizational firewall, but still perform its duty as a preflight check on the configuration settings for the entire server.
+        // ... Additional Entries ...
+    ],
 
-  - `server_control_plane_encryption_algorithm` (required) - The algorithm used to encrypt the control plane communications. This must be the same across all iRODS servers in a Zone. (default "AES-256-CBC")
+    // See "Host Access Control" section for more details.
+    "host_access_control": {
+        // Defines zero or more objects used to control access to the local iRODS instance.
+        "access_entries": [
+            // Defines a single access constraint.
+            {
+                // Defines which user is allowed access to the server.
+                "user": "",
 
-  - `server_control_plane_encryption_num_hash_rounds` (required) (default 16) - The number of hash rounds used in the control plane communications. This must be the same across all iRODS servers in a Zone.
+                // Defines which group is allowed access to the server.
+                "group": "",
 
-  - `server_control_plane_key` (required) - The encryption key required for communicating with the iRODS grid control plane. Must be 32 bytes long. This must be the same across all iRODS servers in a Zone.
+                // With the "mask" property, defines which host(s) are allowed access to the server.
+                "address": "",
 
-  - `server_control_plane_port` (required) (default 1248) - The port on which the control plane operates. This must be the same across all iRODS servers in a Zone.
+                // With the "address" property, defines which host(s) are allowed access to the server.
+                "mask": ""
+            },
 
-  - `server_control_plane_timeout_milliseconds` (required) (default 10000) - The amount of time before a control plane operation will timeout
+            // ... Additional Entries ...
+        ]
+    },
 
-  - `server_port_range_start` (required) (default 20000) - The beginning of the port range available for parallel transfers. This must be the same across all iRODS servers in a Zone.
-  - `server_port_range_end` (required) (default 20199) - The end of the port range available for parallel transfers.  This must be the same across all iRODS servers in a Zone.
+    // See "Host Resolution" section for more details.
+    "host_resolution": {
+        // Defines zero or more objects containing hostname resolution information for
+        // local or remote iRODS servers.
+        "host_entries": [
+            // Defines a single resolution rule.
+            {
+                // Identifies whether the hostnames defined under "addresses" represent local or remote
+                // hostnames.
+                //
+                // The following values are supported: local, remote
+                "address_type": "",
 
-  - `xmsg_port` (default 1279) - The port on which the XMessage Server operates, should it be enabled. This must be the same across all iRODS servers in a Zone.
-  - `zone_auth_scheme` (required) - The authentication scheme used by the zone_user: native, PAM, KRB, or GSI
-  - `zone_key` (required) - The shared secret used for authentication and identification of server-to-server communication - this can be a string of any length, excluding the use of hyphens, for historical purposes.  This must be the same across all iRODS servers in a Zone.
-  - `zone_name` (required) - The name of the Zone in which the server participates. This must be the same across all iRODS servers in a Zone.
-  - `zone_port` (required) (default 1247) - The main port used by the Zone for communication. This must be the same across all iRODS servers in a Zone.
-  - `zone_user` (required) - The name of the rodsadmin user running this iRODS instance.
+                // A list of strings defining hostname aliases.
+                "addresses": []
+            },
 
+            // ... Additional Entries ...
+        ]
+    },
 
-Servers in the catalog provider role have the following additional top level entries related to the database connection:
+    // Holds the log level for various log message categories used throughout the server.
+    // Missing log categories default to "info".
+    // 
+    // The following values are supported: trace, debug, info, warn, error, critical
+    "log_level": {
+        "agent": "info",
+        "agent_factory": "info",
+        "api": "info",
+        "authentication": "info",
+        "database": "info",
+        "delay_server": "info",
+        "legacy": "info",
+        "microservice": "info",
+        "network": "info",
+        "resource": "info",
+        "rule_engine": "info",
+        "server": "info"
+    },
 
-  - `catalog_database_type` (required) - The type of database iRODS is using for the iCAT, either 'postgres', 'mysql', or 'oracle'
+    // Indicates to iRODS whether to use the hash used by the client or the data at rest, or to force
+    // the use of the default hash scheme: strict or compatible.
+    "match_hash_policy": "compatible",
 
-  - `db_host` (required) - The hostname of the database server (can be localhost)
+    // A 32-byte encryption key shared by the zone for use in the advanced negotiation handshake at the
+    // beginning of an iRODS client connection.
+    "negotiation_key": "",
 
-  - `db_odbc_type` (required) - The ODBC type, usually 'unix'
+    // Holds several different properties such as database connection information, rule engine configuration, etc.
+    "plugin_configuration": {
+        // This property is currently unused.
+        "authentication": {},
 
-  - `db_password` (required) - The password for the `db_username` to connect to the `db_name`
+        // (Optional)
+        // Defines database connection information.
+        // This only applies to servers running as a catalog provider or delay server.
+        "database": {
+            // The type of database iRODS is using for the catalog.
+            // The following property names are supported: postgres, mysql, and oracle
+            "catalog_database_type": {
+                // The hostname of the database server (can be localhost).
+                "db_host": "localhost",
 
-  - `db_port` (required) - The port on which the database server is listening
+                // The name of the database used as the catalog.
+                "db_name": "ICAT",
 
-  - `db_name` (required) - The name of the database used as the iCAT
+                // The name of the ODBC entry used by the server (normally defined in /etc/odbcinst.ini).
+                "db_odbc_driver": "",
 
-  - `db_username` (required) - The database user name
+                // The password for the "db_username" to connect to the "db_name".
+                "db_password": "",
 
-## /etc/irods/database_config.json
+                // The port number on which the database server is listening.
+                "db_port": 0,
 
-This file defines the database settings for the iRODS installation. It is created and populated by the installer package.
+                // The database user name.
+                "db_username": ""
+            }
+        },
 
-This file contains the following top level entries:
+        // This property is currently unused.
+        "network": {},
 
-  - `catalog_database_type` (required) - The type of database iRODS is using for the iCAT, either 'postgres', 'mysql', or 'oracle'
-  - `db_host` (required) - The hostname of the database server (can be localhost)
-  - `db_odbc_type` (required) - The ODBC type, usually 'unix'
-  - `db_password` (required) - The password for the `db_username` to connect to the `db_name`
-  - `db_port` (required) - The port on which the database server is listening
-  - `db_name` (required) - The name of the database used as the iCAT
-  - `db_username` (required) - The database user name
+        // This property is currently unused.
+        "resource": {},
 
-## /etc/irods/hosts_config.json
+        // Defines the set of enabled rule engine plugins for this iRODS instance.
+        // Plugins will be consulted in the order defined by this list. When empty, policy will not fire
+        // on this server.
+        "rule_engines": [
+            // (Optional)
+            // Defines and enables a single rule engine plugin.
+            {
+                // The name of the plugin instance.
+                // For plugins that allow multiple instances to be configured on a single server, this allows
+                // the admin to assign unique names to each instance. This helps to improve the admin's chances
+                // of tracking down which plugin did what.
+                "instance_name": "",
 
-This file serves as an iRODS-owned version of /etc/hosts.  It defines network aliases when you may not have permission to update hostnames on the servers in the Zone.
+                // The name of a plugin inside of /usr/lib/irods/plugins/rule_engines.
+                // The name must not include the "lib" prefix or ".so" filename extension.
+                //
+                // For example, the native rule engine plugin has the following name:
+                //
+                //     /usr/lib/irods/plugin/rule_engines/libirods_rule_engine_plugin-irods_rule_language.so
+                //
+                // Therefore, this property would have a value of:
+                //
+                //     "irods_rule_engine_plugin-irods_rule_language"
+                //
+                "plugin_name": "",
 
-The order of precedence of hostname resolution in iRODS is `hosts_config.json`, then the local `/etc/hosts` file, then DNS.
+                // Any and all configuration settings required by the plugin must be defined inside of
+                // this setting. Each plugin should provide documentation detailing supported settings.
+                "plugin_specific_configuration": {},
+
+                // Defines the name used in allocating shared memory for this specific rule engine plugin.
+                // The memory is allocated by the server on startup. The server will always allocate
+                // 30000000 bytes.
+                "shared_memory_instance": ""
+            },
+
+            // ... Additional Entries ...
+        ]
+    },
+
+    // Defines the list of namespaces used during PEP processing.
+    //
+    // Each entry acts as a prefix to each PEP. This results in (N PEPs triggered * M namespaces).
+    // Each entry in the list will cause one additional iteration through the list of available PEPs.
+    //
+    // PEPs are not allowed to cross namespace boundaries. This also means rule engine plugin continuation 
+    // does not work across namespaces.
+    //
+    // Keep in mind that defining additional namespaces will slow down the server.
+    "rule_engine_namespaces": [
+        ""
+    ],
+
+    // Defines the filename of the JSON schema used for validation when not specified explicitly.
+    "schema_name": "server_config",
+
+    // The URI against which the iRODS server configuration is validated.
+    //
+    // The following values are supported:
+    // - An absolute path in the local filesystem
+    // - A http(s) endpoint pointing to valid JSON schema files
+    // - The value "off"
+    //
+    // When set to off, schema validation is skipped.
+    "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
+
+    // Defines the version of the schema used for validation.
+    // This normally maps to a directory under /var/lib/irods/configuration_schemas.
+    "schema_version": "v4",
+
+    // The algorithm used to encrypt the control plane communications.
+    // This must be the same across all iRODS servers in a Zone.
+    "server_control_plane_encryption_algorithm": "AES-256-CBC",
+
+    // The number of hash rounds used in the control plane communications.
+    // This must be the same across all iRODS servers in a Zone.
+    "server_control_plane_encryption_num_hash_rounds": 16,
+
+    // The amount of time before a control plane operation will timeout.
+    "server_control_plane_timeout_milliseconds": 10000,
+
+    // The beginning of the port number range available for parallel transfers.
+    // This must be the same across all iRODS servers in a Zone.
+    "server_port_range_start": 20000,
+
+    // The end of the port number range available for parallel transfers.
+    // This must be the same across all iRODS servers in a Zone.
+    "server_port_range_end": 20199,
+
+    // The authentication scheme used by the zone_user: native, PAM, KRB, or GSI.
+    "zone_auth_scheme": "native",
+
+    // The shared secret used for authentication and identification of server-to-server communication.
+    // This can be a string of any length, excluding the use of hyphens, for historical purposes.
+    // This must be the same across all iRODS servers in a Zone.
+    "zone_key": "TEMPORARY_ZONE_KEY",
+
+    // The name of the Zone in which the server participates.
+    // This must be the same across all iRODS servers in a Zone.
+    "zone_name": "tempZone",
+
+    // The main port number used by the Zone for communication.
+    // This must be the same across all iRODS servers in a Zone.
+    "zone_port": 1247,
+
+    // The name of the rodsadmin user running this iRODS instance.
+    "zone_user": "rods"
+}
+```
+
+## Host Resolution
+
+The `host_resolution` server_config.json property serves as an iRODS-owned version of /etc/hosts.  It defines network aliases when you may not have permission to update hostnames on the servers in the Zone.
+
+The order of precedence of hostname resolution in iRODS is `host_resolution`, then the local `/etc/hosts` file, then DNS.
 
 The `local` entry can define multiple addresses for the local server.
 
@@ -153,61 +400,61 @@ The `remote` entries each define a remote server with a set of aliases.
 
 The first address in each stanza is the preferred address and will be used for connecting to clients and remote servers. This first address should be the hostname of the server in question and is expected to match the result of running `hostname` on that server. The additional addresses are the aliases.
 
-An example `hosts_config.json`:
+An example `host_resolution` configuration:
 
-```
-{
+```json
+"host_resolution": {
     "host_entries": [
         {
-            "address_type" : "local",
-            "addresses" : [
-                   {"address" : "xx.yy.nn.zz"},
-                   {"address" : "longname.example.org"}
-             ]
+            "address_type": "local",
+            "addresses": [
+                "xx.yy.nn.zz",
+                "longname.example.org"
+            ]
         },
         {
-            "address_type" : "remote",
-            "addresses" : [
-                   {"address" : "aa.bb.cc.dd"},
-                   {"address" : "fqdn.example.org"},
-                   {"address" : "morefqdn.example.org"}
-             ]
+            "address_type": "remote",
+            "addresses": [
+                "aa.bb.cc.dd",
+                "fqdn.example.org",
+                "morefqdn.example.org"
+            ]
         },
         {
-            "address_type" : "remote",
-            "addresses" : [
-                   {"address" : "ddd.eee.fff.xxx"},
-                   {"address" : "another.example.org"}
-             ]
+            "address_type": "remote",
+            "addresses": [
+                "ddd.eee.fff.xxx",
+                "another.example.org"
+            ]
         }
     ]
 }
 ```
 
-## /etc/irods/host_access_control_config.json
+## Host Access Control
 
-This file defines an iRODS-specific firewall.
+The `host_access_control` server_config.json property defines an iRODS-specific firewall.
 
-This file allows certain users, groups, and hosts access to iRODS.  It is consulted when `msiCheckHostAccessControl` is invoked by the rule engine (on by default via `acChkHostAccessControl`).
+This property allows certain users, groups, and hosts access to iRODS.  It is consulted when `msiCheckHostAccessControl` is invoked by the rule engine (on by default via `acChkHostAccessControl`).
 
 The first entry specifies a user that is allowed to connect to this iRODS server. An entry of "all" means all users are allowed.
 
 The second entry specifies a group name that is allowed to connect. An entry of "all" means, all groups are allowed.
 
-The third and fourth columns specify the host address and the network mask. Together, they define the client IPv4 addresses that are permitted to connect to the iRODS server.  The mask entry specifies which bits will be ignored (i.e. after those bits are ignored, the incoming connection host must match the address entry).
+The third and fourth entries specify the host address and the network mask. Together, they define the client IPv4 addresses that are permitted to connect to the iRODS server.  The mask entry specifies which bits will be ignored (i.e. after those bits are ignored, the incoming connection host must match the address entry).
 
-An example `host_access_control.json` file:
+An example `host_access_control` configuration:
 
-```
-{
+```json
+"host_access_control": {
     "access_entries": [
         {
-            "user" : "all",
-            "group" : "all",
-            "address" : "127.0.0.1",
-            "mask" : "255.255.255.255"
+            "user": "all",
+            "group": "all",
+            "address": "127.0.0.1",
+            "mask": "255.255.255.255"
         }
-     ]
+    ]
 }
 ```
 
@@ -215,54 +462,236 @@ An example `host_access_control.json` file:
 
 This is the main iRODS configuration file defining the iRODS environment. Any changes are effective immediately since iCommands reload their environment on every execution.
 
-A client environment file contains the following minimum set of top level entries:
+```json
+{
+    // (Optional)
+    // Set to "request_server_negotiation" indicating advanced negotiation is desired,
+    // for use in enabling SSL and other technologies.
+    "irods_client_server_negotiation": "request_server_negotiation",
 
-  - `irods_host` (required) - A fully qualified domain name for the given iRODS server
-  - `irods_port` (required) - The port number for the given iRODS Zone
-  - `irods_user_name` (required) - The username within iRODS for this account
-  - `irods_zone_name` (required) - The name of the iRODS Zone
+    // (Optional)
+    // Controls whether the client and server should use SSL/TLS for communication.
+    //
+    // The following values are supported:
+    // - CS_NEG_REFUSE: Do not use SSL
+    // - CS_NEG_REQUIRE: Demand SSL be used
+    // - CS_NEG_DONT_CARE: Let the server decide if SSL should be used
+    "irods_client_server_policy": "CS_NEG_REFUSE",
 
-A service account environment file contains all of the client environment entries in addition to the following top level entries:
+    // (Optional)
+    // Number of seconds after which an existing connection in a connection pool is refreshed.
+    "irods_connection_pool_refresh_time_in_seconds": 300,
 
-  - `irods_authentication_file` (optional) - Fully qualified path to a file holding the credentials of an authenticated iRODS user
-  - `irods_authentication_scheme` (optional) - This user's iRODS authentication method, currently: "pam", "krb", "gsi" or "native"
-  - `irods_client_server_negotiation` (required) - Set to "request_server_negotiation" indicating advanced negotiation is desired, for use in enabling SSL and other technologies
-  - `irods_client_server_policy` (required) - "CS_NEG_REFUSE" for no SSL, "CS_NEG_REQUIRE" to demand SSL, or "CS_NEG_DONT_CARE" to allow the server to decide
-  - `irods_connection_pool_refresh_time_in_seconds` (optional) (default 300) - Number of seconds after which an existing connection in a connection pool is refreshed
-  - `irods_control_plane_port` (optional) - The port on which the control plane operates.
-  - `irods_control_plane_key` (optional) - The encryption key required for communicating with the iRODS grid control plane.
-  - `irods_cwd` (required) - The current working directory within iRODS
-  - `irods_debug` (optional) - Desired verbosity of the debug logging level
-  - `irods_default_hash_scheme` (required) - Currently either MD5 or SHA256
-  - `irods_default_resource` (required) - The name of the resource used for iRODS operations if one is not specified
-  - `irods_encryption_algorithm` (required) - EVP-supplied encryption algorithm for parallel transfer encryption
-  - `irods_encryption_key_size` (required) - Key size for parallel transfer encryption
-  - `irods_encryption_num_hash_rounds` (required) - Number of hash rounds for parallel transfer encryption
-  - `irods_encryption_salt_size` (required) - Salt size for parallel transfer encryption
-  - `irods_gsi_server_dn` (optional) - The Distinguished Name of the GSI Server
-  - `irods_home` (required) - The home directory within the iRODS Zone for a given user
-  - `irods_log_level` (optional) - Desired [verbosity](troubleshooting.md#debugging-levels) of the iRODS logging
-  - `irods_match_hash_policy` (required) - Use 'strict' to refuse defaulting to another scheme or 'compatible' for supporting alternate schemes
-  - `irods_plugins_home` (optional) - Directory to use for the client side plugins (useful when [Distributing iCommands to Users](distributing_icommands.md))
-  - `irods_ssl_ca_certificate_file` (optional) - Location of a file of trusted CA certificates in PEM format. Note that the certificates in this file are used in conjunction with the system default trusted certificates.
-  - `irods_ssl_ca_certificate_path` (optional) - Location of a directory containing CA certificates in PEM format. The files each contain one CA certificate. The files are looked up by the CA subject name hash value, which must hence be available. If more than one CA certificate with the same name hash value exist, the extension must be different (e.g. 9d66eef0.0, 9d66eef0.1 etc). The search is performed in the ordering of the extension number, regardless of other properties of the certificates. Use the ‘c_rehash’ utility to create the necessary links.
-  - `irods_ssl_certificate_chain_file` (optional) - The file containing the server's certificate chain. The certificates must be in PEM format and must be sorted starting with the subject's certificate (actual client or server certificate), followed by intermediate CA certificates if applicable, and ending at the highest level (root) CA.
-  - `irods_ssl_certificate_key_file` (optional) - Private key corresponding to the server's certificate in the certificate chain file.
-  - `irods_ssl_dh_params_file` (optional) - The Diffie-Hellman parameter file location
-  - `irods_ssl_verify_server` (optional) - What level of server certificate based authentication to perform. 'none' means not to perform any authentication at all. 'cert' means to verify the certificate validity (i.e. that it was signed by a trusted CA). 'hostname' means to validate the certificate and to verify that the irods_host's FQDN matches either the common name or one of the subjectAltNames of the certificate. 'hostname' is the default setting.
-  - `irods_xmsg_host` (optional) - The host name of the XMessage server (usually localhost)
-  - `irods_xmsg_port` (optional) - The port of the XMessage server
+    // (Optional)
+    // The current working collection within iRODS.
+    "irods_cwd": "",
+
+    // (Optional)
+    // The hash scheme used for file integrity checking.
+    //
+    // The following values are supported: MD5, SHA256
+    //
+    // See "Checksum Configuration" for more details.
+    "irods_default_hash_scheme": "SHA256",
+
+    // (Optional)
+    // The default number of threads used for parallel transfers.
+    "irods_default_number_of_transfer_threads": 4,
+
+    // (Optional)
+    // The name of the resource used for iRODS operations if one is not specified.
+    // See "Default Resource Configuration" section for more details.
+    "irods_default_resource": "demoResc",
+
+    // (Optional)
+    // EVP-supplied encryption algorithm for parallel transfer encryption.
+    "irods_encryption_algorithm": "AES-256-CBC",
+
+    // (Optional)
+    // Key size for parallel transfer encryption.
+    "irods_encryption_key_size": 32,
+
+    // (Optional)
+    // Number of hash rounds for parallel transfer encryption.
+    "irods_encryption_num_hash_rounds": 16,
+
+    // (Optional)
+    // Salt size for parallel transfer encryption.
+    "irods_encryption_salt_size": 8,
+
+    // (Optional)
+    // The Distinguished Name of the GSI Server.
+    "irods_gsi_server_dn": "",
+
+    // (Optional)
+    // The home directory within the iRODS Zone for a given user.
+    "irods_home": "",
+
+    // The fully qualified domain name of the target iRODS server to connect to.
+    "irods_host": "",
+
+    // (Optional)
+    "irods_match_hash_policy": "compatible",
+
+    // (Optional)
+    // Defines the maximum data size for single buffer transfers.
+    // When the data size exceeds the defined threshold, parallel transfer is used.
+    // Connecting clients and servers within the same zone must use the same value.
+    "irods_maximum_size_for_single_buffer_in_megabytes": 32,
+
+    // (Optional) (Deprecated)
+    // Defines the log level.
+    //
+    // See "Troubleshooting > Debugging Levels" for more details.
+    "irods_log_level": 5,
+
+    // (Optional)
+    // Defines the level of server certificate authentication to perform.
+    //
+    // The following values are supported: none, cert, hostname
+    //
+    // When set to "none", authentication is skipped.
+    //
+    // When set to "cert", the server will verify that the certificate was signed by a trusted CA.
+    //
+    // When set to "hostname", the server will do everything defined by the "cert" level and then verify
+    // that the FQDN of the iRODS server matches either the common name or one of the subjectAltNames in
+    // the certificate.
+    "irods_ssl_verify_server": "hostname",
+
+    // (Optional)
+    // Directory to use for the client side plugins.
+    // See section entitled "Distributing iCommands" for more details.
+    "irods_plugins_home": "",
+
+    // The port number on which the target iRODS server is listening.
+    // This must match the port number used by the Zone.
+    "irods_port": 1247,
+
+    // (Optional)
+    // The algorithm used to encrypt the control plane communications.
+    // This must be the same across all iRODS servers in a Zone.
+    "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
+
+    // (Optional)
+    // The number of hash rounds used in the control plane communications.
+    // This must be the same across all iRODS servers in a Zone.
+    "irods_server_control_plane_encryption_num_hash_rounds": 16,
+
+    // (Optional)
+    // The encryption key required for communicating with the iRODS grid control plane.
+    "irods_server_control_plane_key": "32_byte_server_control_plane_key",
+
+    // (Optional)
+    // The port number on which the control plane listens.
+    "irods_server_control_plane_port": 1248,
+
+    // (Optional)
+    // Location of a file of trusted CA certificates in PEM format.
+    // Note that the certificates in this file are used in conjunction with the system
+    // default trusted certificates.
+    "irods_ssl_ca_certificate_file": "",
+
+    // (Optional)
+    // Location of a directory containing CA certificates in PEM format.
+    // The files each contain one CA certificate. The files are looked up by the CA subject name hash
+    // value, which must hence be available. If more than one CA certificate with the same name hash
+    // value exist, the extension must be different (e.g. 9d66eef0.0, 9d66eef0.1 etc). The search is
+    // performed in the ordering of the extension number, regardless of other properties of the
+    // certificates. Use the ‘c_rehash’ utility to create the necessary links.
+    "irods_ssl_ca_certificate_path": "",
+
+    // (Optional)
+    // The file containing the server's certificate chain.
+    // The certificates must be in PEM format and must be sorted starting with the subject's
+    // certificate (actual client or server certificate), followed by intermediate CA certificates
+    // if applicable, and ending at the highest level (root) CA.
+    "irods_ssl_certificate_chain_file": "",
+
+    // (Optional)
+    // The private key corresponding to the server's certificate in the certificate chain file.
+    "irods_ssl_certificate_key_file": "",
+
+    // (Optional)
+    // The Diffie-Hellman parameter file location.
+    "irods_ssl_dh_params_file": "",
+
+    // (Optional)
+    // Defines the size of the buffer used for sending and receiving bytes across the network
+    // during parallel transfer. Clients and servers within the same zone must use the same value.
+    "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
+
+    // The username within iRODS for this account.
+    "irods_user_name": "",
+
+    // The name of the iRODS Zone.
+    "irods_zone_name": "",
+
+    // (Optional)
+    // Defines the filename of the JSON schema used for validation when not specified explicitly.
+    // Only applies to service account environment files.
+    "schema_name": "service_account_environment",
+
+    // (Optional)
+    // Defines the version of the schema used for validation.
+    // Only applies to service account environment files.
+    "schema_version": "v4"
+}
+```
+
+A client environment file might look like this.
+
+```json
+{
+    "irods_host": "example.org",
+    "irods_port": 1247,
+    "irods_user_name": "alice",
+    "irods_zone_name": "tempZone"
+}
+```
+
+And here is a service account environment file defining the minimum settings needed to manage an iRODS server.
+
+```json
+{
+    "irods_client_server_negotiation": "request_server_negotiation",
+    "irods_client_server_policy": "CS_NEG_REFUSE",
+    "irods_connection_pool_refresh_time_in_seconds": 300,
+    "irods_cwd": "/tempZone/home/rods",
+    "irods_default_hash_scheme": "SHA256",
+    "irods_default_number_of_transfer_threads": 4,
+    "irods_default_resource": "demoResc",
+    "irods_encryption_algorithm": "AES-256-CBC",
+    "irods_encryption_key_size": 32,
+    "irods_encryption_num_hash_rounds": 16,
+    "irods_encryption_salt_size": 8,
+    "irods_home": "/tempZone/home/rods",
+    "irods_host": "example.org",
+    "irods_match_hash_policy": "compatible",
+    "irods_maximum_size_for_single_buffer_in_megabytes": 32,
+    "irods_port": 1247,
+    "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
+    "irods_server_control_plane_encryption_num_hash_rounds": 16,
+    "irods_server_control_plane_key": "32_byte_server_control_plane_key",
+    "irods_server_control_plane_port": 1248,
+    "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
+    "irods_user_name": "rods",
+    "irods_zone_name": "tempZone",
+    "schema_name": "service_account_environment",
+    "schema_version": "v4"
+}
+```
 
 To use an environment file other than `~/.irods/irods_environment.json`, set `IRODS_ENVIRONMENT_FILE` to load from a different location:
 
-```
+```bash
 export IRODS_ENVIRONMENT_FILE=/full/path/to/different.json
 ```
 
 Other individual environment variables can be set by using the UPPERCASE versions of the variables named above, for example:
 
-```
-export IRODS_LOG_LEVEL=7
+```bash
+export IRODS_CWD='/tempZone/home/public'
 ```
 
 # Checksum Configuration

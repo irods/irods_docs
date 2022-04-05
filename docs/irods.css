@@ -94,3 +94,8 @@ a:hover {
 .rst-content .section ol p, .rst-content .section ul p {
     margin-bottom: 3px;
 }
+span.hljs-comment {
+    color: #6f99c3;
+    font-style: normal;
+    font-weight: bold;
+}
