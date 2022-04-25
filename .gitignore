@@ -1,3 +1,4 @@
+*.swp
 build
 docs/doxygen/
 docs/icommands/
