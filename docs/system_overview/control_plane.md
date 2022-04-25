@@ -47,9 +47,8 @@ and the output would look like:
            "age": 0
          }
       ],
-      "xmsg_server_pid": 0,
       "status": "server_state_running",
-      "re_server_pid": 15401
+      "delay_server_pid": 15401
     }
   ]
 }
