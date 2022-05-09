@@ -29,6 +29,15 @@ nav:
     - Installation: 'getting_started/installation.md'
     - Upgrading: 'getting_started/upgrading.md'
     - Running: 'getting_started/running.md'
+ - Capabilities:
+    - Automated Ingest: 'capabilities/automated_ingest.md'
+    - Storage Tiering: 'capabilities/storage_tiering.md'
+    - Auditing: 'capabilities/auditing.md'
+    - Indexing: 'capabilities/indexing.md'
+    - Integrity: 'capabilities/integrity.md'
+    - Provenance: 'capabilities/provenance.md'
+    - Compliance: 'capabilities/compliance.md'
+    - Publishing: 'capabilities/publishing.md'
  - Plugins:
     - Plugin Interfaces: 'plugins/plugin_interfaces.md'
     - Pluggable Microservices: 'plugins/pluggable_microservices.md'
