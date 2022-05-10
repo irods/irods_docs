@@ -1,5 +1,8 @@
 #
 
+!!! Important
+    As of 4.3.0, Static Policy Enforcement Points are now deprecated and will be removed in a later release. For this reason, existing deployments are encouraged to update their policy to use Dynamic Policy Enforcement Points.
+
 iRODS 4.0+ has introduced the capability for dynamic policy enforcement points (PEP).  For every operation that is called, four policy enforcement points are constructed (pre, post, except, and finally varieties), and if it has been defined in core.re or any other loaded rulebase file they will be executed by the rule engine plugin framework.
 
 The PEP will be constructed of the form "pep_PLUGINOPERATION_pre", "pep_PLUGINOPERATION_post", "pep_PLUGINOPERATION_except", or "pep_PLUGINOPERATION_finally".
