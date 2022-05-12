@@ -85,6 +85,9 @@ N rows in set (0.00 sec)
 
 ### iRODS Setup
 
+!!! Important
+    iRODS 4.3.0 has a dependency on the Python 3 library, [pyodbc](https://pypi.org/project/pyodbc/). Setup will fail if this library is not installed. CentOS 7 does not provide an RPM package for the Python 3 version of this library so it isn't declared as a dependency by the iRODS packages. Therefore, administrators must manually install the package. This can be accomplished by running the following: `sudo python3 -m pip install pyodbc`.
+
 Installation of the iRODS server and PostgreSQL database plugin:
 
 ~~~
