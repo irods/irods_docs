@@ -35,7 +35,6 @@ $ /usr/sbin/irodsServer -u
 
 Regardless of the method, it is important to remember that once the server has been launched in this mode, the terminal will not return control until the server is shutdown or killed.
 
-
 ## Test Mode
 This mode instructs the server to write all log messages to an additional log file. Messages will still be written to stdout or rsyslog depending on how the server was launched. This secondary log file is located at the following location:
 ```bash
