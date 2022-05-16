@@ -2,15 +2,189 @@
 
 Some of the commonly encountered iRODS errors along with troubleshooting steps are discussed below.
 
-## The Server Log (rodsLog)
+## The Server Log
 
-The iRODS server log (rodsLog) is the best place to find a history of what has happened and any error codes and file paths that may explain unexpected behavior.  The rodsLog is found at `/var/lib/irods/log/rodsLog*`.  The rodsLog is rotated every few days, so make sure you're looking at the latest file for recent error messages.  The debugging level (below) affects how many messages are written to the rodsLog.
+As of iRODS 4.3.0, the server log file is managed by syslog. When unexpected behavior occurs, inspecting the log file is the first place that should be checked. By default, the log file is located at **/var/log/irods/irods.log**.
 
-## Debugging Levels
+iRODS provides default configuration files for **rsyslog** and **logrotate**. They can be found at the following locations:
 
-Some settings within iRODS can be useful when developing for iRODS or when working through diagnosing unexpected server-side behavior.  The following environment variables can be set in the service account and require a server restart to take effect (`./irodsctl restart`):
+- /etc/rsyslog.d/00-irods.conf
+- /etc/logrotate.d/irods
 
-- `spLogLevel=N` - This will send to the rodsLog all log messages of `N` or more severe (`1`, or `LOG_SYS_FATAL` is most severe).  Increasing the log level will increase the number of messages written to rodsLog.  Setting `spLogLevel` to `8` or more will show the wireline XML packing instructions.  This can also be set in the service account's `irods_environment.json` file as `irods_log_level` (and not require a server restart, as each rodsAgent reads this environment file on standup, per incoming iRODS connection).
+Other implementations of syslog can be used, but that is out of scope of this documentation.
+
+Each line within the log file is formatted as JSON. The following properties are guaranteed to exist:
+```json
+{
+    // The server component that generated the message (e.g. "rule_engine", "database", "api", etc).
+    "log_category": string,
+
+    // This property can be ignored.
+    "log_facility": string,
+
+    // The severity of the message.
+    //
+    // This will be one of the following:
+    // - trace
+    // - debug
+    // - info
+    // - warn
+    // - error
+    // - critical
+    "log_level": string,
+
+    // The message detailing what actually happened within the server.
+    "log_message": string,
+
+    // The iRODS server that generated the message.
+    "server_host": string,
+
+    // The PID of the process that generated the message.
+    "server_pid": integer,
+
+    // The time when the message was generated.
+    "server_timestamp": string,
+
+    // The type of process that generated the message.
+    //
+    // This will be one of the following:
+    // - server
+    // - agent_factory
+    // - agent
+    // - delay_server
+    "server_type": string
+}
+```
+
+In addition to those, the following properties will be included if available:
+```json
+{
+    // The human-readable name of the API operation.
+    "request_api_name": string,
+
+    // The integer value that identifies the API operation.
+    "request_api_number": integer,
+
+    // The API version of the iRODS client which sent the request (e.g. "d").
+    "request_api_version": string,
+
+    // The iRODS user who sent the API request.
+    "request_client_user": string,
+
+    // The IP or hostname of the client which sent the API request.
+    "request_host": string,
+
+    // The proxy iRODS user carrying out the operation on behalf of "request_client_user".
+    "request_proxy_user": string,
+
+    // The version of the iRODS client which sent the request (e.g. "rods4.3.0").
+    "request_release_version": string
+}
+```
+
+If an operation results in a program crash and a stacktrace is generated, the following properties will be included if available:
+```json
+{
+    // The PID of the iRODS agent that crashed and generated the stacktrace.
+    "stacktrace_agent_pid": integer,
+
+    // The time when the crash occurred in UTC.
+    "stacktrace_timestamp_utc": string,
+
+    // The time when the crash occurred (seconds since epoch only).
+    "stacktrace_timestamp_epoch_seconds": integer,
+
+    // The time when the crash occurred (partial seconds since epoch only).
+    // This property is meant to be paired with "stacktrace_timestamp_epoch_seconds".
+    "stacktrace_timestamp_epoch_milliseconds": integer
+}
+```
+
+## Log Categories and Levels
+
+In iRODS 4.3.0, log output is managed via **server_config.json**. The server now provides several categories in regards to log output. This gives administrators the ability to choose different log levels for various components in an iRODS server. To do this, open **server_config.json** and find the **log_level** property. It should have the following structure:
+```json
+{
+    // ... Other configuration properties ...
+
+    "log_level": {
+        // Controls log output related to generic Agent operations.
+        "agent": "info",
+
+        // Controls log output related to the Agent Factory process.
+        "agent_factory": "info",
+
+        // Controls log output related to API operations.
+        "api": "info",
+
+        // Controls log output related to authentication operations.
+        "authentication": "info",
+
+        // Controls log output related to database operations.
+        "database": "info",
+
+        // Controls log output related to the Delay Server process.
+        "delay_server": "info",
+
+        // Controls log output recorded via the rodsLog API.
+        "legacy": "info",
+
+        // Controls log output related to microservice operations.
+        "microservice": "info",
+
+        // Controls log output related to networking operations.
+        "network": "info",
+
+        // Controls log output related to resource operations.
+        "resource": "info",
+
+        // Controls log output related to rule engine plugin operations.
+        "rule_engine": "info",
+
+        // Controls log output related to the iRODS process overseeing all other
+        // iRODS processes.
+        "server": "info"
+    },
+
+    // ... Other configuration properties ...
+}
+```
+
+Each category can be set to one of the following values (ordered from noisiest to quietest):
+
+- trace
+- debug
+- info
+- warn
+- error
+- critical
+
+While the logging infrastructure has been modernized, use of it has not yet been applied throughout the iRODS server. This means that the **legacy** log category will be the primary setting for controlling log output (**rodsLog** API output is controlled by the **legacy** log category). This situation will improve with future releases.
+
+The following table defines how **rodsLog** API log levels are mapped to the new logging API's log levels.
+
+| rodsLog API Log Level   | New Logging API Log Level |
+| ----------------------- | ------------------------- |
+| LOG_DEBUG10             | trace                     |
+| LOG_DEBUG9              | trace                     |
+| LOG_DEBUG8              | trace                     |
+| LOG_DEBUG7              | debug                     |
+| LOG_DEBUG6              | debug                     |
+| LOG_NOTICE              | info                      |
+| LOG_WARNING             | warn                      |
+| LOG_ERROR               | error                     |
+| LOG_SYS_WARNING         | critical                  |
+| LOG_SYS_FATAL           | critical                  |
+
+To demonstrate how the two APIs overlap, let's say a message is logged at `LOG_DEBUG7` via the **rodsLog** API. That message will only be recorded in the log file if the **legacy** log category is set to `trace` or `debug`.
+
+And because of this overlap, the next section still applies.
+
+## Logging and the rodsLog API
+
+The following environment variables can be set in the service account and require a server restart to take effect (`./irodsctl restart`):
+
+- `spLogLevel=N` - This will send all log messages of `N` or more severe (`1`, or `LOG_SYS_FATAL` is most severe) to the log file. Increasing the log level will increase the number of messages sent to the log file. Setting `spLogLevel` to `8` or more will show the wireline XML packing instructions. This can also be set in the service account's `irods_environment.json` file as `irods_log_level` (and not require a server restart, as each rodsAgent reads this environment file on standup, per incoming iRODS connection).
 
  | Verbosity       | spLogLevel   |
  | --------------- | ------------ |
@@ -25,7 +199,7 @@ Some settings within iRODS can be useful when developing for iRODS or when worki
  | LOG_SYS_WARNING |  2           |
  | LOG_SYS_FATAL   |  1           |
 
-- `spLogSql=1` - This will send to the rodsLog the bind variables, the SQL query, and the return values going to and coming from the database.  This needs to be set on the iCAT server.  Setting this on a resource server will have no effect.
+- `spLogSql=1` - This will send the bind variables, the SQL query, and the return values going to and coming from the database to the log file. This needs to be set on the catalog service provider server. Setting this on a catalog service consumer will have no effect.
 
 Additionally, client side environment variables will affect all new connections without a server restart:
 
@@ -81,7 +255,7 @@ There are two networking requirements for iRODS:
 !!! error
     USER_RODS_HOSTNAME_ERR -303000
 
-This error could occur if the gethostname() function is not returning the expected value on every machine in the Zone.  The values in the iCAT must match the values returned by gethostname() on each machine.
+This error could occur if the gethostname() function is not returning the expected value on every machine in the Zone.  The values in the catalog service provider must match the values returned by gethostname() on each machine.
 
 ## Incorrect jumbo packet configuration
 
@@ -95,7 +269,7 @@ This error could occur if the relevant switch (or node) settings are not enabled
 !!! error
     REMOTE_SERVER_AUTHENTICATION_FAILURE -910000
 
-This error occurs when there is a `zone_key` mismatch (in server_config.json) between two servers in the same Zone.  The `zone_key` is a shared secret and must be the same on all servers within the same Zone.
+This error occurs when there is a `zone_key` mismatch (in **server_config.json**) between two servers in the same Zone.  The `zone_key` is a shared secret and must be the same on all servers within the same Zone.
 
 ## No such file or directory
 
@@ -151,7 +325,7 @@ A client can use `iput -R` or update their `irods_environment.json` value of 'ir
 This error can occur when a user sends a rule to the wrong rule engine plugin instance.
 
 In the following case, the Python rule engine plugin is invoked (because it is listed first
-in `server_config.json`), tries to interpret the iRODS Rule Language rule text it is given,
+in **server_config.json**), tries to interpret the iRODS Rule Language rule text it is given,
 and then returns a `SyntaxError` since it is not valid Python:
 
 ```
@@ -203,7 +377,7 @@ Nov  1 11:27:10 pid:15614 NOTICE: setupSrvPortal: listen failed, errno: 98
 Nov  1 11:30:25 pid:11650 NOTICE: setupSrvPortal: listen failed, errno: 98
 ```
 
-This occurs when the server is hitting resource contention and may indicate that the server needs a larger parallel transfer port range defined in `server_config.json` (the default is 20000-20199).
+This occurs when the server is hitting resource contention and may indicate that the server needs a larger parallel transfer port range defined in **server_config.json** (the default is 20000-20199).
 
 ## Schema Validation Warnings
 
@@ -237,7 +411,7 @@ remote addresses: XXX.XX.X.X ERROR: putUtil: put error for /remote_zone/home/rod
 
 ## Dynamic PEP Signature Mismatches
 
-When writing dynamic PEPs, getting the signature wrong will provide a hint in the rodsLog:
+When writing dynamic PEPs, getting the signature wrong will provide a hint in the log file:
 
 ```
 Nov 12 09:57:30 pid:25245 DEBUG: error: cannot find rule for action "pep_resource_resolve_hierarchy_pre" available: 103.
