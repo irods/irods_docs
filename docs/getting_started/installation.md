@@ -99,7 +99,7 @@ On CentOS, some of the `irods-server` package dependencies can be satisfied from
 The `setup_irods.py` script below will prompt for, and then create, if necessary, a service account and service group which will own and operate the iRODS server binaries:
 
 ~~~
-$ (sudo) python /var/lib/irods/scripts/setup_irods.py
+$ (sudo) python3 /var/lib/irods/scripts/setup_irods.py
 ~~~
 
 The `setup_irods.py` script will ask for information in four (possibly five) sections:
@@ -180,6 +180,339 @@ schema_name - irods_environment
 schema_version - v3
 ~~~
 
+## Unattended Install
+
+iRODS can also be installed by providing a file matching the JSON schema found here:
+
+- [https://github.com/irods/irods/blob/4.3.0/schemas/configuration/v4/unattended_installation.json.in](https://github.com/irods/irods/blob/4.3.0/schemas/configuration/v4/unattended_installation.json.in)
+
+This form of installation is known as an **Unattended Install**. Using this form of setup can help with automated deployments.
+
+To perform an **Unattended Install**, you'd run the following:
+```bash
+$ (sudo) python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file /path/to/your/json/input/file
+```
+
+Below you'll find examples showing what the input file might contain for a [Catalog Service Provider](#input-file-for-catalog-service-provider) and [Catalog Service Consumer](#input-file-for-catalog-service-consumer).
+
+### Input file for Catalog Service Provider
+```json
+{
+    "admin_password": "rods",
+    "default_resource_directory": "/var/lib/irods/Vault",
+    "default_resource_name": "demoResc",
+    "host_system_information": {
+        "service_account_user_name": "irods",
+        "service_account_group_name": "irods"
+    },
+    "service_account_environment": {
+        "irods_client_server_negotiation": "request_server_negotiation",
+        "irods_client_server_policy": "CS_NEG_REFUSE",
+        "irods_connection_pool_refresh_time_in_seconds": 300,
+        "irods_cwd": "/tempZone/home/rods",
+        "irods_default_hash_scheme": "SHA256",
+        "irods_default_number_of_transfer_threads": 4,
+        "irods_default_resource": "demoResc",
+        "irods_encryption_algorithm": "AES-256-CBC",
+        "irods_encryption_key_size": 32,
+        "irods_encryption_num_hash_rounds": 16,
+        "irods_encryption_salt_size": 8,
+        "irods_home": "/tempZone/home/rods",
+        "irods_host": "irods-provider",
+        "irods_match_hash_policy": "compatible",
+        "irods_maximum_size_for_single_buffer_in_megabytes": 32,
+        "irods_port": 1247,
+        "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
+        "irods_server_control_plane_encryption_num_hash_rounds": 16,
+        "irods_server_control_plane_key": "32_byte_server_control_plane_key",
+        "irods_server_control_plane_port": 1248,
+        "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
+        "irods_user_name": "rods",
+        "irods_zone_name": "tempZone",
+        "schema_name": "service_account_environment",
+        "schema_version": "v4"
+    },
+    "server_config": {
+        "advanced_settings": {
+            "default_log_rotation_in_days": 5,
+            "default_number_of_transfer_threads": 4,
+            "default_temporary_password_lifetime_in_seconds": 120,
+            "delay_rule_executors": [
+                "irods-provider"
+            ],
+            "delay_server_sleep_time_in_seconds": 30,
+            "dns_cache": {
+                "eviction_age_in_seconds": 3600,
+                "shared_memory_size_in_bytes": 5000000
+            },
+            "hostname_cache": {
+                "eviction_age_in_seconds": 3600,
+                "shared_memory_size_in_bytes": 2500000
+            },
+            "maximum_size_for_single_buffer_in_megabytes": 32,
+            "maximum_size_of_delay_queue_in_bytes": 0,
+            "maximum_temporary_password_lifetime_in_seconds": 1000,
+            "number_of_concurrent_delay_rule_executors": 4,
+            "stacktrace_file_processor_sleep_time_in_seconds": 10,
+            "transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
+            "transfer_chunk_size_for_parallel_transfer_in_megabytes": 40
+        },
+        "catalog_provider_hosts": [
+            "irods-provider"
+        ],
+        "catalog_service_role": "provider",
+        "client_api_allowlist_policy": "enforce",
+        "controlled_user_connection_list": {
+            "control_type": "denylist",
+            "users": []
+        },
+        "default_dir_mode": "0750",
+        "default_file_mode": "0600",
+        "default_hash_scheme": "SHA256",
+        "default_resource_name": "demoResc",
+        "environment_variables": {},
+        "federation": [],
+        "host_access_control": {
+            "access_entries": []
+        },
+        "host_resolution": {
+            "host_entries": []
+        },
+        "log_level": {
+            "agent": "info",
+            "agent_factory": "info",
+            "api": "info",
+            "authentication": "info",
+            "database": "info",
+            "delay_server": "info",
+            "legacy": "info",
+            "microservice": "info",
+            "network": "info",
+            "resource": "info",
+            "rule_engine": "info",
+            "server": "info"
+        },
+        "match_hash_policy": "compatible",
+        "negotiation_key": "32_byte_server_negotiation_key__",
+        "plugin_configuration": {
+            "authentication": {},
+            "database": {
+                "postgres": {
+                    "db_host": "catalog",
+                    "db_name": "ICAT",
+                    "db_odbc_driver": "PostgreSQL ANSI",
+                    "db_password": "testpassword",
+                    "db_port": 5432,
+                    "db_username": "irods"
+                }
+            },
+            "network": {},
+            "resource": {},
+            "rule_engines": [
+            {
+                "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
+                "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
+                "plugin_specific_configuration": {
+                    "re_data_variable_mapping_set": [
+                        "core"
+                    ],
+                    "re_function_name_mapping_set": [
+                        "core"
+                    ],
+                    "re_rulebase_set": [
+                        "core"
+                    ],
+                    "regexes_for_supported_peps": [
+                        "ac[^ ]*",
+                    "msi[^ ]*",
+                    "[^ ]*pep_[^ ]*_(pre|post|except|finally)"
+                    ]
+                },
+                "shared_memory_instance": "irods_rule_language_rule_engine"
+            },
+            {
+                "instance_name": "irods_rule_engine_plugin-cpp_default_policy-instance",
+                "plugin_name": "irods_rule_engine_plugin-cpp_default_policy",
+                "plugin_specific_configuration": {}
+            }
+            ]
+        },
+        "rule_engine_namespaces": [
+            ""
+        ],
+        "schema_name": "server_config",
+        "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
+        "schema_version": "v4",
+        "server_control_plane_encryption_algorithm": "AES-256-CBC",
+        "server_control_plane_encryption_num_hash_rounds": 16,
+        "server_control_plane_key": "32_byte_server_control_plane_key",
+        "server_control_plane_port": 1248,
+        "server_control_plane_timeout_milliseconds": 10000,
+        "server_port_range_end": 20199,
+        "server_port_range_start": 20000,
+        "xmsg_port": 1279,
+        "zone_auth_scheme": "native",
+        "zone_key": "TEMPORARY_ZONE_KEY",
+        "zone_name": "tempZone",
+        "zone_port": 1247,
+        "zone_user": "rods"
+    }
+}
+```
+
+### Input file for Catalog Service Consumer
+```json
+{
+    "admin_password": "rods",
+    "default_resource_directory": "/var/lib/irods/Vault",
+    "default_resource_name": "otherResc",
+    "host_system_information": {
+        "service_account_user_name": "irods",
+        "service_account_group_name": "irods"
+    },
+    "service_account_environment": {
+        "irods_client_server_negotiation": "request_server_negotiation",
+        "irods_client_server_policy": "CS_NEG_REFUSE",
+        "irods_connection_pool_refresh_time_in_seconds": 300,
+        "irods_cwd": "/tempZone/home/rods",
+        "irods_default_hash_scheme": "SHA256",
+        "irods_default_number_of_transfer_threads": 4,
+        "irods_default_resource": "otherResc",
+        "irods_encryption_algorithm": "AES-256-CBC",
+        "irods_encryption_key_size": 32,
+        "irods_encryption_num_hash_rounds": 16,
+        "irods_encryption_salt_size": 8,
+        "irods_home": "/tempZone/home/rods",
+        "irods_host": "irods-consumer",
+        "irods_match_hash_policy": "compatible",
+        "irods_maximum_size_for_single_buffer_in_megabytes": 32,
+        "irods_port": 1247,
+        "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
+        "irods_server_control_plane_encryption_num_hash_rounds": 16,
+        "irods_server_control_plane_key": "32_byte_server_control_plane_key",
+        "irods_server_control_plane_port": 1248,
+        "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
+        "irods_user_name": "rods",
+        "irods_zone_name": "tempZone",
+        "schema_name": "service_account_environment",
+        "schema_version": "v4"
+    },
+    "server_config": {
+        "advanced_settings": {
+            "default_log_rotation_in_days": 5,
+            "default_number_of_transfer_threads": 4,
+            "default_temporary_password_lifetime_in_seconds": 120,
+            "delay_rule_executors": [],
+            "delay_server_sleep_time_in_seconds": 30,
+            "dns_cache": {
+                "eviction_age_in_seconds": 3600,
+                "shared_memory_size_in_bytes": 5000000
+            },
+            "hostname_cache": {
+                "eviction_age_in_seconds": 3600,
+                "shared_memory_size_in_bytes": 2500000
+            },
+            "maximum_size_for_single_buffer_in_megabytes": 32,
+            "maximum_size_of_delay_queue_in_bytes": 0,
+            "maximum_temporary_password_lifetime_in_seconds": 1000,
+            "number_of_concurrent_delay_rule_executors": 4,
+            "stacktrace_file_processor_sleep_time_in_seconds": 10,
+            "transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
+            "transfer_chunk_size_for_parallel_transfer_in_megabytes": 40
+        },
+        "catalog_provider_hosts": [
+            "irods-provider"
+        ],
+        "catalog_service_role": "consumer",
+        "client_api_allowlist_policy": "enforce",
+        "controlled_user_connection_list": {
+            "control_type": "denylist",
+            "users": []
+        },
+        "default_dir_mode": "0750",
+        "default_file_mode": "0600",
+        "default_hash_scheme": "SHA256",
+        "default_resource_name": "otherResc",
+        "environment_variables": {},
+        "federation": [],
+        "host_access_control": {
+            "access_entries": []
+        },
+        "host_resolution": {
+            "host_entries": []
+        },
+        "log_level": {
+            "agent": "info",
+            "agent_factory": "info",
+            "api": "info",
+            "authentication": "info",
+            "database": "info",
+            "delay_server": "info",
+            "legacy": "info",
+            "microservice": "info",
+            "network": "info",
+            "resource": "info",
+            "rule_engine": "info",
+            "server": "info"
+        },
+        "match_hash_policy": "compatible",
+        "negotiation_key": "32_byte_server_negotiation_key__",
+        "plugin_configuration": {
+            "authentication": {},
+            "network": {},
+            "resource": {},
+            "rule_engines": [
+            {
+                "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
+                "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
+                "plugin_specific_configuration": {
+                    "re_data_variable_mapping_set": [
+                        "core"
+                    ],
+                    "re_function_name_mapping_set": [
+                        "core"
+                    ],
+                    "re_rulebase_set": [
+                        "core"
+                    ],
+                    "regexes_for_supported_peps": [
+                        "ac[^ ]*",
+                    "msi[^ ]*",
+                    "[^ ]*pep_[^ ]*_(pre|post|except|finally)"
+                    ]
+                },
+                "shared_memory_instance": "irods_rule_language_rule_engine"
+            },
+            {
+                "instance_name": "irods_rule_engine_plugin-cpp_default_policy-instance",
+                "plugin_name": "irods_rule_engine_plugin-cpp_default_policy",
+                "plugin_specific_configuration": {}
+            }
+            ]
+        },
+        "rule_engine_namespaces": [
+            ""
+        ],
+        "schema_name": "server_config",
+        "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
+        "schema_version": "v4",
+        "server_control_plane_encryption_algorithm": "AES-256-CBC",
+        "server_control_plane_encryption_num_hash_rounds": 16,
+        "server_control_plane_key": "32_byte_server_control_plane_key",
+        "server_control_plane_port": 1248,
+        "server_control_plane_timeout_milliseconds": 10000,
+        "server_port_range_end": 20199,
+        "server_port_range_start": 20000,
+        "xmsg_port": 1279,
+        "zone_auth_scheme": "native",
+        "zone_key": "TEMPORARY_ZONE_KEY",
+        "zone_name": "tempZone",
+        "zone_port": 1247,
+        "zone_user": "rods"
+    }
+}
+```
+
 ## Non-Package Install (Run In Place)
 
 iRODS can be compiled from source and run from the same directory.  Although this is not recommended for production deployment, it may be useful for testing, running multiple iRODS servers on the same system, running iRODS on systems without a package manager, and users who do not have administrator rights on their system.
@@ -221,7 +554,7 @@ user@hostname:~/irods_client_icommands/build $ export PATH=$IRODS_INSTALL_DIR/us
 After the system is built, the `setup_irods.py` script should be run, the same as a binary installation:
 
 ~~~
-user@hostname:<non-package-root>/var/lib/irods $ python ./scripts/setup_irods.py
+user@hostname:<non-package-root>/var/lib/irods $ python3 ./scripts/setup_irods.py
 ~~~
 
 ### MacOSX
