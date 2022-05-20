@@ -519,43 +519,63 @@ iRODS can be compiled from source and run from the same directory.  Although thi
 
 In order to build from source, iRODS needs its external dependencies satisfied (see [https://github.com/irods/externals](https://github.com/irods/externals) for any platform-specific instructions):
 
-~~~
-user@hostname:~/ $ export IRODS_EXTERNALS=/tmp/irods-externals
-user@hostname:~/ $ git clone https://github.com/irods/externals $IRODS_EXTERNALS
-user@hostname:~/ $ cd $IRODS_EXTERNALS
-user@hostname:/tmp/irods-externals $ ./install_prerequisites.py
-user@hostname:/tmp/irods-externals $ make
-~~~
+Let's assume you were successful in building all external dependencies.
 
-Use the newly built version of CMake:
+Update the **PATH** environment variable so that the newly built `cmake` binary can be used:
 
-~~~
-user@hostname:/tmp/irods-externals $ export PATH=$IRODS_EXTERNALS/cmake3.5.2-0/bin:$PATH
-~~~
+```bash
+user@hostname:~/externals $ export IRODS_EXTERNALS=$PWD
+user@hostname:~/externals $ export PATH=$IRODS_EXTERNALS/cmake3.21.4-0/bin:$PATH
+```
+
+iRODS requires a few more dependencies before it can be compiled. Install the packages corresponding to the following:
+
+- PAM Development Library
+- Kerberos Development Library
 
 Then, when building iRODS itself, CMake must be called with the appropriate flags:
 
-~~~
-user@hostname:~/irods/ $ export IRODS_INSTALL_DIR=/path/to/the/non-package-root
-user@hostname:~/irods/ $ mkdir build
-user@hostname:~/irods/build $ cmake -DCMAKE_INSTALL_PREFIX=$IRODS_INSTALL_DIR -DIRODS_EXTERNALS_PACKAGE_ROOT=$IRODS_EXTERNALS ../
+```bash
+user@hostname:~ $ git clone https://github.com/irods/irods
+user@hostname:~ $ cd irods
+user@hostname:~/irods $ git checkout <version-of-irods>
+user@hostname:~/irods $ export IRODS_INSTALL_DIR=/path/to/the/non-package-root
+user@hostname:~/irods $ mkdir build && cd build
+user@hostname:~/irods/build $ cmake -DCMAKE_INSTALL_PREFIX=$IRODS_INSTALL_DIR -DIRODS_EXTERNALS_PACKAGE_ROOT=$IRODS_EXTERNALS ..
 user@hostname:~/irods/build $ make non-package-install-postgres
-~~~
+```
 
 The iCommands are a dependency of the iRODS server, and can be built with the following sequence:
 
-~~~
-user@hostname:~/irods_client_icommands/build $ cmake -DCMAKE_INSTALL_PREFIX=$IRODS_INSTALL_DIR -DIRODS_DIR=$IRODS_INSTALL_DIR/usr/lib/irods/cmake ../
+```bash
+user@hostname:~ $ git clone https://github.com/irods/irods_client_icommands
+user@hostname:~ $ cd irods_client_icommands
+user@hostname:~/irods_client_icommands $ git checkout <version-of-irods>
+user@hostname:~/irods_client_icommands $ mkdir build && cd build
+user@hostname:~/irods_client_icommands/build $ cmake -DCMAKE_INSTALL_PREFIX=$IRODS_INSTALL_DIR -DIRODS_DIR=$IRODS_INSTALL_DIR/lib/irods/cmake -DBUILD_DOCS=NO ..
 user@hostname:~/irods_client_icommands/build $ make install
-user@hostname:~/irods_client_icommands/build $ export LD_LIBRARY_PATH=$IRODS_INSTALL_DIR/usr/lib
-user@hostname:~/irods_client_icommands/build $ export PATH=$IRODS_INSTALL_DIR/usr/bin:$IRODS_INSTALL_DIR/usr/sbin:$PATH
-~~~
+user@hostname:~/irods_client_icommands/build $ export LD_LIBRARY_PATH=$IRODS_INSTALL_DIR/lib:$IRODS_EXTERNALS/boost1.78.0-0/lib:$LD_LIBRARY_PATH
+user@hostname:~/irods_client_icommands/build $ export PATH=$IRODS_INSTALL_DIR/bin:$IRODS_INSTALL_DIR/sbin:$PATH
+```
 
-After the system is built, the `setup_irods.py` script should be run, the same as a binary installation:
+Now that the system is built, you're going to need to install a few more dependencies for the setup script. Use the OS package manager (e.g. `apt`) to install the following:
 
-~~~
-user@hostname:<non-package-root>/var/lib/irods $ python3 ./scripts/setup_irods.py
-~~~
+- unixODBC runtime
+- ODBC driver for your database
+
+Use Python 3's `pip` to install the following packages (this step will require **root** privileges):
+
+- jsonschema
+- psutil
+- pyodbc
+- requests
+
+Assuming you were successful in satisfying the dependencies and you have a running database, you're now ready to run the setup script. To do that, run the following:
+
+```bash
+user@hostname:~ $ cd <non-package-root>/var/lib/irods/scripts
+user@hostname:<non-package-root>/var/lib/irods/scripts $ python3 setup_irods.py
+```
 
 ### MacOSX
 
