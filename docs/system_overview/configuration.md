@@ -367,7 +367,7 @@ This file defines the behavior of the server Agent that answers individual reque
     // This must be the same across all iRODS servers in a Zone.
     "server_port_range_end": 20199,
 
-    // The authentication scheme used by the zone_user: native, PAM, KRB, or GSI.
+    // The authentication scheme used by the zone_user: native or pam_password.
     "zone_auth_scheme": "native",
 
     // The shared secret used for authentication and identification of server-to-server communication.
