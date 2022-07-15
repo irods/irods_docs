@@ -173,7 +173,7 @@ If the user's credentials will be exclusively authenticated with PAM, a password
 For PAM Authentication, the iRODS user selects the new iRODS PAM authentication choice (instead of Native, or Kerberos) via an `irods_environment.json` property:
 
 ~~~
-"irods_authentication_scheme": "PAM",
+"irods_authentication_scheme": "pam_password",
 ~~~
 
 Then, the user runs 'iinit' and enters their system password.  To protect the system password, SSL (via OpenSSL) is used to encrypt the `iinit` session.
