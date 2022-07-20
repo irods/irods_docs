@@ -405,7 +405,7 @@ When an agent exits without successfully updating the replica statuses of an ope
 1. Agent crashes due to an uncaught exception or other serious failure which did not allow the agent to clean up after itself.
 2. An open replica has been closed, but finalizing the data object fails due to an error updating the catalog.
 
-Both of these cases are serious issues. If either of these are the case you are seeing, [file an issue on Github](https://github.com/irods/irods/issues).
+Both of these cases are serious issues. If either of these are the case you are seeing, [file an issue on GitHub](https://github.com/irods/irods/issues).
 
 In this situation, replicas can be modified to bring them out of the locked or intermediate status using `iadmin modrepl`. This tool allows a rodsadmin to modify a column for a particular replica of a particular data object. Simply run the following for each out-of-sorts replica:
 ```
@@ -415,12 +415,42 @@ For more details, see [iadmin documentation](../icommands/administrator/#modrepl
 
 The `desired_replica_status` in the usage snippet above is left to the reader to determine, but here are the definitions for the values of `DATA_REPL_STATUS` recognized by iRODS systems:
 
-0. **stale**: The replica is no longer known to be good. Usually indicates that a more recently written-to replica exists. This does not necessarily mean that the data is incorrect but merely that it may not reflect the \"truth\" of this data object.
-1. **good**: The replica is good. Usually the latest replica to be written. When a replica is good, all bytes and system metadata (size and checksum, if present) are understood to have been recorded correctly.
-2. **intermediate**: The replica is actively being written to. The state of the replica cannot be determined because the client writing to it still has the replica opened. Replicas which are intermediate cannot be opened for read or write, nor can they be unlinked or renamed.
-3. **write-locked**: One of this replica's sibling replicas is actively being written to but is itself at rest. Replicas which are write-locked cannot be opened for read or write nor can they be unlinked or renamed.
+- 0: **stale**: The replica is no longer known to be good. Usually indicates that a sibling replica has been written to more recently. This does not necessarily mean that the data is incorrect but merely that it may not reflect the \"truth\" of this data object.
+- 1: **good**: The replica is good. Usually the latest replica to be written. When a replica is good, all bytes and system metadata (size and checksum, if present) are understood to have been recorded correctly.
+- 2: **intermediate**: The replica is actively being written to. The state of the replica cannot be determined because the client writing to it still has the replica opened. Replicas which are intermediate cannot be opened for read or write, nor can they be unlinked or renamed.
+- 3: **read-locked**: (currently unused)
+- 4: **write-locked**: One of this replica's sibling replicas is actively being written to but is itself at rest. Replicas which are write-locked cannot be opened for read or write nor can they be unlinked or renamed.
 
-This technique should only be used to dig out of this serious situation or for testing purposes.
+The value of `desired_replica_status` should be the integer value that aligns with the status you wish to use.
+
+As an example, let's say the data object `/tempZone/home/rods/foo` is stuck in the locked state:
+```
+$ ils -l /tempZone/home/rods/foo
+  rods              0 resc_0          284 2022-07-20.17:31 ? foo
+  rods              1 resc_1          284 2022-07-20.17:31 ? foo
+  rods              2 resc_2          284 2022-07-20.17:31 ? foo
+```
+
+If you attempt to remove the data object or any of its replicas, an error will occur because the object is locked:
+```
+$ irm -f /tempZone/home/rods/foo
+remote addresses: 192.168.192.3 ERROR: rmUtil: rm error for /tempZone/home/rods/foo, status = -406000 status = -406000 LOCKED_DATA_OBJECT_ACCESS
+```
+
+We can set the replicas to an at-rest status using `iadmin modrepl`, as described above. Let's set them to the stale state because we do not know for sure whether these replicas are good anymore:
+```
+$ iadmin modrepl logical_path /tempZone/home/rods/foo replica_number 0 DATA_REPL_STATUS 0
+$ iadmin modrepl logical_path /tempZone/home/rods/foo replica_number 1 DATA_REPL_STATUS 0
+$ iadmin modrepl logical_path /tempZone/home/rods/foo replica_number 2 DATA_REPL_STATUS 0
+$ ils -l /tempZone/home/rods/foo
+  rods              0 resc_0          284 2022-07-20.17:31 X foo
+  rods              1 resc_1          284 2022-07-20.17:31 X foo
+  rods              2 resc_2          284 2022-07-20.17:31 X foo
+```
+
+Now that the replicas are at-rest and stale, they can be removed (or overwritten, or whatever it is you would like to to do).
+
+This technique should only be used to dig out of this serious situation or for testing purposes. Locked and intermediate replicas may truly be actively changing, so beware of potential data loss when using this technique.
 
 ## Firewalls dropping long-idle connections during parallel transfer
 
