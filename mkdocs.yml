@@ -69,6 +69,8 @@ nav:
     - Metadata: 'icommands/metadata.md'
     - Tickets: 'icommands/tickets.md'
     - Groupadmin: 'icommands/groupadmin.md'
+ - Administrators:
+    - Policy Cookbook: 'administrators/policy_cookbook.md'
  - Developers:
     - Doxygen: 'doxygen/index.html'
     - Contributing: 'developers/contributing.md'
