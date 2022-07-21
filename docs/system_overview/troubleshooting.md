@@ -413,13 +413,7 @@ $ iadmin modrepl logical_path <full_path_to_data_object> replica_number <replica
 ```
 For more details, see [iadmin documentation](../icommands/administrator/#modrepl).
 
-The `desired_replica_status` in the usage snippet above is left to the reader to determine, but here are the definitions for the values of `DATA_REPL_STATUS` recognized by iRODS systems:
-
-- 0: **stale**: The replica is no longer known to be good. Usually indicates that a sibling replica has been written to more recently. This does not necessarily mean that the data is incorrect but merely that it may not reflect the \"truth\" of this data object.
-- 1: **good**: The replica is good. Usually the latest replica to be written. When a replica is good, all bytes and system metadata (size and checksum, if present) are understood to have been recorded correctly.
-- 2: **intermediate**: The replica is actively being written to. The state of the replica cannot be determined because the client writing to it still has the replica opened. Replicas which are intermediate cannot be opened for read or write, nor can they be unlinked or renamed.
-- 3: **read-locked**: (currently unused)
-- 4: **write-locked**: One of this replica's sibling replicas is actively being written to but is itself at rest. Replicas which are write-locked cannot be opened for read or write nor can they be unlinked or renamed.
+The `desired_replica_status` in the usage snippet above is left to the reader to determine. The values of `DATA_REPL_STATUS` recognized by iRODS systems as well as their meaning can be seen here: [Replica Status](./data_objects.md#replica-status)
 
 The value of `desired_replica_status` should be the integer value that aligns with the status you wish to use.
 
