@@ -50,6 +50,7 @@ nav:
     - Dynamic Policy Enforcement Points: 'plugins/dynamic_policy_enforcement_points.md'
     - iRODS Rule Language: 'plugins/irods_rule_language.md'
  - System Overview:
+    - Data Objects: 'system_overview/data_objects.md'
     - Process Model: 'system_overview/process_model.md'
     - Control Plane: 'system_overview/control_plane.md'
     - Configuration: 'system_overview/configuration.md'
