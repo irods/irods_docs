@@ -243,6 +243,7 @@ remote("host","hints") {
 "hints" (required) are of the form:
 
   - `ZONE` - Remote Zone - The name of the Zone in which the "host" is located.
+  - `INST_NAME` - Instance Name - The name of the Rule Engine Plugin instance to target on the remote host.
 
 ### Examples
 
