@@ -75,5 +75,6 @@ nav:
     - Doxygen: 'doxygen/index.html'
     - Contributing: 'developers/contributing.md'
     - Development Tools: 'developers/development_tools.md'
+    - Library Examples: 'developers/library_examples.md'
     - Logging: 'developers/logging.md'
 
