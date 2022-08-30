@@ -477,3 +477,9 @@ To make the setting rebootable... add this line to `/etc/sysctl.d/99-sysctl.conf
 ```
 net.ipv4.tcp_keepalive_time = 600
 ```
+
+## Large number of PostgreSQL ODBC log files appearing in /tmp
+
+If you're noticing several log files with a name starting with `psqlodbc_irodsServer_irods` in `/tmp` and the number of files continues to grow as you use iRODS, you need to check `/etc/odbcinst.ini`.
+
+To stop this behavior, set `CommLog` to `0` for each PostgreSQL driver entry.
