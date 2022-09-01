@@ -469,3 +469,102 @@ Regardless of the client, the server's log file will always report the error. No
   "server_type": "agent"
 }
 ```
+
+## Implementing maintainable Policy through reusable rules
+
+When implementing policy, strive for readability and maintainability. This will make it easier for others to contribute and update the policy later. Remember, somebody else will have to manage the policy you write one day.
+
+One way to achieve this is by making your rules reusable. This can be accomplished by identifying duplicate logic and moving it into a separate rule.
+
+Given the following policy, notice how each rule starts with very similar logic. The more this policy grows, the more difficult it will become to manage. Changing the logic means the user maintaining it must touch all rules involved.
+
+```python
+pep_api_replica_open_post(*INSTANCE_NAME, *COMM, *DATA_OBJ_INPUT, *JSON_OUTPUT)
+{
+    *username = get_username(*COMM);
+    temporaryStorage."obj_path" = *DATA_OBJ_INPUT.obj_path;
+    *results = calculate_very_important_stats(*username, *DATA_OBJ_INPUT.obj_path);
+    update_stats(*results);
+
+    # Run logic that is unique to this PEP ...
+}
+
+pep_api_replica_close_post(*INSTANCE_NAME, *COMM, *JSON_INPUT)
+{
+    *username = get_username(*COMM);
+    *results = calculate_very_important_stats(*username, temporaryStorage."obj_path");
+    update_stats(*results);
+
+    # Run logic that is unique to this PEP ...
+}
+
+pep_api_data_obj_open_post(*INSTANCE_NAME, *COMM, *DATA_OBJ_INPUT)
+{
+    *username = get_username(*COMM);
+    temporaryStorage."obj_path" = *DATA_OBJ_INPUT.obj_path;
+    *results = calculate_very_important_stats(*username, *DATA_OBJ_INPUT.obj_path);
+    update_stats(*results);
+
+    # Run logic that is unique to this PEP ...
+}
+
+pep_api_data_obj_close_post(*INSTANCE_NAME, *COMM, *OPENED_DATA_OBJ_INPUT)
+{
+    *username = get_username(*COMM);
+    *results = calculate_very_important_stats(*username, temporaryStorage."obj_path");
+    update_stats(*results);
+
+    # Run logic that is unique to this PEP ...
+}
+```
+
+We can improve the situation by moving the logic at the beginning of each PEP into a separate rule and then calling it with the appropriate arguments.
+
+Now, the policy is easier to maintain and change because the startup logic is captured in a single rule.
+
+```python
+# Calculates and updates the stats for a logical path.
+#
+# @param *comm                 The communication object.
+# @param *logical_path         The logical path to calculate stats for.
+# @param *capture_logical_path A boolean value instructing the rule to store *logical_path in temporaryStorage.
+calculate_and_update_important_stats(*comm, *logical_path, *capture_logical_path)
+{
+    if (*capture_logical_path) {
+        temporaryStorage."obj_path" = *logical_path;
+    }
+
+    *username = get_username(*comm);
+    *results = calculate_very_important_stats(*username, temporaryStorage."obj_path");
+    update_stats(*results);
+}
+
+pep_api_replica_open_post(*INSTANCE_NAME, *COMM, *DATA_OBJ_INPUT, *JSON_OUTPUT)
+{
+    calculate_and_update_important_stats(*COMM, *DATA_OBJ_INPUT.obj_path, true);
+
+    # Run logic that is unique to this PEP ...
+}
+
+pep_api_replica_close_post(*INSTANCE_NAME, *COMM, *JSON_INPUT)
+{
+    calculate_and_update_important_stats(*COMM, "", false);
+
+    # Run logic that is unique to this PEP ...
+}
+
+pep_api_data_obj_open_post(*INSTANCE_NAME, *COMM, *DATA_OBJ_INPUT)
+{
+    calculate_and_update_important_stats(*COMM, *DATA_OBJ_INPUT.obj_path, true);
+
+    # Run logic that is unique to this PEP ...
+}
+
+pep_api_data_obj_close_post(*INSTANCE_NAME, *COMM, *OPENED_DATA_OBJ_INPUT)
+{
+    calculate_and_update_important_stats(*COMM, "", false);
+
+    # Run logic that is unique to this PEP ...
+}
+```
+
