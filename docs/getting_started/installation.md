@@ -517,7 +517,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
 
 iRODS can be compiled from source and run from the same directory.  Although this is not recommended for production deployment, it may be useful for testing, running multiple iRODS servers on the same system, running iRODS on systems without a package manager, and users who do not have administrator rights on their system.
 
-In order to build from source, iRODS needs its external dependencies satisfied:
+In order to build from source, iRODS needs its external dependencies satisfied (see [https://github.com/irods/externals](https://github.com/irods/externals) for any platform-specific instructions):
 
 ~~~
 user@hostname:~/ $ export IRODS_EXTERNALS=/tmp/irods-externals
