@@ -32,14 +32,13 @@ First, you'll need to include the correct header. For example:
 #include "irods/irods_logger.hpp"
 ```
 
-Because the library is part of the experimental namespace, you'll likely want to use either a namespace alias or type alias to avoid excessive typing. Here is an example demonstrating use of a type alias.
+Because the library is part of the experimental namespace, you'll likely want to use either a namespace alias or type alias to avoid excessive typing. Here is an example demonstrating use of a namespace alias.
 ```c++
-using log = irods::experimental::log;
+namespace log = irods::experimental::log;
 ```
-You can define the type alias anywhere in the cpp file. Defining an alias like the one presented in a header file is highly discouraged.
 
 !!! NOTE
-    From this point on, we'll refer to `irods::experimental::log` via the type alias, `log`, we just defined.
+    From this point on, we'll refer to `irods::experimental::log` via the namespace alias we just defined.
 
 Now, let's talk about how to invoke the logger.
 
@@ -64,6 +63,7 @@ A category can be a custom tag or one of the pre-defined tags:
 - microservice
 - network
 - rule_engine
+- sql
 
 You'll soon see how to [create your own](#creating-a-new-category).
 
@@ -84,6 +84,7 @@ You'll soon see how to [create your own](#creating-a-new-category).
 - A container holding one or more `log::key_value`'s
     - The container must support begin/end iterators (e.g. `std::vector<log::key_value>`)
 - A format string followed by a list of arguments
+- A format string followed by an invocable object that returns a tuple-like object containing the format arguments
 
 ## Creating a new Category
 
@@ -119,7 +120,7 @@ namespace irods::experimental
         // This defines the name that will appear in the log under the "log_category" key.
         // The "log_category" key defines where the message originated. Try to use a name
         // that makes it easy for administrators to determine what produced the message.
-        static constexpr const char* name = "my_category";
+        static constexpr const char* const name = "my_category";
 
         // This is the current log level for the category. This also represents the initial
         // log level. Use the "set_level()" function to adjust the level.
@@ -134,7 +135,7 @@ namespace irods::experimental
 // 3. Use the logger with the new category
 void example()
 {
-    using log = irods::experimental::log;
+    namespace log = irods::experimental::log;
 
     // Here is the logger with the new category.
     using logger = log::logger<my_category>; 
@@ -157,6 +158,18 @@ void example()
         logger::info({{"key_1", "value_1"},
                       {"key_2", "value_2"},
                       {"key_n", "value_n"}});
+
+        // This form is good for situations where computing a format argument is expensive
+        // and the logger decides to not log the message due to the log level. This form of
+        // logging a message guards against that by only invoking the callable when the
+        // logger is guaranteed to write the message to the log file.
+        //
+        // This call does not require that the return value of the callable object be a
+        // std::tuple. As long as std::get is supported by the return type, the call should
+        // compile.
+        logger::warn("This [{}] was very expensive to compute!", [] {
+            return std::make_tuple("OBJECT");
+        });
     }
     catch (const std::exception& e) {
         // This message uses a format string to construct the log message from one or more
