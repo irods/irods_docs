@@ -192,7 +192,10 @@ In iRODS 4.3.0, log output is managed via **server_config.json**. The server now
 
         // Controls log output related to the iRODS process overseeing all other
         // iRODS processes.
-        "server": "info"
+        "server": "info",
+
+        // Controls log output related to SQL.
+        "sql": "info"
     },
 
     // ... Other configuration properties ...
