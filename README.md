@@ -13,8 +13,8 @@ Prerequisites
 Update for correct version
 --------------------------
 
-- Update Makefile with correct MAKEGITHUBACCOUNT
-- Update Makefile with correct MAKEIRODSVERSION
+- Update Makefile with correct GITHUB_ACCOUNT
+- Update Makefile with correct GIT_COMMITTISH
 - Update build/irods_for_doxygen/Doxyfile with correct PROJECT_NUMBER
 
 Build
@@ -30,6 +30,12 @@ Running the docker image will save artifacts into `$(pwd)/build`:
 
 ```
 $ docker run --rm -v $(pwd):/irods_docs:ro -v $(pwd)/build:/hostcomputer irods_docs_builder
+```
+
+You can generate documentation for a specific build of iRODS by running the following:
+
+```
+$ docker run --rm -v $(pwd):/irods_docs:ro -v $(pwd)/build:/hostcomputer irods_docs_builder GITHUB_ACCOUNT=<account> GIT_COMMITTISH=<branch-or-commit>
 ```
 
 The resulting `build/site` directory will contain the generated standalone documentation.
