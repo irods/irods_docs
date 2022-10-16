@@ -2,8 +2,8 @@
 
 SHELL = /bin/bash
 
-MAKEGITHUBACCOUNT = irods
-MAKEIRODSVERSION = main
+GITHUB_ACCOUNT = irods
+GIT_COMMITTISH = main
 MAKEDOXYGENVERSION = Release_1_9_3
 
 BUILDAREA = /hostcomputer
@@ -19,10 +19,10 @@ default : doxygen mkdocs
 	@rsync -ar --delete doxygen/ ${DOCS_TARGET_DIR}/doxygen/
 
 get_irods :
-	@echo "Getting iRODS source... v[${MAKEIRODSVERSION}]"
+	@echo "Getting iRODS source... v[${GIT_COMMITTISH}]"
 	@if [ -d ${IRODSTARGET} ] ; then rm -rf ${IRODSTARGET} ; fi
-	@git clone https://github.com/${MAKEGITHUBACCOUNT}/irods ${IRODSTARGET}
-	@cd ${IRODSTARGET}; git fetch; git checkout ${MAKEIRODSVERSION}
+	@git clone https://github.com/${GITHUB_ACCOUNT}/irods ${IRODSTARGET}
+	@cd ${IRODSTARGET}; git fetch; git checkout ${GIT_COMMITTISH}
 
 doxygen : get_irods
 	@echo "Generating Doxygen..."
