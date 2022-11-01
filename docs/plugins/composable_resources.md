@@ -216,6 +216,8 @@ Storage resources represent storage interfaces and include the file driver infor
 
 The unixfilesystem storage resource is the default resource type that can communicate with a device through the standard POSIX interface.
 
+#### Minimum Free Space Configuration
+
 A free_space check capability has been added to the unixfilesystem resource in 4.1.10.  The free_space check can be configured with the context string using the following syntax:
 
 ```
@@ -276,6 +278,33 @@ acPostProcForDataCopyReceived(*leaf_resource) {
 }
 ```
 
+#### Detached Mode Configuration
+
+Detached mode was added as a configuration option for UnixFileSystem resources in release 4.3.1.  When detached mode is enabled, any server may serve up requests for the resource as long as all servers share a common mounted vault.
+
+To enable detached mode, the **host_mode** setting in the context string should be set to **detached** as in the following example:
+
+```
+irods@hostname:~/ $ iadmin mkresc detached_resc unixfilesystem hostname.example.org:/common/mount/point "host_mode=detached"
+```
+
+If **host_mode** is not set to **detached**, the unixfilesystem plugin will default to attached mode.
+
+If an administrator wants to restrict the number of hosts that may serve the request, a **host_list** parameter with a comma separated list of hosts may be added to the context string.
+
+```
+irods@hostname:~/ $ iadmin mkresc detached_resc unixfilesystem hostname.example.org:/common/mount/point "host_mode=detached;host_list=host2.example.org,host3.example.org"
+```
+
+The host assigned to the host field for the resource is assumed to be able to serve up any request, so in the above case either hostname, host2, or host3 may serve up the request.
+
+The following are some rules around using detached mode:
+
+1. If host_list does not exist, all hosts are assumed to be able to service requests for the resource.
+2. If host_list exists, only the hosts in either this list or the host in the resource host field will be able to service requests for the resource.
+3. If host_list exists and the client-connected server is not in host_list, the request will be redirected to the host listed in the resource host field as is done in attached mode.
+4. The resource vault path must be identical on every host that services requests for the resource. This vault path must be in a mount to a common filesystem.
+5. Registrations outside the vault are not allowed.  We can't enforce that the path being registered is shared by all hosts that service requests for the resource.
 
 ### Structured File Type (tar, zip, gzip, bzip)
 
