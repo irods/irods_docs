@@ -201,13 +201,6 @@ A passthru resource can have one and only one child.
 
 Nondeterministic behavior will occur if a passthru resource is configured with more than one child.  The plugin will take action on whichever child is returned by the catalog.
 
-### Expected
-
-A few other coordinating resource types have been brainstormed but are not functional at this time:
-
- - Storage Balanced (%-full) (expected)
- - Storage Balanced (bytes) (expected)
-
 ## Storage Resources
 
 Storage resources represent storage interfaces and include the file driver information to talk with different types of storage.
@@ -349,15 +342,6 @@ Example:
 ~~~
 irods@hostname:~/ $ iadmin mkresc myArchiveResc univmss HOSTNAME:/full/path/to/Vault univMSSInterface.sh
 ~~~
-
-### Expected
-
-A few other storage resource types are under development and will be released as additional separate plugins:
-
- - ERDDAP (expected)
- - HDFS (expected)
- - Pydap (expected)
- - TDS (expected)
 
 ## Managing Child Resources
 
