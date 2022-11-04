@@ -91,6 +91,9 @@ a:hover {
 .wy-table thead th, .rst-content table.docutils thead th, .rst-content table.field-list thead th {
     background-color: rgba(24, 188, 156, 0.28);
 }
+.wy-table-responsive table td, .wy-table-responsive table th {
+    white-space: normal;
+}
 .rst-content .section ol p, .rst-content .section ul p {
     margin-bottom: 3px;
 }
