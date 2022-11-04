@@ -195,7 +195,7 @@ The passthru resource was originally designed as a testing mechanism to exercise
 
 2. A passthru resource's contextString can be set to have an effect on its child's votes for both read and/or write.
 
-To create a resource with priority read, use a 'read' weight greater than 1 (note the empty host:path parameter):
+To create a resource with priority read, use a "read" weight greater than 1 (note the empty host:path parameter):
 
 ```
 irods@hostname:~/ $ iadmin mkresc newResc passthru '' 'write=1.0;read=2.0'
@@ -207,10 +207,16 @@ Path:           ""
 Context:        "write=1.0;read=2.0"
 ```
 
-To modify an existing passthru resource to be written to only after other eligible resources, use a 'write' weight less than 1:
+To modify an existing passthru resource to be written to only after other eligible resources, use a "write" weight less than 1:
 
 ```
 irods@hostname:~/ $ iadmin modresc newResc context 'write=0.4;read=1.0'
+```
+
+Setting a "read" or "write" weight to zero will prevent that action from occurring on the branch of the resource tree under the passthru (because a zero vote signals that it cannot service the incoming request).  The following will "turn off" the resource `newResc` (and its sub-tree):
+
+```
+irods@hostname:~/ $ iadmin modresc newResc context 'write=0.0;read=0.0'
 ```
 
 A passthru resource can have one and only one child.
