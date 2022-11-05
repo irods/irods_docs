@@ -43,7 +43,7 @@ This file contains the following top level entries:
 
     - `transfer_chunk_size_for_parallel_transfer_in_megabytes` (required) (default 40)
 
-  - `client_api_whitelist_policy` (default "enforce") - Controls which API operations are accessible to users. If set to "enforce", the server will expose a subset of operations that can be executed by any user. Administrative operations will require rodsadmin level privileges. This option does not apply to rodsadmin users.
+  - `client_api_whitelist_policy` (optional) - Controls which API operations are accessible to users. If set to "enforce", the server will expose a subset of operations that can be executed by any user. Administrative operations will require rodsadmin level privileges. This option does not apply to rodsadmin users. If this property is not defined or is set to a value other than "enforce", all operations will be accessible. This allows administrators to opt into this behavior without breaking the system.
 
   - `default_dir_mode` (required) (default "0750") - The unix filesystem octal mode for a newly created directory within a resource vault
 
