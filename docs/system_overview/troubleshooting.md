@@ -68,9 +68,6 @@ Each line within the log file is formatted as JSON. The following properties are
     // The server component that generated the message (e.g. "rule_engine", "database", "api", etc).
     "log_category": string,
 
-    // This property can be ignored.
-    "log_facility": string,
-
     // The severity of the message.
     //
     // This will be one of the following:
@@ -101,7 +98,10 @@ Each line within the log file is formatted as JSON. The following properties are
     // - agent_factory
     // - agent
     // - delay_server
-    "server_type": string
+    "server_type": string,
+
+    // The name of the zone the server is a member of.
+    "server_zone": string
 }
 ```
 
