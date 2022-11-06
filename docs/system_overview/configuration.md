@@ -35,6 +35,8 @@ This file contains the following top level entries:
 
     - `maximum_size_for_single_buffer_in_megabytes` (required) (default 32)
 
+    - `maximum_size_of_delay_queue_in_bytes` (optional) (default 0) - The maximum number of bytes available to the delay queue. When set to 0, the delay server will use as much memory as it needs to hold queued rules.
+
     - `maximum_temporary_password_lifetime_in_seconds` (required) (default 1000)
     
     - `rule_engine_server_sleep_time_in_seconds` (optional) (default 30) - The number of seconds the rule execution server sleeps before checking the delay queue for rules ready for execution.
