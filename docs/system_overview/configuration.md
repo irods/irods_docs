@@ -20,6 +20,11 @@ This file defines the behavior of the server Agent that answers individual reque
 ```json
 {
     "advanced_settings": {
+        // (Optional)
+        // The number of seconds between runs of the CRON task which ensures that the agent factory is running.
+        // Changing this value requires a server restart in order to take effect.
+        "agent_factory_watcher_sleep_time_in_seconds": 5,
+
         // The number of threads used for parallel transfers.
         "default_number_of_transfer_threads": 4,
 
@@ -43,7 +48,11 @@ This file defines the behavior of the server Agent that answers individual reque
             "shared_memory_size_in_bytes": 5000000,
 
             // The amount of time an entry stays valid before being evicted from the cache.
-            "eviction_age_in_seconds": 3600
+            "eviction_age_in_seconds": 3600,
+
+            // The number of seconds between runs of the CRON task which clears the internal DNS cache.
+            // Changing this value requires a server restart in order to take effect.
+            "cache_clearer_sleep_time_in_seconds": 600
         },
 
         // (Optional)
@@ -53,7 +62,11 @@ This file defines the behavior of the server Agent that answers individual reque
             "shared_memory_size_in_bytes": 2500000,
 
             // The amount of time an entry stays valid before being evicted from the cache.
-            "eviction_age_in_seconds": 3600
+            "eviction_age_in_seconds": 3600,
+
+            // The number of seconds between runs of the CRON task which clears the internal hostname cache.
+            // Changing this value requires a server restart in order to take effect.
+            "cache_clearer_sleep_time_in_seconds": 600
         },
 
         // Defines the maximum data size for single buffer transfers.
@@ -70,12 +83,18 @@ This file defines the behavior of the server Agent that answers individual reque
         "maximum_temporary_password_lifetime_in_seconds": 1000,
 
         // (Optional)
+        // The number of seconds between runs of the CRON task which executes the delay server migration algorithm.
+        // Changing this value requires a server restart in order to take effect.
+        "migrate_delay_server_sleep_time_in_seconds": 5,
+
+        // (Optional)
         // The number of delay rules allowed to execute simultaneously.
         "number_of_concurrent_delay_rule_executors": 4,
 
         // (Optional)
         // The amount of time the stacktrace file processing thread sleeps before files are
         // processed and written to the log file.
+        // Changing this value requires a server restart in order to take effect.
         "stacktrace_file_processor_sleep_time_in_seconds": 10,
 
         // Defines the size of the buffer used for sending and receiving bytes across the network
