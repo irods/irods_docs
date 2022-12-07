@@ -376,6 +376,16 @@ This file defines the behavior of the server Agent that answers individual reque
     "server_control_plane_encryption_num_hash_rounds": 16,
 
     // The amount of time before a control plane operation will timeout.
+    //
+    // The following values are supported:
+    // - 0:    Returns immediately with an EAGAIN error if the message cannot be sent or there is no message to receive.
+    // - -1:   Blocks until the message is sent or a message is available.
+    // - Else: For sending, tries to send the message for that amount of time in milliseconds before returning with an EAGAIN error.
+    //         For receiving, waits for a message for that amount of time in milliseconds before returning with an EAGAIN error.
+    //
+    // For more details, see ZMQ_SNDTIMEO/ZMQ_RCVTIMEO here: http://api.zeromq.org/4-1:zmq-setsockopt
+    //
+    // Changing this value requires a server restart in order to take effect.
     "server_control_plane_timeout_milliseconds": 10000,
 
     // The beginning of the port number range available for parallel transfers.
