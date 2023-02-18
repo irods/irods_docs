@@ -234,7 +234,7 @@ And because of this overlap, the next section still applies.
 
 ## Logging and the rodsLog API
 
-The following environment variables can be set in the service account and require a server restart to take effect (`./irodsctl restart`):
+The following environment variables can be set in the service account or in **server_config.json**. The server must be restarted for the options to take effect (`./irodsctl restart`):
 
 - `spLogLevel=N` - This will send all log messages of `N` or more severe (`1`, or `LOG_SYS_FATAL` is most severe) to the log file. Increasing the log level will increase the number of messages sent to the log file. Setting `spLogLevel` to `8` or more will show the wireline XML packing instructions. This can also be set in the service account's `irods_environment.json` file as `irods_log_level` (and not require a server restart, as each rodsAgent reads this environment file on standup, per incoming iRODS connection).
 
@@ -252,6 +252,21 @@ The following environment variables can be set in the service account and requir
  | LOG_SYS_FATAL   |  1           |
 
 - `spLogSql=1` - This will send the bind variables, the SQL query, and the return values going to and coming from the database to the log file. This needs to be set on the catalog service provider server. Setting this on a catalog service consumer will have no effect.
+
+Below is an example demonstrating how to set these options in **server_config.json**. Notice that the values are strings rather than integers.
+
+```json
+{
+    // ... Other configuration properties ...
+
+    "environment_variables": {
+        "spLogLevel": "8",
+        "spLogSql": "1"
+    },
+
+    // ... Other configuration properties ...
+}
+```
 
 Additionally, client side environment variables will affect all new connections without a server restart:
 
