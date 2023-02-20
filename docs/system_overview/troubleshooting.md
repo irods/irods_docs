@@ -6,7 +6,7 @@ The iRODS server log (rodsLog) is the best place to find a history of what has h
 
 ## Debugging Levels
 
-Some settings within iRODS can be useful when developing for iRODS or when working through diagnosing unexpected server-side behavior.  The following environment variables can be set in the service account and require a server restart to take effect (`./irodsctl restart`):
+Some settings within iRODS can be useful when developing for iRODS or when working through diagnosing unexpected server-side behavior.  The following environment variables can be set in the service account or in `server_config.json`. The server must be restarted for the options to take effect (`./irodsctl restart`):
 
 - `spLogLevel=N` - This will send to the rodsLog all log messages of `N` or more severe (`1`, or `LOG_SYS_FATAL` is most severe).  Increasing the log level will increase the number of messages written to rodsLog.  Setting `spLogLevel` to `8` or more will show the wireline XML packing instructions.  This can also be set in the service account's `irods_environment.json` file as `irods_log_level` (and not require a server restart, as each rodsAgent reads this environment file on standup, per incoming iRODS connection).
 
@@ -24,6 +24,17 @@ Some settings within iRODS can be useful when developing for iRODS or when worki
  | LOG_SYS_FATAL   |  1           |
 
 - `spLogSql=1` - This will send to the rodsLog the bind variables, the SQL query, and the return values going to and coming from the database.  This needs to be set on the iCAT server.  Setting this on a resource server will have no effect.
+
+Below is an example demonstrating how to set these options in `server_config.json`. Notice that the values are strings rather than integers.
+
+```
+{
+    "environment_variables": {
+        "spLogLevel": "8",
+        "spLogSql": "1"
+    }
+}
+```
 
 Additionally, client side environment variables will affect all new connections without a server restart:
 
