@@ -488,3 +488,12 @@ net.ipv4.tcp_keepalive_time = 600
 If you're noticing several log files with a name starting with `psqlodbc_irodsServer_irods` in `/tmp` and the number of files continues to grow as you use iRODS, you need to check `/etc/odbcinst.ini`.
 
 To stop this behavior, set `CommLog` to `0` for each PostgreSQL driver entry.
+
+## Log file frequently reports missing specific query, DataObjInCollReCur, for MySQL
+
+Due to the design of the database schema, this issue cannot be resolved for the iRODS 4.2 series. Administrators must upgrade their deployment to the iRODS 4.3 series and MySQL 8 or later.
+
+After upgrading, if you still see the log messages, add the specific query to the system by running the following command (requires a rodsadmin account):
+```
+iadmin asq 'with COLL as (select coll_id, coll_name from R_COLL_MAIN where R_COLL_MAIN.coll_name = ? or R_COLL_MAIN.coll_name like ?) select distinct d.data_id, (select coll_name from COLL where COLL.coll_id = d.coll_id) coll_name, d.data_name, d.data_repl_num, d.resc_name, d.data_path, d.resc_id from R_DATA_MAIN d where d.coll_id = any(select coll_id from COLL) order by coll_name, d.data_name, d.data_repl_num' DataObjInCollReCur
+```
