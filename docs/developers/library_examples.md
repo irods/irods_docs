@@ -238,7 +238,7 @@ void fetch_resource_information_using_a_general_query(RcComm* conn)
 
     // Don't forget to clean up and release any resources used by the queries.
     clearGenQueryInp(&input);
-    clearGenQueryOut(output);
+    freeGenQueryOut(&output);
 }
 ```
 
@@ -348,7 +348,7 @@ void fetch_information_about_a_collection_using_a_specific_query(RcComm* conn)
 
     // Don't forget to clean up and release any resources used by the queries.
     clearKeyVal(&input.condInput);
-    clearGenQueryOut(output);
+    freeGenQueryOut(&output);
 }
 ```
 
