@@ -64,6 +64,7 @@ Many of these internal types within iRODS have been provided serialization funct
      genQueryInp_t*
      genQueryInp_t*
      char**
+     bytesBuf_t*
 
 ## Dynamic PEP Signatures
 
@@ -112,7 +113,7 @@ becomes:
 
     pep_api_data_obj_put_pre(*INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT)
 
-After `*INSTANCE_NAME`, note the next two types of this signature are serialized by the framework, but the last two are not.  This means that the information within `*COMM` and `*DATAOBJINP` will be available in the rule logic whereas `*BUFFER` and `*PORTAL_OPR_OUT` will explain they are not supported.
+After `*INSTANCE_NAME`, note the next three types of this signature are serialized by the framework, but the last one is not.  This means that the information within `*COMM`, `*DATAOBJINP`, and `*BUFFER` will be available in the rule logic whereas `*PORTAL_OPR_OUT` will explain it is not supported.
 
 An example of the five variables and their resolved values are shown here:
 
@@ -121,7 +122,7 @@ An example of the five variables and their resolved values are shown here:
 <tr><td>*INSTANCE_NAME</td><td>api_instance</td></tr>
 <tr><td>*COMM</td><td>auth_scheme=native++++client_addr=X.X.X.X++++proxy_auth_info_auth_flag=5++++proxy_auth_info_auth_scheme=++++proxy_auth_info_auth_str=++++proxy_auth_info_flag=0++++proxy_auth_info_host=++++proxy_auth_info_ppid=0++++proxy_rods_zone=tempZone++++proxy_sys_uid=0++++proxy_user_name=rods++++proxy_user_other_info_user_comments=++++proxy_user_other_info_user_create=++++proxy_user_other_info_user_info=++++proxy_user_other_info_user_modify=++++proxy_user_type=++++user_auth_info_auth_flag=5++++user_auth_info_auth_scheme=++++user_auth_info_auth_str=++++user_auth_info_flag=0++++user_auth_info_host=++++user_auth_info_ppid=0++++user_rods_zone=tempZone++++user_sys_uid=0++++user_user_name=rods++++user_user_other_info_user_comments=++++user_user_other_info_user_create=++++user_user_other_info_user_info=++++user_user_other_info_user_modify=++++user_user_type=</td></tr>
 <tr><td>*DATAOBJINP</td><td>create_mode=0++++dataIncluded=++++dataType=generic++++data_size=1904++++num_threads=0++++obj_path=/tempZone/home/rods/foo++++offset=0++++open_flags=2++++opr_type=1</td></tr>
-<tr><td>*BUFFER</td><td>[BytesBuf*] not supported</td></tr>
+<tr><td>*BUFFER</td><td>buf=hello\n++++len=6</td></tr>
 <tr><td>*PORTAL_OPR_OUT</td><td>[portalOprOut**] not supported</td></tr>
 </table>
 
