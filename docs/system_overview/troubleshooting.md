@@ -732,3 +732,11 @@ net.ipv4.tcp_keepalive_time = 600
 If you're noticing several log files with a name starting with `psqlodbc_irodsServer_irods` in `/tmp` and the number of files continues to grow as you use iRODS, you need to check `/etc/odbcinst.ini`.
 
 To stop this behavior, set `CommLog` to `0` for each PostgreSQL driver entry.
+
+## Service account ran `iexit` or otherwise is not authenticated
+
+The environment of the service account is the means by which the server communicates with itself, authenticated as the `rodsadmin` iRODS user using the `.irodsA` file. If the iRODS service account does not have an authenticated iRODS client environment, the server will not be able to establish new connections with clients. This can happen if the service account runs `iexit`. Accidentally running `iexit` and breaking the server has been made more difficult in versions 4.2.12 and 4.3.1 of the iCommands because `iexit` now detects if it is being run by the service account. However, it is still possible for the service account to be unauthenticated, so this section should help with restoring servers in this situation.
+
+If the server *has not been* restarted after running `iexit`, `iinit` can be run with the service account `rodsadmin` password, and the service account's iRODS user can authenticate again and things return to normal.
+
+If the server *has been* restarted after running `iexit`, the server will stand up, but new connections cannot be established with it. Regardless, the service account can run `iinit` with the service account `rodsadmin` password. The `.irodsA` file will be generated file again after the connection to the server fails (may take a bit to timeout). The server can then be started again and things will return to normal.
