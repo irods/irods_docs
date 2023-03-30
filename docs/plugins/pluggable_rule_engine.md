@@ -32,31 +32,30 @@ Because the rule engine plugins are just one of many iRODS plugin types, the REP
 }
 ```
 
-Within the rule engine plugin framework, there are dynamically created policy enforcement points that are checked before and after every operation.  These are the "_pre", "_post", "_except", and "_finally" PEPs discussed in [Dynamic Policy Enforcement Points](dynamic_policy_enforcement_points.md).
+Within the REPF, there are dynamically created policy enforcement points that are checked before and after every operation.  These are the "_pre", "_post", "_except", and "_finally" PEPs discussed in [Dynamic Policy Enforcement Points](dynamic_policy_enforcement_points.md).
 
 The framework will look for rules that are defined with the same name as the PEP and execute them if found.  A typical `ils` will trigger over 1200 dynamic PEPs on a basic installation.  Nearly all of them will be undefined (there is no rule that matches their name) and so will not run any code.
 
-However, any that *do* match a particular PEP will be executed in the order in which they are loaded.  If there is only one matching rule, then it will fire and its return code will be interpreted by the REPF.  If it fails, then the operation fails as well and an error is returned to the client (or to the log when run by the [delay execution server](#delay-execution).)
+However, any that *do* match a particular PEP will be executed in the order in which they are loaded.  If a rule is matched, then it will fire and its return code will be interpreted by the REPF.  If it fails, then the operation fails as well and an error is returned to the client (or to the log when run by the [delay execution server](#delay-execution).)
 
-If there is more than one matching rule for a particular PEP, the first one loaded will fire first.  If it succeeds, then the others are ignored.  If the first one fails, then the next matching rule is fired.  If it fails, then the framework will continue to "fall through" until there are no more matching rules.  The return code of the last matching rule will be the one that is returned.
+The REPF can be instructed to do different things based on the code returned from a rule. See the following table:
 
-![Rule Engine Plugin Framework Diagram](../images/rule_engine_plugin_framework_diagram.jpg)
+| Symbolic Code Name         | Code      | Behavior |
+| -------------------------- | --------- | -------- |
+| RULE_ENGINE_CONTINUE       | 5000000   | Allow the next **rule engine plugin** to process the PEP.  This does not apply to rules within the same rule engine plugin. |
+| RULE_ENGINE_SKIP_OPERATION | 5001000   | Do not execute the API operation following the **pre** PEP.  This code is only honored by **pre** PEPs.  If returned from a PEP that isn't a **pre** PEP, the server will log a warning and ignore the instruction. |
+| SYS_NOT_SUPPORTED          | -66000    | Synonymous with RULE_ENGINE_CONTINUE. |
 
-This "fall through" mechanism also applies across rule engine plugins (meaning, across language as well).
+`RULE_ENGINE_CONTINUE` is important for implementing maintainable policy.  It allows rule code to be split across rule engine plugins. Doing this allows policy implementers to separate concerns and focus on smaller chunks of code.  Basic usage is demonstrated in the example below.
 
-There are three scopes where the "fall through" will occur:
-
-- within the framework itself, falling from one plugin to another
-- within a plugin, falling from one rulebase to another
-- within a rulebase, falling from one rule to another
-
-This nested scope defines the order in which identically named rules take precedent on a particular iRODS server.
+`RULE_ENGINE_SKIP_OPERATION` allows policy implementers to skip or replace the behavior of an API operation.  Care must be taken when using this instruction.  The Consortium highly recommends avoiding it unless absolutely necessary.
 
 ### Example
 
-Consider the following `server_config.json` with the accompanying `example.re`, `core.re` and `core.py` rulebases:
+Consider the following `server_config.json` with the accompanying `core.py` and `core.re`.
 
-```
+#### server_config.json
+```json
 {
     "plugin_configuration": {
         "rule_engines": [
@@ -76,7 +75,6 @@ Consider the following `server_config.json` with the accompanying `example.re`, 
                         "core"
                     ],
                     "re_rulebase_set": [
-                        "example",
                         "core"
                     ],
                     "regexes_for_supported_peps": [
@@ -92,33 +90,39 @@ Consider the following `server_config.json` with the accompanying `example.re`, 
 }
 ```
 
+#### core.py
 ```python
-# core.py
+RULE_ENGINE_CONTINUE = 5000000
+
 def pep_resource_close_pre(rule_args, callback, rei):
-    callback.writeLine("serverLog","XXXX - core.py")
+    callback.writeLine("serverLog", "XXXX - core.py")
+
+    # Instruct the REPF to let the next rule engine plugin handle this PEP.
+    # If we remove the line below, the PEP in core.re will not execute.
+    return RULE_ENGINE_CONTINUE
 ```
 
+#### core.re
 ```
-# example.re
-pep_resource_close_pre(*INSTANCE, *CONTEXT, *OUT){
-    writeLine("serverLog","XXXX - example.re")
+RULE_ENGINE_CONTINUE = 5000000;
+
+pep_resource_close_pre(*INSTANCE, *CONTEXT, *OUT) {
+    writeLine("serverLog", "XXXX - core.re - first");
+
+    # Instruct the REPF to let the next rule engine plugin handle this PEP.
+    RULE_ENGINE_CONTINUE;
+}
+
+# This rule will never execute because it shadows the rule above.
+# Only the first rule in the scope of the iRODS Rule Language will execute.
+pep_resource_close_pre(*INSTANCE, *CONTEXT, *OUT) {
+    writeLine("serverLog", "XXXX - core.re - second");
 }
 ```
 
-```
-# core.re
-pep_resource_close_pre(*INSTANCE, *CONTEXT, *OUT){
-    writeLine("serverLog","XXXX - core.re top")
-}
+When `pep_resource_close_pre` is triggered, two of the three implementations for this PEP will execute. The implementation in `core.py` will execute first, followed by the first implementation in `core.re`.
 
-pep_resource_close_pre(*INSTANCE, *CONTEXT, *OUT){
-    writeLine("serverLog","XXXX - core.re bottom")
-}
-```
-
-
-
-
+Remember, the order of the rule engine plugins dictate the order of rule execution.
 
 ## Selecting rule engine via irule
 
