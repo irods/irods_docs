@@ -4,9 +4,9 @@ Rule engine plugins are written in C++, installed on a particular iRODS server, 
 
 The iRODS Consortium currently supports the following rule engine plugins:
 
- - [Legacy iRODS Rule Language Rule Engine Plugin](https://github.com/irods/irods/tree/master/plugins/rule_engines/irods_rule_engine_plugin-irods_rule_language)
+ - [Legacy iRODS Rule Language Rule Engine Plugin](https://github.com/irods/irods/tree/4-2-stable/plugins/rule_engines/irods_rule_engine_plugin-irods_rule_language)
  - [Python Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_python)
- - [C++ Default Policy Rule Engine Plugin](https://github.com/irods/irods/tree/master/plugins/rule_engines/irods_rule_engine_plugin-cpp_default_policy)
+ - [C++ Default Policy Rule Engine Plugin](https://github.com/irods/irods/blob/4-2-stable/plugins/rule_engines/irods_rule_engine_plugin-cpp_default_policy/libirods_rule_engine_plugin-cpp_default_policy.cpp)
  - [C++ Audit (AMQP) Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_audit_amqp)
  - [C++ Hard Links Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_hard_links)
  - [C++ Logical Quotas Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_logical_quotas)
