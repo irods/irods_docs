@@ -129,17 +129,15 @@ Remember, the order of the rule engine plugins dictate the order of rule executi
 
 ## Selecting rule engine via irule
 
-With the addition of rule engine plugins, `irule` now has a way to specify which rule engine should be running
-any submitted code snippet.
+With the addition of rule engine plugins, `irule` now has a way to specify which rule engine should be running any submitted code snippet.
 
-By default, `irule` will submit its code snippet (or named rulefile) to the rule engine plugin listed first
-in the "rule_engines" array of `server_config.json`.
-
-To specify a particular other instance of rule engine plugin, `irule` must use the `-r` flag:
+To specify a particular instance of rule engine plugin, `irule` must use the `-r` flag:
 
 ```
 $ irule -r irods_rule_engine_plugin-irods_rule_language-instance -F myrulefile.r
 ```
+
+If you run `irule` without specifying a rule engine plugin instance, the rule code will be run against all rule engines defined in the `rule_engines` stanza of `server_config.json`. This can result in the server's log file becoming very noisy. Therefore, it is considered best practice to always specify a rule engine plugin instance.
 
 To see the available instance names on the connected server:
 
