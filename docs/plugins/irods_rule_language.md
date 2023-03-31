@@ -7,19 +7,16 @@ to allow complex policies or actions to be defined.
 Everything is a rule in the iRODS Rule Language. A typical rule looks like:
 
 ~~~
-acPostProcForPut {
-  on($objPath like "*.txt") {
-    msiDataObjCopy($objPath,"$objPath.copy");
+pep_api_data_obj_put_post(*INSTANCE_NAME, *COMM, *DATAOBJINP, *BUFFER, *PORTAL_OPR_OUT) {
+  *logical_path = *DATAOBJINP.obj_path;
+
+  if (*logical_path like "*.txt") {
+    msiDataObjCopy(*logical_path, "*logical_path.copy", "", *ec);
   }
 }
 ~~~
 
-In this rule, the rule name `acPostProcForPut` is an
-event hook defined in iRODS. iRODS automatically applies this rule when
-certain events are triggered. The `on(...)` clause is a rule condition. The
-`{...}` block following the rule condition is a sequence of actions that is
-executed if the rule condition is true when the rule is applied. And the
-customary hello world rule looks like:
+In this rule, the rule name `pep_api_data_obj_put_post` is an event hook defined in iRODS. iRODS automatically applies this rule when certain events are triggered. The `{...}` block is a sequence of actions that is executed when the rule is applied. And the customary hello world rule looks like:
 
 ~~~
 HelloWorld {
