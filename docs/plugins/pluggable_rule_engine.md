@@ -214,7 +214,7 @@ delay("hints") {
 This example will queue the chain of microservices to begin in 1 minute and repeat every 20 minutes forever:
 
 ~~~c
-delay("<PLUSET>1m</PLUSET><EF>20m</EF>") {
+delay("<PLUSET>1m</PLUSET><EF>20m</EF><INST_NAME>irods_rule_engine_plugin-irods_rule_language-instance</INST_NAME>") {
     writeLine("serverLog", " -- Delayed Execution");
 }
 ~~~
@@ -229,7 +229,7 @@ A microservice chain can be executed on a remote iRODS server. This gives the fl
 The `remote` microservice is invoked with the following syntax:
 
 ~~~c
-remote("host","hints") {
+remote("host", "hints") {
         microservice-chain_part1;
         microservice-chain_part2;
         microservice-chain_part3;
@@ -252,7 +252,7 @@ remote("host","hints") {
 This example will execute the chain of microservices on the host "resource.example.org" in the local Zone:
 
 ~~~c
-remote("resource.example.org","") {
+remote("resource.example.org", "<INST_NAME>irods_rule_engine_plugin-irods_rule_language-instance</INST_NAME>") {
     writeLine("serverLog", " -- Remote Execution in Local Zone");
 }
 ~~~
@@ -260,7 +260,7 @@ remote("resource.example.org","") {
 This example will execute the chain of microservices on the host "farawayicat.example.org" in the remote Zone named "DifferentZone":
 
 ~~~c
-remote("farawayicat.example.org","<ZONE>DifferentZone</ZONE>") {
+remote("farawayicat.example.org", "<ZONE>DifferentZone</ZONE><INST_NAME>irods_rule_engine_plugin-irods_rule_language-instance</INST_NAME>") {
     writeLine("serverLog", " -- Remote Zone Execution");
 }
 ~~~
