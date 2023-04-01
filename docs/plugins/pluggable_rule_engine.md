@@ -98,7 +98,10 @@ def pep_resource_close_pre(rule_args, callback, rei):
     callback.writeLine("serverLog", "XXXX - core.py")
 
     # Instruct the REPF to let the next rule engine plugin handle this PEP.
-    # If we remove the line below, the PEP in core.re will not execute.
+    # If we remove the line below, neither matching PEP in core.re will execute.
+    # If an error occurs before reaching the line below, processing stops and the
+    # error is returned to the client. No other rule engines will be allowed to
+    # process this PEP.
     return RULE_ENGINE_CONTINUE
 ```
 
