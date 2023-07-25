@@ -705,6 +705,26 @@ This technique should only be used to dig out of this serious situation or for t
 
 iRODS 4.2 and prior have three different ways to move data: single-buffer, streaming, and parallel transfer.  Both single-buffer and streaming transfers are on port 1247 and never have an idle connection.  The parallel transfer method connects on port 1247, constructs a portal of high ports, and then moves data over those high ports.  Once the transfer is complete, control returns to port 1247 for the connection cleanup and bookkeeping.  If the transfer takes long enough, local network firewall timeouts may be tripped and the initial port 1247 connection may be severed.
 
+### iRODS 4.3.1 and later
+To prevent the connection on port 1247 from being severed, users can lower the keepalive time for iRODS connections to make sure the connection remains active. This will only affect TCP connections with iRODS.
+
+3 configuration options have been added to the client environment (`irods_environment.json`):
+ - `irods_tcp_keepalive_intvl_in_seconds`: Sets the `TCP_KEEPINTVL` TCP socket option. Defaults to 75 seconds in the kernel.
+ - `irods_tcp_keepalive_probes`: Sets the `TCP_KEEPCNT` TCP socket option. Defaults to 9 in the kernel.
+ - `irods_tcp_keepalive_time_in_seconds`: Sets the `TCP_KEEPIDLE` TCP socket option. Defaults to 7200 in the kernel.
+
+Using kernel default values, a connection would be left idle for 7200 seconds (2 hours) before sending up to 9 keepalive probes once every 75 seconds. Once the 75 second interval has passed after the 9th probe has been sent (totaling about 11 minutes), the connection will be killed.
+
+Setting values for these configuration options in the `irods_environment.json` file for the iRODS service account will set the TCP keepalive options for sockets used in server-to-server communications. Setting values for these configuration options in the `irods_environment.json` file for any other connected user would set the TCP keepalive options for sockets used in client-to-server communications.
+
+These can also be set using environment variables as with any other client environment configuration value with non-negative integers for values:
+ - `IRODS_TCP_KEEPALIVE_INTVL_IN_SECONDS`
+ - `IRODS_TCP_KEEPALIVE_PROBES`
+ - `IRODS_TCP_KEEPALIVE_TIME_IN_SECONDS`
+
+Drop the value of `irods_tcp_keepalive_time_in_seconds` to some value less than the firewall timeout configured for the host in order to prevent the connection being killed.
+
+### Prior to iRODS 4.3.1
 To prevent the connection on port 1247 from being severed, the administrator can lower the `tcp_keepalive_time` kernel setting to make sure the connection remains active.  Note that this setting will affect every TCP connection on that machine.
 
 Reference: [https://tldp.org/HOWTO/html_single/TCP-Keepalive-HOWTO/#usingkeepalive](https://tldp.org/HOWTO/html_single/TCP-Keepalive-HOWTO/#usingkeepalive)
