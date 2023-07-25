@@ -646,6 +646,53 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     "irods_ssl_dh_params_file": "",
 
     // (Optional)
+    // The number of seconds between TCP keep-alive probes. The default value in the TCP specification is 75. For more
+    // details, see:
+    //  - man tcp
+    //  - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    //
+    // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPINTVL will remain unset.
+    // This means that the value of tcp_keepalive_intvl in use for the kernel configuration will be used for iRODS
+    // sockets using TCP keepalive. The range of acceptable values is defined by the range of acceptable values for the
+    // TCP_KEEPINTVL option. If a value outside of the acceptable range is provided, an error will be returned and the
+    // socket will be closed. If a non-positive value is used, the option will be considered not set.
+    //
+    // The default value used in the iRODS environment is -1 to indicate that the socket option should remain unset.
+    "irods_tcp_keepalive_intvl_in_seconds": -1,
+
+    // (Optional)
+    // The maximum number of TCP keep-alive probes to send before giving up and killing the connection if no response is
+    // obtained from the other end. The default value in the TCP specification is 9. For more details, see:
+    //  - man tcp
+    //  - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    //
+    // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPCNT will remain unset.
+    // This means that the value of tcp_keepalive_probes in use for the kernel configuration will be used for iRODS
+    // sockets using TCP keepalive. The range of acceptable values is defined by the range of acceptable values for the
+    // TCP_KEEPCNT option. If a value outside of the acceptable range is provided, an error will be returned and the
+    // socket will be closed.
+    //
+    // The default value used in the iRODS environment is -1 to indicate that the socket option should remain unset.
+    "irods_tcp_keepalive_probes": -1,
+
+    // (Optional)
+    // The number of seconds a connection needs to be idle before TCP begins sending out keep-alive probes. The default
+    // value in the TCP specification is 7200 seconds (2 hours). An idle connection is terminated after approximately an
+    // additional 11 minutes (9 probes at an interval of 75 seconds apart) when keep-alive is enabled. For more details,
+    // see:
+    //  - man tcp
+    //  - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    //
+    // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPIDLE will remain unset.
+    // This means that the value of tcp_keepalive_time in use for the kernel configuration will be used for iRODS
+    // sockets using TCP keepalive. The range of acceptable values is defined by the range of acceptable values for the
+    // TCP_KEEPIDLE option. If a value outside of the acceptable range is provided, an error will be returned and the
+    // socket will be closed.
+    //
+    // The default value used in the iRODS environment is -1 to indicate that the socket option should remain unset.
+    "irods_tcp_keepalive_time_in_seconds": -1,
+
+    // (Optional)
     // Defines the size of the buffer used for sending and receiving bytes across the network
     // during parallel transfer. Clients and servers within the same zone must use the same value.
     "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
