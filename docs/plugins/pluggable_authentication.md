@@ -216,15 +216,6 @@ Since PAM requires the user's password in plaintext, iRODS relies on SSL encrypt
 
 In order to use the iRODS PAM support, you also need to have SSL working between the iRODS client and server. The SSL communication between client and iRODS server needs some basic setup in order to function properly. Much of the setup concerns getting a proper X.509 certificate setup on the server side, and setting up the trust for the server certificate on the client side. You can use either a self-signed certificate (best for testing) or a certificate from a trusted CA.
 
-### Server Configuration
-
-The following keywords are used to set values for PAM server configuration.  These were previously defined as compile-time options.  They are now configurable via the `/etc/irods/server_config.json` configuration file.  The default values have been preserved.
-
-- pam_password_length
-- pam_no_extend
-- pam_password_min_time
-- pam_password_max_time
-
 ### Server SSL Setup
 
 Here are the basic steps to configure the server:

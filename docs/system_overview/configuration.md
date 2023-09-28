@@ -863,3 +863,63 @@ servers involved in the data transfer will honor the evaluation by the initially
 # Special Characters
 
 The default setting for 'standard_conforming_strings' in PostgreSQL 9.1+ was changed to 'on'.  Non-standard characters in iRODS Object names will require this setting to be changed to 'off'.  Without the correct setting, this may generate a USER_INPUT_PATH_ERROR error.
+
+# Authentication Configuration
+
+As of iRODS 4.3.1, authentication settings are now configured through rows in the `R_GRID_CONFIGURATION` table in the iRODS Catalog.
+
+## History (pre-4.3.1 configuration)
+
+Historically, authentication configuration had been limited to the PAM authentication scheme (now known as the `pam_password` authentication scheme). These settings were configured through `server_config.json` like this (default values are shown):
+```json
+{
+	"plugin_configuration": {
+		"authentication": {
+			"pam_password": {
+				"no_extend": false,
+				"password_length": 20,
+				"password_max_time": 1209600,
+				"password_min_time": 121
+			}
+		},
+	}
+}
+```
+The configuration is tied to the server on which the `server_config.json` file exists. The configuration is also named for PAM/`pam_password` authentication even though the configuration values are also used for `native` authentication's time-to-live (TTL) option. For PAM authentication, having the settings tied to a particular server is not a problem because PAM authentication requires redirecting to the catalog service provider.
+
+On upgrade to 4.3.1, the values which exist in `server_config.json` are inserted into `R_GRID_CONFIGURATION`. The configurations apply to authentication zone-wide.
+
+The `password_length` configuration has been removed in 4.3.1. The configuration was used to determine the maximum length of the randomly generated password for PAM authentication scheme users. The randomly generated password is now a fixed length.
+
+## Configuration Overview
+
+`native` and `pam_password` authentication configurations can be managed in `R_GRID_CONFIGURATION` with options in the `authentication` namespace. Here are the supported `option_name`s and values:
+
+#### `password_max_time`
+
+The maximum TTL of a randomly generated password in seconds. If a user attempts to authenticate with a TTL value that is greater than `password_max_time`, the TTL is determined to be invalid and an error is returned. If `password_max_time` is configured to a value less than `password_min_time` no passed-in TTL value will satisfy the system. Accepted values: [0..18446744073709552000). If a value outside of the acceptable range is used, a warning message will be logged for the administrator and the default value will be used. The default value is 1209600 (336 hours, or 2 weeks).
+
+#### `password_min_time`
+
+The minimum TTL of a randomly generated password in seconds. If a user attempts to authenticate with a TTL value that is less than `password_min_time`, the TTL is determined to be invalid and an error is returned. If `password_min_time` is configured to a value greater than `password_max_time` no passed-in TTL value will satisfy the system. Accepted values: [0..18446744073709552000). If a value outside of the acceptable range is used, a warning message will be logged for the administrator and the default value will be used. The default value is 121.
+
+#### `password_extend_lifetime`
+
+Determines whether to extend the lifetime of the user's randomly generated password when re-authenticating by updating its expiration time. For instance, if a user authenticates and a randomly generated password already exists for the user in the database, the existing password will simply have its lifetime extended and the user will not need to re-authenticate for the full TTL. Accepted values: '0' or '1'. '1' means that the expiration time for the existing random password will be updated each time a user re-authenticates with iRODS. '0' means that the expiration time for the existing random password will not be updated when a user re-authenticates with iRODS. The default value is '1'.
+
+**NOTE:** This configuration is not used with `native` authentication.
+
+## Configuring authentication in `R_GRID_CONFIGURATION`
+
+`R_GRID_CONFIGURATION` can be modified through the `iadmin` subcommand `set_grid_configuration`. The current value can be queried using the `iadmin` subcommand `get_grid_configuration`.
+
+Here is an example of getting the configuration for the `password_max_time`, modifying the value, and checking to see that it updated correctly:
+```bash
+$ iadmin get_grid_configuration authentication password_max_time
+1209600
+$ iadmin set_grid_configuration authentication password_max_time 3600
+$ iadmin get_grid_configuration authentication password_max_time
+3600
+```
+
+See [set_grid_configuration](../../icommands/administrator/#set_grid_configuration) and [get_grid_configuration](../../icommands/administrator/#get_grid_configuration) for more details about these subcommands.
