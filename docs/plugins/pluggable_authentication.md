@@ -6,97 +6,6 @@ By default, iRODS uses a secure password system for user authentication.  The us
 
 The iRODS administrator can 'force' a particular authentication scheme for a rodsuser by 'blanking' the native password for the rodsuser.  There is currently no way to signal to a particular login attempt that it is using an incorrect scheme ([GitHub Issue #2005](https://github.com/irods/irods/issues/2005)).
 
-## Kerberos
-
-Kerberos setup in iRODS 4.0+ has been greatly simplified.  The functionality itself is provided by the [Kerberos authentication plugin](https://github.com/irods/irods_auth_plugin_kerberos).
-
-### Kerberos Configuration
-
-Configuration of a Kerberos server for authentication is out of scope for this document, but consists of the following four main steps:
-
-1. Set up Kerberos (Key Distribution Center (KDC) and Kerberos Admin Server)
-2. Confirm the (default) irods service account has a service principal in KDC (with the hostname of the rodsServer) (e.g. irodsserver/serverhost.example.org@EXAMPLE.ORG)
-3. Confirm the local system account for client "newuser" has principal in KDC (e.g. newuser@EXAMPLE.ORG)
-4. Create an appropriate keytab entry (adding to an existing file or creating a new one)
-
-A new keytab file can be created with the following command:
-
-~~~
-kadmin ktadd -k /var/lib/irods/irods.keytab irodsserver/serverhost.example.org@EXAMPLE.ORG
-~~~
-
-### iRODS Configuration
-
-Configuring iRODS to authenticate via Kerberos requires a few simple steps.
-
-First, if Kerberos is being configured for a new user, the new user must be created:
-
-~~~
-iadmin mkuser newuser rodsuser
-~~~
-
-Then that user must be configured so its principal matches the KDC:
-
-~~~
-iadmin aua newuser newuser@EXAMPLE.ORG
-~~~
-
-The `/etc/irods/server_config.json` must be updated to include:
-
-~~~
-"KerberosServicePrincipal": "irodsserver/serverhost.example.org@EXAMPLE.ORG",
-"KerberosKeytab": "/var/lib/irods/irods.keytab",
-~~~
-
-An `/etc/irods/server_config.json` environment variable must also be included to point the GSS API to the keytab mentioned above:
-
-~~~
-"environment_variables": {
-    "KRB5_KTNAME": "/var/lib/irods/irods.keytab"
-},
-~~~
-
-On the client side, the user's 'irods_authentication_scheme' must be set to 'KRB'.  This can be configured via an `irods_environment.json` property:
-
-~~~
-"irods_authentication_scheme": "KRB",
-~~~
-
-Then, to initialize the Kerberos session ticket and authenticate:
-
-~~~
-kinit
-~~~
-
-### Limitations
-
-The iRODS administrator will see two limitations when using Kerberos authentication:
-
-1. The 'clientUserName' environment variable will fail (the admin cannot alias as another user)
-2. The `iadmin moduser password` will fail (cannot update the user's password)
-
-The workaround is to use iRODS native authentication when using these.
-
-`ipasswd` for rodsusers will also fail, but it is not an issue as it would be trying to update their (unused) iRODS native password.  They should not be updating their Kerberos passwords via iCommands.
-
-### Weak Encryption Workaround
-
-If you are seeing either of the errors `GSS-API error initializing context: KDC has no support for encryption type` or `KRB_ERROR_INIT_SECURITY_CONTEXT` when setting up Kerberos, then you probably have an available cypher mismatch between the Kerberos server and the Active Directory (AD) server.  This is not an iRODS setting, and can be addressed in the Kerberos configuration.
-
-The MIT Key Distribution Center (KDC) uses the most secure encoding type when sending the ticket to the AD server. When the AD server is unable to handle that encoding, it replies with the error that the encryption type is not supported.
-
-To override this mismatch and allow a weaker algorithm to be sufficient, set `allow_weak_crypto = yes` in the `libdefaults` stanza of `/etc/krb5.conf`:
-
-~~~
-$ head /etc/krb5.conf
-[libdefaults]
-        default_realm = EXAMPLE.ORG
-        allow_weak_crypto = yes
-...
-~~~
-
-This will allow the Kerberos handshake to succeed, which allows the iRODS connection to continue.
-
 ## PAM (Pluggable Authentication Module)
 
 ### User Setup
@@ -109,7 +18,7 @@ irods@hostname:~/ $ iadmin mkuser newuser rodsuser
 
 If the user's credentials will be exclusively authenticated with PAM, a password need not be assigned.
 
-For PAM Authentication, the iRODS user selects the new iRODS PAM authentication choice (instead of Native, or Kerberos) via an `irods_environment.json` property:
+For PAM Authentication, the iRODS user selects the new iRODS PAM authentication choice (instead of Native) via an `irods_environment.json` property:
 
 ~~~
 "irods_authentication_scheme": "pam_password",

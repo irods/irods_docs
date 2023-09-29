@@ -17,7 +17,7 @@ An Application Programming Interface (API) is a piece of software's set of defin
 
 ## Authentication Mechanisms
 
-iRODS can employ various mechanisms to verify user identity and control access to Data Objects (iRODS files), Collections, etc.  These currently include the default iRODS secure password mechanism (challenge-response), Grid Security Infrastructure (GSI), and Kerberos.
+iRODS can employ various mechanisms to verify user identity and control access to Data Objects (iRODS files), Collections, etc.  These currently include the default iRODS secure password mechanism (challenge-response) and PAM (Pluggable Authentication Modules) passwords.
 
 ## Audit Trail
 
