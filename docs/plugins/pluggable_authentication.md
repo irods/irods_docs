@@ -2,70 +2,9 @@
 
 The authentication methods are now contained in plugins.  By default, similar to iRODS 3.3 and prior, iRODS comes with native iRODS challenge/response (password) enabled.  However, enabling an additional authentication mechanism is as simple as adding a file to the proper directory.  The server does not need to be restarted.
 
-By default, iRODS uses a secure password system for user authentication.  The user passwords are scrambled and stored in the iCAT database.  Additionally, iRODS supports user authentication via PAM (Pluggable Authentication Modules), which can be configured to support many things, including the LDAP or Active Directory (AD) authentication systems.  GSI and Kerberos are also available.  PAM and SSL have been configured 'available' out of the box with iRODS, but there is still some setup required to configure an installation to communicate with your external authentication server of choice.
+By default, iRODS uses a secure password system for user authentication.  The user passwords are scrambled and stored in the iCAT database.  Additionally, iRODS supports user authentication via PAM (Pluggable Authentication Modules), which can be configured to support many things, including the LDAP or Active Directory (AD) authentication systems.  PAM and SSL have been configured 'available' out of the box with iRODS, but there is still some setup required to configure an installation to communicate with your external authentication server of choice.
 
 The iRODS administrator can 'force' a particular authentication scheme for a rodsuser by 'blanking' the native password for the rodsuser.  There is currently no way to signal to a particular login attempt that it is using an incorrect scheme ([GitHub Issue #2005](https://github.com/irods/irods/issues/2005)).
-
-## GSI (Grid Security Infrastructure)
-
-The functionality for GSI authentication in iRODS is provided by the [GSI authentication plugin](https://github.com/irods/irods_auth_plugin_gsi).
-
-### GSI Configuration
-
-Configuration of GSI is out of scope for this document, but consists of the following three main steps:
-
-1. Install GSI (most easily done via package manager)
-2. Confirm the (default) irods service account has a certificate in good standing (signed)
-3. Confirm the local system account for client "newuser" has a certificate in good standing (signed)
-
-!!! Note
-    Once installed, the `X509_USER_CERT` and `X509_USER_KEY` are necessary to be set for the service **even if** the default paths are used. (i.e. /etc/grid-security/service/servicekey(cert).pem)
-
-### iRODS Configuration
-
-Configuring iRODS to authenticate via GSI requires a few simple steps.
-
-First, if GSI is being configured for a new user, it must be created:
-
-~~~
-iadmin mkuser newuser rodsuser
-~~~
-
-Then that user must be configured so its Distinguished Name (DN) matches its certificate:
-
-~~~
-iadmin aua newuser '/DC=org/DC=example/O=Example/OU=People/CN=New User/CN=UID:drexample'
-~~~
-
-!!! Note
-    The comma characters (,) in the Distinguished Name (DN) must be replaced with forward slash characters (/).
-
-On the client side, the user's 'irods_authentication_scheme' must be set to 'GSI'.  This can be configured via an `irods_environment.json` property:
-
-~~~
-"irods_authentication_scheme": "GSI",
-~~~
-
-Then, to authenticate with a temporary proxy certificate:
-
-~~~
-grid-proxy-init
-~~~
-
-This will prompt for the user's GSI password.  If the user is successfully authenticated, temporary certificates are issued and setup in the user's environment.  The certificates are good, by default, for 24 hours.
-
-In addition, if users want to authenticate the server, they can set 'irods_gsi_server_dn' in their user environment. This will cause the system to do mutual authentication instead of just authenticating the client user to the server.
-
-### Limitations
-
-The iRODS administrator will see two limitations when using GSI authentication:
-
-1. The 'client_user_name' environment variable will fail (the admin cannot alias as another user)
-2. The `iadmin moduser password` will fail (cannot update the user's password)
-
-The workaround is to use iRODS native authentication when using these.
-
-`ipasswd` for rodsusers will also fail, but it is not an issue as it would be trying to update their (unused) iRODS native password.  They should not be updating their GSI passwords via iCommands.
 
 ## Kerberos
 

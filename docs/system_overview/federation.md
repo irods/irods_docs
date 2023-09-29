@@ -115,9 +115,7 @@ When a client connects to a consumer server and then authenticates, the consumer
 
 This allows the consumer servers to verify the identity of the provider server beyond just relying on DNS.
 
-Mutual authentication between servers is always on.  Note that this applies to iRODS passwords and PAM, and some other interactions, but not GSI or Kerberos.
-
-For GSI, users can set the `irodsServerDn` variable to do mutual authentication.
+Mutual authentication between servers is always on.
 
 ### Between Two Zones
 
