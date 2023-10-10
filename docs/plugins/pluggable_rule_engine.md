@@ -13,7 +13,7 @@ The iRODS Consortium currently supports the following rule engine plugins:
  - [C++ Logical Quotas Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_logical_quotas)
  - [C++ Metadata Guard Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_metadata_guard)
  - [C++ Storage Tiering Rule Engine Plugin](https://github.com/irods/irods_capability_storage_tiering)
-
+ - [C++ Indexing Rule Engine Plugin](https://github.com/irods/irods_capability_indexing)
 
 
 ## Rule Engine Plugin Framework
