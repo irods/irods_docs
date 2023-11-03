@@ -290,7 +290,8 @@ Below you'll find examples showing what the input file might contain for a [Cata
             "network": "info",
             "resource": "info",
             "rule_engine": "info",
-            "server": "info"
+            "server": "info",
+            "sql": "info"
         },
         "match_hash_policy": "compatible",
         "negotiation_key": "32_byte_server_negotiation_key__",
@@ -453,7 +454,8 @@ Below you'll find examples showing what the input file might contain for a [Cata
             "network": "info",
             "resource": "info",
             "rule_engine": "info",
-            "server": "info"
+            "server": "info",
+            "sql": "info"
         },
         "match_hash_policy": "compatible",
         "negotiation_key": "32_byte_server_negotiation_key__",
