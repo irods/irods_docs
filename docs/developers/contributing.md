@@ -38,7 +38,7 @@ will correctly link the commit to the issue in question once the # sign is added
 
     When local development is ready for some review from others, push your local branch to your fork
 at github.com.  On the github.com website, create a pull request to the appropriate upstream branch.
-Name the pull request with a suffix of " (master)" or " (4-2-stable)" to help the reviewers distinguish
+Name the pull request with a suffix of " (main)" or " (4-3-stable)" to help the reviewers distinguish
 between similar pull requests to different branches (in the case of cherry-picks).
 
 5. Go through code review
