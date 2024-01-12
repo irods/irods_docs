@@ -39,7 +39,9 @@ auth        required      pam_deny.so
 
 For more information on the syntax of the pam.d configuration please refer to [The Linux Documentation Project](http://tldp.org/HOWTO/User-Authentication-HOWTO/x115.html)
 
-A quick test for the basic authentication mechanism for PAM is to run the `/usr/sbin/irodsPamAuthCheck` tool. irodsPamAuthCheck takes one argument (the username to check) and then reads the password from stdin (without any prompting).
+### Testing basic authentication with irodsPamAuthCheck
+
+A quick test for the basic authentication mechanism for PAM is to run the `/usr/sbin/irodsPamAuthCheck` tool. irodsPamAuthCheck takes one argument (the username to check) and then reads the password from stdin (without any prompting). Please note that this checks only for **basic authentication**, not **authorization**.
 
 ```
 $ /usr/sbin/irodsPamAuthCheck bob
@@ -49,6 +51,22 @@ $
 ```
 
 If irodsPamAuthCheck returns `Not Authenticated`, that suggests that PAM is not set up correctly. You will need to configure PAM correctly (and therefore get irodsPamAuthCheck returning Authenticated) before using PAM through iRODS.
+
+The tool takes the very first argument provided and assumes that it is the username to authenticate. If *any* argument is provided -- including `bash`-style hyphenated options such as `-h` -- that argument will be taken to mean the username to authenticate. Once executed, the tool awaits input on stdin and expects the user's PAM password to be supplied. There is no prompt for the user's password, so the program will appear to be hung until some text is entered and return/enter is pressed.
+
+If any additional argument is passed after the username argument, the tool enters "debug" mode and prints extra messages to the output. The output below demonstrates what this looks like when the string "debug" is supplied as an additional argument:
+```bash
+$ irodsPamAuthCheck bob debug
+asdfasdf
+password bytes: 8
+retval_pam_start: 0
+null_conv: num_msg: 1
+  null_conv: msg index: 0
+    null_conv: msg_style: 1 -> PAM_PROMPT_ECHO_OFF
+    null_conv: msg: Password: 
+retval_pam_authenticate: 0
+Authenticated
+```
 
 A simple way to check that you are using irodsPamAuthCheck correctly, and that it is the PAM settings that need updated, is to create a fully permissive PAM setup with the following command.
 
@@ -60,11 +78,11 @@ This will allow any username/password combination to successfully authenticate w
 
 With the permissive configuration working with irodsPamAuthCheck, the next step is to adjust your PAM configuration to your desired settings (LDAP, in this case). You will know that is correct when irodsPamAuthCheck behaves as you would expect when using LDAP username/passwords. iRODS uses irodsPamAuthCheck directly, so if it is working on the command line, it should work when run by iRODS.
 
+### Server SSL Setup
+
 Since PAM requires the user's password in plaintext, iRODS relies on SSL encryption to protect these credentials.  PAM authentication makes use of SSL regardless of the iRODS Zone SSL configuration (meaning even if iRODS explicitly does *not* encrypt data traffic, PAM will use SSL during authentication).
 
 In order to use the iRODS PAM support, you also need to have SSL working between the iRODS client and server. The SSL communication between client and iRODS server needs some basic setup in order to function properly. Much of the setup concerns getting a proper X.509 certificate setup on the server side, and setting up the trust for the server certificate on the client side. You can use either a self-signed certificate (best for testing) or a certificate from a trusted CA.
-
-### Server SSL Setup
 
 Here are the basic steps to configure the server:
 
