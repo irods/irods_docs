@@ -204,8 +204,9 @@ If the destination resource has no replica, replication to the destination resou
 If the destination resource has an existing replica, replication would be performing a **replica update**. The following requirements must be true in order for updating the replica to be *allowed*:
 
 - The destination resource must not be the source resource
-- The destination replica must be stale
 - The source replica must be good
+
+In the case where the destination resource is the source resource, this does not necessarily imply an error. The only requirement is that data movement shall not occur in this case.
 
 In the following cases, ‘X’ represents a stale replica, ‘&’ represents a good replica, and ‘-’ indicates a replica which does not exist. This table shows the initial state of the replica on the source and destination resources, the resulting replica state on the destination resource, and the reason for the result.
 
@@ -215,10 +216,10 @@ In the following cases, ‘X’ represents a stale replica, ‘&’ represents a
 | 1 | - | & | unchanged | No source replica exists |
 | 2 | - | X | unchanged | No source replica exists |
 | 3 | & | - | & | Replication allowed |
-| 4 | & | & | unchanged | Destination replica must be stale |
+| 4 | & | & | & | Replication allowed |
 | 5 | & | X | & | Replication allowed |
 | 6 | X | - | X | Replication allowed |
-| 7 | X | & | unchanged | Destination replica must be stale |
+| 7 | X | & | unchanged | Source replica must be good |
 | 8 | X | X | unchanged | Source replica must be good |
 
 ### Phymv
