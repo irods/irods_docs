@@ -305,6 +305,47 @@ The following are some rules around using detached mode:
 4. The resource vault path must be identical on every host that services requests for the resource. This vault path must be in a mount to a common filesystem.
 5. Registrations outside the vault are not allowed.  We can't enforce that the path being registered is shared by all hosts that service requests for the resource.
 
+#### UnixFileSystem Resource Voting
+
+This resource returns vote values based on the type of operation.
+
+For a "create" operation, the following criteria are considered *in order*:
+
+1. If the resource is marked "down", a `SYS_RESC_IS_DOWN` error is returned. The vote value is 0.0.
+2. If the size of the data to be created exceeds the configured minimum required free space on the resource, a `USER_FILE_TOO_LARGE` error is returned. The vote value is 0.0. 
+3. If the client is connected to the server to which the resource is attached, the vote value is 1.0.
+4. Otherwise, the vote value is 0.5.
+
+For a "write" operation, the following criteria are considered *in order*:
+
+1. If the resource is marked "down", a `SYS_RESC_IS_DOWN` error is returned. The vote value is 0.0.
+2. If the replica on the resource has a status value of '3' or '4' (read locked or write locked, respectively), the vote value is 0.0.
+3. If the replica on the resource has a status value of '2' (intermediate) and the client has not supplied the correct replica access token, the vote value is 0.0.
+4. If the client has requested a specific replica number and the replica on the resource has that replica number, the vote value is 1.0. If the client has requested a specific replica number and the replica on the resource does NOT have that replica number, the vote value is 0.25.
+5. If the replica on the resource has a replica status value of '0' (stale), the vote value is 0.25.
+6. If the client is connected to the server to which the resource is attached, the vote value is 1.0.
+7. Otherwise, the vote value is 0.5.
+
+For a "read" operation, the following criteria are considered *in order*:
+
+1. If the resource is marked "down", a `SYS_RESC_IS_DOWN` error is returned. The vote value is 0.0.
+2. If the replica on the resource has a status value of '3' or '4' (read locked or write locked, respectively), the vote value is 0.0.
+3. If the replica on the resource has a status value of '2' (intermediate), the vote value is 0.0.
+4. If the client has requested a specific replica number and the replica on the resource has that replica number, the vote value is 1.0. If the client has requested a specific replica number and the replica on the resource does NOT have that replica number, the vote value is 0.25.
+5. If the replica on the resource has a replica status value of '0' (stale), the vote value is 0.25.
+6. If the client is connected to the server to which the resource is attached, the vote value is 1.0.
+7. Otherwise, the vote value is 0.5.
+
+For an "unlink" operation, the following criteria are considered *in order*:
+
+1. If the resource is marked "down", a `SYS_RESC_IS_DOWN` error is returned. The vote value is 0.0.
+2. If the replica on the resource has a status value of '3' or '4' (read locked or write locked, respectively), the vote value is 0.0.
+3. If the replica on the resource has a status value of '2' (intermediate), the vote value is 0.0.
+4. If the client has requested a specific replica number and the replica on the resource has that replica number, the vote value is 1.0. If the client has requested a specific replica number and the replica on the resource does NOT have that replica number, the vote value is 0.25.
+5. If the replica on the resource has a replica status value of '1' (good), the vote value is 0.25.
+6. If the client is connected to the server to which the resource is attached, the vote value is 1.0.
+7. Otherwise, the vote value is 0.5.
+
 ### Structured File Type (tar, zip, gzip, bzip)
 
 The structured file type storage resource is used to interface with files that have a known format.  By default these are used "under the covers" and are not expected to be used directly by users (or administrators).
