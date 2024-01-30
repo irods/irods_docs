@@ -264,16 +264,17 @@ Trim refers to unlinking one or more replicas mapped to an existing data object.
 
 ![Trim](../images/trim_01.drawio.png)
 
-Trim requires 2 inputs:
+Trim requires 1 input:
 
 1. An existing data object with at least two replicas which are at rest and can be unlinked.
-2. A minimum number of good replicas to retain.
 
-Trim selects stale replicas first, then the good replicas are trimmed from oldest to youngest, down to the specified minimum number of good replicas.
+Trim requires a minimum number of replicas to retain at completion. The default minimum number of replicas to retain is 2.
 
-If the data object has fewer than the minimum number of good replicas, trim is not *allowed* in any case.
+Trim selects stale replicas first - trimming from oldest to youngest - until the specified minimum number of replicas is reached. If more replicas can be trimmed, then the good replicas are trimmed from oldest to youngest, down to the specified minimum number of replicas. The specified number of replicas cannot be less than 1. In other words, trim cannot completely remove a data object.
 
-In the following cases, ‘X’ represents a stale replica, ‘&’ represents a good replica, and ‘-’ indicates a replica which does not exist. This table shows the result of a data object targeted for a trim with a minimum good replica count of 1. The table shows the starting and ending statuses of 2 replicas for a single data object as a string such that the status of replica 0 is the first character and the status of replica 1 is the second character.
+If the data object has fewer than the minimum number of replicas, trim is not *allowed* in any case.
+
+In the following cases, ‘X’ represents a stale replica, ‘&’ represents a good replica, and ‘-’ indicates a replica which does not exist. This table shows the result of a data object targeted for a trim with a minimum replica count of 1. The table shows the starting and ending statuses of 2 replicas for a single data object as a string such that the status of replica 0 is the first character and the status of replica 1 is the second character.
 
 | Case | Replica A start | Replica B start | Replica A end | Replica B end | Reason |
 | ---- | --------------- | --------------- | ------------- | ------------- | ------ |
@@ -281,13 +282,32 @@ In the following cases, ‘X’ represents a stale replica, ‘&’ represents a
 | 1 | - | & | - | & | Data object has fewer than two replicas |
 | 2 | - | X | - | X | Data object has fewer than two replicas |
 | 3 | & | - | & | - | Data object has fewer than two replicas |
-| 4 | & | & | - | & | Trim is allowed\* |
+| 4 | & | & | - | & | Trim is allowed |
 | 5 | & | X | & | - | Trim is allowed |
 | 6 | X | - | X | - | Data object has fewer than two replicas |
 | 7 | X | & | - | & | Trim is allowed |
-| 8 | X | X | X | X | Data object has fewer than the minimum number of good replicas |
+| 8 | X | X | - | X | Trim is allowed |
 
-\* The oldest repilca is trimmed in case 4
+In order to understand the priority order of how replicas are selected for trimming, we now include a more complicated table. The table shows 4 characters which represent 4 replicas. The replicas are ordered by modify time, from least recent to most recent (that is, from oldest to newest). As with the previous table, 'X' represents a stale replica, '&' represents a good replica, and '-' indicates a replica which does not exist. The table shows the starting and ending statuses of the 4 replicas for a single data object such that the status of the oldest replica is the first character, the status of the second-oldest replica is the second character, the status of the second-newest replica is the third character, and the status of the newest replica is the fourth character. The ending statuses represent what happens when trim is executed on the data object without selecting any replicas in particular and using the default of two minimum number of replicas to retain.
+
+| Case | Start | End | Reason |
+| ---- | ---- | ---- | ---- |
+| 0 | XXXX | --XX | Oldest stale replicas are trimmed, down to minimum number of replicas. |
+| 1 | XXX& | --X& | Oldest stale replicas are trimmed, down to minimum number of replicas. |
+| 2 | XX&X | --&X | Oldest stale replicas are trimmed, down to minimum number of replicas. |
+| 3 | XX&& | --&& | All stale replicas are trimmed. No good replicas are trimmed because minimum number of replicas has been reached. |
+| 4 | X&XX | -&-X | Oldest stale replicas are trimmed, even though the good replica is older than one of the trimmed stale replicas. |
+| 5 | X&X& | -&-& | All stale replicas are trimmed, even though one of the good replicas is older than one of the trimmed stale replicas. No good replicas are trimmed because minimum number of replicas has been reached. |
+| 6 | X&&X | -&&- | All stale replicas are trimmed, even though multiple good replicas are older than one of the trimmed stale replicas. No good replicas are trimmed because minimum number of replicas has been reached. |
+| 7 | X&&& | --&& | All stale replicas are trimmed and the oldest good replica is also trimmed. |
+| 8 | &XXX | &--X | All stale replicas are trimmed, even though the good replica is older than one of the trimmed stale replicas. No good replicas are trimmed because minimum number of replicas has been reached. |
+| 9 | &XX& | &--& | All stale replicas are trimmed, even though one of the good replicas is older than one of the trimmed stale replicas. No good replicas are trimmed because minimum number of replicas has been reached. |
+| 10 | &X&X | &-&- | All stale replicas are trimmed, even though one of the good replicas is older than one of the trimmed stale replicas. No good replicas are trimmed because minimum number of replicas has been reached. |
+| 12 | &X&& | --&& | All stale replicas are trimmed and the oldest good replica is also trimmed. |
+| 13 | &&XX | &&-- | All stale replicas are trimmed, even though both of the good replicas are older than one of the trimmed stale replicas. No good replicas are trimmed because minimum number of replicas has been reached. |
+| 14 | &&X& | -&-& | All stale replicas are trimmed and the oldest good replica is also trimmed. |
+| 15 | &&&X | -&&- | All stale replicas are trimmed and the oldest good replica is also trimmed. |
+| 16 | &&&& | --&& | There are no stale replicas to trim, so the oldest good replicas are trimmed, down to the minimum number of replicas. |
 
 ### Unlink
 
