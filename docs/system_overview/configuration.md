@@ -770,7 +770,7 @@ Other individual environment variables can be set by using the UPPERCASE version
 export IRODS_CWD='/tempZone/home/public'
 ```
 
-# Checksum Configuration
+## Checksum Configuration
 
 Checksums in iRODS 4.0+ can be calculated using one of multiple hashing schemes.  Since the default hashing scheme for iRODS 4.0+ is SHA256, some existing earlier checksums may need to be recalculated and stored in the iCAT.
 
@@ -821,7 +821,7 @@ If the sender and receiver have inconsistent hash schemes defined, and the recei
 
 If the sender and receiver have inconsistent hash schemes defined, and the receiver's policy is set to 'strict', a USER_HASH_TYPE_MISMATCH error occurs.
 
-# Default Resource Configuration
+## Default Resource Configuration
 
 The placement of new Data Objects (and replicas) into a Zone is determined by the 'resolve_resource_hierarchy' function on the server to
 which the client is connected.  It takes into consideration the conditional input from the client request and the default resource as
@@ -860,15 +860,15 @@ When the determined target resource does not exist, the server will return the '
 The data placement policy is evaluated and enforced by the server to which the client is connected.  Any other
 servers involved in the data transfer will honor the evaluation by the initially connected server.
 
-# Special Characters
+## Special Characters
 
 The default setting for 'standard_conforming_strings' in PostgreSQL 9.1+ was changed to 'on'.  Non-standard characters in iRODS Object names will require this setting to be changed to 'off'.  Without the correct setting, this may generate a USER_INPUT_PATH_ERROR error.
 
-# Authentication Configuration
+## Authentication Configuration
 
 As of iRODS 4.3.1, authentication settings are now configured through rows in the `R_GRID_CONFIGURATION` table in the iRODS Catalog.
 
-## History (pre-4.3.1 configuration)
+### History (pre-4.3.1 configuration)
 
 Historically, authentication configuration had been limited to the PAM authentication scheme (now known as the `pam_password` authentication scheme). These settings were configured through `server_config.json` like this (default values are shown):
 ```json
@@ -891,7 +891,7 @@ On upgrade to 4.3.1, the values which exist in `server_config.json` are inserted
 
 The `password_length` configuration has been removed in 4.3.1. The configuration was used to determine the maximum length of the randomly generated password for PAM authentication scheme users. The randomly generated password is now a fixed length.
 
-## Configuration Overview
+### Configuration Overview
 
 `native` and `pam_password` authentication configurations can be managed in `R_GRID_CONFIGURATION` with options in the `authentication` namespace. Here are the supported `option_name`s and values:
 
@@ -909,7 +909,7 @@ Determines whether to extend the lifetime of the user's randomly generated passw
 
 **NOTE:** This configuration is not used with `native` authentication.
 
-## Configuring authentication in `R_GRID_CONFIGURATION`
+### Configuring authentication in `R_GRID_CONFIGURATION`
 
 `R_GRID_CONFIGURATION` can be modified through the `iadmin` subcommand `set_grid_configuration`. The current value can be queried using the `iadmin` subcommand `get_grid_configuration`.
 
