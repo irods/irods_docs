@@ -923,3 +923,54 @@ $ iadmin get_grid_configuration authentication password_max_time
 ```
 
 See [set_grid_configuration](../../icommands/administrator/#set_grid_configuration) and [get_grid_configuration](../../icommands/administrator/#get_grid_configuration) for more details about these subcommands.
+
+## Managing Parallel Transfer Threads
+
+When transferring large amounts of data between the client and server or even between servers, the number of threads used to read and write data can be configured by the administrator.
+
+First, we will go over how to configure what "large amounts of data" means. This is a configurable value that is controlled by the `maximum_size_for_single_buffer_in_megabytes` setting in `server_config.json`. This setting controls the maximum size of a particular file or data object that will be put into an in-memory buffer. If the size of the file or data object to read or write exceeds this size, iRODS will initiate what is known as a "parallel transfer".
+
+In a parallel transfer, a certain number of threads will be instantiated and tasked with reading and/or writing a number of bytes from a source file or data object to a destination file or data object. The number of transfer threads can be manipulated by the client and the server.
+
+Note: If the number of transfer threads is set to 0, this is a special "streaming" mode in which bytes are read and written via a single stream.
+
+### Client: `numThreads` keyword
+
+The way that the client can request the number of threads to use in parallel transfer is via the `numThreads` keyword. For some iCommands, this is provided using the `-N` option. From the [`iput` help text](../../icommands/user/#iput):
+```
+ -N  numThreads - the number of threads to use for the transfer. A value of
+       0 means no threading. By default (-N option not used) the server 
+       decides the number of threads to use.
+```
+
+### Server: Legacy Static Policy Enforcement Point - `acSetNumThreads`
+
+The server configuration for number of parallel transfer threads can also be controlled through a **legacy** static policy enforcement point called `acSetNumThreads`. This policy can call `msiSetNumThreads` to configure the environment in such a way that the desired number of threads is used in parallel transfers. The policy is configured by default in `core.re` like this:
+```c
+acSetNumThreads {
+	msiSetNumThreads("default", "default", "default");
+}
+```
+It is recommended that the administrator leaves this PEP in its default implementation, providing "default" for the 3 parameters for `msiSetNumThreads`. This will allow the `default_number_of_transfer_threads` configuration in `server_config.json`'s `advanced_settings` to take effect as a default and a maximum.
+
+### Server: `server_config` Advanced Settings
+
+The `server_config.json` file for configuration of the iRODS server has a setting under `advanced_settings` called `default_number_of_transfer_threads`. This is the server's configuration of the number of threads to use by default in parallel transfers. If the client does not provide a number of threads to use for parallel transfer, this is the value used. Note: The server configuration used to determine the number of parallel transfer threads is the server hosting the resource to which the data is being written or from which data is being read. Additionally, if `acSetNumThreads` is left in its default implementation (with "default" used for all parameters), the `default_number_of_transfer_threads` will also ensure that no client-provided number of transfer threads will exceed the value provided.
+
+The administrator may wish to disable parallel transfer threads altogether. This can be done by setting `default_number_of_transfer_threads` to 0 in the `advanced_settings`.
+
+It is recommended that careful consideration be given by the administrator when changing the default value. This will affect available resources on the configured server and could degrade performance if mis-configured. The iRODS Consortium researched the parallel transfer threads as it relates to performance and reached the default value in use today as a result. As such, it is recommended to leave the default value in place for most use cases. For more information on this topic, please see this blog post: [https://irods.org/2016/09/irods-4-1-9-networking-performance-whitepaper](https://irods.org/2016/09/irods-4-1-9-networking-performance-whitepaper)
+
+### How many threads will my transfer use?
+
+The following table shows the number of threads used in parallel transfers of any file which invokes parallel transfer:
+
+| case | client-provided `numThreads` (`-N`) | `default_number_of_transfer_threads` (server configuration) | threads used |
+| ---- | ---- | ---- | ---- |
+| 0 | - | 4 | 4 |
+| 1 | 3 | 4 | 3 |
+| 2 | 5 | 4 | 4 |
+
+Case 0 shows that if the client does not provide a number of parallel transfer threads to use, the default configured in the server will be used. Case 1 shows that if the client provides a number of parallel transfer threads to use that is less than or equal to the configured `default_number_of_transfer_threads`, that number of threads will be used. Case 2 shows that if the client provides a number of parallel transfer threads to use that is greater than `default_number_of_transfer_threads`, the value will be set to `default_number_of_transfer_threads` so as to not exceed it. So, the configured `default_number_of_transfer_threads` in `server_config.json` actually functions as a maximum on the number of threads that will be used as well when `acSetNumThreads` is left in its default implementation.
+
+The behavior stays the same regardless of whether the data transfers are to the user's local zone or to a remote zone via federation. For both cases - transferring data to a local zone or a remote zone via federation - the configuration being used on the server side would be the server hosting the resource to which data is being written or from which data is being read.
