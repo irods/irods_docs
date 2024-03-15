@@ -398,13 +398,13 @@ And inspect the log file at `/var/log/irods/irods.log`, you'd see a log message 
 
 The prototype implementation of the Logical Quotas Rule Engine Plugin used this technique. You can find the implementation at [https://github.com/irods/irods_policy_examples/blob/main/irods_policy_logical_quotas.re](https://github.com/irods/irods_policy_examples/blob/main/irods_policy_logical_quotas.re)
 
-Additional documentation can be found at [Using temporaryStorage in the iRODS Rule Language](/system_overview/tips_and_tricks/#using-temporarystorage-in-the-irods-rule-language).
+Additional documentation can be found at [Using temporaryStorage in the iRODS Rule Language](../system_overview/tips_and_tricks/#using-temporarystorage-in-the-irods-rule-language).
 
 ## Simulating User Quotas
 
 This example demonstrates how to simulate user quotas using group quotas.
 
-As of iRODS 4.3.0, support for user quotas has been partially disabled. Please consult [iadmin suq](/icommands/administrator/#suq) and the [release notes](/release_notes) for more information.
+As of iRODS 4.3.0, support for user quotas has been partially disabled. Please consult [iadmin suq](../../icommands/administrator/#suq) and the [release notes](../../release_notes) for more information.
 
 ### How to do it ...
 
@@ -419,7 +419,7 @@ acRescQuotaPolicy { msiSetRescQuotaPolicy("on"); }
 
 When implementing this policy, we recommend applying this change to all servers in the local zone. That guarantees that all servers enforce the quotas. Keep in mind that this is only a recommendation. You should use a testing environment to verify behavior if you decide not to follow this recommendation.
 
-iRODS does not update the quota information following user interaction. To do that, you're going to need to periodically tell iRODS to update the quota information. One way to do that is by running [iadmin cu](/icommands/administrator/#cu) periodically. How you do that is up to you. You can use **cron** or any other tool you find convenient to use. The important thing is that the command runs.
+iRODS does not update the quota information following user interaction. To do that, you're going to need to periodically tell iRODS to update the quota information. One way to do that is by running [iadmin cu](../../icommands/administrator/#cu) periodically. How you do that is up to you. You can use **cron** or any other tool you find convenient to use. The important thing is that the command runs.
 
 #### Step 2: Setup the user quota
 

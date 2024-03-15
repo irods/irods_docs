@@ -2,7 +2,7 @@
 
 This section provides examples demonstrating how to use various C/C++ libraries provided by iRODS.
 
-You can find more information about the libraries presented by visiting the [Doxygen documentation](/doxygen/index.html).
+You can find more information about the libraries presented by visiting the [Doxygen documentation](../../doxygen/index.html).
 
 If you'd like to request examples of other libraries and APIs, please create an issue at [https://github.com/irods/irods_docs](https://github.com/irods/irods_docs).
 
