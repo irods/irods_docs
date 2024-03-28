@@ -78,4 +78,5 @@ nav:
     - Development Tools: 'developers/development_tools.md'
     - Library Examples: 'developers/library_examples.md'
     - Logging: 'developers/logging.md'
+    - Deprecation: 'developers/deprecation.md'
 
