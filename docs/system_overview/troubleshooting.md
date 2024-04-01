@@ -680,9 +680,11 @@ $ ils -l /tempZone/home/rods/foo
   rods              2 resc_2          284 2022-07-20.17:31 ? foo
 ```
 
-If you attempt to remove the data object or any of its replicas, an error will occur because the object is locked:
+If you attempt to remove the data object or any of its replicas, an error will occur because the object is locked. Note: The error returned could be one of either `INTERMEDIATE_REPLICA_ACCESS` (iRODS error code -405000) if the replica targeted for removal is in the intermediate status, or `LOCKED_DATA_OBJECT_ACCESS` (iRODS error code -406000) if the replica targeted for removal is in the write-locked status.
 ```
-$ irm -f /tempZone/home/rods/foo
+$ irm -f /tempZone/home/rods/foo # If the targeted replica is intermediate...
+remote addresses: 192.168.192.3 ERROR: rmUtil: rm error for /tempZone/home/rods/foo, status = -405000 status = -405000 INTERMEDIATE_REPLICA_ACCESS
+$ irm -f /tempZone/home/rods/foo # If the targeted replica is write-locked...
 remote addresses: 192.168.192.3 ERROR: rmUtil: rm error for /tempZone/home/rods/foo, status = -406000 status = -406000 LOCKED_DATA_OBJECT_ACCESS
 ```
 
