@@ -337,6 +337,42 @@
 				"paramName": "_access"
 			}]
 		}, {
+			"funcName": "database_check_auth_credentials",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_username"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_zone"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_password"
+			}, {
+				"paramType": "int *",
+				"paramName": "_correct"
+			}]
+		}, {
+			"funcName": "database_check_permission_to_modify_data_object",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "rodsLong_t",
+				"paramName": "_data_id"
+			}]
+		}, {
+			"funcName": "database_data_object_finalize",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_json_input"
+			}]
+		}, {
 			"funcName": "database_get_local_zone",
 			"paramList": [{
 				"paramType": "irods::plugin_context &",
@@ -1384,6 +1420,51 @@
 				"paramName": "_results"
 			}]
 		}, {
+			"funcName": "database_get_delay_rule_info",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_rule_id"
+			}, {
+				"paramType": "const std::vector<std::string> *",
+				"paramName": "_info"
+			}]
+		}, {
+			"funcName": "database_get_grid_configuration_value",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_namespace"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option_name"
+			}, {
+				"paramType": "char *",
+				"paramName": "_option_value"
+			}, {
+				"paramType": "std::size_t",
+				"paramName": "_option_value_buffer_size"
+			}]
+		}, {
+			"funcName": "database_set_grid_configuration_value",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_namespace"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option_name"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_option_value"
+			}]
+		}, {
 			"funcName": "database_get_repl_list_for_leaf_bundles",
 			"paramList": [{
 				"paramType": "irods::plugin_context &",
@@ -1499,6 +1580,18 @@
 			}, {
 				"paramType": "generalUpdateInp_t *",
 				"paramName": "_update_inp"
+			}]
+		}, {
+			"funcName": "database_update_ticket_write_byte_count",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const rodsLong_t",
+				"paramName": "_data_id"
+			}, {
+				"paramType": "const rodsLong_t",
+				"paramName": "_bytes_written"
 			}]
 		}, {
 			"funcName": "database_start_operation",
@@ -1729,6 +1822,18 @@
 				"paramName": "_resp"
 			}]
 		}, {
+			"funcName": "api_authenticate",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "_comm"
+			}, {
+				"paramType": "bytesBuf_t *",
+				"paramName": "_request"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "_response"
+			}]
+		}, {
 			"funcName": "api_bulk_data_obj_put",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -1751,6 +1856,18 @@
 			}, {
 				"paramType": "genQueryOut_t **",
 				"paramName": "bulkDataObjRegOut"
+			}]
+		}, {
+			"funcName": "api_check_auth_credentials",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "checkAuthCredsInp_t *",
+				"paramName": "checkAuthCredsInp"
+			}, {
+				"paramType": "int **",
+				"paramName": "correct"
 			}]
 		}, {
 			"funcName": "api_chk_obj_perm_and_stat",
@@ -2359,6 +2476,18 @@
 				"paramName": "genQueryOut"
 			}]
 		}, {
+			"funcName": "api_genquery2",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "genquery2Inp_t *",
+				"paramName": "genquery2Inp"
+			}, {
+				"paramType": "char **",
+				"paramName": "genquery2Out"
+			}]
+		}, {
 			"funcName": "api_general_admin",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2403,8 +2532,32 @@
 				"paramType": "bytesBuf_t *",
 				"paramName": "json_input"
 			}, {
-				"paramType": "bytesBuf_t *",
+				"paramType": "bytesBuf_t **",
 				"paramName": "json_output"
+			}]
+		}, {
+			"funcName": "api_get_delay_rule_info",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "const char *",
+				"paramName": "rule_id"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "json_output"
+			}]
+		}, {
+			"funcName": "api_get_grid_configuration_value",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "const gridConfigurationInp_t *",
+				"paramName": "input"
+			}, {
+				"paramType": "gridConfigurationOut_t **",
+				"paramName": "output"
 			}]
 		}, {
 			"funcName": "api_get_hier_from_leaf_id",
@@ -2498,6 +2651,18 @@
 			}, {
 				"paramType": "int **",
 				"paramName": "rescQuota"
+			}]
+		}, {
+			"funcName": "api_get_resource_info_for_operation",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "char **",
+				"paramName": "jsonRescInfo"
 			}]
 		}, {
 			"funcName": "api_get_temp_password",
@@ -2686,10 +2851,22 @@
 				"paramName": "genQueryOut"
 			}]
 		}, {
+			"funcName": "api_register_physical_path",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "bytesBuf_t **",
+				"paramName": "jsonBBuf"
+			}]
+		}, {
 			"funcName": "api_replica_close",
 			"paramList": [{
 				"paramType": "rsComm_t *",
-				"paramName": ""
+				"paramName": "rsComm"
 			}, {
 				"paramType": "bytesBuf_t *",
 				"paramName": "json_input"
@@ -2698,12 +2875,24 @@
 			"funcName": "api_replica_open",
 			"paramList": [{
 				"paramType": "rsComm_t *",
-				"paramName": ""
+				"paramName": "rsComm"
 			}, {
 				"paramType": "dataObjInp_t *",
 				"paramName": "dataObjInp"
 			}, {
 				"paramType": "bytesBuf_t **",
+				"paramName": "json_output"
+			}]
+		}, {
+			"funcName": "api_replica_truncate",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "dataObjInp_t *",
+				"paramName": "dataObjInp"
+			}, {
+				"paramType": "char **",
 				"paramName": "json_output"
 			}]
 		}, {
@@ -2819,6 +3008,15 @@
 			}, {
 				"paramType": "bytesBuf_t **",
 				"paramName": "_bbuf"
+			}]
+		}, {
+			"funcName": "api_set_grid_configuration_value",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "const gridConfigurationInp_t *",
+				"paramName": "input"
 			}]
 		}, {
 			"funcName": "api_simple_query",
@@ -3101,6 +3299,15 @@
 			}, {
 				"paramType": "dataObjInp_t *",
 				"paramName": "syncMountedCollInp"
+			}]
+		}, {
+			"funcName": "api_switch_user",
+			"paramList": [{
+				"paramType": "rsComm_t *",
+				"paramName": "rsComm"
+			}, {
+				"paramType": "switchUserInp_t *",
+				"paramName": "switchUserInp"
 			}]
 		}, {
 			"funcName": "api_ticket_admin",

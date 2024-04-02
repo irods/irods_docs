@@ -34,37 +34,41 @@ The rule engine plugin framework serializes many of the parameters at the plugin
 
 Many of these internal types within iRODS have been provided serialization functions. Those that have not will be passed as an empty variable into each dynamic PEP.  Users can reference the types provided for each dynamic PEP with the following table which contains the types that have been serialized.
 
-     float*
+     authResponseInp_t*
+     bytesBuf_t*
+     char*
+     char**
+     collInfo_t*
+     const char*
+     const std::string
      const std::string*
-     std::string*
-     std::string
+     const std::vector<std::string>*
+     dataObjCopyInp_t*
+     dataObjInfo_t*
+     dataObjInp_t*
+     float*
+     genQueryInp_t*
+     genQueryInp_t*
+     genquery2Inp_t*
      hierarchy_parser*
-     rodsLong_t
-     rodsLong_t*
-     size_t
      int
      int*
-     char*
-     const char*
-     rsComm_t*
-     plugin_context
-     dataObjInp_t*
-     authResponseInp_t*
-     dataObjInfo_t*
      keyValPair_t*
-     userInfo_t*
-     collInfo_t*
      modAVUMetadataInp_t*
      modAccessControlInp_t*
      modDataObjMeta_t*
-     ruleExecSubmitInp_t*
-     dataObjCopyInp_t*
-     rodsObjStat_t**
+     plugin_context
+     rodsLong_t
+     rodsLong_t*
      rodsObjStat_t*
-     genQueryInp_t*
-     genQueryInp_t*
-     char**
-     bytesBuf_t*
+     rodsObjStat_t**
+     rsComm_t*
+     ruleExecSubmitInp_t*
+     size_t
+     std::string
+     std::string*
+     std::vector<std::string>*
+     userInfo_t*
 
 ## Dynamic PEP Signatures
 
