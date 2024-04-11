@@ -56,6 +56,11 @@ This file defines the behavior of the server Agent that answers individual reque
         },
 
         // (Optional)
+        // Controls whether invocation of the msiSendMail microservice is allowed on the server.
+        // This option is NOT included on new installations or added during upgrades.
+        "enable_deprecated_msiSendMail": false,
+
+        // (Optional)
         // Contains settings for controlling the behavior of the internal Hostname cache.
         "hostname_cache": {
             // The amount of shared memory allocated to the Hostname cache.
