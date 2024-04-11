@@ -51,18 +51,19 @@ A `<category>` is a tag that identifies a particular logger. All logger properti
 
 A category can be a custom tag or one of the pre-defined tags:
 
-- legacy
-- server
-- agent_factory
 - agent
-- delay_server
-- resource
-- database
-- authentication
+- agent_factory
 - api
+- authentication
+- database
+- delay_server
+- genquery2
+- legacy
 - microservice
 - network
+- resource
 - rule_engine
+- server
 - sql
 
 You'll soon see how to [create your own](#creating-a-new-category).
