@@ -188,6 +188,9 @@ iRODS can also be installed by providing a file matching the JSON schema found h
 
 This form of installation is known as an **Unattended Install**. Using this form of setup can help with automated deployments.
 
+!!! Important
+    Care must be taken when using this form of installation as it will completely overwrite the **server_config.json** file and the service account's **irods_environment.json** file. This can lead to a non-functional server if the configuration files and database do not align. For that reason, it is highly recommended that backups of the configuration files mentioned be created first.
+
 To perform an **Unattended Install**, you'd run the following:
 ```bash
 $ (sudo) python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file /path/to/your/json/input/file
