@@ -32,18 +32,19 @@ postgres$ psql
 psql> CREATE USER irods WITH PASSWORD 'testpassword';
 psql> CREATE DATABASE "ICAT";
 psql> GRANT ALL PRIVILEGES ON DATABASE "ICAT" TO irods;
+psql> ALTER DATABASE "ICAT" OWNER TO irods;
 ~~~
 
 Confirmation of the permissions can be viewed with ``\l`` within the ``psql`` console:
 
 ~~~
  psql> \l
-                                   List of databases
-    Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges
- -----------+----------+----------+-------------+-------------+-----------------------
-  ICAT      | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =Tc/postgres         +
-            |          |          |             |             | postgres=CTc/postgres+
-            |          |          |             |             | irods=CTc/postgres
+                                                   List of databases
+   Name    |  Owner   | Encoding | Locale Provider | Collate |  Ctype  | ICU Locale | ICU Rules |   Access privileges   
+-----------+----------+----------+-----------------+---------+---------+------------+-----------+-----------------------
+ ICAT      | irods    | UTF8     | libc            | C.UTF-8 | C.UTF-8 |            |           | =Tc/irods            +
+           |          |          |                 |         |         |            |           | irods=CTc/irods
+
  ...
  (N rows)
 ~~~
