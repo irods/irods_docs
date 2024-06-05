@@ -94,7 +94,7 @@ Once permission is granted, it will appear like any other ACL:
 ~~~
 ZoneA $ ils -A myFile
   /ZoneA/home/rods/myFile
-        ACL - bobby#ZoneB:read object   rods#ZoneA:own
+        ACL - bobby#ZoneB:read_object   rods#ZoneA:own
 ~~~
 
 If all the [Server Authentication](#server-authentication) and the networking is set up correctly, Bobby can now `iget` the shared ZoneA file from ZoneB:
