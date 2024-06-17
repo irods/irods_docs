@@ -19,6 +19,7 @@ select ATTRIBUTE[, ATTRIBUTE]*
 #### Order-by operators
 
 Results can be ordered by using one of these operators:
+
  - ORDER: Returns the results in ascending order.
  - ORDER_DESC: Returns the results in descending order.
 
@@ -58,6 +59,7 @@ DATA_RESC_NAME = otherresc
 #### Aggregation operators
 
 GenQuery also supports a few "aggregation operators" which return a variety of information generated from the results rather than the results themselves:
+
  - SUM: Returns the sum of the results.
  - COUNT: Returns a count of the number of unique results from the selected attributes.
  - MIN: Returns the minimum value from the set of results.
@@ -138,6 +140,7 @@ ATTRIBUTE OPERATOR 'VALUE'[ || OPERATOR 'VALUE']*
 ATTRIBUTE is a GenQuery attribute. See [GenQuery Attributes](#genquery-attributes) for a list of attributes.
 
 OPERATOR can be one of a few different relational operators, most of which will be familiar to traditional SQL users:
+
  - '=': ATTRIBUTE must exactly match VALUE.
  - '<>'/'!=': ATTRIBUTE must not match VALUE.
  - '>'/'>=': ATTRIBUTE must be greater than (or greater than or equal to) VALUE.
@@ -156,6 +159,7 @@ Any results with `DATA_NAME` values that match any of the 3 conditions will be r
 ### Wildcard Expressions
 
 VALUE must be surrounded by single-quotes and should be a constant value or wildcard expression. The following wildcard operators are supported:
+
  - '%': Matches on any number of any characters (including nothing). This is equivalent to '.\*' in traditional regular expressions.
  - '\_': Matches on any single character. This is equivalent to '.' in traditional regular expressions.
 
@@ -164,6 +168,7 @@ If a literal '%' or '\_' must be used as part of the value for the query (rather
 ### Other options
 
 There are a few other options that can be used with GenQuery to affect how the results are generated:
+
  - no-distinct: Instructs GenQuery to return all results, even repeating identical results where applicable.
  - uppercase: When specified, all VALUEs should be supplied in UPPERCASE and the query will be made case-insensitive.
 
