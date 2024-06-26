@@ -79,10 +79,13 @@ N rows in set (0.00 sec)
 ~~~
 
 !!! Note
-    MySQL v5.7 uses a default transaction isolation level of `REPEATABLE-READ`. You'll need to change this to `READ-COMMITTED` so that iRODS operates properly. This setting needs to be set globally. One way to achieve this is by starting MySQL with `--transaction-isolation=READ-COMMITTED`. For more information, see [https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html](https://dev.mysql.com/doc/refman/5.7/en/innodb-transaction-isolation-levels.html).
-    
+    iRODS is incompatible with versions 8.1, 8.2, and 8.3 of the MySQL ODBC Connector. You'll need to use v8.0 or v8.4.
+
 !!! Note
-    MySQL v5.7 queries operate in a case-insensitive manner by default. iRODS requires that data be handled in a case-sensitive way. One way to achieve this is by starting MySQL with a different character-set and collation scheme (e.g. `--character-set-server=latin1` and `--collation-server=latin1_general_cs`). Enabling UTF-8 support will require more than setting two options on startup and is out of scope for this document. For more information, see [https://dev.mysql.com/doc/refman/5.7/en/charset.html](https://dev.mysql.com/doc/refman/5.7/en/charset.html) and [https://dev.mysql.com/doc/refman/5.7/en/column-count-limit.html](https://dev.mysql.com/doc/refman/5.7/en/column-count-limit.html).
+    MySQL v8.0 and v8.4 use a default transaction isolation level of `REPEATABLE-READ`. You'll need to change this to `READ-COMMITTED` so that iRODS operates properly. This setting needs to be set globally. One way to achieve this is by starting MySQL with `--transaction-isolation=READ-COMMITTED`. For more information, see [https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html](https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html).
+
+!!! Note
+    MySQL v8.0 and v8.4 queries operate in a case-insensitive manner by default. iRODS requires that data be handled in a case-sensitive way. One way to achieve this is by starting MySQL with a different character-set and collation scheme (e.g. `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_0900_as_cs`). For more information, see [https://dev.mysql.com/doc/refman/8.0/en/charset.html](https://dev.mysql.com/doc/refman/8.0/en/charset.html).
 
 ### iRODS Setup
 
