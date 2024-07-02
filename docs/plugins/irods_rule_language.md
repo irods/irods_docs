@@ -586,10 +586,10 @@ This Is Not A Valid Function Name or Rule Name
 
 ### Rule Condition
 
-Rule conditions should be expressions of type `boolean`. The rule is executed only when the rule condition evaluates to true. Which means that there are three failure conditions:
+Rule conditions should be expressions of type `boolean`. The rule is executed only when the rule condition evaluates to true. There exist three failure conditions that will cause a rule failure error:
 
-  1. Rule condition evaluates to false.
-  2. Some actions in rule condition fails which causes the evaluation of the whole rule condition to fail.
+  1. All rule conditions evaluate to false.
+  2. An action in a rule condition fails which causes the evaluation of the whole rule condition to fail.
   3. Rule condition evaluates to a value whose type is not boolean.
 
 For example, if we want to run a rule when the microservice "msi" succeeds, we
