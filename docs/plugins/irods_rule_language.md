@@ -586,6 +586,9 @@ This Is Not A Valid Function Name or Rule Name
 
 ### Rule Condition
 
+!!! Note
+    Use of `on()` may lead to unexpected behavior. If all `on()` conditions within a rule fail, the rule will return an error. Consider use of `if()` for more familiar flow control.
+
 Rule conditions should be expressions of type `boolean`. The rule is executed only when the rule condition evaluates to true. There exist three failure conditions that will cause a rule failure error:
 
   1. All rule conditions evaluate to false.
