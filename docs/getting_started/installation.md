@@ -79,13 +79,26 @@ N rows in set (0.00 sec)
 ~~~
 
 !!! Note
-    iRODS is incompatible with versions 8.1, 8.2, and 8.3 of the MySQL ODBC Connector. You'll need to use v8.0 or v8.4.
+    While the MariaDB ODBC connector is more or less compatible with MySQL, iRODS does not currently support the MariaDB ODBC connector. Please use the MySQL ODBC connector instead. Additionally, iRODS is also incompatible with versions 8.1, 8.2, and 8.3 of the MySQL ODBC Connector. You'll need to use v8.0 or v8.4.
 
 !!! Note
     MySQL v8.0 and v8.4 use a default transaction isolation level of `REPEATABLE-READ`. You'll need to change this to `READ-COMMITTED` so that iRODS operates properly. This setting needs to be set globally. One way to achieve this is by starting MySQL with `--transaction-isolation=READ-COMMITTED`. For more information, see [https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html](https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-isolation-levels.html).
 
 !!! Note
     MySQL v8.0 and v8.4 queries operate in a case-insensitive manner by default. iRODS requires that data be handled in a case-sensitive way. One way to achieve this is by starting MySQL with a different character-set and collation scheme (e.g. `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_0900_as_cs`). For more information, see [https://dev.mysql.com/doc/refman/8.0/en/charset.html](https://dev.mysql.com/doc/refman/8.0/en/charset.html).
+
+#### MariaDB:
+
+MariaDB can be used with the MySQL database plugin. Configuration is largely the same as MySQL (see the above section).
+
+!!! Note
+    iRODS does not currently support the MariaDB ODBC connector. Please use the MySQL ODBC connector instead. Additionally, iRODS is also incompatible with versions 8.1, 8.2, and 8.3 of the MySQL ODBC Connector. You'll need to use v8.0 or v8.4.
+
+!!! Note
+    MariaDB uses a default transaction isolation level of `REPEATABLE-READ`. You'll need to change this to `READ-COMMITTED` so that iRODS operates properly. This setting needs to be set globally. One way to achieve this is by starting MariaDB with `--transaction-isolation=READ-COMMITTED`. For more information, see [https://mariadb.com/kb/en/set-transaction/](https://mariadb.com/kb/en/set-transaction/).
+
+!!! Note
+    MariaDB queries operate in a case-insensitive manner by default. iRODS requires that data be handled in a case-sensitive way. One way to achieve this is by starting MariaDB with a different character-set and collation scheme (e.g. `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_uca1400_as_cs`, or for versions of MariaDB prior to 10.10.1, `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_bin`). For more information, see [https://mariadb.com/kb/en/character-sets/](https://mariadb.com/kb/en/character-sets/).
 
 ### iRODS Setup
 
