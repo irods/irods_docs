@@ -142,6 +142,20 @@ void example()
     using logger = log::logger<my_category>; 
 
     try {
+        // Load the log level for our custom log category from server_config.json. If the
+        // log category isn't defined, the log level will be set to "log::level::info".
+        // Setting the log level is NOT thread-safe.
+        //
+        // Keep in mind that it is up to the developer to determine how the log level should
+        // be loaded. For example, instead of reading from server_config.json, the log level
+        // could be read from an environment variable.
+        //
+        // For developers implementing plugins with custom log categories, this step is very
+        // important as it allows plugins to react to changes to the log level in realtime.
+        // As a best practice, always set the log level before the plugin begins carrying
+        // out the real work.
+        logger::set_level(log::get_level_from_config(log::logger_config<my_category>::name));
+
         // This message will be recorded.
         logger::info("Hello, My Category!!!");
 
