@@ -15,4 +15,4 @@ pyyaml-env-tag==0.1
 six==1.16.0
 typing-extensions==4.1.1
 watchdog==2.1.6
-zipp==3.6.0
+zipp==3.19.1
