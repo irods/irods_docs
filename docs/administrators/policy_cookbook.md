@@ -568,3 +568,233 @@ pep_api_data_obj_close_post(*INSTANCE_NAME, *COMM, *OPENED_DATA_OBJ_INPUT)
 }
 ```
 
+## Enforcing policy when data transfers complete
+
+It can be helpful to write policy which is enacted at the time data has finished transferring and its catalog information has been finalized; in other words, when it transitions from being in-flight to being at-rest. This section demonstrates how to do this in a couple of different ways.
+
+Before proceeding, it is recommended that one be familiar with how data transfers work in iRODS, and the different states that replicas of a data object can take on. This information can be found in the [System Overview's Data Objects](../../system_overview/data_objects) page.
+
+### Step 1: Decide what to implement
+
+Unlike many policy implementations, which implement API Policy Enforcement Points (PEPs), this policy enforcement implements database and resource PEPs. This is because the process of indicating that data is at rest - known as **finalizing** the data object - is primarily performed by the server. Although finalizing a data object can be done via an API call, the API PEP will only be invoked when the API is called from a client application. However, the mechanism for finalizing the data object uses a database plugin operation. So, the associated database plugin operation PEP - specifically, the "post"-PEP - can be implemented to enforce policy.
+
+There are a couple of ways to implement policy around the completion of a data transfer depending on what you want to do.
+
+After the successful transfer of data, the entire logical representation of the data (data object) is finalized in order that the physical representations (replicas) accurately reflect the state of the data in storage. This is done via the `data_object_finalize` API, which invokes the `data_object_finalize` database plugin operation. This database operation atomically updates the system metadata of the replicas for a given data object.
+
+Once the database operation is complete, depending on policy implemented in the server, additional actions can occur. These additional actions are invoked via the `modified` resource plugin operation (from now on, we will refer to it as `fileModified` for historical reasons). `fileModified` is the operation responsible for enforcing the policy in some coordinating resources such as the replication resource plugin and the compound resource plugin. This can lead to even more replicas being created or modified, which means more data transfers, which means more invocations of the `data_object_finalize` database operation. Once `fileModified` is complete, the overall data object modification is complete.
+
+As you can see, a "complete" data transfer can take on a couple of different meanings. Therefore, we present two policy implementations which can be used for whatever purpose you need. The implementation described in **Step 2a** takes the first definition for data transfer completion: after data transfer has completed for a single replica. The implementation in **Step 2b** takes the second definition for data transfer completion: after an overall data object creation or modification operation has completed, including any policy which occurs after the initial replica has been finalized. These options are not mutually exclusive, so both can be implemented at the same time in a single deployment.
+
+### Step 2a: Implementing `data_object_finalize`
+
+In this example, we will implement a policy which ensures that every newly created replica has a checksum. The implementation uses the [iRODS Rule Language](../../plugins/irods_rule_language) and demonstrates usage of the JSON microservices.
+
+#### How to do it ...
+
+We should implement the database operation PEP `pep_database_data_object_finalize_post`. Referencing the [Dynamic Policy Enforcement Points](../../plugins/dynamic_policy_enforcement_points) page, one can see that the database PEP has the plugin context available and, more importantly, a string called `_json_input` which holds a JSON object containing replica information. This JSON object has the following form:
+```javascript
+{
+    "replicas": [
+        {
+            "before": {
+                "data_id": <string>,
+                "coll_id": <string>,
+                "data_repl_num": <string>,
+                "data_version": <string>,
+                "data_type_name": <string>,
+                "data_size": <string>,
+                "data_path": <string>,
+                "data_owner_name": <string>,
+                "data_owner_zone": <string>,
+                "data_is_dirty": <string>,
+                "data_status": <string>,
+                "data_checksum": <string>,
+                "data_expiry_ts": <string>,
+                "data_map_id": <string>,
+                "data_mode": <string>,
+                "r_comment": <string>,
+                "create_ts": <string>,
+                "modify_ts": <string>,
+                "resc_id": <string>
+            },
+            "after": {
+                "data_id": <string>,
+                "coll_id": <string>,
+                "data_repl_num": <string>,
+                "data_version": <string>,
+                "data_type_name": <string>,
+                "data_size": <string>,
+                "data_path": <string>,
+                "data_owner_name": <string>,
+                "data_owner_zone": <string>,
+                "data_is_dirty": <string>,
+                "data_status": <string>,
+                "data_checksum": <string>,
+                "data_expiry_ts": <string>,
+                "data_map_id": <string>,
+                "data_mode": <string>,
+                "r_comment": <string>,
+                "create_ts": <string>,
+                "modify_ts": <string>,
+                "resc_id": <string>
+            },
+            "file_modified": {
+                <string>: <string>,
+                ...
+            }
+        },
+        ...
+    ]
+}
+```
+Each entry in the list of replicas is a "before" and "after" view of the row in `R_DATA_MAIN` representing that replica, complete with the column names. In order to check that the replica has a checksum, we want to find the replica which was modified in the list, and ensure that the "after" entry's "data_checksum" entry has a value. If not, we will calculate a checksum and register it in the catalog.
+
+The `data_object_finalize` database PEP is invoked twice per data transfer: once on open in order to lock the data object, and once on close in order to finalize the system metadata. We are only interested in the invocation on close. The example implementation contains checks which can detect whether the PEP was invoked by an open or a close. You might consider abstracting this into a separate function for more readable code.
+
+Here is the PEP implementation for the example policy:
+```python
+pep_database_data_object_finalize_post(*instance, *ctx, *out, *json_input)
+{
+    # This PEP calculates the checksum of newly created replicas if one does not already exist.
+
+    # Get a JSON handle so we can work with the json_input.
+    msiStrlen(*json_input, *size);
+    msi_json_parse(*json_input, int(*size), *handle);
+
+    # Get the logical path based on the data ID using Language Integrated GenQuery.
+    msi_json_value(*handle, "/replicas/0/before/data_id", *data_id);
+    *logical_path = "null";
+    foreach (*result in select COLL_NAME, DATA_NAME where DATA_ID = '*data_id') {
+        *logical_path = *result.COLL_NAME ++ '/' ++ *result.DATA_NAME;
+        break;
+    }
+
+    # If, somehow, the data ID does not correspond to a data object, return an error.
+    if ("null" == *logical_path) {
+        *DOES_NOT_EXIST = -176000;
+        failmsg(*DOES_NOT_EXIST, "Data object with ID [*data_id] does not exist.");
+    }
+
+    # We are interested in getting the checksum value for the replica. Initialize the value to "null" to indicate
+    # whether we were able to find the newly created replica at all.
+    *replica_checksum = "null";
+    *replica_number = "null";
+
+    # Loop over the replicas and find the one which was just created based on "before" replica status.
+    # The "before" replica status should be '2' (intermediate) for a newly created replica because it did not exist
+    # previously and so did not have an at-rest replica status before.
+    # In order to traverse the "replicas" array in the json_input, we need to get the size.
+    msi_json_size(*handle, "/replicas", *array_len);
+    for (*i = 0; *i < *array_len; *i = *i + 1) {
+        msi_json_value(*handle, "/replicas/*i/before/data_is_dirty", *status_before);
+        # If you are not only concerned with new replicas, but any data transfers, this check is not necessary.
+        if ('2' == *status_before) {
+            msi_json_value(*handle, "/replicas/*i/after/data_repl_num", *replica_number);
+            msi_json_value(*handle, "/replicas/*i/after/data_checksum", *replica_checksum);
+            break;
+        }
+    }
+
+    # Free the JSON handle because we don't need it anymore.
+    msi_json_free(*handle);
+
+    # If replica_number is "null", then no replica was found with replica status of intermediate in its "before"
+    # object. This database operation is invoked both when locking the data object on open and when finalizing the data
+    # object on close. In that case, the new replica would not have been created yet, so it will not be found in the
+    # list of replicas above. For this example, we only want to calculate the checksum when the object was newly created
+    # (i.e. its "before" replica status is intermediate) and is being closed. Objects opened for appending or
+    # overwriting will not have a "before" replica status of intermediate.
+    if ("null" != *replica_number && "" == *replica_checksum) {
+        # Calculate the replica checksum and register it in the catalog. This policy can be replaced with whatever you
+        # need to do after a new replica is created.
+        msiDataObjChksum("*logical_path", "replNum=*replica_number", *checksum_value);
+    }
+}
+```
+
+#### Let's see it in action!
+
+Before implementing this PEP, we might expect to see something like this when data is transferred to iRODS by a client user named `alice`:
+```
+$ echo "my cool data" | istream write /tempZone/home/alice/cooldata
+$ ils -L /tempZone/home/alice/cooldata
+  alice             0 demoResc           13 XXXX-XX-XX.XX:XX & cooldata
+        generic    /var/lib/irods/Vault/home/alice/cooldata
+```
+
+With the policy configured, we can now see that a checksum is being registered in the catalog for the newly created replica:
+```
+$ echo "my cool data" | istream write /tempZone/home/alice/cooldata
+$ ils -L /tempZone/home/alice/cooldata
+  alice             0 demoResc           13 XXXX-XX-XX.XX:XX & cooldata
+    sha2:TJqKyIY7GEqbGxvNKhsUHO9q8Y8YZPeX1l53dHASlSc=    generic    /var/lib/irods/Vault/home/alice/cooldata
+```
+
+### Step 2b: Implementing `fileModified`
+
+In this example, we will implement a policy which ensures that every replica on a data object has a checksum after all other server policy has been invoked. The implementation uses the [iRODS Rule Language](../../plugins/irods_rule_language).
+
+#### How to do it ...
+
+We should implement the resource operation PEP `pep_resource_modified_post`. Referencing the [Dynamic Policy Enforcement Points](../../plugins/dynamic_policy_enforcement_points) page, one can see that the only input available for this resource plugin operation PEP is the plugin context.
+
+`fileModified` is only invoked after the initial data transfer is complete. As such, the information in the plugin context `ctx` will be referring to the original replica which caused the `fileModified` operation to be invoked.
+
+Here is the PEP implementation for the example policy:
+```python
+pep_resource_modified_post(*instance, *ctx, *output)
+{
+    # Due to how GenQuery works, we need to split the data object name and collection name apart in the logical path.
+    *logical_path = *ctx.logical_path
+    msiSplitPath(*logical_path, *collection_name, *data_object_name);
+
+    # This query fetches the checksums for each individual replica of the data object.
+    foreach (*result in select DATA_REPL_NUM, DATA_CHECKSUM where COLL_NAME = '*collection_name' and DATA_NAME = '*data_object_name') {
+        *replica_checksum = *result.DATA_CHECKSUM;
+        # If a replica is found to not have a checksum, calculate and register it. This particular example could be
+        # achieved with the "ChksumAll" option for this microservice, but the example is meant to demonstrate that
+        # we can take any kind of action on all of the replicas after a logical-level operation has completed.
+        if (*replica_checksum == "") {
+            *replica_number = *result.DATA_REPL_NUM;
+            msiDataObjChksum("*logical_path", "replNum=*replica_number", *checksum_value);
+        }
+    }
+}
+```
+
+#### Let's see it in action!
+
+In this example, a user named `alice` will `iput` a data object into a replication hierarchy which looks like this:
+```
+$ ilsresc
+repl:replication
+├── ufs0:unixfilesystem
+└── ufs1:unixfilesystem
+```
+
+Without the policy configured, we might expect to see something like this when the `iput` completes:
+```
+$ iput -R repl cooldata
+$ ils -L cooldata
+  alice             0 repl;ufs0           13 XXXX-XX-XX.XX:XX & cooldata
+        generic    /var/lib/irods/irods/ufs0vault/home/alice/cooldata
+  alice             1 repl;ufs1           13 XXXX-XX-XX.XX:XX & cooldata
+        generic    /var/lib/irods/irods/ufs1vault/home/alice/cooldata
+```
+
+With the checksum in place, we can now see that a checksum is being registered in the catalog for every replica:
+```
+$ iput -R repl cooldata
+$ ils -L cooldata
+  alice             0 repl;ufs0           13 XXXX-XX-XX.XX:XX & cooldata
+    sha2:TJqKyIY7GEqbGxvNKhsUHO9q8Y8YZPeX1l53dHASlSc=    generic    /var/lib/irods/irods/ufs0vault/home/alice/cooldata
+  alice             1 repl;ufs1           13 XXXX-XX-XX.XX:XX & cooldata
+    sha2:TJqKyIY7GEqbGxvNKhsUHO9q8Y8YZPeX1l53dHASlSc=    generic    /var/lib/irods/irods/ufs1vault/home/alice/cooldata
+```
+
+The implementation can be modified to apply only to specific resources, collections, or whatever your policy requires.
+
+### A note about servers before 4.2.9
+
+The 4.2.9 release of iRODS introduced dramatic changes to the way internal data transfers and data object finalization occur, and could behave differently from what is documented here. **Step 2b** should be available in servers with version 4.2.8 and older, and should behave similarly to what is documented here. A database operation similar to `data_object_finalize` which is no longer used called `mod_data_obj_meta` can also be leveraged to implement similar policy (although it uses a different, non-JSON interface).
