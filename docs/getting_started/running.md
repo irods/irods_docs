@@ -9,10 +9,9 @@ The iRODS Server can be run in one of three modes:
 ## Syslog Mode
 This mode is the default when operating the iRODS Server.
 
-This mode instructs the server and all of its children to write log messages to the **rsyslog** service running on the same computer.
+This mode instructs the server and all of its children to write log messages to **syslog**.
 
-rsyslog can be configured to write messages locally (the default), remotely, or both.
-
+syslog can be configured to write messages locally, remotely, or both.
 
 ```bash
 $ ./irodsctl start
@@ -21,7 +20,7 @@ $ ./irodsctl start
 Messages can be rotated on a regular basis, most commonly through the **logrotate** service.
 
 ## Standard Output Mode
-This mode instructs the server and all of its children to write log messages to **stdout** instead of **rsyslog**. This mode can be enabled in two ways.
+This mode instructs the server and all of its children to write log messages to **stdout** instead of **syslog**. This mode can be enabled in two ways.
 
 ### Option 1 (recommended) - Use the control script in the iRODS service account
 ```bash
@@ -36,7 +35,7 @@ $ /usr/sbin/irodsServer -u
 Regardless of the method, it is important to remember that once the server has been launched in this mode, the terminal will not return control until the server is shutdown or killed.
 
 ## Test Mode
-This mode instructs the server to write all log messages to an additional log file. Messages will still be written to stdout or rsyslog depending on how the server was launched. This secondary log file is located at the following location:
+This mode instructs the server to write all log messages to an additional log file. Messages will still be written to stdout or syslog depending on how the server was launched. This secondary log file is located at the following location:
 ```bash
 /var/lib/irods/log/test_mode_output.log
 ```
@@ -62,4 +61,3 @@ $ ./irodsctl start --test
 ```bash
 $ /usr/sbin/irodsServer -t
 ```
-
