@@ -1,22 +1,20 @@
-#
-
-## iRODS General Query (GenQuery)
+# iRODS General Query (GenQuery)
 
 GenQuery is the SQL-like syntax used to query the iRODS catalog. It is used throughout the server to accomplish everything required of the system from resource hierarchy resolution to enforcing permissions, as well as directly by users via `iquest` and other clients.
 
-This page describes syntax for **GenQuery** because it has existed for almost as long as iRODS has existed and is used extensively throughout existing iRODS clients and servers. A more modern solution is now available in the iRODS server called **GenQuery2** which will eventually replace the legacy GenQuery implementation.
+This page describes syntax for **GenQuery** which is used extensively throughout iRODS clients and servers. A more modern solution is now available in the iRODS server called [**GenQuery2**](#genquery2) which will eventually replace the original GenQuery1 implementation.
 
-## GenQuery Syntax
+## GenQuery1
 
-### Selection syntax
+### Selection Syntax
 
 The general form for selecting attributes in a query is:
 ```
 select ATTRIBUTE[, ATTRIBUTE]*
 ```
-...where ATTRIBUTE is a GenQuery attribute. Additional selected attributes are appended via a comma-delimited list. See [GenQuery Attributes](#genquery-attributes) for a list of attributes.
+...where ATTRIBUTE is a GenQuery attribute. Additional selected attributes are appended via a comma-delimited list. See [GenQuery Attributes](#attributes) for a list of attributes.
 
-#### Order-by operators
+#### Order-by Operators
 
 Results can be ordered by using one of these operators:
 
@@ -56,7 +54,7 @@ DATA_RESC_NAME = otherresc
 ------------------------------------------------------------
 ```
 
-#### Aggregation operators
+#### Aggregation Operators
 
 GenQuery also supports a few "aggregation operators" which return a variety of information generated from the results rather than the results themselves:
 
@@ -124,7 +122,7 @@ DATA_RESC_NAME = otherresc
 ------------------------------------------------------------
 ```
 
-### Conditional syntax
+### Conditional Syntax
 
 Results can be selected conditionally by using the `where` clause. The general form for conditional arguments is:
 ```
@@ -137,7 +135,7 @@ In general, CONDITION will have the following form:
 ATTRIBUTE OPERATOR 'VALUE'[ || OPERATOR 'VALUE']*
 ```
 
-ATTRIBUTE is a GenQuery attribute. See [GenQuery Attributes](#genquery-attributes) for a list of attributes.
+ATTRIBUTE is a GenQuery attribute. See [GenQuery Attributes](#attributes) for a list of attributes.
 
 OPERATOR can be one of a few different relational operators, most of which will be familiar to traditional SQL users:
 
@@ -165,14 +163,14 @@ VALUE must be surrounded by single-quotes and should be a constant value or wild
 
 If a literal '%' or '\_' must be used as part of the value for the query (rather than in a wildcard expression), these can be escaped using a backslash (\\).
 
-### Other options
+### Other Options
 
 There are a few other options that can be used with GenQuery to affect how the results are generated:
 
  - no-distinct: Instructs GenQuery to return all results, even repeating identical results where applicable.
  - uppercase: When specified, all VALUEs should be supplied in UPPERCASE and the query will be made case-insensitive.
 
-## GenQuery Attributes
+### Attributes
 
 GenQuery attributes can be used in concert to retrieve information about an entity or category of entities from multiple different tables. If the attributes are not related in some way that will allow for table joinery, an error will occur, so make sure the query makes logical sense. Attempting a query where the selected ATTRIBUTEs cannot be logically linked together will result in the error `CAT_FAILED_TO_LINK_TABLES` (iRODS error code -825000). If this problem occurs, consider splitting the query into multiple queries or finding another ATTRIBUTE which will accomplish the task.
 
@@ -509,7 +507,7 @@ Here is the complete list of GenQuery attributes available for use anywhere an A
  - ZONE_NAME
  - ZONE_TYPE
 
-## Example Queries
+### Example Queries
 
 Here is a list of example GenQueries for a variety of situations to demonstrate the different ways it can be used. These are also listed in the help text for `iquest`.
 
@@ -553,3 +551,331 @@ Find all data objects with replicas on resource `replResc` which are not marked 
 ```
 SELECT COLL_NAME, DATA_NAME WHERE DATA_RESC_NAME = 'replResc' and DATA_REPL_STATUS != '1'
 ```
+
+## GenQuery2
+
+GenQuery2 is a new parser designed to give users more control over their queries.
+
+This section will cover the differences between GenQuery1 and GenQuery2.
+
+!!! Note
+    GenQuery2 is experimental and may change based on user feedback. However, we encourage its use and welcome all feedback.
+
+### Notable Features
+
+GenQuery2 supports the following additional features:
+
+- Full range of relational operators: =, !=, <, <=, >, >=, LIKE, BETWEEN, IS [NOT] NULL
+- SQL keywords are case-insensitive
+- Federation
+
+These features will not be covered by this document.
+
+The relational operators, `LIKE`, `BETWEEN`, `IS NULL`, and `IS NOT NULL`, share the same syntax as the SQL standard. 
+
+!!! Note
+    Numbers must be passed as string literals when using relational operators. That means all numbers must be wrapped in single quotes. Failing to do this will result in an error.
+
+### Attributes
+
+GenQuery2 supports a subset of the GenQuery1 attributes. Some of the attributes have been renamed to better express their intent.
+
+Below is a listing of each attribute that was renamed in GenQuery2.
+
+| GenQuery1 Attribute | Equivalent GenQuery2 Attribute |
+|---|---|
+| COLL_ACCESS_NAME | COLL_ACCESS_PERM_NAME |
+| COLL_ACCESS_TYPE | COLL_ACCESS_PERM_ID |
+| DATA_ACCESS_NAME | DATA_ACCESS_PERM_NAME |
+| DATA_ACCESS_TYPE | DATA_ACCESS_PERM_ID |
+| RESC_LOC | RESC_HOSTNAME |
+| RULE_EXEC_ADDRESS | DELAY_RULE_EXE_ADDRESS |
+| RULE_EXEC_ESTIMATED_EXE_TIME | DELAY_RULE_ESTIMATED_EXE_TIME |
+| RULE_EXEC_FREQUENCY | DELAY_RULE_EXE_FREQUENCY |
+| RULE_EXEC_ID | DELAY_RULE_ID |
+| RULE_EXEC_LAST_EXE_TIME | DELAY_RULE_LAST_EXE_TIME |
+| RULE_EXEC_NAME | DELAY_RULE_NAME |
+| RULE_EXEC_NOTIFICATION_ADDR | DELAY_RULE_NOTIFICATION_ADDR |
+| RULE_EXEC_PRIORITY | DELAY_RULE_PRIORITY |
+| RULE_EXEC_REI_FILE_PATH | DELAY_RULE_REI_FILE_PATH |
+| RULE_EXEC_STATUS | DELAY_RULE_STATUS |
+| RULE_EXEC_TIME | DELAY_RULE_EXE_TIME |
+| RULE_EXEC_USER_NAME | DELAY_RULE_USER_NAME |
+
+As mentioned earlier, GenQuery2 exposes a subset of the GenQuery1 attributes. That means, many of the attributes were dropped from GenQuery2. Notable attributes include the following:
+
+- `COLL_OWNER_NAME`
+- `COLL_OWNER_ZONE`
+- `DATA_OWNER_NAME`
+- `DATA_OWNER_ZONE`
+
+Logic relying on these attributes will need to be updated to use the permission attributes.
+
+To get the full listing of attributes, use `iquery -c`. The listing can also be retrieved programmatically via the `rc_genquery2` API endpoint.
+
+!!! Note
+    The attribute listing always reflects the attributes supported by the GenQuery2 implementation of the iRODS Catalog Provider.
+
+### Logical Operators and Grouping
+
+GenQuery2 supports three logical operators:
+
+- AND
+- OR
+- NOT
+
+It also supports grouping via parentheses. Below are some examples.
+
+```sh
+# Demonstrates logical-AND.
+iquery "select DATA_NAME where COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo'"
+
+# Demonstrates logical-OR.
+iquery "select DATA_NAME where DATA_REPL_STATUS in ('0', '2') or DATA_NAME = 'foo'"
+
+# Demonstrates logical-NOT.
+iquery "select DATA_NAME where not DATA_NAME = 'foo'"
+
+# Demonstrates logical-NOT and grouping via parentheses.
+iquery "select DATA_NAME where not (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo')"
+
+# Demonstrates all logical operators and grouping via parentheses.
+iquery "select DATA_NAME where (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo') or not DATA_NAME = 'bar'"
+```
+
+Any number of parentheses can be used to group conditions.
+
+### Aggregation Operators and SQL functions
+
+Support for aggregation operators (and SQL functions) is significantly improved in GenQuery2.
+
+All aggregation operators supported by GenQuery1 are supported by GenQuery2. However, GenQuery2 extends support for aggregation operators by allowing the following:
+
+- Aggregation operators can be nested
+- Aggregation operators can accept any number of input arguments
+- SQL functions can be used in the SELECT, WHERE, and ORDER-BY clauses
+
+Below are a few examples demonstrating each feature.
+
+```sh
+# SQL functions in the SELECT clause.
+iquery "select concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods'"
+
+# SQL functions in the WHERE clause.
+iquery "select COLL_NAME where concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) = '/tempZone/home/rods--rods'"
+
+# SQL functions in the ORDER-BY clause. 
+iquery "select concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods' order by concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME))"
+
+# Case-insensitive search.
+iquery "select DATA_NAME where lower(DATA_NAME) = 'foo'"
+iquery "select DATA_NAME where upper(DATA_NAME) = 'FOO'"
+
+# Substrings and integers.
+iquery "select substr(DATA_NAME, 1, 3)"
+iquery "select substr(DATA_NAME, '1', '3')" # Produces the same output as the previous line.
+```
+
+!!! Note
+    The behavior of aggregation operators and SQL functions depends on the database technology used by the iRODS catalog. GenQuery2 only validates structure, not correctness, of input arguments.
+
+!!! Note
+    Aggregation operators and SQL functions accept both integers and string literals. GenQuery2 only validates structure, not correctness, of input arguments.
+
+### Metadata Queries
+
+GenQuery2 allows users to write more targeted queries. This is especially helpful when dealing with metadata. Depending on the use-case, there may be times where you need to filter a resultset based on metadata attached to multiple iRODS entities (i.e. data objects, collections, resources, users). GenQuery2 makes this possible through the use of **SQL LEFT JOIN**. This happens automatically.
+
+Here's an example demonstrating mixed metadata queries. _This is NOT possible with GenQuery1._
+
+```sh
+$ itouch foo
+$ imeta add -d foo id 1000
+$ itouch -R otherResc bar
+$ imeta add -R otherResc speed fast
+$ iquery "select DATA_NAME where META_DATA_ATTR_VALUE = '1000' or META_RESC_ATTR_VALUE = 'fast'" | jq
+[
+  [
+    "foo"
+  ],
+  [
+    "bar"
+  ]
+]
+```
+
+Notice how both data objects are returned. `foo` is returned because it satisfies `META_DATA_ATTR_VALUE = '1000'`. `bar` is returned because it satisfies `META_RESC_ATTR_VALUE = 'fast'`.
+
+There is one caveat to GenQuery2's use of **SQL LEFT JOIN**. That is, the resultset can contain empty strings.
+
+The following example demonstrates the situation by querying for all metadata attribute names attached to collections.
+
+```sh
+$ itouch foo
+$ imeta add -d foo alice jones
+$ imeta add -C . bob jones
+$ imeta add -C . job developer
+$ iquery "select META_COLL_ATTR_NAME" | jq
+[
+  [
+    "bob"
+  ],
+  [
+    "job"
+  ],
+  [
+    ""    # <------ Look suspicious?
+  ]
+]
+```
+
+Here's the SQL that produced the resultset.
+
+```sql
+SELECT DISTINCT
+    mmc.meta_attr_name
+FROM
+    R_COLL_MAIN t0
+    INNER JOIN R_OBJT_ACCESS pcoa ON t0.coll_id = pcoa.object_id
+    INNER JOIN R_TOKN_MAIN pct ON pcoa.access_type_id = pct.token_id
+    INNER JOIN R_USER_MAIN pcu ON pcoa.user_id = pcu.user_id
+    LEFT JOIN R_OBJT_METAMAP ommc ON t0.coll_id = ommc.object_id
+    LEFT JOIN R_META_MAIN mmc ON ommc.meta_id = mmc.meta_id
+WHERE
+    pcu.user_name = ?
+    AND pcu.zone_name = 'tempZone'
+    AND pcoa.access_type_id >= 1050 FETCH FIRST 256 ROWS ONLY
+```
+
+Based on the generated SQL, the resultset returned by GenQuery2 is correct. The SQL produces empty strings for ALL collections that do NOT have metadata attached to them.
+
+To get around this, apply an additional condition to the query like so.
+
+```sh
+$ iquery "select META_COLL_ATTR_NAME where META_COLL_ATTR_NAME is not null" | jq
+[
+  [
+    "bob"
+  ],
+  [
+    "job"
+  ]
+]
+```
+
+### Sorting
+
+Sorting data with GenQuery2 uses the same syntax as standard SQL. For example:
+
+```sh
+iquery "select RESC_NAME, COLL_NAME, DATA_NAME order by RESC_NAME desc, COLL_NAME, DATA_NAME asc"
+```
+
+Notice the use of `desc` and `asc`. Just like standard SQL, users can specify the sorting direction.
+
+- Ascending order is specified by passing `asc` and is the _implicit_ default
+- Descending order is specified by passing `desc`
+
+Any number of attributes can be passed to the ORDER-BY clause as long as those attributes are defined in the SELECT clause.
+
+### Escaping Bytes and Special Characters
+
+Sometimes you may need to escape a specific byte (or character). GenQuery2 supports this through the use of hexadecimal encoding.
+
+!!! Note
+    This only applies to **string literals**. That is, the arguments wrapped in single quotes. Only **one byte** can be encoded at a time.
+
+This is achieved by using `\xNN`, where _NN_ is the hexadecimal value of the byte. GenQuery2 decodes the byte before it reaches the database.
+
+The following example demonstrates how to escape an exclamation mark.
+
+```sh
+iquery "select COLL_NAME, DATA_NAME where DATA_NAME = 'data\x21.txt'"
+```
+
+If the catalog contains a data object by the name, `data!.txt`, then it will be returned by GenQuery2.
+
+Embedded single quotes can be escaped by adding another single quote, just like standard SQL. For example:
+
+```sh
+iquery "select COLL_NAME, DATA_NAME where DATA_NAME = 'that''s my data.txt'"
+```
+
+GenQuery2 will notice the use of double single quotes and collapse them to one single quote before sending to the database. In the case of the example, that means `that''s` will be passed to the database as `that's`.
+
+### Showing Duplicate Entries
+
+By default, GenQuery2 removes duplicate entries from the resultset.
+
+If you need to view duplicate entries, add `no distinct` after the `select` keyword. For example:
+
+```sh
+iquery "select no distinct COLL_NAME, DATA_NAME"
+```
+
+### Casting Data Types
+
+GenQuery2 supports SQL CAST expressions.
+
+```sh
+iquery "select cast(DATA_SIZE as int)"
+```
+
+GenQuery2 does not verify the correctness of the cast expression. It simply forwards it to the database as is.
+
+### Group-By Clause
+
+GenQuery2 provides support for the GROUP-BY clause. The important thing to remember about GROUP-BY is that if the SELECT clause contains aggregation operators or SQL functions, the GROUP-BY clause may also require those same aggregation operators and/or SQL functions.
+
+Here's an example that calculates the number of data objects in each collection.
+
+```sh
+iquery "select COLL_NAME, count(DATA_NAME) group by COLL_NAME"
+```
+
+### Offsets and Limiting the size of a resultset
+
+By default, GenQuery2 will return a max of 256 rows if no limit is applied to the query.
+
+You can change the size of the resultset by specifying a `LIMIT` or `FETCH FIRST N ROWS ONLY` clause. Both achieve the same outcome.
+
+For example:
+
+```sh
+iquery "select COLL_NAME, DATA_NAME limit 1000"
+```
+
+!!! Note
+    Keep in mind that GenQuery2 does NOT provide built-in pagination. It will always return the resultset in its entirety!
+
+You can also apply an offset by using the `OFFSET` keyword.
+
+```sh
+iquery "select COLL_NAME, DATA_NAME order by COLL_NAME, DATA_NAME offset 2000 limit 1000"
+```
+
+Notice we're now also sorting the results. Without the ORDER-BY clause, the offset and limit add little value.
+
+These features are great for relatively small datasets. However, as your datasets grow in size, you may want to build a more sophisticated pagination solution.
+
+!!! Note
+    `OFFSET` and `LIMIT` only accept integers. Notice the examples do not wrap the integers in single quotes. Doing so will result in an error.
+
+### Resultsets and Pagination
+
+Unlike GenQuery1, GenQuery2 does not provide built-in support for pagination. The resultset of a query will always be returned in its entirety. That means users fetching large amounts of data need to be careful of exhausting memory resources on the iRODS servers. GenQuery2 helps with this by defaulting to 256 rows if `LIMIT` is not defined in the query.
+
+!!! Note
+    `LIMIT` is provided as a convenience. It can be used in place of `FETCH FIRST N ROWS ONLY`, which is what's defined as part of the SQL standard.
+
+While GenQuery2 doesn't provide built-in support for pagination, it does provide enough features for users to implement pagination efficiently. This is left as an exercise for the user.
+
+### Limitations
+
+GenQuery2 is an experimental parser and does not yet cover all use-cases supported by GenQuery1.
+
+Current limitations include the following:
+
+- Groups are not fully supported
+- Tickets are not fully supported
+- Integer values must be treated as strings, except when used for `OFFSET`, `LIMIT`, `FETCH FIRST N ROWS ONLY`, and SQL functions
