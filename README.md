@@ -3,8 +3,6 @@ iRODS Documentation
 
 The iRODS documentation is housed in this repository (https://github.com/irods/irods_docs).
 
-Each release is kept in a separate branch.
-
 Prerequisites
 -------------
 
@@ -46,7 +44,7 @@ View
 Launch a webserver on port 8080 to show the resulting `build/site` directory:
 
 ```bash
-$ docker run -dit --rm --name irods_docs -p 8080:80 -v $(pwd)/build/site:/usr/local/apache2/htdocs/ httpd:2.4
+$ docker run -d --rm --name irods_docs -p 8080:80 -v $(pwd)/build/site:/usr/local/apache2/htdocs/ httpd:2.4
 ```
 
 To stop the webserver:
