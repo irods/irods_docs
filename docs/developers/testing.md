@@ -116,6 +116,92 @@ If you added a unit test file, you must add your new test to the `unit_tests_lis
 ]
 ```
 
+## Server-side testing (test microservices)
+
+All of the other tests used to verify the iRODS server software are either testing libraries through unit tests or probing the iRODS server from the client side, either via iCommands or direct API invocations. An iRODS "microservice test" framework has been provided in order to enable testing of server-only features. The microservice test framework is a library of C macros which can be called from a microservice which is itself the test.
+
+### How to run the tests
+
+The microservice tests are not in a formal list and must be implemented as a Python test to be run in the regular test suite. So, running these tests should be part of the "core" test suite.
+
+### How to add tests
+
+There are two parts to adding a server-only test: The C++ test microservice and the Python test which runs the test microservice.
+
+#### Add a C++ test microservice
+
+The test microservice will be written in C++ and make use of a series of macros to make assertions throughout the test. Here is a very basic (and useless) example test microservice:
+```c++
+#include "irods/irods_exception.hpp"
+#include "irods/irods_ms_plugin.hpp"
+#include "irods/irods_re_structs.hpp"
+#include "irods/msParam.h"
+
+#include "msi_assertion_macros.hpp"
+
+#include <functional>
+#include <string>
+
+namespace
+{
+    auto test_something(RuleExecInfo& _rei) -> int
+    {
+        IRODS_MSI_TEST_BEGIN("A description of the feature or issue for which this test exists")
+
+        IRODS_MSI_ASSERT(true)
+
+        IRODS_MSI_THROWS((throw irods::exception{"Obviously, this will throw."}), irods::exception)
+
+        IRODS_MSI_THROWS_MSG((throw std::exception{"Obviously, this will throw."}),
+                             std::exception, 
+                             "Obviously, this will throw.")
+
+        IRODS_MSI_NOTHROW(static_cast<void>(0))
+
+        IRODS_MSI_TEST_END
+    } // test_something
+
+    auto msi_impl([[maybe_unused]] RuleExecInfo* _rei) -> int
+    {
+        IRODS_MSI_TEST_CASE(test_something, *_rei)
+
+        // There can be as many test cases as needed.
+
+        return 0;
+    } // msi_impl
+
+    template <typename... Args, typename Function>
+    auto make_msi(const std::string& _name, Function _func) -> irods::ms_table_entry*
+    {
+        auto* msi = new irods::ms_table_entry{sizeof...(Args)};
+        msi->add_operation(_name, std::function<int(Args..., ruleExecInfo_t*)>(_func));
+        return msi;
+    } // make_msi
+} // anonymous namespace
+
+extern "C" auto plugin_factory() -> irods::ms_table_entry*
+{
+    return make_msi<>("msi_test_my_server_side_only_feature", msi_impl);
+} // plugin_factory
+```
+The test author can safely assume that `RuleExecInfo` pointer and all of the members of the struct to which it points are non-`null` and contain valid information. The full list of test macros can be found in [Doxygen](../../doxygen/msi__assertion__macros_8hpp.html).
+
+The C++ source file should be added to the `src` directory in `plugins/microservices`, and the test microservice name added to the list of `IRODS_MICROSERVICE_PLUGINS` in the CMakeLists file.
+
+#### Add a Python test for running the test microservice
+
+Here is the form for implementing a Python test which runs one of the server-side microservice tests:
+```python
+# Consider skipping the test for non-iRODS Rule Language REPs, or implementing for those other REPs.
+def test_my_server_side_only_feature(self):
+    rep_name = 'irods_rule_engine_plugin-irods_rule_language-instance'
+    self.admin.assert_icommand(
+        ['irule', '-r', rep_name, 'msi_test_my_server_side_only_feature', 'null', 'ruleExecOut'])
+```
+The test only asserts that the `irule` invocation does not emit any errors. This is asserting that all of the assertions in the test microservice are passing.
+
+Add the Python test to an existing Python test suite found in the core test list, or create a new Python test file and add the name to the core test list to ensure that it is run along with all the other tests. See [Core test suite](#core-test-suite) for more information about adding and running Python tests.
+
 ## iRODS Testing Environment
 
 The iRODS Testing Environment is a Docker Compose-based project written in Python that is used by the Consortium to test the iRODS server and its plugins. The Testing Environment is driven by a series of scripts to run the tests on a number of different platforms with various database backends and other configuration options. This is the primary tool used for day-to-day testing for iRODS developers as well as for verification in releasing the iRODS server. In addition to running tests, the Compose projects can be useful for manually testing things and quickly deploying specific environments for reproducing issues or developing a proof of concept.
