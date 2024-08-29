@@ -28,6 +28,7 @@ The following things need to be done whenever a feature is being declared as dep
  4. If the feature is used by a client such as the iCommands and has user-facing help text, a note about the feature being deprecated should be included in the help text anywhere the feature is mentioned. If the feature being deprecated *is* an iCommand, a note about its deprecation can be included near the top of the help text.
 
 The following rules should also be followed when deprecating an API:
+
  - The API should NOT add a deprecation message to the RcComm or RsComm's rError object.
  - The API should NOT emit a deprecation message to the log.
 
