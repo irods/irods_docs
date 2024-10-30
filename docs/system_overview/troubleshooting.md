@@ -716,6 +716,7 @@ iRODS 4.2 and prior have three different ways to move data: single-buffer, strea
 To prevent the connection on port 1247 from being severed, users can lower the keepalive time for iRODS connections to make sure the connection remains active. This will only affect TCP connections with iRODS.
 
 3 configuration options have been added to the client environment (`irods_environment.json`):
+
  - `irods_tcp_keepalive_intvl_in_seconds`: Sets the `TCP_KEEPINTVL` TCP socket option. Defaults to 75 seconds in the kernel.
  - `irods_tcp_keepalive_probes`: Sets the `TCP_KEEPCNT` TCP socket option. Defaults to 9 in the kernel.
  - `irods_tcp_keepalive_time_in_seconds`: Sets the `TCP_KEEPIDLE` TCP socket option. Defaults to 7200 in the kernel.
@@ -725,6 +726,7 @@ Using kernel default values, a connection would be left idle for 7200 seconds (2
 Setting values for these configuration options in the `irods_environment.json` file for the iRODS service account will set the TCP keepalive options for sockets used in server-to-server communications. Setting values for these configuration options in the `irods_environment.json` file for any other connected user would set the TCP keepalive options for sockets used in client-to-server communications.
 
 These can also be set using environment variables as with any other client environment configuration value with non-negative integers for values:
+
  - `IRODS_TCP_KEEPALIVE_INTVL_IN_SECONDS`
  - `IRODS_TCP_KEEPALIVE_PROBES`
  - `IRODS_TCP_KEEPALIVE_TIME_IN_SECONDS`
