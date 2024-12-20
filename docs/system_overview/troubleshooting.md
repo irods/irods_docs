@@ -769,3 +769,16 @@ The environment of the service account is the means by which the server communic
 If the server *has not been* restarted after running `iexit`, `iinit` can be run with the service account `rodsadmin` password, and the service account's iRODS user can authenticate again and things return to normal.
 
 If the server *has been* restarted after running `iexit`, the server will stand up, but new connections cannot be established with it. Regardless, the service account can run `iinit` with the service account `rodsadmin` password. The `.irodsA` file will be generated file again after the connection to the server fails (may take a bit to timeout). The server can then be started again and things will return to normal.
+
+## Users are forced to re-authenticate after a few minutes
+
+If your users are authenticating via PAM (e.g. `pam_password` scheme) and find that they are being made to re-authenticate after only a few minutes, this section should provide an explanation and a way to remedy the situation.
+
+An authenticated "session" for an iRODS user is managed through a Time-to-Live (TTL) parameter used by the authentication plugins. A session is said to "expire" after it has been valid for a specified TTL. For PAM authentication, sessions expire after the zone's configured `password_min_time` (in `R_GRID_CONFIGURATION` table) by default. The default `password_min_time` is 121 seconds. This explains the behavior described above.
+
+In order for users to remain authenticated via PAM for a longer period, there are two options:
+
+1. A TTL parameter must be provided to the authentication plugin. For iCommands users, this can be done with `iinit --ttl`. Note: TTL can only be supplied in hours at this time.
+2. The `password_min_time` configuration should be adjusted to a higher value by a zone administrator. This would effectively extend the default TTL for PAM-authenticated users. For more information about how to adjust these configurations, see [Authentication Configuration](../configuration/#configuring-authentication-in-r_grid_configuration).
+
+Note: For native iRODS authentication, sessions do not expire by default. If a TTL parameter is used, it will be honored and the session will expire.
