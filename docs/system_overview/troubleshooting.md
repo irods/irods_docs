@@ -717,9 +717,9 @@ To prevent the connection on port 1247 from being severed, users can lower the k
 
 3 configuration options have been added to the client environment (`irods_environment.json`):
 
- - `irods_tcp_keepalive_intvl_in_seconds`: Sets the `TCP_KEEPINTVL` TCP socket option. Defaults to 75 seconds in the kernel.
- - `irods_tcp_keepalive_probes`: Sets the `TCP_KEEPCNT` TCP socket option. Defaults to 9 in the kernel.
- - `irods_tcp_keepalive_time_in_seconds`: Sets the `TCP_KEEPIDLE` TCP socket option. Defaults to 7200 in the kernel.
+- `irods_tcp_keepalive_intvl_in_seconds`: Sets the `TCP_KEEPINTVL` TCP socket option. Defaults to 75 seconds in the kernel.
+- `irods_tcp_keepalive_probes`: Sets the `TCP_KEEPCNT` TCP socket option. Defaults to 9 in the kernel.
+- `irods_tcp_keepalive_time_in_seconds`: Sets the `TCP_KEEPIDLE` TCP socket option. Defaults to 7200 in the kernel.
 
 Using kernel default values, a connection would be left idle for 7200 seconds (2 hours) before sending up to 9 keepalive probes once every 75 seconds. Once the 75 second interval has passed after the 9th probe has been sent (totaling about 11 minutes), the connection will be killed.
 
@@ -727,9 +727,9 @@ Setting values for these configuration options in the `irods_environment.json` f
 
 These can also be set using environment variables as with any other client environment configuration value with non-negative integers for values:
 
- - `IRODS_TCP_KEEPALIVE_INTVL_IN_SECONDS`
- - `IRODS_TCP_KEEPALIVE_PROBES`
- - `IRODS_TCP_KEEPALIVE_TIME_IN_SECONDS`
+- `IRODS_TCP_KEEPALIVE_INTVL_IN_SECONDS`
+- `IRODS_TCP_KEEPALIVE_PROBES`
+- `IRODS_TCP_KEEPALIVE_TIME_IN_SECONDS`
 
 Drop the value of `irods_tcp_keepalive_time_in_seconds` to some value less than the firewall timeout configured for the host in order to prevent the connection being killed.
 
