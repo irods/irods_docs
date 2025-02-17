@@ -248,12 +248,14 @@ This file defines the behavior of the server Agent that answers individual reque
         "authentication": "info",
         "database": "info",
         "delay_server": "info",
+        "genquery2": "info",
         "legacy": "info",
         "microservice": "info",
         "network": "info",
         "resource": "info",
         "rule_engine": "info",
-        "server": "info"
+        "server": "info",
+        "sql": "info"
     },
 
     // Indicates to iRODS whether to use the hash used by the client or the data at rest, or to force
