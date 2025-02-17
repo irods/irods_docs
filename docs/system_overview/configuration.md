@@ -25,6 +25,12 @@ This file defines the behavior of the server Agent that answers individual reque
         // Changing this value requires a server restart in order to take effect.
         "agent_factory_watcher_sleep_time_in_seconds": 5,
 
+        // (Optional)
+        // The size of the buffer used for reading during checksum calculation.
+        // Increasing this value will result in fewer reads of a replica. Values must be representable as a 32
+        // bit integer.
+        "checksum_read_buffer_size_in_bytes": 1048576,
+
         // The number of threads used for parallel transfers.
         "default_number_of_transfer_threads": 4,
 
