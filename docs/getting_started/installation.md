@@ -254,24 +254,26 @@ Below you'll find examples showing what the input file might contain for a [Cata
     },
     "server_config": {
         "advanced_settings": {
-            "default_log_rotation_in_days": 5,
+            "agent_factory_watcher_sleep_time_in_seconds": 5,
+            "checksum_read_buffer_size_in_bytes": 1048576,
             "default_number_of_transfer_threads": 4,
             "default_temporary_password_lifetime_in_seconds": 120,
-            "delay_rule_executors": [
-                "irods-provider"
-            ],
+            "delay_rule_executors": [],
             "delay_server_sleep_time_in_seconds": 30,
             "dns_cache": {
                 "eviction_age_in_seconds": 3600,
+                "cache_clearer_sleep_time_in_seconds": 600,
                 "shared_memory_size_in_bytes": 5000000
             },
             "hostname_cache": {
                 "eviction_age_in_seconds": 3600,
+                "cache_clearer_sleep_time_in_seconds": 600,
                 "shared_memory_size_in_bytes": 2500000
             },
             "maximum_size_for_single_buffer_in_megabytes": 32,
             "maximum_size_of_delay_queue_in_bytes": 0,
             "maximum_temporary_password_lifetime_in_seconds": 1000,
+            "migrate_delay_server_sleep_time_in_seconds": 5,
             "number_of_concurrent_delay_rule_executors": 4,
             "stacktrace_file_processor_sleep_time_in_seconds": 10,
             "transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
@@ -305,6 +307,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
             "authentication": "info",
             "database": "info",
             "delay_server": "info",
+            "genquery2": "info",
             "legacy": "info",
             "microservice": "info",
             "network": "info",
@@ -330,32 +333,32 @@ Below you'll find examples showing what the input file might contain for a [Cata
             "network": {},
             "resource": {},
             "rule_engines": [
-            {
-                "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
-                "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
-                "plugin_specific_configuration": {
-                    "re_data_variable_mapping_set": [
-                        "core"
-                    ],
-                    "re_function_name_mapping_set": [
-                        "core"
-                    ],
-                    "re_rulebase_set": [
-                        "core"
-                    ],
-                    "regexes_for_supported_peps": [
-                        "ac[^ ]*",
-                    "msi[^ ]*",
-                    "[^ ]*pep_[^ ]*_(pre|post|except|finally)"
-                    ]
+                {
+                    "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
+                    "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
+                    "plugin_specific_configuration": {
+                        "re_data_variable_mapping_set": [
+                            "core"
+                        ],
+                        "re_function_name_mapping_set": [
+                            "core"
+                        ],
+                        "re_rulebase_set": [
+                            "core"
+                        ],
+                        "regexes_for_supported_peps": [
+                            "ac[^ ]*",
+                            "msi[^ ]*",
+                            "[^ ]*pep_[^ ]*_(pre|post|except|finally)"
+                        ]
+                    },
+                    "shared_memory_instance": "irods_rule_language_rule_engine"
                 },
-                "shared_memory_instance": "irods_rule_language_rule_engine"
-            },
-            {
-                "instance_name": "irods_rule_engine_plugin-cpp_default_policy-instance",
-                "plugin_name": "irods_rule_engine_plugin-cpp_default_policy",
-                "plugin_specific_configuration": {}
-            }
+                {
+                    "instance_name": "irods_rule_engine_plugin-cpp_default_policy-instance",
+                    "plugin_name": "irods_rule_engine_plugin-cpp_default_policy",
+                    "plugin_specific_configuration": {}
+                }
             ]
         },
         "rule_engine_namespaces": [
@@ -420,22 +423,26 @@ Below you'll find examples showing what the input file might contain for a [Cata
     },
     "server_config": {
         "advanced_settings": {
-            "default_log_rotation_in_days": 5,
+            "agent_factory_watcher_sleep_time_in_seconds": 5,
+            "checksum_read_buffer_size_in_bytes": 1048576,
             "default_number_of_transfer_threads": 4,
             "default_temporary_password_lifetime_in_seconds": 120,
             "delay_rule_executors": [],
             "delay_server_sleep_time_in_seconds": 30,
             "dns_cache": {
                 "eviction_age_in_seconds": 3600,
+                "cache_clearer_sleep_time_in_seconds": 600,
                 "shared_memory_size_in_bytes": 5000000
             },
             "hostname_cache": {
                 "eviction_age_in_seconds": 3600,
+                "cache_clearer_sleep_time_in_seconds": 600,
                 "shared_memory_size_in_bytes": 2500000
             },
             "maximum_size_for_single_buffer_in_megabytes": 32,
             "maximum_size_of_delay_queue_in_bytes": 0,
             "maximum_temporary_password_lifetime_in_seconds": 1000,
+            "migrate_delay_server_sleep_time_in_seconds": 5,
             "number_of_concurrent_delay_rule_executors": 4,
             "stacktrace_file_processor_sleep_time_in_seconds": 10,
             "transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
@@ -469,6 +476,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
             "authentication": "info",
             "database": "info",
             "delay_server": "info",
+            "genquery2": "info",
             "legacy": "info",
             "microservice": "info",
             "network": "info",
@@ -484,32 +492,32 @@ Below you'll find examples showing what the input file might contain for a [Cata
             "network": {},
             "resource": {},
             "rule_engines": [
-            {
-                "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
-                "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
-                "plugin_specific_configuration": {
-                    "re_data_variable_mapping_set": [
-                        "core"
-                    ],
-                    "re_function_name_mapping_set": [
-                        "core"
-                    ],
-                    "re_rulebase_set": [
-                        "core"
-                    ],
-                    "regexes_for_supported_peps": [
-                        "ac[^ ]*",
-                    "msi[^ ]*",
-                    "[^ ]*pep_[^ ]*_(pre|post|except|finally)"
-                    ]
+                {
+                    "instance_name": "irods_rule_engine_plugin-irods_rule_language-instance",
+                    "plugin_name": "irods_rule_engine_plugin-irods_rule_language",
+                    "plugin_specific_configuration": {
+                        "re_data_variable_mapping_set": [
+                            "core"
+                        ],
+                        "re_function_name_mapping_set": [
+                            "core"
+                        ],
+                        "re_rulebase_set": [
+                            "core"
+                        ],
+                        "regexes_for_supported_peps": [
+                            "ac[^ ]*",
+                            "msi[^ ]*",
+                            "[^ ]*pep_[^ ]*_(pre|post|except|finally)"
+                        ]
+                    },
+                    "shared_memory_instance": "irods_rule_language_rule_engine"
                 },
-                "shared_memory_instance": "irods_rule_language_rule_engine"
-            },
-            {
-                "instance_name": "irods_rule_engine_plugin-cpp_default_policy-instance",
-                "plugin_name": "irods_rule_engine_plugin-cpp_default_policy",
-                "plugin_specific_configuration": {}
-            }
+                {
+                    "instance_name": "irods_rule_engine_plugin-cpp_default_policy-instance",
+                    "plugin_name": "irods_rule_engine_plugin-cpp_default_policy",
+                    "plugin_specific_configuration": {}
+                }
             ]
         },
         "rule_engine_namespaces": [
