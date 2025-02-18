@@ -81,4 +81,5 @@ nav:
     - Logging: 'developers/logging.md'
     - Deprecation: 'developers/deprecation.md'
     - Testing: 'developers/testing.md'
+    - Schema Versions: 'developers/schema_versions.md'
 
