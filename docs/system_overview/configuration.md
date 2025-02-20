@@ -520,7 +520,6 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     // - CS_NEG_DONT_CARE: Let the server decide if SSL should be used
     "irods_client_server_policy": "CS_NEG_REFUSE",
 
-    // (Optional)
     // Number of seconds after which an existing connection in a connection pool is refreshed.
     "irods_connection_pool_refresh_time_in_seconds": 300,
 
