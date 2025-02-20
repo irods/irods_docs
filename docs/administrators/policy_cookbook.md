@@ -798,3 +798,153 @@ The implementation can be modified to apply only to specific resources, collecti
 ### A note about servers before 4.2.9
 
 The 4.2.9 release of iRODS introduced dramatic changes to the way internal data transfers and data object finalization occur, and could behave differently from what is documented here. **Step 2b** should be available in servers with version 4.2.8 and older, and should behave similarly to what is documented here. A database operation similar to `data_object_finalize` which is no longer used called `mod_data_obj_meta` can also be leveraged to implement similar policy (although it uses a different, non-JSON interface).
+
+## Retrieve information about opened replicas from `R_DATA_MAIN`
+
+When implementing policy or a rule which deals with opened replicas, you may need more information about the opened replica from the `R_DATA_MAIN` table in the catalog such as size, host resource, or mtime.
+
+This can be achieved by querying the iRODS Catalog using [Language-Integrated GenQuery](../../plugins/irods_rule_language/#language-integrated-general-query) or [GenQuery2 microservices](../../doxygen/msi__genquery2_8hpp.html). However, all the information in the catalog pertaining to an opened replica with a valid L1 file descriptor is already available in memory in the connected iRODS agent - all you have to do is ask.
+
+Note: This recipe only pertains to system metadata for replica information found in `R_DATA_MAIN`. This does not give access to metadata AVUs annotated to the data object of the opened replica.
+
+### How to do it ...
+
+The key to accessing the in-memory information about the opened replica is in the [`msi_get_file_descriptor_info` microservice](../../doxygen/microservices_2src_2get__file__descriptor__info_8cpp.html). This microservice returns a string representing a JSON object containing a `DataObjInfo` with information about the opened replica, and the `DataObjInp` structure which was used to open the data object in the first place.
+
+Here is an example of what this structure looks like:
+```javascript
+{
+  "bytes_written": -1,
+  "checksum": "",
+  "checksum_flag": 0,
+  "copies_needed": 0,
+  "create_mode": 384,
+  "data_object_info": {
+    "backup_resource_name": "",
+    "checksum": "",
+    "collection_id": 10010,
+    "condition_input": [
+      {
+        "key": "resc_hier",
+        "value": "demoResc"
+      },
+      {
+        "key": "selected_hierarchy",
+        "value": "demoResc"
+      }
+    ],
+    "data_access": "",
+    "data_access_index": 0,
+    "data_comments": "",
+    "data_create": "01740005951",
+    "data_expiry": "00000000000",
+    "data_id": 10015,
+    "data_map_id": 0,
+    "data_mode": "384",
+    "data_modify": "01740006513",
+    "data_owner_name": "rods",
+    "data_owner_zone": "tempZone",
+    "data_size": 12,
+    "data_type": "generic",
+    "destination_resource_name": "",
+    "file_path": "/var/lib/irods/Vault/home/rods/foo",
+    "flags": 0,
+    "in_pdmo": "",
+    "is_replica_current": true,
+    "next": null,
+    "object_path": "/tempZone/home/rods/foo",
+    "other_flags": 0,
+    "registering_user_id": 0,
+    "replica_number": 0,
+    "replica_status": 1,
+    "resource_hierarchy": "demoResc",
+    "resource_id": 10013,
+    "resource_name": "demoResc",
+    "special_collection": null,
+    "status_string": "",
+    "sub_path": "",
+    "version": "",
+    "write_flag": 0
+  },
+  "data_object_input_replica_flag": 1,
+  "data_object_input": {
+    "condition_input": [
+      {
+        "key": "resc_hier",
+        "value": "demoResc"
+      },
+      {
+        "key": "selected_hierarchy",
+        "value": "demoResc"
+      }
+    ],
+    "data_size": -1,
+    "in_pdmo": "",
+    "in_use": true,
+    "l3descInx": 3,
+    "lock_file_descriptor": 0,
+    "number_of_threads": 0,
+    "object_path": "/tempZone/home/rods/foo",
+    "offset": 0,
+    "open_flags": 0,
+    "open_type": 2,
+    "operation_status": 0,
+    "operation_type": 0,
+    "other_data_object_info": null,
+    "plugin_data": null,
+    "purge_cache_flag": 0,
+    "remote_l1_descriptor_index": 0,
+    "remote_zone_host": null,
+    "replica_status": 1,
+    "replica_token": "",
+    "replication_data_object_info": null,
+    "source_l1_descriptor_index": 0,
+    "special_collection": null
+  },
+  "stage_flag": 0
+}
+```
+
+In order to access this information via the microservice, we need a handle to a JSON structure and a JSON pointer indicating which key's value we want. For example, if we wanted to know the creation time of the replica, we would use `"/data_object_info/data_create"`.
+
+In this example, we will implement a dynamic PEP for the DataObjRead API, which uses an `OpenedDataObjInp` structure as part of its signature. In this PEP, we do not know the logical path of the data object which is being read and the `OpenedDataObjInp` structure does not have this information. However, it does give us access to an L1 file descriptor. Using this, we can access information about the opened replica which already resides in the iRODS agent's memory. Here is the implementation:
+```python
+pep_api_data_obj_read_pre(*instance_name, *comm, *opened_data_obj_inp, *data_obj_read_out_bbuf)
+{
+    # Extract the L1 descriptor from the OpenedDataObjInp.
+    *fd = *opened_data_obj_inp.l1descInx;
+
+    # Get the file descriptor information using the L1 descriptor as a string representing a JSON object.
+    msi_get_file_descriptor_info(int(*fd), *json_output_str);
+
+    # Specify a JSON pointer to the desired information.
+    *object_path_json_ptr = "/data_object_info/object_path"
+
+    # Parse the JSON string to get a handle to a proper JSON object.
+    msiStrlen(*json_output_str, *json_output_strlen);
+    msi_json_parse(*json_output_str, int(*json_output_strlen), *json_handle);
+
+    # Use the JSON pointer in the JSON handle to obtain the value therein.
+    msi_json_value(*json_handle, *object_path_json_ptr, *object_path);
+
+    # Don't forget to free the JSON handle before exiting. Failing to do so may result in memory leaks.
+    msi_json_free(*json_handle);
+
+    # ... Use the value which was retrieved above ...
+    writeLine("serverLog", "[*object_path] is about to be read!");
+}
+```
+
+### Let's see it in action!
+
+The above dynamic PEP is not terribly interesting as it just prints a message to the server log. Here is one way to trigger this PEP:
+```bash
+$ istream read /tempZone/home/rods/foo
+hello everyone
+```
+
+In the server log should be a message like this:
+```bash
+$ tail -n1 /var/log/irods/irods.log | jq '.log_message'
+"writeLine: inString = [/tempZone/home/rods/foo] is about to be read!\n"
+```
