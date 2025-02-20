@@ -439,6 +439,9 @@ The iRODS Rule Language rule engine variable scoping rules are summarized as:
 
 ## Parallel Transfer Port Contention
 
+!!! Note
+    The high ports are deprecated as of iRODS 4.3.4 and will be removed in a later version. Future versions of iRODS will perform parallel transfers using the zone port _(defaults to 1247)_. See [Parallel Transfer](../../system_overview/data_objects/#parallel-transfer) for more information.
+
 The iRODS Server will issue a LOG_NOTICE when it unsuccessfully attempts to claim an available port while setting up a parallel transfer portal.
 
 ```
@@ -709,6 +712,9 @@ Now that the replicas are at-rest and stale, they can be removed (or overwritten
 This technique should only be used to dig out of this serious situation or for testing purposes. Locked and intermediate replicas may truly be actively changing, so beware of potential data loss when using this technique.
 
 ## Firewalls dropping long-idle connections during parallel transfer
+
+!!! Note
+    The high ports are deprecated as of iRODS 4.3.4 and will be removed in a later version. Future versions of iRODS will perform parallel transfers using the zone port _(defaults to 1247)_. See [Parallel Transfer](../../system_overview/data_objects/#parallel-transfer) for more information.
 
 iRODS 4.2 and prior have three different ways to move data: single-buffer, streaming, and parallel transfer.  Both single-buffer and streaming transfers are on port 1247 and never have an idle connection.  The parallel transfer method connects on port 1247, constructs a portal of high ports, and then moves data over those high ports.  Once the transfer is complete, control returns to port 1247 for the connection cleanup and bookkeeping.  If the transfer takes long enough, local network firewall timeouts may be tripped and the initial port 1247 connection may be severed.
 

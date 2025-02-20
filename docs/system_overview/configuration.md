@@ -938,6 +938,9 @@ See [set_grid_configuration](../../icommands/administrator/#set_grid_configurati
 
 ## Managing Parallel Transfer Threads
 
+!!! Note
+    The high ports are deprecated as of iRODS 4.3.4 and will be removed in a later version. Future versions of iRODS will perform parallel transfers using the zone port _(defaults to 1247)_. See [Parallel Transfer](../../system_overview/data_objects/#parallel-transfer) for more information.
+
 When transferring large amounts of data between the client and server or even between servers, the number of threads used to read and write data can be configured by the administrator.
 
 First, we will go over how to configure what "large amounts of data" means. This is a configurable value that is controlled by the `maximum_size_for_single_buffer_in_megabytes` setting in `server_config.json`. This setting controls the maximum size of a particular file or data object that will be put into an in-memory buffer. If the size of the file or data object to read or write exceeds this size, iRODS will initiate what is known as a "parallel transfer".
