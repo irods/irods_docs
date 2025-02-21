@@ -332,6 +332,49 @@ Rename requires 2 inputs:
 
 If the destination path exists in the logical namespace, rename is *allowed* only if the path refers to a data object and the client has specified a forced overwrite. Overwriting a collection with a data object is not allowed.
 
+## Parallel Transfer
+
+As of iRODS 4.3.4, parallel transfer via the high ports is deprecated. Future versions of iRODS will use the configured zone port for parallel transfer. Therefore, this section is dedicated to everything related to parallel transfer via the zone port.
+
+### Why deprecate parallel transfer over the high ports?
+
+There are a few reasons for why this functionality is deprecated:
+
+- High ports required network administrators to open a wide range of ports
+- Implementation required special code paths in the server, making it complex to maintain and reason about
+- Only provided via the Put and Get API endpoints
+- Did not use the same implementation for secure communication
+- Added another point where client libraries could deviate from each other
+
+### What benefits are there to parallel transfer over the zone port?
+
+Given the iRODS API is POSIX-like, the iRODS Consortium wanted to investigate whether it was possible to support I/O patterns seen in POSIX environments. As it turns out, the iRODS API enabled the ability to write sparse files. This resulted in development of Logical Locking and libraries for guarding against data corruption due to uncoordinated write operations.
+
+With this functionality in place, the following benefits are provided by iRODS:
+
+- Parallel transfer no longer required a special code path for secure communication
+- Removed the need for high ports
+- Removed the need for special code paths for parallel transfer
+- Reading and writing data objects is closer to what users expect from a POSIX-like system
+
+### How to perform a parallel write over the zone port
+
+To write a data object in parallel using the zone port requires some coordination between the client and the server. Parallel read operations do not require coordination.
+
+The general steps are as follows:
+
+1. Open a stream to the replica of interest. We'll refer to this stream as the **primary stream**.
+1. Capture the replica access token and replica number from the **primary stream**.
+1. Open the **secondary streams**. Each stream must satisfy the following requirements:
+    - Streams must not use the same connection
+    - Streams must target the same replica
+    - Streams must use the replica access token obtained from the **primary stream**
+1. Use the streams to write to the replica.
+1. When done, close all **secondary streams** without updating the catalog.
+1. Close the **primary stream** normally. This finalizes the changes and updates the catalog information.
+
+Again, those are the general steps. They may vary across client libraries.
+
 ## `R_DATA_MAIN`
 
 Data objects and replicas - as with any iRODS entity - are defined in the iRODS Catalog. The information is stored in the `R_DATA_MAIN` table. Each row in `R_DATA_MAIN` describes a single replica of a data object. Some system metadata is identical for each replica, such as data ID, associated collection, and name -- these are defining features of the data object which maps to the replica. Other system metadata varies between replicas, such as host resource and replica number -- these are defining features of the individual replicas.
