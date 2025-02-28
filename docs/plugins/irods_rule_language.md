@@ -1636,7 +1636,7 @@ where *Row is a keyValPair_t object that contains the current row in the result 
 
 LIGQ supports the following the general query (GenQuery) syntax:
 
-* `count`, `sum`, `order_desc`, `order_asc`
+* `count`, `sum`, `order_desc`, `order`, `order_asc`
 * `=`, `<>`, `>`, `<`, `>=`, `<=`, `in`, `between`, `like`, `not like`
 * `||` and `&&`
 
