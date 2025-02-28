@@ -19,6 +19,7 @@ select ATTRIBUTE[, ATTRIBUTE]*
 Results can be ordered by using one of these operators:
 
  - ORDER: Returns the results in ascending order.
+ - ORDER_ASC: Alias for ORDER.
  - ORDER_DESC: Returns the results in descending order.
 
 The order-by operators can be applied to any selected ATTRIBUTE and order-by operators can be applied to multiple ATTRIBUTEs. If multiple ATTRIBUTEs have an order-by operator applied, they are executed in order as they appear and the first operator to have any effect on the order of the results will be the effective order of the results. Any order-by operators which follow the first effective order-by operator will have no effect on the ordering of the results.
