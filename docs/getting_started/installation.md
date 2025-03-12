@@ -254,7 +254,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
     },
     "server_config": {
         "advanced_settings": {
-            "agent_factory_watcher_sleep_time_in_seconds": 5,
             "checksum_read_buffer_size_in_bytes": 1048576,
             "default_number_of_transfer_threads": 4,
             "default_temporary_password_lifetime_in_seconds": 120,
@@ -424,7 +423,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
     },
     "server_config": {
         "advanced_settings": {
-            "agent_factory_watcher_sleep_time_in_seconds": 5,
             "checksum_read_buffer_size_in_bytes": 1048576,
             "default_number_of_transfer_threads": 4,
             "default_temporary_password_lifetime_in_seconds": 120,
