@@ -917,11 +917,15 @@ The maximum TTL of a randomly generated password in seconds. If a user attempts 
 
 The minimum TTL of a randomly generated password in seconds. If a user attempts to authenticate with a TTL value that is less than `password_min_time`, the TTL is determined to be invalid and an error is returned. If `password_min_time` is configured to a value greater than `password_max_time` no passed-in TTL value will satisfy the system. Accepted values: [0..18446744073709552000). If a value outside of the acceptable range is used, a warning message will be logged for the administrator and the default value will be used. The default value is 121.
 
+!!! Note
+    If users are being forced to re-authenticate via PAM frequently, you may need to adjust this option. A high frequency of `CAT_PASSWORD_EXPIRED` appearing in the server log is a good indicator of this. See [Users are forced to re-authenticate after a few minutes](../../system_overview/troubleshooting/#users-are-forced-to-re-authenticate-after-a-few-minutes) for more information.
+
 #### `password_extend_lifetime`
 
 Determines whether to extend the lifetime of the user's randomly generated password when re-authenticating by updating its expiration time. For instance, if a user authenticates and a randomly generated password already exists for the user in the database, the existing password will simply have its lifetime extended and the user will not need to re-authenticate for the full TTL. Accepted values: '0' or '1'. '1' means that the expiration time for the existing random password will be updated each time a user re-authenticates with iRODS. '0' means that the expiration time for the existing random password will not be updated when a user re-authenticates with iRODS. The default value is '1'.
 
-**NOTE:** This configuration is not used with `native` authentication.
+!!! Note
+    This configuration is not used with `native` authentication.
 
 ### Configuring authentication in `R_GRID_CONFIGURATION`
 
