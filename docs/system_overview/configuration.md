@@ -198,6 +198,14 @@ This file defines the behavior of the server Agent that answers individual reque
         // ... Additional Entries ...
     ],
 
+    // The FQDN or hostname which identifies the server.
+    //
+    // The following rules apply:
+    // - Must not be the string "localhost"
+    // - Must be resolvable by the local server
+    // - Must resolve to the local server
+    "host": "",
+
     // See "Host Access Control" section for more details.
     "host_access_control": {
         // Defines zero or more objects used to control access to the local iRODS instance.
