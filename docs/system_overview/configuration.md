@@ -21,11 +21,6 @@ This file defines the behavior of the server Agent that answers individual reque
 {
     "advanced_settings": {
         // (Optional)
-        // The number of seconds between runs of the CRON task which ensures that the agent factory is running.
-        // Changing this value requires a server restart in order to take effect.
-        "agent_factory_watcher_sleep_time_in_seconds": 5,
-
-        // (Optional)
         // The size of the buffer used for reading during checksum calculation.
         // Increasing this value will result in fewer reads of a replica. Values must be representable as a 32
         // bit integer.
