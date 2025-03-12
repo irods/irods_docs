@@ -309,6 +309,9 @@ In order to understand the priority order of how replicas are selected for trimm
 | 15 | &&&X | -&&- | All stale replicas are trimmed and the oldest good replica is also trimmed. |
 | 16 | &&&& | --&& | There are no stale replicas to trim, so the oldest good replicas are trimmed, down to the minimum number of replicas. |
 
+!!! Note
+    While trim is able to remove multiple replicas from a data object using the rules described above, it is highly recommended that trim be used as a precision tool for dealing with individual replicas. The replica to remove should be carefully determined and then identified by replica number. This replica should then be targeted for trim by its replica number such that only one replica is trimmed. This ensures no surprising data removal and will prevent accidental data loss. In any case, trim should be used with caution.
+
 ### Unlink
 
 The Unlink operation removes a data object from the iRODS namespace. This means that all replicas are unlinked from their storage and their associated rows in `R_DATA_MAIN` are deleted.
