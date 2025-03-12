@@ -778,7 +778,10 @@ If the server *has been* restarted after running `iexit`, the server will stand 
 
 ## Users are forced to re-authenticate after a few minutes
 
-If your users are authenticating via PAM (e.g. `pam_password` scheme) and find that they are being made to re-authenticate after only a few minutes, this section should provide an explanation and a way to remedy the situation.
+If your users are authenticating via PAM (e.g. `pam_password` scheme), are being made to re-authenticate after only a few minutes, and `CAT_PASSWORD_EXPIRED` (i.e. error code -840000) is observed during communication, this section should provide an explanation and a way to remedy the situation.
+
+!!! Note
+    It is also possible for `CAT_INVALID_AUTHENTICATION` (-826000) or `CAT_INVALID_USER` (-827000) to be returned from the server instead of `CAT_PASSWORD_EXPIRED`. The solutions described in this section still apply.
 
 An authenticated "session" for an iRODS user is managed through a Time-to-Live (TTL) parameter used by the authentication plugins. A session is said to "expire" after it has been valid for a specified TTL. For PAM authentication, sessions expire after the zone's configured `password_min_time` (in `R_GRID_CONFIGURATION` table) by default. The default `password_min_time` is 121 seconds. This explains the behavior described above.
 
