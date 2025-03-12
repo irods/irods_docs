@@ -294,6 +294,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "default_resource_name": "demoResc",
         "environment_variables": {},
         "federation": [],
+        "host": "irods-provider",
         "host_access_control": {
             "access_entries": []
         },
@@ -463,6 +464,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "default_resource_name": "otherResc",
         "environment_variables": {},
         "federation": [],
+        "host": "irods-consumer",
         "host_access_control": {
             "access_entries": []
         },
