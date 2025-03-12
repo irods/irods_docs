@@ -2,6 +2,8 @@
 
 ## Guidelines for managing schema versions
 
+### iRODS 4
+
 Over the course of development, it is necessary to consider whether the schema version for various things should be adjusted. There are a number of files and locations which this applies to. They are as follows:
 
 - irods_environment.json _(file) (service account only)_
@@ -24,3 +26,14 @@ To aid with this process, the following guidelines are provided:
 In general, a schema version should be adjusted if and only if there's a change in the schema's definition. This is typically reserved for major releases _(e.g. upgrading from iRODS 4.2 to iRODS 4.3)_.
 
 A _change in the schema definition_ is defined as the addition, modification, and/or removal of a JSON property or database table/column.
+
+### iRODS 5 and later
+
+Starting with iRODS 5, version numbers consist of three segments, _X.Y.Z_, where _X_ is the major version number, _Y_ is the minor version number, and _Z_ is the patch version number. A major version change consists of the major version number being incremented. For example, upgrading from iRODS 4.3.4 to iRODS 5.0.0 or iRODS 5.1.0 to iRODS 6.0.0.
+
+The guidelines defined for iRODS 4 still apply to iRODS 5, but iRODS 5 reduces the management of schema versions to two CMake variables, defined in the top-level CMakeLists.txt file. They are as follows:
+
+| CMake Variable | Description |
+| :--- | :--- |
+| IRODS_CATALOG_SCHEMA_VERSION | Defines the schema version of the catalog. |
+| IRODS_CONFIGURATION_SCHEMA_VERSION | Defines the schema version of the configuration files. |
