@@ -93,7 +93,6 @@ This file defines the behavior of the server Agent that answers individual reque
         // The amount of time a temporary password remains valid.
         "maximum_temporary_password_lifetime_in_seconds": 1000,
 
-        // (Optional)
         // The number of seconds between runs of the CRON task which executes the delay server migration algorithm.
         // Changing this value requires a server restart in order to take effect.
         "migrate_delay_server_sleep_time_in_seconds": 5,
