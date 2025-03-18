@@ -16,24 +16,6 @@ With this file in place, the installation history of your deployment will be pre
 
 Without this file in place, a dummy stanza will be inserted to allow the upgrade to complete successfully, but any previous deployment history will be lost.
 
-## Updating stale information in unused catalog columns
-
-Since 4.2.4, iRODS populates no-longer-used database columns with known values. Prior to 4.2.4, the values had been populated or updated inconsistently and may have been empty strings or NULL.
-
-After successfully upgrading from 4.2.3 or earlier, the administrator should manually run the script located at `scripts/update_deprecated_database_columns.py`.
-
-This script updates the following columns in `R_DATA_MAIN` to contain these known values:
-
- - resc_name: `EMPTY_RESC_NAME`
- - resc_hier: `EMPTY_RESC_HIER`
- - resc_group_name: `EMPTY_RESC_GROUP_NAME`
-
-It skips any rows with an "invalid" `resc_id` value. A `resc_id` is considered invalid if it does not exist in the `R_RESC_MAIN` table or it maps to a known non-storage resource (i.e. coordinating resource).
-
-The script has a `--dry-run` option and can safely be interrupted and run again (it is only querying the database for values to update, and then updating them).
-
-Since 4.2.4, `isysmeta`, `iquest`, and `ils` all present information about resources based on the `resc_id` field.  The `resc_id` is dereferenced and any resource names or hierarchies are then derived and presented to the user.  There is no iRODS code dependent on the values in the no-longer-used database columns.  The columns were scrubbed, rather than removed, out of extreme caution against data loss.
-
 ## Migrating from Static PEPs to Dynamic PEPs
 
 The dynamic policy enforcement points (PEPs) represent the most reliable way to interact with the iRODS rule engine plugin framework (REPF).  Migrating from the legacy static policy enforcement points (PEPs) is recommended.
