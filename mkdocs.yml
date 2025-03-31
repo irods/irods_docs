@@ -54,7 +54,7 @@ nav:
     - Process Model: 'system_overview/process_model.md'
     - Control Plane: 'system_overview/control_plane.md'
     - Configuration: 'system_overview/configuration.md'
-    - SSL: 'system_overview/ssl.md'
+    - SSL/TLS: 'system_overview/ssl_and_tls.md'
     - Users and Permissions: 'system_overview/users_and_permissions.md'
     - GenQuery: 'system_overview/genquery.md'
     - Backing Up: 'system_overview/backing_up.md'
