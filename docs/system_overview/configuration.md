@@ -406,6 +406,24 @@ This file defines the behavior of the server Agent that answers individual reque
     // This must be the same across all iRODS servers in a Zone.
     "server_port_range_end": 20199,
 
+    // (Optional)
+    // Defines server-side TLS configurations. Although the "tls" object itself is optional,
+    // all sub-properties are required if "tls" is defined.
+    "tls": {
+        // Absolute path to the file containing the server's certificate chain.
+        // The certificates must be in PEM format and must be sorted starting with the subject's
+        // certificate (actual client or server certificate), followed by intermediate CA certificates
+        // if applicable, and ending at the highest level (root) CA.
+        "certificate_chain_file": "",
+
+        // Absolute path to the file containing the private key corresponding to the server's
+        // certificate in the certificate chain file.
+        "certificate_key_file": "",
+
+        // Absolute path to the Diffie-Hellman parameter file.
+        "dh_params_file": ""
+    },
+
     // The authentication scheme used by the zone_user: native or pam_password.
     "zone_auth_scheme": "native",
 
@@ -638,21 +656,6 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     // performed in the ordering of the extension number, regardless of other properties of the
     // certificates. Use the ‘c_rehash’ utility to create the necessary links.
     "irods_ssl_ca_certificate_path": "",
-
-    // (Optional)
-    // The file containing the server's certificate chain.
-    // The certificates must be in PEM format and must be sorted starting with the subject's
-    // certificate (actual client or server certificate), followed by intermediate CA certificates
-    // if applicable, and ending at the highest level (root) CA.
-    "irods_ssl_certificate_chain_file": "",
-
-    // (Optional)
-    // The private key corresponding to the server's certificate in the certificate chain file.
-    "irods_ssl_certificate_key_file": "",
-
-    // (Optional)
-    // The Diffie-Hellman parameter file location.
-    "irods_ssl_dh_params_file": "",
 
     // (Optional)
     // The number of seconds between TCP keep-alive probes. The default value in the TCP specification is 75. For more
