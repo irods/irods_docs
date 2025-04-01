@@ -26,11 +26,11 @@ The possible values for 'irods_client_server_policy' include:
 - CS_NEG_DONT_CARE: This side of the connection will connect either with or without TLS
 - CS_NEG_REFUSE: (default) This side of the connection refuses to connect via TLS
 
-On the server side, the `core.re` has a default value of 'CS_NEG_DONT_CARE' in the acPreConnect() rule:
+On the server side, the `core.re` has a default value of `CS_NEG_REFUSE` in the acPreConnect() rule:
 
-~~~
-acPreConnect(*OUT) { *OUT="CS_NEG_DONT_CARE"; }
-~~~
+```
+acPreConnect(*OUT) { *OUT="CS_NEG_REFUSE"; }
+```
 
 In order for a connection to be made, the client and server have to agree on the type of connection they will share.  When both sides choose `CS_NEG_DONT_CARE`, iRODS shows an affinity for security by connecting via TLS.  Additionally, it is important to note that all servers in an iRODS Zone are required to share the same TLS credentials (certificates, keys, etc.).  Maintaining per-route certificates is not supported at this time.
 
