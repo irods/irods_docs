@@ -209,5 +209,3 @@ Apr 19 21:14:34 pid:4025 NOTICE: writeLine: inString = KeyValue[10]:arg0=set;arg
 ## Non-Package Installs
 
 Non-package installs have been made available for development, testing, and backwards compatibility.  The lack of managed update scripts, coupled with a growing array of possible plugin combinations, will make sustaining a non-package installation much more challenging.
-
-It is possible that in the 5.0 timeframe, with the plans for a proper plugin registry, managing a non-package installation can be handled more gracefully.
