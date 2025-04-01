@@ -14,7 +14,7 @@ Inheritance is especially useful when working with shared projects such as a pub
 
 ## StrictACL
 
-The iRODS setting 'StrictACL' is configured on by default in iRODS 4.x.  This is different from iRODS 3.x and behaves more like standard Unix permissions.  This setting can be found in the `/etc/irods/core.re` file under acAclPolicy{}.
+The iRODS setting 'StrictACL' is configured on by default in iRODS. This setting can be found in the `/etc/irods/core.re` file under acAclPolicy{}.
 
 The default setting is:
 
