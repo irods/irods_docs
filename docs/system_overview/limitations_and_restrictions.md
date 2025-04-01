@@ -8,5 +8,4 @@ iRODS servers use hostnames to determine whether a request coming into the syste
 
 However, the hostnames used by iRODS are limited to 63 characters (plus null) due to a [definition of AuthInfo in the iRODS packing instructions](https://github.com/irods/irods/blob/5c60095959ec44f6b06817f33cee67e65995eee6/lib/core/include/rodsPackInstruct.h#L80) for the iRODS protocol which uses `NAME_LEN`.
 
-The iRODS Consortium has promised to honor Federation between iRODS 4.x and iRODS 3.x Zones, which means packstruct
-cannot be changed until iRODS 5.0.
+This behavior cannot be changed until packstruct is updated, and packstruct cannot be changed until Federation with iRODS versions using these packing instructions is deemed unsupported.

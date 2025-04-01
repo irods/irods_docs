@@ -1,6 +1,6 @@
 #
 
-The second area of modularity to be added to iRODS 4.0+ consists of composable resources.  Composable resources replace the concept of resource groups from iRODS 3.x.  There are no resource groups in iRODS 4.0+.
+The resource plugins provide storage abstraction and coordination behavior which can be composed to implement complex data management policies.
 
 ## Tree Metaphor
 
@@ -50,8 +50,6 @@ Composable resources, both coordinating and storage, introduce the same dichotom
 
 This virtualization enables the coordinating resources to manage both the placement and the retrieval of Data Objects independent from the types of resources that are connected as children resources. When iRODS tries to retrieve data, each child resource will "vote", indicating whether it can provide the requested data.  Coordinating resources will then decide which particular storage resource (e.g. physical location) the read should come from. The specific manner of this vote is specific to the logic of the coordinating resource.  A coordinating resource may lean toward a particular vote based on the type of optimization it deems best. For instance, a coordinating resource could decide between child votes by opting for the child that will reduce the number of requests made against each storage resource within a particular time frame or opting for the child that reduces latency in expected data retrieval times. We expect a wide variety of useful optimizations to be developed by the community.
 
-An intended side effect of the tree metaphor and the virtualization of coordinating resources is the deprecation of the concept of a resource group. Resource groups in iRODS 3.x could not be put into other resource groups. A specific limiting example is a compound resource that, by definition, was a group and could not be placed into another group.  This significantly limited its functionality as a management tool. Groups in iRODS now only refer to user groups.
-
 Read more about [Composable Resources](https://irods.org/2013/02/e-irods-composable-resources/):
 
 - [Paper (279kB, PDF)](https://irods.org/uploads/2013/02/eirods-composable-resources.pdf)
@@ -63,8 +61,6 @@ Read more about [Composable Resources](https://irods.org/2013/02/e-irods-composa
 Coordinating resources contain the flow control logic which determines both how its child resources will be allocated copies of data as well as which copy is returned when a Data Object is requested.  There are several types of coordinating resources: compound, random, replication, passthru, and some additional types that are expected in the future.  Each is discussed in more detail below.
 
 #### Compound
-
-The compound resource is a continuation of the legacy compound resource type from iRODS 3.x.
 
 A compound resource has two and only two children.  One must be designated as the 'cache' resource and the other as the 'archive' resource.  This designation is made in the "context string" of the `addchildtoresc` command.
 
@@ -87,7 +83,7 @@ irods@hostname:~/ $ iadmin mkresc compResc compound '' auto_repl=off
 
 When auto-replication is turned off, it may be necessary to replicate on demand.  For this scenario, there is a microservice named `msisync_to_archive()` which will sync (replicate) a data object from the child cache to the child archive of a compound resource.  This creates a new replica within iRODS of the synchronized data object.
 
-Getting files from the compound resource will behave in a similar way as iRODS 3.x.  By default, the replica from the cache resource will always be returned.  If the cache resource does not have a copy, then a replica is created on the cache resource before being returned.
+By default, the replica from the cache resource will always be returned.  If the cache resource does not have a copy, then a replica is created on the cache resource before being returned.
 
 This compound resource staging policy can be controlled with the policy key-value pair whose keyword is "compound_resource_cache_refresh_policy" and whose values are either "when_necessary" (default), or "always".
 

@@ -497,23 +497,6 @@ pep_resource_resolve_hierarchy_pre(*ARG0,*ARG1,*ARG2,*ARG3,*ARG4,*ARG5,*ARG6)
 
 This explains that `pep_resource_resolve_hierarchy_pre` expects exactly seven arguments.  Please check the [Available Dynamic PEP](../plugins/dynamic_policy_enforcement_points.md#available-dynamic-peps) tables to see what those arguments should be for the PEP you are trying to implement.
 
-## No SSL for 4.x to 3.x Federation
-
-!!! error
-    ADVANCED_NEGOTIATION_NOT_SUPPORTED -1815000
-
-Please see [No SSL for 4-to-3 Federation](ssl.md#no-ssl-for-4-to-3-federation)
-
-## Using 3.x iCommands with a 4.0+ iRODS Server
-
-3.x iCommands retain basic functionality when speaking with a 4.0+ iRODS Server.
-
-However, operations much more complicated than simple puts and gets are likely to hit cases where the 3.x iCommands do not have sufficient information to continue or they do not recognize the results returned by the Server.
-
-This is largely due to the SSL handshaking and resource hierarchies in 4.0+.
-
-It is recommended to use the supported iCommands from 4.0+.
-
 ## Connecting to Oracle via ODBC on CentOS
 
 There is a [documented problem with Oracle's ODBC driver on CentOS](https://bugzilla.redhat.com/show_bug.cgi?id=498311).
