@@ -1,10 +1,11 @@
 #
 
-Throughout this page, "SSL" (or, Secure Sockets Layer) will be used interchangeably with "TLS" (or, Transport Layer Security).
+!!! Note
+    The TLS network plugin is named the "SSL" plugin for legacy reasons. This documentation will use the term "TLS".
 
-The SSL communication between client and iRODS server needs some basic setup in order to function properly.
+The TLS communication between client and iRODS server needs some basic setup in order to function properly.
 
-## Server SSL Setup
+## Server TLS Setup
 
 Much of the setup concerns getting a proper X.509 certificate setup on the server side, and setting up the trust for the server certificate on the client side. You can use either a self-signed certificate (best for testing) or a certificate from a trusted CA.
 
@@ -102,9 +103,9 @@ In order for the configuration to take effect, the iRODS server configuration mu
 irods@hostname:~/ $ kill -HUP $(cat /var/run/irods/irods-server.pid)
 ~~~
 
-## Client SSL Setup
+## Client TLS Setup
 
-The client may or may not require configuration at the SSL level, but there are a few parameters that can be set via `irods_environment.json` properties to customize the client SSL interaction if necessary. In many cases, if the server's certificate comes from a common CA, your system might already be configured to accept certificates from that CA, and you will not have to adjust the client configuration at all. For example, on Debian-based systems, the `/etc/ssl/certs` directory is used as a repository for system trusted certificates installed via an Ubuntu package. Many of the commercial certificate vendors such as VeriSign and AddTrust have their certificates already installed.
+The client may or may not require configuration at the TLS level, but there are a few parameters that can be set via `irods_environment.json` properties to customize the client TLS interaction if necessary. In many cases, if the server's certificate comes from a common CA, your system might already be configured to accept certificates from that CA, and you will not have to adjust the client configuration at all. For example, on Debian-based systems, the `/etc/ssl/certs` directory is used as a repository for system trusted certificates installed via an Ubuntu package. Many of the commercial certificate vendors such as VeriSign and AddTrust have their certificates already installed.
 
 ### Server Verification Settings
 
@@ -126,7 +127,7 @@ Then, the client library will only require certificate validation, but will not 
 
 ### Encryption Settings
 
-The following SSL encryption settings are required in `irods_environment.json` on both sides of the connection (client and server) and the values must match:
+The following TLS encryption settings are required in `irods_environment.json` on both sides of the connection (client and server) and the values must match:
 
  - `irods_encryption_algorithm` (required) - EVP-supplied encryption algorithm for parallel transfer encryption
  - `irods_encryption_key_size` (required) - Key size for parallel transfer encryption

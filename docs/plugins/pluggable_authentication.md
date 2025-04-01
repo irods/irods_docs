@@ -2,7 +2,7 @@
 
 The authentication methods are now contained in plugins.  By default, similar to iRODS 3.3 and prior, iRODS comes with native iRODS challenge/response (password) enabled.  However, enabling an additional authentication mechanism is as simple as adding a file to the proper directory.  The server does not need to be restarted.
 
-By default, iRODS uses a secure password system for user authentication.  The user passwords are scrambled and stored in the iCAT database.  Additionally, iRODS supports user authentication via PAM (Pluggable Authentication Modules), which can be configured to support many things, including the LDAP or Active Directory (AD) authentication systems.  PAM and SSL have been configured 'available' out of the box with iRODS, but there is still some setup required to configure an installation to communicate with your external authentication server of choice.
+By default, iRODS uses a secure password system for user authentication.  The user passwords are scrambled and stored in the iCAT database.  Additionally, iRODS supports user authentication via PAM (Pluggable Authentication Modules), which can be configured to support many things, including the LDAP or Active Directory (AD) authentication systems.  PAM and TLS have been configured 'available' out of the box with iRODS, but there is still some setup required to configure an installation to communicate with your external authentication server of choice.
 
 The iRODS administrator can 'force' a particular authentication scheme for a rodsuser by 'blanking' the native password for the rodsuser.  There is currently no way to signal to a particular login attempt that it is using an incorrect scheme ([GitHub Issue #2005](https://github.com/irods/irods/issues/2005)).
 
@@ -24,7 +24,7 @@ For PAM Authentication, the iRODS user selects the new iRODS PAM authentication 
 "irods_authentication_scheme": "pam_password",
 ~~~
 
-Then, the user runs 'iinit' and enters their system password.  To protect the system password, SSL (via OpenSSL) is used to encrypt the `iinit` session.
+Then, the user runs 'iinit' and enters their system password.  To protect the system password, TLS (via OpenSSL) is used to encrypt the `iinit` session.
 
 Configuring the operating system, the service name used for PAM is 'irods'.  An addition to /etc/pam.d/ is required if the fall-through behavior is not desired.
 
@@ -78,10 +78,10 @@ This will allow any username/password combination to successfully authenticate w
 
 With the permissive configuration working with irodsPamAuthCheck, the next step is to adjust your PAM configuration to your desired settings (LDAP, in this case). You will know that is correct when irodsPamAuthCheck behaves as you would expect when using LDAP username/passwords. iRODS uses irodsPamAuthCheck directly, so if it is working on the command line, it should work when run by iRODS.
 
-### Setting up SSL/TLS
+### Setting up TLS
 
-Since PAM requires the user's password in plaintext, iRODS relies on SSL encryption to protect these credentials.  PAM authentication makes use of SSL regardless of the iRODS Zone SSL configuration (meaning even if iRODS explicitly does *not* encrypt data traffic, PAM will use SSL during authentication).
+Since PAM requires the user's password in plaintext, iRODS relies on TLS encryption to protect these credentials.  PAM authentication makes use of TLS regardless of the iRODS Zone TLS configuration (meaning even if iRODS explicitly does *not* encrypt data traffic, PAM will use TLS during authentication).
 
-In order to use the iRODS PAM support, you also need to have SSL working between the iRODS client and server.
+In order to use the iRODS PAM support, you also need to have TLS working between the iRODS client and server.
 
-See [SSL/TLS Documentation](../../system_overview/ssl_and_tls) for instructions to set up SSL/TLS communications between iRODS clients and servers.
+See [TLS Documentation](../../system_overview/tls) for instructions to set up TLS communications between iRODS clients and servers.

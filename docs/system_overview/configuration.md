@@ -523,16 +523,16 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
 {
     // (Optional)
     // Set to "request_server_negotiation" indicating advanced negotiation is desired,
-    // for use in enabling SSL and other technologies.
+    // for use in enabling TLS and other technologies.
     "irods_client_server_negotiation": "request_server_negotiation",
 
     // (Optional)
-    // Controls whether the client and server should use SSL/TLS for communication.
+    // Controls whether the client and server should use TLS for communication.
     //
     // The following values are supported:
-    // - CS_NEG_REFUSE:    Do not use SSL
-    // - CS_NEG_REQUIRE:   Demand SSL be used
-    // - CS_NEG_DONT_CARE: Let the server decide if SSL should be used
+    // - CS_NEG_REFUSE:    Do not use TLS
+    // - CS_NEG_REQUIRE:   Demand TLS be used
+    // - CS_NEG_DONT_CARE: Let the server decide if TLS should be used
     "irods_client_server_policy": "CS_NEG_REFUSE",
 
     // Number of seconds after which an existing connection in a connection pool is refreshed.
