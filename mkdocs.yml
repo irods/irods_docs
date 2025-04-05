@@ -52,7 +52,6 @@ nav:
  - System Overview:
     - Data Objects: 'system_overview/data_objects.md'
     - Process Model: 'system_overview/process_model.md'
-    - Control Plane: 'system_overview/control_plane.md'
     - Configuration: 'system_overview/configuration.md'
     - TLS/SSL: 'system_overview/tls.md'
     - Users and Permissions: 'system_overview/users_and_permissions.md'
