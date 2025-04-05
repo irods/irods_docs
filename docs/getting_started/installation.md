@@ -140,14 +140,12 @@ The `setup_irods.py` script will ask for information in four (possibly five) sec
     - Zone Port
     - Parallel Port Range (Begin)
     - Parallel Port Range (End)
-    - Control Plane Port
     - Schema Validation Base URI
     - iRODS Administrator Username
 
 4. Keys and Passwords
     - zone_key
     - negotiation_key
-    - Control Plane Key
     - iRODS Administrator Password
 
 5. Vault Directory
@@ -184,10 +182,6 @@ irods_host - <your.hostname>
 irods_match_hash_policy - compatible
 irods_maximum_size_for_single_buffer_in_megabytes - 32
 irods_port - 1247
-irods_server_control_plane_encryption_algorithm - AES-256-CBC
-irods_server_control_plane_encryption_num_hash_rounds - 16
-irods_server_control_plane_key - 32_byte_server_control_plane_key
-irods_server_control_plane_port - 1248
 irods_session_environment_file - /var/lib/irods/.irods/irods_environment.json.14518
 irods_transfer_buffer_size_for_parallel_transfer_in_megabytes - 4
 irods_user_name - rods
@@ -242,10 +236,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "irods_match_hash_policy": "compatible",
         "irods_maximum_size_for_single_buffer_in_megabytes": 32,
         "irods_port": 1247,
-        "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
-        "irods_server_control_plane_encryption_num_hash_rounds": 16,
-        "irods_server_control_plane_key": "32_byte_server_control_plane_key",
-        "irods_server_control_plane_port": 1248,
         "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
         "irods_user_name": "rods",
         "irods_zone_name": "tempZone",
@@ -367,11 +357,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "schema_name": "server_config",
         "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
         "schema_version": "v4",
-        "server_control_plane_encryption_algorithm": "AES-256-CBC",
-        "server_control_plane_encryption_num_hash_rounds": 16,
-        "server_control_plane_key": "32_byte_server_control_plane_key",
-        "server_control_plane_port": 1248,
-        "server_control_plane_timeout_milliseconds": 10000,
         "server_port_range_end": 20199,
         "server_port_range_start": 20000,
         "xmsg_port": 1279,
@@ -411,10 +396,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "irods_match_hash_policy": "compatible",
         "irods_maximum_size_for_single_buffer_in_megabytes": 32,
         "irods_port": 1247,
-        "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
-        "irods_server_control_plane_encryption_num_hash_rounds": 16,
-        "irods_server_control_plane_key": "32_byte_server_control_plane_key",
-        "irods_server_control_plane_port": 1248,
         "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
         "irods_user_name": "rods",
         "irods_zone_name": "tempZone",
@@ -526,11 +507,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "schema_name": "server_config",
         "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
         "schema_version": "v4",
-        "server_control_plane_encryption_algorithm": "AES-256-CBC",
-        "server_control_plane_encryption_num_hash_rounds": 16,
-        "server_control_plane_key": "32_byte_server_control_plane_key",
-        "server_control_plane_port": 1248,
-        "server_control_plane_timeout_milliseconds": 10000,
         "server_port_range_end": 20199,
         "server_port_range_start": 20000,
         "xmsg_port": 1279,
@@ -685,10 +661,6 @@ irods@hostname:~/ $ cat .irods/irods_environment.json
     "irods_match_hash_policy": "compatible",
     "irods_maximum_size_for_single_buffer_in_megabytes": 32,
     "irods_port": 1247,
-    "irods_server_control_plane_encryption_algorithm": "AES-256-CBC",
-    "irods_server_control_plane_encryption_num_hash_rounds": 16,
-    "irods_server_control_plane_key": "32_byte_server_control_plane_key",
-    "irods_server_control_plane_port": 1248,
     "irods_transfer_buffer_size_for_parallel_transfer_in_megabytes": 4,
     "irods_user_name": "rods",
     "irods_zone_name": "**<newzonename>**",

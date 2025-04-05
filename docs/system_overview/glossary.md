@@ -41,7 +41,7 @@ All Data Objects stored in an iRODS system are stored in some Collection, which 
 
 ## Data Grid
 
-A grid computing system (a set of distributed, cooperating computers) that deals with the controlled sharing and management of large amounts of distributed data.  An iRODS Grid consists of the physical computers, disks, network, and operating systems that run the iRODS software.  A Grid can report on its status, and member servers can be paused, resumed, or shutdown via the `irods-grid` command.
+A grid computing system (a set of distributed, cooperating computers) that deals with the controlled sharing and management of large amounts of distributed data.  An iRODS Grid consists of the physical computers, disks, network, and operating systems that run the iRODS software.
 
 ## Data Object
 
