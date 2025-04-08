@@ -445,6 +445,11 @@ This file defines the behavior of the server Agent that answers individual reque
 }
 ```
 
+Any changes made to the `server_config.json` file of a running iRODS server will require a configuration reload in order for the change to take effect. This can be done by sending a `SIGHUP` to the main server process. Here is one way to do this:
+```
+$ kill -HUP $(cat /var/run/irods/irods-server.pid)
+```
+
 ## Host Resolution
 
 The `host_resolution` server_config.json property serves as an iRODS-owned version of /etc/hosts.  It defines network aliases when you may not have permission to update hostnames on the servers in the Zone.
