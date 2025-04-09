@@ -147,7 +147,7 @@ irods_ssl_ca_certificate_file
 irods_ssl_ca_certificate_path
 :       Location of a directory containing CA certificates in PEM format. The files each contain one CA certificate. The files are looked up by the CA subject name hash value, which must be available. If more than one CA certificate with the same name hash value exist, the extension must be different (e.g. 9d66eef0.0, 9d66eef0.1, etc.).  The search is performed based on the ordering of the extension number, regardless of other properties of the certificates.  Use the 'c_rehash' utility to create the necessary links.
 
-### Verification and Debugging
+### Debugging and verification of connected server TLS information
 
 One can view TLS information from the server via `imiscsvrinfo`. Here is an example of the output from a client/server using certs generated using the instructions above:
 ~~~
@@ -181,3 +181,11 @@ SSL/TLS Info:
     subject_alternative_names: ["DNS:localhost"]
     subject_name: C=US, ST=North Carolina, L=Chapel Hill, O=iRODS Consortium
 ~~~
+
+### Debugging and verification of client TLS information
+
+The client can verify which certificate is in use by checking the iRODS client environment file (typically found in `~/.irods/irods_environment.json`) and looking for the `irods_ssl_ca_certificate_file` and `irods_ssl_ca_certificate_path` configurations. These settings refer to a specific cert file on the host, and the path to a directory on the host where at least one usable cert file exists, respectively.
+
+If neither of these are specified, then a CA certificate location has been specified by the client some other way, or is using one of the default locations for certs. The OpenSSL library - which the iRODS server and C/C++ clients use - has a few default locations which one can investigate to deduce which certificate might be in use. From the [OpenSSL documentation](https://docs.openssl.org/3.0/man3/SSL_CTX_load_verify_locations/):
+
+> "There is one default directory, one default file and one default store. The default CA certificates directory is called `certs` in the default OpenSSL directory, and this is also the default store. Alternatively the `SSL_CERT_DIR` environment variable can be defined to override this location. The default CA certificates file is called `cert.pem` in the default OpenSSL directory. Alternatively the `SSL_CERT_FILE` environment variable can be defined to override this location."
