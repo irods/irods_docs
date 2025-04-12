@@ -511,11 +511,6 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
 ```json
 {
     // (Optional)
-    // Set to "request_server_negotiation" indicating advanced negotiation is desired,
-    // for use in enabling TLS and other technologies.
-    "irods_client_server_negotiation": "request_server_negotiation",
-
-    // (Optional)
     // Controls whether the client and server should use TLS for communication.
     //
     // The following values are supported:
@@ -713,7 +708,6 @@ And here is a service account environment file defining the minimum settings nee
 
 ```json
 {
-    "irods_client_server_negotiation": "request_server_negotiation",
     "irods_client_server_policy": "CS_NEG_REFUSE",
     "irods_connection_pool_refresh_time_in_seconds": 300,
     "irods_cwd": "/tempZone/home/rods",
