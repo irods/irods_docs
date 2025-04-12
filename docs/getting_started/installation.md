@@ -184,10 +184,10 @@ irods_port - 1247
 irods_session_environment_file - /var/lib/irods/.irods/irods_environment.json.14518
 irods_transfer_buffer_size_for_parallel_transfer_in_megabytes - 4
 irods_user_name - rods
-irods_version - 4.2.0
+irods_version - 5.0.0
 irods_zone_name - tempZone
 schema_name - irods_environment
-schema_version - v3
+schema_version - v5
 ~~~
 
 ## Unattended Install
@@ -661,7 +661,7 @@ irods@hostname:~/ $ cat .irods/irods_environment.json
     "irods_user_name": "rods",
     "irods_zone_name": "**<newzonename>**",
     "schema_name": "irods_environment",
-    "schema_version": "v3"
+    "schema_version": "v5"
 }
 ~~~
 
