@@ -15,10 +15,16 @@ joe_user:~$ touch .irods/irods_environment.json
 
 Once this is done, the irods_environment.json file will need to be pointed at the location of the client-side plugins in order for the `iinit` command to finish the bootstrapping process. Using their favorite editor the user needs to add a few lines to `.irods/irods_environment.json`:
 
-```
+```json
 {
-  "irods_plugins_home" : "/shared/location/to/icommands/plugins/"
+  "irods_plugin_directory" : "/shared/location/to/icommands/plugins"
 }
+```
+
+`irods_plugin_directory` can also be set by defining an uppercase environment variable of the same name:
+
+```
+export IRODS_PLUGIN_DIRECTORY=/shared/location/to/icommands/plugins
 ```
 
 After the location of the plugins is made available to the iCommands, the user can run `iinit` to finish setting up the iRODS client environment:
@@ -43,7 +49,7 @@ At this point the user has a valid iRODS environment:
 joe_user:~$ cat .irods/irods_environment.json
 {
     "irods_host": "joeserver.example.org",
-    "irods_plugins_home" : "/shared/location/to/icommands/plugins/",
+    "irods_plugin_directory" : "/shared/location/to/icommands/plugins",
     "irods_port": 1247,
     "irods_user_name": "joe",
     "irods_zone_name": "joeZone"
@@ -55,15 +61,4 @@ Joe can now begin using the iCommands:
 ```
 joe_user:~$ ils
 /joeZone/home/joe:
-```
-
-It is also important to remember there are many other additional parameters available for configuration:
-
-  - [https://github.com/irods/irods_schema_configuration](https://github.com/irods/irods_schema_configuration)
-
-
-The `irods_plugins_home` can also be set via environment variable by setting the UPPERCASE version:
-
-```
-export IRODS_PLUGINS_HOME=/shared/location/to/icommands/plugins/
 ```
