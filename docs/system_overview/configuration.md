@@ -347,6 +347,11 @@ This file defines the behavior of the server Agent that answers individual reque
         ]
     },
 
+    // (Optional)
+    // The absolute path to a directory from where the server will load plugins.
+    // Overrides the default directory.
+    "plugin_directory": "",
+
     // Defines the list of namespaces used during PEP processing.
     //
     // Each entry acts as a prefix to each PEP. This results in (N PEPs triggered * M namespaces).
@@ -621,9 +626,9 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     "irods_ssl_verify_server": "hostname",
 
     // (Optional)
-    // Directory to use for the client side plugins.
-    // See section entitled "Distributing iCommands" for more details.
-    "irods_plugins_home": "",
+    // The absolute path to a directory from where the server will load plugins. Overrides the default
+    // directory. See section entitled "Distributing iCommands" for more details.
+    "irods_plugin_directory": "",
 
     // The port number on which the target iRODS server is listening.
     // This must match the port number used by the Zone.
