@@ -166,7 +166,6 @@ Once a server is up and running, the default environment can be shown:
 
 ~~~
 irods@hostname:~/ $ ienv
-irods_client_server_negotiation - request_server_negotiation
 irods_client_server_policy - CS_NEG_REFUSE
 irods_cwd - /tempZone/home/rods
 irods_default_hash_scheme - SHA256
@@ -220,7 +219,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "service_account_group_name": "irods"
     },
     "service_account_environment": {
-        "irods_client_server_negotiation": "request_server_negotiation",
         "irods_client_server_policy": "CS_NEG_REFUSE",
         "irods_connection_pool_refresh_time_in_seconds": 300,
         "irods_cwd": "/tempZone/home/rods",
@@ -380,7 +378,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "service_account_group_name": "irods"
     },
     "service_account_environment": {
-        "irods_client_server_negotiation": "request_server_negotiation",
         "irods_client_server_policy": "CS_NEG_REFUSE",
         "irods_connection_pool_refresh_time_in_seconds": 300,
         "irods_cwd": "/tempZone/home/rods",
@@ -646,7 +643,6 @@ For the client, you will need to update your `irods_environment.json` file with 
 ~~~
 irods@hostname:~/ $ cat .irods/irods_environment.json
 {
-    "irods_client_server_negotiation": "request_server_negotiation",
     "irods_client_server_policy": "CS_NEG_REFUSE",
     "irods_cwd": "/**<newzonename>**/home/rods",
     "irods_default_hash_scheme": "SHA256",

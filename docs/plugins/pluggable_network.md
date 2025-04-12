@@ -10,15 +10,12 @@ The TLS mechanism is provided via OpenSSL and wraps the activity from the TCP pl
 The TLS parameters are tunable via the following `irods_environment.json` variables:
 
 ~~~
-"irods_client_server_negotiation": "request_server_negotiation",
 "irods_client_server_policy": "CS_NEG_REQUIRE",
-"irods_encryption_key_size": 32,
-"irods_encryption_salt_size": 8,
-"irods_encryption_num_hash_rounds": 16,
 "irods_encryption_algorithm": "AES-256-CBC",
+"irods_encryption_key_size": 32,
+"irods_encryption_num_hash_rounds": 16,
+"irods_encryption_salt_size": 8,
 ~~~
-
-The only valid value for 'irods_client_server_negotiation' at this time is 'request_server_negotiation'.  Anything else will not begin the negotiation stage and default to using a TCP connection.
 
 The possible values for 'irods_client_server_policy' include:
 
