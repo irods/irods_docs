@@ -26,7 +26,7 @@ The order-by operators can be applied to any selected ATTRIBUTE and order-by ope
 
 Here is an example:
 ```
-"select order_desc(DATA_SIZE), order(DATA_MODIFY_TIME), order_desc(DATA_NAME), order_desc(DATA_RESC_NAME)"
+select order_desc(DATA_SIZE), order(DATA_MODIFY_TIME), order_desc(DATA_NAME), order_desc(DATA_RESC_NAME)
 ```
 
 If all of the replicas of all of the data objects have an identical `DATA_SIZE`, the order of the results will not change. If the replicas of the data objects have unique `DATA_MODIFY_TIME`s, the results will be ordered by `DATA_MODIFY_TIME`. If the data objects have unique `DATA_NAME`s, the order of the result set will not change because the results have alredy been ordered by `DATA_MODIFY_TIME`. If the data objects have multiple replicas which necessarily means that there are different `DATA_RESC_NAME`s in the result set, the order of the result set will not change because the results have alredy been ordered by `DATA_MODIFY_TIME`. So, the result set is ordered only by the first *effective* order-by operator.
@@ -149,20 +149,50 @@ OPERATOR can be one of a few different relational operators, most of which will 
  - 'between': ATTRIBUTE must be between two VALUEs, separated by a space. For example: `DATA_SIZE between '100' '1000'`
  - 'in': ATTRIBUTE must exactly match at least one VALUE in a comma-delimited list of VALUEs, which may be in parentheses (but does not need to be in parentheses). For example: `RESC_NAME in ('resc_a', 'resc_b')`
 
+VALUE must be surrounded by single quotes.
+
 CONDITION can also be composed of multiple sub-conditions on the same ATTRIBUTE via logical-or operators, expressed by `||`. The `||` operator effectively expands the set of results allowed by the conditional clause by matching results which meet at least one of the individual sub-conditions. Here is an example usage of logical-or to demonstrate:
 ```
 DATA_NAME like '%ooo%' || like 'goo%' || = 'very-special-case'
 ```
 Any results with `DATA_NAME` values that match any of the 3 conditions will be returned. Note that these conditions are checked in order, so it is recommended to use ascending order of specificity for efficiency.
 
-### Wildcard Expressions
+#### Wildcard Expressions
 
-VALUE must be surrounded by single-quotes and should be a constant value or wildcard expression. The following wildcard operators are supported:
+The following wildcard operators are supported:
 
  - '%': Matches on any number of any characters (including nothing). This is equivalent to '.\*' in traditional regular expressions.
  - '\_': Matches on any single character. This is equivalent to '.' in traditional regular expressions.
 
 If a literal '%' or '\_' must be used as part of the value for the query (rather than in a wildcard expression), these can be escaped using a backslash (\\).
+
+#### Escaping Bytes and Special Characters
+
+Each byte in VALUE can be escaped using its hexadecimal representation. Single quotes can be escaped using hexadecimal or by adding another single quote. These features are only supported by the following:
+
+ - `iquest`
+ - `parse_genquery1_string` _(only available to applications written in C or C++)_
+
+!!! Note
+    GenQuery1 implements these features entirely on the client-side, hence its limited availability. [GenQuery2](#genquery2) implements these features on the server-side making it available to all programming languages.
+
+Escaping a single byte is achieved by using `\xNN`, where _NN_ is the hexadecimal value of the byte. Decoding happens before the API request is sent to the server.
+
+The following example demonstrates how to escape an exclamation mark.
+
+```sql
+select DATA_NAME where DATA_NAME = 'data\x21.txt'
+```
+
+If the catalog contains a data object by the name, `data!.txt`, then it will be returned by GenQuery.
+
+Here's an example showing how a single quote can be escaped through the use of another single quote.
+
+```sql
+select DATA_NAME where DATA_NAME = 'that''s my data.txt'
+```
+
+GenQuery will notice the use of two adjacent single quotes and collapse them to one single quote before the API request is sent to the server. In the case of the example, `that''s` will be passed to the server as `that's`.
 
 ### Other Options
 
