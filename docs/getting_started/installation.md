@@ -128,7 +128,7 @@ The `setup_irods.py` script will ask for information in four (possibly five) sec
 
 2. Database Connection (if installing a 'provider')
     - ODBC Driver
-    - Database Server's Hostname or IP
+    - Database Server's FQDN, Hostname, or IP
     - Database Server's Port
     - Database Name
     - Database User
@@ -136,16 +136,16 @@ The `setup_irods.py` script will ask for information in four (possibly five) sec
     - Stored Passwords Salt
 
 3. iRODS Server Options
+    - FQDN, Hostname, or IP which identifies the server
     - Zone Name
     - Zone Port
     - Parallel Port Range (Begin)
     - Parallel Port Range (End)
-    - Schema Validation Base URI
     - iRODS Administrator Username
 
 4. Keys and Passwords
-    - zone_key
-    - negotiation_key
+    - Zone Key
+    - Negotiation Key
     - iRODS Administrator Password
 
 5. Vault Directory
