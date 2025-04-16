@@ -1,29 +1,48 @@
 #
 
-iRODS 4.2+ launches a long-running server process (`/usr/sbin/irodsServer`), which immediately forks the Agent Factory and spawns the Delay Server (`/usr/sbin/irodsDelayServer`).  All incoming API requests are serviced by the Agent Factory, and for every new connection the Agent Factory spawns a new Agent.  Each Agent will service its request as quickly as possible, and then terminate.
+When iRODS starts, it launches the long-running server process `irodsServer`.
 
-The iRODS Delay Server sleeps most of the time, but spawns an Agent every 30 seconds to check the delay queue for any delayed rules that need to be run.
+This process immediately creates two other processes:
 
-Agent processes are listed with the IP address of the connecting client.
+- **Agent Factory**: Handles all incoming client requests
+- **Delay Server** (optional): Manages delayed rule execution
 
-    /usr/sbin/irodsServer
-    ├─ irodsDelayServer
-    └─ irodsAgentFactory
-       ├─ irodsAgent
-       ├─ irodsAgent
-       ├─ irodsAgent
-       └─ irodsAgent
+## How requests are handled
 
-| iRODS Process         | Expected Duration        | Expected Resident Memory Usage  |
-| --------------------- | ------------------------ | ------------------------------- |
-| irodsServer           | long-running             | 126M                            |
-| irodsDelayServer      | long-running             | 17M                             |
-| irodsAgentFactory     | long-running             | 5M                              |
-| irodsAgent            | single client connection | 20M to 100M                     |
+The **Agent Factory** listens for new client connections. For each new connection, it forks a separate **Agent** process. Each Agent handles the initial client request, completes the work as quickly as possible, and then waits for any additional requests. Agents will continue to service requests until the client disconnects.
 
-iRODS uses a dynamic linking model, rather than a static linking model, which adds significant overhead for short running processes (e.g. `ils`).  In order to mitigate this overhead, the irodsServer no longer calls `fork()` and `exec()` as a separate executable (pre-4.2).  In addition, since calling `fork()` within a threaded environment creates undefined behavior, the irodsServer calls `fork()` to spawn the Agent Factory process early, before any threading begins and any configuration is determined.
+## The Delay Server
 
-![iRODS Process Model Diagram](../images/process_model_diagram.jpg)
+The **Delay Server** is designed to remain idle most of the time. Every 30 seconds _(by default)_, it wakes up and checks for any delayed rules that need to run. You can adjust this interval using the `delay_server_sleep_time_in_seconds` property in `server_config.json`. See [Configuration](../system_overview/configuration.md#etcirodsserver_configjson) for more information about this property.
 
+## Process Tree
 
+The following is an example showing the process hierarchy when the server is idle.
 
+```bash
+irodsServer
+  ├─irodsAgent
+  └─irodsDelayServer
+```
+
+Here is another example showing three Agents handling client requests. From this, we know there are three active connections to the server. Additional information about each connection is available via the [`ips`](../../icommands/user/#ips) iCommand.
+
+```bash
+irodsServer
+  ├─irodsAgent
+  │   ├─irodsAgent
+  │   ├─irodsAgent
+  │   └─irodsAgent
+  └─irodsDelayServer
+```
+
+The following table outlines basic expectations for each process.
+
+| Process                | Expected Duration        | Expected Memory Usage           |
+| ---------------------- | ------------------------ | ------------------------------- |
+| irodsServer            | Long-running             | ~60 MB                          |
+| irodsAgent _(factory)_ | Long-running             | ~120 MB                         |
+| irodsAgent             | Depends on client        | ~82 MB                          |
+| irodsDelayServer       | Long-running             | ~53 MB                          |
+
+Note that the lifetime of an Agent depends on the client. Clients are allowed to manage connections in ways that best suit their needs. Some may use connection pooling, while others may create and tear down connections as required.
