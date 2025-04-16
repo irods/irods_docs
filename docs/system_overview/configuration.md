@@ -526,10 +526,17 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
 }
 ```
 
-Any changes made to the `server_config.json` file of a running iRODS server will require a configuration reload in order for the change to take effect. This can be done by sending a `SIGHUP` to the main server process. Here is one way to do this:
+Any changes made to the `server_config.json` file of a running iRODS server will require a configuration reload in order for them to take effect. This can be done by sending a `SIGHUP` to the main server process. Here is one way to do this:
 ```
 $ kill -HUP $(cat /var/run/irods/irods-server.pid)
 ```
+
+Updates to the following configuration properties _(specified using JSON pointer syntax)_ require a full server restart to take effect.
+
+- `/advanced_settings/dns_cache/shared_memory_size_in_bytes`
+- `/advanced_settings/hostname_cache/shared_memory_size_in_bytes`
+
+This applies to configuration properties for access time as well. See [Access Time](../system_overview/data_objects.md#access-time) for more information.
 
 ## Host Resolution
 
