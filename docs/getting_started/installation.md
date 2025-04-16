@@ -194,7 +194,7 @@ schema_version - v5
 
 iRODS can also be installed by providing a file matching the JSON schema found here:
 
-- [https://github.com/irods/irods/blob/4.3.0/schemas/configuration/v4/unattended_installation.json.in](https://github.com/irods/irods/blob/4.3.0/schemas/configuration/v4/unattended_installation.json.in)
+- [https://github.com/irods/irods/blob/5.0.0/schemas/configuration/v5/unattended_installation.json.in](https://github.com/irods/irods/blob/5.0.0/schemas/configuration/v5/unattended_installation.json.in)
 
 This form of installation is known as an **Unattended Install**. Using this form of setup can help with automated deployments.
 
@@ -238,7 +238,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "irods_user_name": "rods",
         "irods_zone_name": "tempZone",
         "schema_name": "service_account_environment",
-        "schema_version": "v4"
+        "schema_version": "v5"
     },
     "server_config": {
         "advanced_settings": {
@@ -271,6 +271,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         ],
         "catalog_service_role": "provider",
         "client_api_allowlist_policy": "enforce",
+        "client_server_policy": "CS_NEG_REFUSE",
         "controlled_user_connection_list": {
             "control_type": "denylist",
             "users": []
@@ -279,6 +280,12 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "default_file_mode": "0600",
         "default_hash_scheme": "SHA256",
         "default_resource_name": "demoResc",
+        "encryption": {
+            "algorithm": "AES-256-CBC",
+            "key_size": 32,
+            "num_hash_rounds": 16,
+            "salt_size": 8
+        },
         "environment_variables": {},
         "federation": [],
         "host": "irods-provider",
@@ -353,11 +360,9 @@ Below you'll find examples showing what the input file might contain for a [Cata
             ""
         ],
         "schema_name": "server_config",
-        "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
-        "schema_version": "v4",
+        "schema_version": "v5",
         "server_port_range_end": 20199,
         "server_port_range_start": 20000,
-        "xmsg_port": 1279,
         "zone_auth_scheme": "native",
         "zone_key": "TEMPORARY_ZONE_KEY",
         "zone_name": "tempZone",
@@ -397,7 +402,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "irods_user_name": "rods",
         "irods_zone_name": "tempZone",
         "schema_name": "service_account_environment",
-        "schema_version": "v4"
+        "schema_version": "v5"
     },
     "server_config": {
         "advanced_settings": {
@@ -430,6 +435,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         ],
         "catalog_service_role": "consumer",
         "client_api_allowlist_policy": "enforce",
+        "client_server_policy": "CS_NEG_REFUSE",
         "controlled_user_connection_list": {
             "control_type": "denylist",
             "users": []
@@ -438,6 +444,12 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "default_file_mode": "0600",
         "default_hash_scheme": "SHA256",
         "default_resource_name": "otherResc",
+        "encryption": {
+            "algorithm": "AES-256-CBC",
+            "key_size": 32,
+            "num_hash_rounds": 16,
+            "salt_size": 8
+        },
         "environment_variables": {},
         "federation": [],
         "host": "irods-consumer",
@@ -502,11 +514,9 @@ Below you'll find examples showing what the input file might contain for a [Cata
             ""
         ],
         "schema_name": "server_config",
-        "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
-        "schema_version": "v4",
+        "schema_version": "v5",
         "server_port_range_end": 20199,
         "server_port_range_start": 20000,
-        "xmsg_port": 1279,
         "zone_auth_scheme": "native",
         "zone_key": "TEMPORARY_ZONE_KEY",
         "zone_name": "tempZone",
