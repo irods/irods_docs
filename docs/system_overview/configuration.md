@@ -184,8 +184,9 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         "salt_size": 8
     },
 
-    // Contains a set of key-value pairs of the form VARIABLE=VALUE such as "ORACLE_HOME=/full/path"
-    // from the server's environment. This setting can be empty.
+    // Defines environment variables which will be set by the server on startup.
+    // Each key-value pair can be viewed as ENV_VAR_NAME=VALUE. The server will overwrite environment
+    // variables inherited from the administrator's environment.
     "environment_variables": {
         "VARIABLE_NAME": "VALUE", // This is an example.
 
