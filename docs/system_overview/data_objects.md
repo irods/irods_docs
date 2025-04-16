@@ -45,6 +45,53 @@ $ ils -l /tempZone/home/rods/foo
   rods              1 resc_1          284 2022-07-20.17:31 ? foo
 ```
 
+### Access Time
+
+iRODS tracks access times for all replicas to help administrators and users better understand data access patterns. This feature is designed for performance and efficiency, using a background queue mechanism.
+
+Each replica of a data object maintains its own independent access time.
+
+---
+
+#### When are access times updated?
+
+- Access time updates are triggered when a replica is opened for reading
+- An update is queued only if:
+    - The replica’s last access time is earlier than its modification time, or
+    - The last access time is older than a configured threshold
+
+Access time updates are processed in the background using a shared memory message queue. Queued updates do not persist across server restarts.
+
+!!! Tip
+    You can use [GenQuery](../system_overview/genquery.md) to retrieve replica access times and build custom reports or queries.
+
+---
+
+#### Configuration Options
+
+Access time tracking is controlled by four zone-wide configuration options. These are stored in the catalog (`R_GRID_CONFIGURATION`) and can be modified using the [`iadmin`](../icommands/administrator.md#iadmin) tool.
+
+!!! Warning
+    All changes require a full server restart to take effect.
+
+| Namespace | Option Name | Description | Default |
+|---|---|---|---|
+| access_time | queue_name_prefix | Prefix for the shared memory queue file name (not the directory). | irods_access_time_queue_ |
+| access_time | queue_size | Max number of entries the queue can hold. If the queue is full, new entries will be dropped.<br>**Maximum allowed:** 500000 | 20000 |
+| access_time | batch_size | Maximum number of updates processed in a single batch. | 20000 |
+| access_time | resolution_in_seconds | Minimum number of seconds between access time updates for a given replica (if its access time is already newer than its modification time). | 86400 _(24 hours)_ |
+
+---
+
+#### Notes for Administrators
+
+- This feature is zone-wide and affects all replicas
+- Each replica's access time is tracked independently of other replicas of the same data object
+- Designed to be lightweight and efficient, with deferred updates
+- Enables better usage auditing and can inform data management policies
+
+Tune the configuration values based on your system’s usage patterns and performance goals.
+
 ## Logical Locking
 
 ### Overview
@@ -407,4 +454,4 @@ The following are all of the columns representing the system metadata in the tab
  - `modify_ts`: Timestamp which indicates the most recent time that this replica was modified, represented as seconds since the epoch. This will be updated every time this replica is opened for write and modified.
  - `resc_hier`: This column is no longer used by iRODS. The value `EMPTY_RESC_HIER` is used to discourage legacy queries.
  - `resc_id`: Identifier unique to the storage resource which hosts this replica. The identifiers are defined in `R_RESC_MAIN` which contains all of the information about the resources in a given zone.
-
+ - `access_ts`: Timestamp which indicates the last time that this replica was accessed, represented as seconds since the epoch. See [Access Time](#access-time) for more information.
