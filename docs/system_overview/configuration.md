@@ -532,6 +532,23 @@ Any changes made to the `server_config.json` file of a running iRODS server will
 $ kill -HUP $(cat /var/run/irods/irods-server.pid)
 ```
 
+The following configuration properties require a full restart of the server to take effect.
+
+```json
+{
+    "advanced_settings": {
+        "dns_cache": {
+            "shared_memory_size_in_bytes": 5000000
+        },
+        "hostname_cache": {
+            "shared_memory_size_in_bytes": 2500000
+        }
+    }
+}
+```
+
+This applies to configuration properties for access time as well. See [Access Time](../system_overview/data_objects.md#access-time) for more information.
+
 ## Host Resolution
 
 The `host_resolution` server_config.json property serves as an iRODS-owned version of /etc/hosts.  It defines network aliases when you may not have permission to update hostnames on the servers in the Zone.
