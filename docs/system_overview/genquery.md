@@ -235,6 +235,7 @@ Here is the complete list of GenQuery attributes available for use anywhere an A
  - COLL_ZONE_NAME
  - DATA_ACCESS_DATA_ID
  - DATA_ACCESS_NAME
+ - DATA_ACCESS_TIME
  - DATA_ACCESS_TYPE
  - DATA_ACCESS_USER_ID
  - DATA_CHECKSUM
