@@ -103,7 +103,7 @@ MariaDB can be used with the MySQL database plugin. Configuration is largely the
 ### iRODS Setup
 
 !!! Important
-    iRODS 4.3.0 has a dependency on the Python 3 library, [pyodbc](https://pypi.org/project/pyodbc/). Setup will fail if this library is not installed. CentOS 7 does not provide an RPM package for the Python 3 version of this library so it isn't declared as a dependency by the iRODS packages. Therefore, administrators must manually install the package. This can be accomplished by running the following: `sudo python3 -m pip install pyodbc`.
+    iRODS has a dependency on the Python 3 library, [pyodbc](https://pypi.org/project/pyodbc/). Setup will fail if this library is not installed.
 
 Installation of the iRODS server and PostgreSQL database plugin:
 
@@ -111,7 +111,7 @@ Installation of the iRODS server and PostgreSQL database plugin:
 $ (sudo) apt-get install irods-server irods-database-plugin-postgres
 ~~~
 
-On CentOS, some of the `irods-server` package dependencies can be satisfied from the EPEL repository provided by the `epel-release` package.
+On Enterprise Linux distributions, some of the `irods-server` package dependencies can be satisfied from the EPEL repository provided by the `epel-release` package.
 
 The `setup_irods.py` script below will prompt for, and then create, if necessary, a service account and service group which will own and operate the iRODS server binaries:
 
