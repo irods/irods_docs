@@ -841,14 +841,35 @@ iquery "select COLL_NAME, DATA_NAME where DATA_NAME = 'that''s my data.txt'"
 
 GenQuery2 will notice the use of double single quotes and collapse them to one single quote before sending to the database. In the case of the example, that means `that''s` will be passed to the database as `that's`.
 
-### Showing Duplicate Entries
+### Managing Duplicate/Unique Entries
 
-By default, GenQuery2 removes duplicate entries from the resultset.
+GenQuery2 does not automatically insert the DISTINCT keyword into the generated SQL. Users have full control over the placement of the DISTINCT keyword.
 
-If you need to view duplicate entries, add `no distinct` after the `select` keyword. For example:
+!!! Important
+    The initial GenQuery2 implementation for iRODS 4.3.4 and earlier removed duplicate entries from the resultset. This made it difficult for users to count records. Granting control over the DISTINCT keyword gives users more control and makes the behavior of the system more deterministic.
+
+The following example produces a resultset containing all replicas in the catalog.
 
 ```sh
-iquery "select no distinct COLL_NAME, DATA_NAME"
+iquery "select COLL_NAME, DATA_NAME"
+```
+
+The query can be tweaked to show data objects instead of replicas by using the DISTINCT keyword.
+
+```sh
+iquery "select distinct COLL_NAME, DATA_NAME"
+```
+
+The DISTINCT keyword can also be used in functions. The following query counts replicas.
+
+```sh
+iquery "select count(DATA_ID)"
+```
+
+And this slight tweak to the query produces the total number of data objects.
+
+```sh
+iquery "select count(distinct DATA_ID)"
 ```
 
 ### Casting Data Types
@@ -868,7 +889,7 @@ GenQuery2 provides support for the GROUP-BY clause. The important thing to remem
 Here's an example that calculates the number of data objects in each collection.
 
 ```sh
-iquery "select COLL_NAME, count(DATA_NAME) group by COLL_NAME"
+iquery "select COLL_NAME, count(distinct DATA_NAME) group by COLL_NAME"
 ```
 
 ### Offsets and Limiting the size of a resultset
