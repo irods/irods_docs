@@ -843,7 +843,7 @@ GenQuery2 will notice the use of double single quotes and collapse them to one s
 
 ### Managing Duplicate/Unique Entries
 
-GenQuery2 does not automatically insert the DISTINCT keyword into the generated SQL. Users now have full control over the placement of the DISTINCT keyword.
+GenQuery2 does not automatically insert the DISTINCT keyword into the generated SQL. Users have full control over the placement of the DISTINCT keyword.
 
 !!! Important
     The initial GenQuery2 implementation for iRODS 4.3.4 and earlier removed duplicate entries from the resultset. This made it difficult for users to count records. Granting control over the DISTINCT keyword gives users more control and makes the behavior of the system more deterministic.
