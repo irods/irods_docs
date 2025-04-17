@@ -169,18 +169,11 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
     // See "Checksum Configuration" for more details.
     "default_hash_scheme": "SHA256",
 
-    // Encryption properties used for parallel transfer.
+    // Encryption properties used for TLS and legacy parallel transfer.
     "encryption": {
-        // EVP-supplied encryption algorithm for parallel transfer encryption.
         "algorithm": "AES-256-CBC",
-
-        // Key size for parallel transfer encryption.
         "key_size": 32,
-
-        // Number of hash rounds for parallel transfer encryption.
         "num_hash_rounds": 16,
-
-        // Salt size for parallel transfer encryption.
         "salt_size": 8
     },
 
@@ -652,19 +645,19 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     "irods_default_resource": "demoResc",
 
     // (Optional)
-    // EVP-supplied encryption algorithm for parallel transfer encryption.
+    // EVP-supplied encryption algorithm for TLS and legacy parallel transfer.
     "irods_encryption_algorithm": "AES-256-CBC",
 
     // (Optional)
-    // Key size for parallel transfer encryption.
+    // Key size for TLS and legacy parallel transfer.
     "irods_encryption_key_size": 32,
 
     // (Optional)
-    // Number of hash rounds for parallel transfer encryption.
+    // Number of hash rounds for TLS and legacy parallel transfer.
     "irods_encryption_num_hash_rounds": 16,
 
     // (Optional)
-    // Salt size for parallel transfer encryption.
+    // Salt size for TLS and legacy parallel transfer.
     "irods_encryption_salt_size": 8,
 
     // (Optional)
