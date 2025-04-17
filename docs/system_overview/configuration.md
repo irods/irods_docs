@@ -613,7 +613,8 @@ An example `host_access_control` configuration:
 
 This is the main iRODS configuration file defining the iRODS environment. Any changes are effective immediately since iCommands reload their environment on every execution.
 
-The server no longer relies on information defined in this file.
+!!! Note
+    The server no longer relies on information defined in this file.
 
 ```json
 {
