@@ -527,7 +527,7 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
 }
 ```
 
-Any changes made to the `server_config.json` file of a running iRODS server will require a configuration reload in order for the change to take effect. This can be done by sending a `SIGHUP` to the main server process. Here is one way to do this:
+Any changes made to the `server_config.json` file of a running iRODS server will require a configuration reload in order for them to take effect. This can be done by sending a `SIGHUP` to the main server process. Here is one way to do this:
 ```
 $ kill -HUP $(cat /var/run/irods/irods-server.pid)
 ```
