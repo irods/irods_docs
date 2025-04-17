@@ -111,7 +111,7 @@ Installation of the iRODS server and PostgreSQL database plugin:
 $ (sudo) apt-get install irods-server irods-database-plugin-postgres
 ~~~
 
-On CentOS, some of the `irods-server` package dependencies can be satisfied from the EPEL repository provided by the `epel-release` package. TODO: Should we remove or update this line?
+On Enterprise Linux distributions, some of the `irods-server` package dependencies can be satisfied from the EPEL repository provided by the `epel-release` package.
 
 The `setup_irods.py` script below will prompt for, and then create, if necessary, a service account and service group which will own and operate the iRODS server binaries:
 
