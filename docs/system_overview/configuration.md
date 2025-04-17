@@ -12,9 +12,9 @@ This scrambled password file is saved after an `iinit` is run. If this file does
 
 ## /etc/irods/server_config.json
 
-This file defines the behavior of the server-side processes that answer incoming requests coming into iRODS. It is created and populated by the installer package.
+This file defines the behavior of the server-side processes which listen for and answer incoming iRODS client requests. It is created and populated by `setup_irods.py`.
 
-iRODS 5 servers only require a working server_config.json file. All server properties which existed in the service account user's irods_environment.json file have been provided via the server_config.json file.
+iRODS 5 servers only require a working `server_config.json` file. All server properties which existed in prior versions of the service account's `irods_environment.json` file have been incorporated into `server_config.json`.
 
 !!! IMPORTANT
     All configuration settings are required unless marked as optional. The value associated with a key represents the default value. 
@@ -169,7 +169,7 @@ iRODS 5 servers only require a working server_config.json file. All server prope
     // See "Checksum Configuration" for more details.
     "default_hash_scheme": "SHA256",
 
-    // Encyption properties used for parallel transfer.
+    // Encryption properties used for parallel transfer.
     "encryption": {
         // EVP-supplied encryption algorithm for parallel transfer encryption.
         "algorithm": "AES-256-CBC",
@@ -457,8 +457,7 @@ iRODS 5 servers only require a working server_config.json file. All server prope
     "tcp_keepalive_time_in_seconds": -1,
 
     // (Optional)
-    // Defines client-side TLS configurations. Although the "tls_client" object itself is optional,
-    // all sub-properties are required if "tls_client" is defined.
+    // Defines client-side TLS configurations.
     "tls_client": {
         // (Optional)
         // Location of a file of trusted CA certificates in PEM format.
