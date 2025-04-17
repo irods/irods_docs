@@ -841,7 +841,7 @@ Embedded single quotes can be escaped by adding another single quote, just like 
 iquery "select distinct COLL_NAME, DATA_NAME where DATA_NAME = 'that''s my data.txt'"
 ```
 
-GenQuery2 will notice the use of double single quotes and collapse them to one single quote before sending to the database. In the case of the example, that means `that''s` will be passed to the database as `that's`.
+GenQuery2 will notice the use of two adjacent single quotes and collapse them to one single quote before sending to the database. In the case of the example, `that''s` will be passed to the database as `that's`.
 
 ### Managing Duplicate/Unique Entries
 
