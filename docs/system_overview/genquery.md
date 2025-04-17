@@ -666,19 +666,19 @@ It also supports grouping via parentheses. Below are some examples.
 
 ```sh
 # Demonstrates logical-AND.
-iquery "select DATA_NAME where COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo'"
+iquery "select distinct DATA_NAME where COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo'"
 
 # Demonstrates logical-OR.
-iquery "select DATA_NAME where DATA_REPL_STATUS in ('0', '2') or DATA_NAME = 'foo'"
+iquery "select distinct DATA_NAME where DATA_REPL_STATUS in ('0', '2') or DATA_NAME = 'foo'"
 
 # Demonstrates logical-NOT.
-iquery "select DATA_NAME where not DATA_NAME = 'foo'"
+iquery "select distinct DATA_NAME where not DATA_NAME = 'foo'"
 
 # Demonstrates logical-NOT and grouping via parentheses.
-iquery "select DATA_NAME where not (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo')"
+iquery "select distinct DATA_NAME where not (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo')"
 
 # Demonstrates all logical operators and grouping via parentheses.
-iquery "select DATA_NAME where (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo') or not DATA_NAME = 'bar'"
+iquery "select distinct DATA_NAME where (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo') or not DATA_NAME = 'bar'"
 ```
 
 Any number of parentheses can be used to group conditions.
@@ -697,21 +697,21 @@ Below are a few examples demonstrating each feature.
 
 ```sh
 # SQL functions in the SELECT clause.
-iquery "select concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods'"
+iquery "select distinct concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods'"
 
 # SQL functions in the WHERE clause.
-iquery "select COLL_NAME where concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) = '/tempZone/home/rods--rods'"
+iquery "select distinct COLL_NAME where concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) = '/tempZone/home/rods--rods'"
 
 # SQL functions in the ORDER-BY clause. 
-iquery "select concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods' order by concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME))"
+iquery "select distinct concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods' order by concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME))"
 
 # Case-insensitive search.
-iquery "select DATA_NAME where lower(DATA_NAME) = 'foo'"
-iquery "select DATA_NAME where upper(DATA_NAME) = 'FOO'"
+iquery "select distinct DATA_NAME where lower(DATA_NAME) = 'foo'"
+iquery "select distinct DATA_NAME where upper(DATA_NAME) = 'FOO'"
 
 # Substrings and integers.
-iquery "select substr(DATA_NAME, 1, 3)"
-iquery "select substr(DATA_NAME, '1', '3')" # Produces the same output as the previous line.
+iquery "select distinct substr(DATA_NAME, 1, 3)"
+iquery "select distinct substr(DATA_NAME, '1', '3')" # Produces the same output as the previous line.
 ```
 
 !!! Note
@@ -731,7 +731,7 @@ $ itouch foo
 $ imeta add -d foo id 1000
 $ itouch -R otherResc bar
 $ imeta add -R otherResc speed fast
-$ iquery "select DATA_NAME where META_DATA_ATTR_VALUE = '1000' or META_RESC_ATTR_VALUE = 'fast'" | jq
+$ iquery "select distinct DATA_NAME where META_DATA_ATTR_VALUE = '1000' or META_RESC_ATTR_VALUE = 'fast'" | jq
 [
   [
     "foo"
@@ -753,7 +753,7 @@ $ itouch foo
 $ imeta add -d foo alice jones
 $ imeta add -C . bob jones
 $ imeta add -C . job developer
-$ iquery "select META_COLL_ATTR_NAME" | jq
+$ iquery "select distinct META_COLL_ATTR_NAME" | jq
 [
   [
     "bob"
@@ -776,12 +776,14 @@ FROM
     R_COLL_MAIN t0
     INNER JOIN R_OBJT_ACCESS pcoa ON t0.coll_id = pcoa.object_id
     INNER JOIN R_TOKN_MAIN pct ON pcoa.access_type_id = pct.token_id
-    INNER JOIN R_USER_MAIN pcu ON pcoa.user_id = pcu.user_id
+    INNER JOIN R_USER_GROUP pcug ON pcoa.user_id = pcug.group_user_id
+    INNER JOIN R_USER_MAIN pcu ON pcug.user_id = pcu.user_id
     LEFT JOIN R_OBJT_METAMAP ommc ON t0.coll_id = ommc.object_id
     LEFT JOIN R_META_MAIN mmc ON ommc.meta_id = mmc.meta_id
 WHERE
     pcu.user_name = ?
     AND pcu.zone_name = 'tempZone'
+    AND pcu.user_type_name != 'rodsgroup'
     AND pcoa.access_type_id >= 1050 FETCH FIRST 256 ROWS ONLY
 ```
 
@@ -790,7 +792,7 @@ Based on the generated SQL, the resultset returned by GenQuery2 is correct. The 
 To get around this, apply an additional condition to the query like so.
 
 ```sh
-$ iquery "select META_COLL_ATTR_NAME where META_COLL_ATTR_NAME is not null" | jq
+$ iquery "select distinct META_COLL_ATTR_NAME where META_COLL_ATTR_NAME is not null" | jq
 [
   [
     "bob"
@@ -806,7 +808,7 @@ $ iquery "select META_COLL_ATTR_NAME where META_COLL_ATTR_NAME is not null" | jq
 Sorting data with GenQuery2 uses the same syntax as standard SQL. For example:
 
 ```sh
-iquery "select RESC_NAME, COLL_NAME, DATA_NAME order by RESC_NAME desc, COLL_NAME, DATA_NAME asc"
+iquery "select distinct RESC_NAME, COLL_NAME, DATA_NAME order by RESC_NAME desc, COLL_NAME, DATA_NAME asc"
 ```
 
 Notice the use of `desc` and `asc`. Just like standard SQL, users can specify the sorting direction.
@@ -828,7 +830,7 @@ This is achieved by using `\xNN`, where _NN_ is the hexadecimal value of the byt
 The following example demonstrates how to escape an exclamation mark.
 
 ```sh
-iquery "select COLL_NAME, DATA_NAME where DATA_NAME = 'data\x21.txt'"
+iquery "select distinct COLL_NAME, DATA_NAME where DATA_NAME = 'data\x21.txt'"
 ```
 
 If the catalog contains a data object by the name, `data!.txt`, then it will be returned by GenQuery2.
@@ -836,7 +838,7 @@ If the catalog contains a data object by the name, `data!.txt`, then it will be 
 Embedded single quotes can be escaped by adding another single quote, just like standard SQL. For example:
 
 ```sh
-iquery "select COLL_NAME, DATA_NAME where DATA_NAME = 'that''s my data.txt'"
+iquery "select distinct COLL_NAME, DATA_NAME where DATA_NAME = 'that''s my data.txt'"
 ```
 
 GenQuery2 will notice the use of double single quotes and collapse them to one single quote before sending to the database. In the case of the example, that means `that''s` will be passed to the database as `that's`.
@@ -877,7 +879,7 @@ iquery "select count(distinct DATA_ID)"
 GenQuery2 supports SQL CAST expressions.
 
 ```sh
-iquery "select cast(DATA_SIZE as int)"
+iquery "select distinct cast(DATA_SIZE as int)"
 ```
 
 GenQuery2 does not verify the correctness of the cast expression. It simply forwards it to the database as is.
@@ -889,7 +891,7 @@ GenQuery2 provides support for the GROUP-BY clause. The important thing to remem
 Here's an example that calculates the number of data objects in each collection.
 
 ```sh
-iquery "select COLL_NAME, count(distinct DATA_NAME) group by COLL_NAME"
+iquery "select distinct COLL_NAME, count(distinct DATA_NAME) group by COLL_NAME"
 ```
 
 ### Offsets and Limiting the size of a resultset
@@ -901,7 +903,7 @@ You can change the size of the resultset by specifying a `LIMIT` or `FETCH FIRST
 For example:
 
 ```sh
-iquery "select COLL_NAME, DATA_NAME limit 1000"
+iquery "select distinct COLL_NAME, DATA_NAME limit 1000"
 ```
 
 !!! Note
@@ -910,7 +912,7 @@ iquery "select COLL_NAME, DATA_NAME limit 1000"
 You can also apply an offset by using the `OFFSET` keyword.
 
 ```sh
-iquery "select COLL_NAME, DATA_NAME order by COLL_NAME, DATA_NAME offset 2000 limit 1000"
+iquery "select distinct COLL_NAME, DATA_NAME order by COLL_NAME, DATA_NAME offset 2000 limit 1000"
 ```
 
 Notice we're now also sorting the results. Without the ORDER-BY clause, the offset and limit add little value.
