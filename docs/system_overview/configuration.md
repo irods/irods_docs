@@ -1,6 +1,6 @@
 #
 
-The following configuration files control nearly all aspects of how an iRODS deployment functions. All JSON files validate against the  [configuration schemas in each installation](https://github.com/irods/irods/tree/main/schemas/configuration/v4).
+The following configuration files control nearly all aspects of how an iRODS deployment functions. All JSON files validate against the  [configuration schemas in each installation](https://github.com/irods/irods/tree/main/schemas/configuration/v5).
 
 ## ~/.odbc.ini
 
@@ -12,7 +12,9 @@ This scrambled password file is saved after an `iinit` is run. If this file does
 
 ## /etc/irods/server_config.json
 
-This file defines the behavior of the server Agent that answers individual requests coming into iRODS. It is created and populated by the installer package.
+This file defines the behavior of the server-side processes which listen for and answer incoming iRODS client requests. It is created and populated by `setup_irods.py`.
+
+iRODS 5 servers only require a working `server_config.json` file. All server properties which existed in prior versions of the service account's `irods_environment.json` file have been incorporated into `server_config.json`.
 
 !!! IMPORTANT
     All configuration settings are required unless marked as optional. The value associated with a key represents the default value. 
@@ -125,6 +127,17 @@ This file defines the behavior of the server Agent that answers individual reque
     // to how the server behaved prior to iRODS 4.3.0.
     "client_api_allowlist_policy": "enforce",
 
+    // Number of seconds after which an existing connection in a connection pool is refreshed.
+    "connection_pool_refresh_time_in_seconds": 300,
+
+    // Controls whether the servers should use TLS for communication.
+    //
+    // The following values are supported:
+    // - CS_NEG_REFUSE:    Do not use TLS
+    // - CS_NEG_REQUIRE:   Demand TLS be used
+    // - CS_NEG_DONT_CARE: Let the other server decide if TLS should be used
+    "client_server_policy": "CS_NEG_REFUSE",
+
     // Defines the list of users that can connect to this server.
     "controlled_user_connection_list": {
         // Defines the type of list.
@@ -156,8 +169,17 @@ This file defines the behavior of the server Agent that answers individual reque
     // See "Checksum Configuration" for more details.
     "default_hash_scheme": "SHA256",
 
-    // Contains a set of key-value pairs of the form VARIABLE=VALUE such as "ORACLE_HOME=/full/path"
-    // from the server's environment. This setting can be empty.
+    // Encryption properties used for TLS and legacy parallel transfer.
+    "encryption": {
+        "algorithm": "AES-256-CBC",
+        "key_size": 32,
+        "num_hash_rounds": 16,
+        "salt_size": 8
+    },
+
+    // Defines environment variables which will be set by the server on startup.
+    // Each key-value pair can be viewed as ENV_VAR_NAME=VALUE. The server will overwrite environment
+    // variables inherited from the administrator's environment.
     "environment_variables": {
         "VARIABLE_NAME": "VALUE", // This is an example.
 
@@ -368,19 +390,9 @@ This file defines the behavior of the server Agent that answers individual reque
     // Defines the filename of the JSON schema used for validation when not specified explicitly.
     "schema_name": "server_config",
 
-    // The URI against which the iRODS server configuration is validated.
-    //
-    // The following values are supported:
-    // - An absolute path in the local filesystem
-    // - A http(s) endpoint pointing to valid JSON schema files
-    // - The value "off"
-    //
-    // When set to off, schema validation is skipped.
-    "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
-
     // Defines the version of the schema used for validation.
     // This normally maps to a directory under /var/lib/irods/configuration_schemas.
-    "schema_version": "v4",
+    "schema_version": "v5",
 
     // The beginning of the port number range available for parallel transfers.
     // This must be the same across all iRODS servers in a Zone.
@@ -391,9 +403,88 @@ This file defines the behavior of the server Agent that answers individual reque
     "server_port_range_end": 20199,
 
     // (Optional)
-    // Defines server-side TLS configurations. Although the "tls" object itself is optional,
-    // all sub-properties are required if "tls" is defined.
-    "tls": {
+    // The number of seconds between TCP keep-alive probes. The default value in the TCP specification is 75. For more
+    // details, see:
+    // - man tcp
+    // - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    //
+    // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPINTVL will remain unset.
+    // This means that the value of tcp_keepalive_intvl in use for the kernel configuration will be used for iRODS
+    // sockets using TCP keepalive. The range of acceptable values is defined by the range of acceptable values for the
+    // TCP_KEEPINTVL option. If a value outside of the acceptable range is provided, an error will be returned and the
+    // socket will be closed. If a non-positive value is used, the option will be considered not set.
+    //
+    // -1 indicates that the socket option should remain unset.
+    "tcp_keepalive_intvl_in_seconds": -1,
+
+    // (Optional)
+    // The maximum number of TCP keep-alive probes to send before giving up and killing the connection if no response is
+    // obtained from the other end. The default value in the TCP specification is 9. For more details, see:
+    // - man tcp
+    // - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    //
+    // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPCNT will remain unset.
+    // This means that the value of tcp_keepalive_probes in use for the kernel configuration will be used for iRODS
+    // sockets using TCP keepalive. The range of acceptable values is defined by the range of acceptable values for the
+    // TCP_KEEPCNT option. If a value outside of the acceptable range is provided, an error will be returned and the
+    // socket will be closed.
+    //
+    // -1 indicates that the socket option should remain unset.
+    "tcp_keepalive_probes": -1,
+
+    // (Optional)
+    // The number of seconds a connection needs to be idle before TCP begins sending out keep-alive probes. The default
+    // value in the TCP specification is 7200 seconds (2 hours). An idle connection is terminated after approximately an
+    // additional 11 minutes (9 probes at an interval of 75 seconds apart) when keep-alive is enabled. For more details,
+    // see:
+    // - man tcp
+    // - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    //
+    // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPIDLE will remain unset.
+    // This means that the value of tcp_keepalive_time in use for the kernel configuration will be used for iRODS
+    // sockets using TCP keepalive. The range of acceptable values is defined by the range of acceptable values for the
+    // TCP_KEEPIDLE option. If a value outside of the acceptable range is provided, an error will be returned and the
+    // socket will be closed.
+    //
+    // -1 indicates that the socket option should remain unset.
+    "tcp_keepalive_time_in_seconds": -1,
+
+    // (Optional)
+    // Defines client-side TLS configurations.
+    "tls_client": {
+        // (Optional)
+        // Location of a file of trusted CA certificates in PEM format.
+        // Note that the certificates in this file are used in conjunction with the system
+        // default trusted certificates.
+        "ca_certificate_file": "",
+
+        // (Optional)
+        // Location of a directory containing CA certificates in PEM format.
+        // The files each contain one CA certificate. The files are looked up by the CA subject
+        // name hash value, which must hence be available. If more than one CA certificate with the
+        // same name hash value exist, the extension must be different (e.g. 9d66eef0.0, 9d66eef0.1 etc).
+        // The search is performed in the ordering of the extension number, regardless of other
+        // properties of the certificates. Use the ‘c_rehash’ utility to create the necessary links.
+        "ca_certificate_path": "",
+
+        // Defines the level of server certificate authentication to perform.
+        //
+        // The following values are supported: none, cert, hostname
+        //
+        // When set to "none", authentication is skipped.
+        //
+        // When set to "cert", the server will verify that the certificate was signed by a trusted CA.
+        //
+        // When set to "hostname", the server will do everything defined by the "cert" level and then
+        // verify that the FQDN of the iRODS server matches either the common name or one of the
+        // subjectAltNames in the certificate.
+        "verify_server": "hostname"
+    },
+
+    // (Optional)
+    // Defines server-side TLS configurations. Although the "tls_server" object itself is optional,
+    // all sub-properties are required if "tls_server" is defined.
+    "tls_server": {
         // Absolute path to the file containing the server's certificate chain.
         // The certificates must be in PEM format and must be sorted starting with the subject's
         // certificate (actual client or server certificate), followed by intermediate CA certificates
@@ -429,10 +520,17 @@ This file defines the behavior of the server Agent that answers individual reque
 }
 ```
 
-Any changes made to the `server_config.json` file of a running iRODS server will require a configuration reload in order for the change to take effect. This can be done by sending a `SIGHUP` to the main server process. Here is one way to do this:
+Any changes made to the `server_config.json` file of a running iRODS server will require a configuration reload in order for them to take effect. This can be done by sending a `SIGHUP` to the main server process. Here is one way to do this:
 ```
 $ kill -HUP $(cat /var/run/irods/irods-server.pid)
 ```
+
+Updates to the following configuration properties _(specified using JSON pointer syntax)_ require a full server restart to take effect.
+
+- `/advanced_settings/dns_cache/shared_memory_size_in_bytes`
+- `/advanced_settings/hostname_cache/shared_memory_size_in_bytes`
+
+This applies to configuration properties for access time as well. See [Access Time](../system_overview/data_objects.md#access-time) for more information.
 
 ## Host Resolution
 
@@ -508,6 +606,9 @@ An example `host_access_control` configuration:
 
 This is the main iRODS configuration file defining the iRODS environment. Any changes are effective immediately since iCommands reload their environment on every execution.
 
+!!! Note
+    The server no longer relies on information defined in this file.
+
 ```json
 {
     // (Optional)
@@ -544,19 +645,19 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     "irods_default_resource": "demoResc",
 
     // (Optional)
-    // EVP-supplied encryption algorithm for parallel transfer encryption.
+    // EVP-supplied encryption algorithm for TLS and legacy parallel transfer.
     "irods_encryption_algorithm": "AES-256-CBC",
 
     // (Optional)
-    // Key size for parallel transfer encryption.
+    // Key size for TLS and legacy parallel transfer.
     "irods_encryption_key_size": 32,
 
     // (Optional)
-    // Number of hash rounds for parallel transfer encryption.
+    // Number of hash rounds for TLS and legacy parallel transfer.
     "irods_encryption_num_hash_rounds": 16,
 
     // (Optional)
-    // Salt size for parallel transfer encryption.
+    // Salt size for TLS and legacy parallel transfer.
     "irods_encryption_salt_size": 8,
 
     // (Optional)
@@ -624,10 +725,24 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     "irods_ssl_ca_certificate_path": "",
 
     // (Optional)
+    // Defines the level of server certificate authentication to perform.
+    //
+    // The following values are supported: none, cert, hostname
+    //
+    // When set to "none", authentication is skipped.
+    //
+    // When set to "cert", the server will verify that the certificate was signed by a trusted CA.
+    //
+    // When set to "hostname", the server will do everything defined by the "cert" level and then verify
+    // that the FQDN of the iRODS server matches either the common name or one of the subjectAltNames in
+    // the certificate.
+    "irods_ssl_verify_server": "hostname",
+
+    // (Optional)
     // The number of seconds between TCP keep-alive probes. The default value in the TCP specification is 75. For more
     // details, see:
-    //  - man tcp
-    //  - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    // - man tcp
+    // - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
     //
     // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPINTVL will remain unset.
     // This means that the value of tcp_keepalive_intvl in use for the kernel configuration will be used for iRODS
@@ -641,8 +756,8 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     // (Optional)
     // The maximum number of TCP keep-alive probes to send before giving up and killing the connection if no response is
     // obtained from the other end. The default value in the TCP specification is 9. For more details, see:
-    //  - man tcp
-    //  - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    // - man tcp
+    // - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
     //
     // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPCNT will remain unset.
     // This means that the value of tcp_keepalive_probes in use for the kernel configuration will be used for iRODS
@@ -658,8 +773,8 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     // value in the TCP specification is 7200 seconds (2 hours). An idle connection is terminated after approximately an
     // additional 11 minutes (9 probes at an interval of 75 seconds apart) when keep-alive is enabled. For more details,
     // see:
-    //  - man tcp
-    //  - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
+    // - man tcp
+    // - https://tldp.org/HOWTO/TCP-Keepalive-HOWTO/usingkeepalive.html
     //
     // If this option is not set or set to a non-positive value, the socket option for TCP_KEEPIDLE will remain unset.
     // This means that the value of tcp_keepalive_time in use for the kernel configuration will be used for iRODS
@@ -689,7 +804,7 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     // (Optional)
     // Defines the version of the schema used for validation.
     // Only applies to service account environment files.
-    "schema_version": "v4"
+    "schema_version": "v5"
 }
 ```
 
@@ -727,7 +842,7 @@ And here is a service account environment file defining the minimum settings nee
     "irods_user_name": "rods",
     "irods_zone_name": "tempZone",
     "schema_name": "service_account_environment",
-    "schema_version": "v4"
+    "schema_version": "v5"
 }
 ```
 

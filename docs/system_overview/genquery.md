@@ -666,19 +666,19 @@ It also supports grouping via parentheses. Below are some examples.
 
 ```sh
 # Demonstrates logical-AND.
-iquery "select DATA_NAME where COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo'"
+iquery "select distinct DATA_NAME where COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo'"
 
 # Demonstrates logical-OR.
-iquery "select DATA_NAME where DATA_REPL_STATUS in ('0', '2') or DATA_NAME = 'foo'"
+iquery "select distinct DATA_NAME where DATA_REPL_STATUS in ('0', '2') or DATA_NAME = 'foo'"
 
 # Demonstrates logical-NOT.
-iquery "select DATA_NAME where not DATA_NAME = 'foo'"
+iquery "select distinct DATA_NAME where not DATA_NAME = 'foo'"
 
 # Demonstrates logical-NOT and grouping via parentheses.
-iquery "select DATA_NAME where not (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo')"
+iquery "select distinct DATA_NAME where not (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo')"
 
 # Demonstrates all logical operators and grouping via parentheses.
-iquery "select DATA_NAME where (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo') or not DATA_NAME = 'bar'"
+iquery "select distinct DATA_NAME where (COLL_NAME = '/tempZone/home/rods' and DATA_NAME = 'foo') or not DATA_NAME = 'bar'"
 ```
 
 Any number of parentheses can be used to group conditions.
@@ -697,21 +697,21 @@ Below are a few examples demonstrating each feature.
 
 ```sh
 # SQL functions in the SELECT clause.
-iquery "select concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods'"
+iquery "select distinct concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods'"
 
 # SQL functions in the WHERE clause.
-iquery "select COLL_NAME where concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) = '/tempZone/home/rods--rods'"
+iquery "select distinct COLL_NAME where concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) = '/tempZone/home/rods--rods'"
 
 # SQL functions in the ORDER-BY clause. 
-iquery "select concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods' order by concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME))"
+iquery "select distinct concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME)) where COLL_NAME = '/tempZone/home/rods' order by concat(COLL_NAME, concat('--', COLL_ACCESS_USER_NAME))"
 
 # Case-insensitive search.
-iquery "select DATA_NAME where lower(DATA_NAME) = 'foo'"
-iquery "select DATA_NAME where upper(DATA_NAME) = 'FOO'"
+iquery "select distinct DATA_NAME where lower(DATA_NAME) = 'foo'"
+iquery "select distinct DATA_NAME where upper(DATA_NAME) = 'FOO'"
 
 # Substrings and integers.
-iquery "select substr(DATA_NAME, 1, 3)"
-iquery "select substr(DATA_NAME, '1', '3')" # Produces the same output as the previous line.
+iquery "select distinct substr(DATA_NAME, 1, 3)"
+iquery "select distinct substr(DATA_NAME, '1', '3')" # Produces the same output as the previous line.
 ```
 
 !!! Note
@@ -722,7 +722,7 @@ iquery "select substr(DATA_NAME, '1', '3')" # Produces the same output as the pr
 
 ### Metadata Queries
 
-GenQuery2 allows users to write more targeted queries. This is especially helpful when dealing with metadata. Depending on the use-case, there may be times where you need to filter a resultset based on metadata attached to multiple iRODS entities (i.e. data objects, collections, resources, users). GenQuery2 makes this possible through the use of **SQL LEFT JOIN**. This happens automatically.
+GenQuery2 allows users to write more targeted queries. This is especially helpful when dealing with metadata. Depending on the use-case, there may be times where you need to filter a result set based on metadata attached to multiple iRODS entities (i.e. data objects, collections, resources, users). GenQuery2 makes this possible through the use of **SQL LEFT JOIN**. This happens automatically.
 
 Here's an example demonstrating mixed metadata queries. _This is NOT possible with GenQuery1._
 
@@ -731,7 +731,7 @@ $ itouch foo
 $ imeta add -d foo id 1000
 $ itouch -R otherResc bar
 $ imeta add -R otherResc speed fast
-$ iquery "select DATA_NAME where META_DATA_ATTR_VALUE = '1000' or META_RESC_ATTR_VALUE = 'fast'" | jq
+$ iquery "select distinct DATA_NAME where META_DATA_ATTR_VALUE = '1000' or META_RESC_ATTR_VALUE = 'fast'" | jq
 [
   [
     "foo"
@@ -744,7 +744,7 @@ $ iquery "select DATA_NAME where META_DATA_ATTR_VALUE = '1000' or META_RESC_ATTR
 
 Notice how both data objects are returned. `foo` is returned because it satisfies `META_DATA_ATTR_VALUE = '1000'`. `bar` is returned because it satisfies `META_RESC_ATTR_VALUE = 'fast'`.
 
-There is one caveat to GenQuery2's use of **SQL LEFT JOIN**. That is, the resultset can contain empty strings.
+There is one caveat to GenQuery2's use of **SQL LEFT JOIN**. That is, the result set can contain empty strings.
 
 The following example demonstrates the situation by querying for all metadata attribute names attached to collections.
 
@@ -753,7 +753,7 @@ $ itouch foo
 $ imeta add -d foo alice jones
 $ imeta add -C . bob jones
 $ imeta add -C . job developer
-$ iquery "select META_COLL_ATTR_NAME" | jq
+$ iquery "select distinct META_COLL_ATTR_NAME" | jq
 [
   [
     "bob"
@@ -767,7 +767,7 @@ $ iquery "select META_COLL_ATTR_NAME" | jq
 ]
 ```
 
-Here's the SQL that produced the resultset.
+Here's the SQL that produced the result set.
 
 ```sql
 SELECT DISTINCT
@@ -776,21 +776,23 @@ FROM
     R_COLL_MAIN t0
     INNER JOIN R_OBJT_ACCESS pcoa ON t0.coll_id = pcoa.object_id
     INNER JOIN R_TOKN_MAIN pct ON pcoa.access_type_id = pct.token_id
-    INNER JOIN R_USER_MAIN pcu ON pcoa.user_id = pcu.user_id
+    INNER JOIN R_USER_GROUP pcug ON pcoa.user_id = pcug.group_user_id
+    INNER JOIN R_USER_MAIN pcu ON pcug.user_id = pcu.user_id
     LEFT JOIN R_OBJT_METAMAP ommc ON t0.coll_id = ommc.object_id
     LEFT JOIN R_META_MAIN mmc ON ommc.meta_id = mmc.meta_id
 WHERE
     pcu.user_name = ?
     AND pcu.zone_name = 'tempZone'
+    AND pcu.user_type_name != 'rodsgroup'
     AND pcoa.access_type_id >= 1050 FETCH FIRST 256 ROWS ONLY
 ```
 
-Based on the generated SQL, the resultset returned by GenQuery2 is correct. The SQL produces empty strings for ALL collections that do NOT have metadata attached to them.
+Based on the generated SQL, the result set returned by GenQuery2 is correct. The SQL produces empty strings for ALL collections that do NOT have metadata attached to them.
 
 To get around this, apply an additional condition to the query like so.
 
 ```sh
-$ iquery "select META_COLL_ATTR_NAME where META_COLL_ATTR_NAME is not null" | jq
+$ iquery "select distinct META_COLL_ATTR_NAME where META_COLL_ATTR_NAME is not null" | jq
 [
   [
     "bob"
@@ -806,7 +808,7 @@ $ iquery "select META_COLL_ATTR_NAME where META_COLL_ATTR_NAME is not null" | jq
 Sorting data with GenQuery2 uses the same syntax as standard SQL. For example:
 
 ```sh
-iquery "select RESC_NAME, COLL_NAME, DATA_NAME order by RESC_NAME desc, COLL_NAME, DATA_NAME asc"
+iquery "select distinct RESC_NAME, COLL_NAME, DATA_NAME order by RESC_NAME desc, COLL_NAME, DATA_NAME asc"
 ```
 
 Notice the use of `desc` and `asc`. Just like standard SQL, users can specify the sorting direction.
@@ -828,7 +830,7 @@ This is achieved by using `\xNN`, where _NN_ is the hexadecimal value of the byt
 The following example demonstrates how to escape an exclamation mark.
 
 ```sh
-iquery "select COLL_NAME, DATA_NAME where DATA_NAME = 'data\x21.txt'"
+iquery "select distinct COLL_NAME, DATA_NAME where DATA_NAME = 'data\x21.txt'"
 ```
 
 If the catalog contains a data object by the name, `data!.txt`, then it will be returned by GenQuery2.
@@ -836,19 +838,40 @@ If the catalog contains a data object by the name, `data!.txt`, then it will be 
 Embedded single quotes can be escaped by adding another single quote, just like standard SQL. For example:
 
 ```sh
-iquery "select COLL_NAME, DATA_NAME where DATA_NAME = 'that''s my data.txt'"
+iquery "select distinct COLL_NAME, DATA_NAME where DATA_NAME = 'that''s my data.txt'"
 ```
 
-GenQuery2 will notice the use of double single quotes and collapse them to one single quote before sending to the database. In the case of the example, that means `that''s` will be passed to the database as `that's`.
+GenQuery2 will notice the use of two adjacent single quotes and collapse them to one single quote before sending to the database. In the case of the example, `that''s` will be passed to the database as `that's`.
 
-### Showing Duplicate Entries
+### Managing Duplicate/Unique Entries
 
-By default, GenQuery2 removes duplicate entries from the resultset.
+GenQuery2 does not automatically insert the DISTINCT keyword into the generated SQL. Users have full control over the placement of the DISTINCT keyword.
 
-If you need to view duplicate entries, add `no distinct` after the `select` keyword. For example:
+!!! Important
+    The initial GenQuery2 implementation for iRODS 4.3.4 and earlier removed duplicate entries from the result set. This made it difficult for users to count records. Granting control over the DISTINCT keyword gives users more control and makes the behavior of the system more deterministic.
+
+The following example produces a result set containing all replicas in the catalog.
 
 ```sh
-iquery "select no distinct COLL_NAME, DATA_NAME"
+iquery "select COLL_NAME, DATA_NAME"
+```
+
+The query can be tweaked to show data objects instead of replicas by using the DISTINCT keyword.
+
+```sh
+iquery "select distinct COLL_NAME, DATA_NAME"
+```
+
+The DISTINCT keyword can also be used in functions. The following query counts replicas.
+
+```sh
+iquery "select count(DATA_ID)"
+```
+
+And this slight tweak to the query produces the total number of data objects.
+
+```sh
+iquery "select count(distinct DATA_ID)"
 ```
 
 ### Casting Data Types
@@ -856,7 +879,7 @@ iquery "select no distinct COLL_NAME, DATA_NAME"
 GenQuery2 supports SQL CAST expressions.
 
 ```sh
-iquery "select cast(DATA_SIZE as int)"
+iquery "select distinct cast(DATA_SIZE as int)"
 ```
 
 GenQuery2 does not verify the correctness of the cast expression. It simply forwards it to the database as is.
@@ -868,28 +891,28 @@ GenQuery2 provides support for the GROUP-BY clause. The important thing to remem
 Here's an example that calculates the number of data objects in each collection.
 
 ```sh
-iquery "select COLL_NAME, count(DATA_NAME) group by COLL_NAME"
+iquery "select distinct COLL_NAME, count(distinct DATA_NAME) group by COLL_NAME"
 ```
 
-### Offsets and Limiting the size of a resultset
+### Offsets and Limiting the size of a result set
 
 By default, GenQuery2 will return a max of 256 rows if no limit is applied to the query.
 
-You can change the size of the resultset by specifying a `LIMIT` or `FETCH FIRST N ROWS ONLY` clause. Both achieve the same outcome.
+You can change the size of the result set by specifying a `LIMIT` or `FETCH FIRST N ROWS ONLY` clause. Both achieve the same outcome.
 
 For example:
 
 ```sh
-iquery "select COLL_NAME, DATA_NAME limit 1000"
+iquery "select distinct COLL_NAME, DATA_NAME limit 1000"
 ```
 
 !!! Note
-    Keep in mind that GenQuery2 does NOT provide built-in pagination. It will always return the resultset in its entirety!
+    Keep in mind that GenQuery2 does NOT provide built-in pagination. It will always return the result set in its entirety!
 
 You can also apply an offset by using the `OFFSET` keyword.
 
 ```sh
-iquery "select COLL_NAME, DATA_NAME order by COLL_NAME, DATA_NAME offset 2000 limit 1000"
+iquery "select distinct COLL_NAME, DATA_NAME order by COLL_NAME, DATA_NAME offset 2000 limit 1000"
 ```
 
 Notice we're now also sorting the results. Without the ORDER-BY clause, the offset and limit add little value.
@@ -899,9 +922,9 @@ These features are great for relatively small datasets. However, as your dataset
 !!! Note
     `OFFSET` and `LIMIT` only accept integers. Notice the examples do not wrap the integers in single quotes. Doing so will result in an error.
 
-### Resultsets and Pagination
+### Result sets and Pagination
 
-Unlike GenQuery1, GenQuery2 does not provide built-in support for pagination. The resultset of a query will always be returned in its entirety. That means users fetching large amounts of data need to be careful of exhausting memory resources on the iRODS servers. GenQuery2 helps with this by defaulting to 256 rows if `LIMIT` is not defined in the query.
+Unlike GenQuery1, GenQuery2 does not provide built-in support for pagination. The result set of a query will always be returned in its entirety. That means users fetching large amounts of data need to be careful of exhausting memory resources on the iRODS servers. GenQuery2 helps with this by defaulting to 256 rows if `LIMIT` is not defined in the query.
 
 !!! Note
     `LIMIT` is provided as a convenience. It can be used in place of `FETCH FIRST N ROWS ONLY`, which is what's defined as part of the SQL standard.

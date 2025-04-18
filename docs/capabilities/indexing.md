@@ -45,7 +45,7 @@ $ curl -X PUT -H'Content-Type: application/json' http://localhost:9200/full_text
 ```
 $ curl -X PUT -H'Content-Type: application/json' http://localhost:9200/metadata
 
-$ curl -X PUT -H'Content-Type: application/json' http://localhost:9200/metadata/_mapping/text --data-binary "@/home/centos/repos/irods_capability_indexing/es_mapping.json"
+$ curl -X PUT -H'Content-Type: application/json' http://localhost:9200/metadata/_mapping/text --data-binary "@/home/repos/irods_capability_indexing/es_mapping.json"
 
 ```
 

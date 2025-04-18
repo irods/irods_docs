@@ -103,7 +103,7 @@ MariaDB can be used with the MySQL database plugin. Configuration is largely the
 ### iRODS Setup
 
 !!! Important
-    iRODS 4.3.0 has a dependency on the Python 3 library, [pyodbc](https://pypi.org/project/pyodbc/). Setup will fail if this library is not installed. CentOS 7 does not provide an RPM package for the Python 3 version of this library so it isn't declared as a dependency by the iRODS packages. Therefore, administrators must manually install the package. This can be accomplished by running the following: `sudo python3 -m pip install pyodbc`.
+    iRODS 4.3+ has a dependency on the Python 3 library, [pyodbc](https://pypi.org/project/pyodbc/). Setup will fail if this library is not installed.
 
 Installation of the iRODS server and PostgreSQL database plugin:
 
@@ -111,7 +111,7 @@ Installation of the iRODS server and PostgreSQL database plugin:
 $ (sudo) apt-get install irods-server irods-database-plugin-postgres
 ~~~
 
-On CentOS, some of the `irods-server` package dependencies can be satisfied from the EPEL repository provided by the `epel-release` package.
+On Enterprise Linux distributions, some of the `irods-server` package dependencies can be satisfied from the EPEL repository provided by the `epel-release` package.
 
 The `setup_irods.py` script below will prompt for, and then create, if necessary, a service account and service group which will own and operate the iRODS server binaries:
 
@@ -122,33 +122,36 @@ $ (sudo) python3 /var/lib/irods/scripts/setup_irods.py
 The `setup_irods.py` script will ask for information in four (possibly five) sections:
 
 1. Service Account
-    - Service Account Name
+    - Service Account User
     - Service Account Group
     - Catalog Service Role
 
 2. Database Connection (if installing a 'provider')
     - ODBC Driver
-    - Database Server's Hostname or IP
+    - Database Server's FQDN, Hostname, or IP
     - Database Server's Port
     - Database Name
     - Database User
     - Database Password
     - Stored Passwords Salt
 
-3. iRODS Server Options
+3. Storage
+    - Local Storage
+    - Default Resource Name
+    - Vault Directory Path
+
+4. iRODS Server Options
+    - FQDN, Hostname, or IP
     - Zone Name
     - Zone Port
-    - Parallel Port Range (Begin)
-    - Parallel Port Range (End)
-    - Schema Validation Base URI
-    - iRODS Administrator Username
+    - Parallel Transfer Port Range (Begin)
+    - Parallel Transfer Port Range (End)
+    - iRODS Administrator User
 
-4. Keys and Passwords
-    - zone_key
-    - negotiation_key
+5. Keys and Passwords
+    - Zone Key
+    - Negotiation Key
     - iRODS Administrator Password
-
-5. Vault Directory
 
 
 More information about these values can be found in [Chapters 3 and 4 of the iRODS Beginner Training](https://github.com/irods/irods_training/tree/master/beginner).
@@ -184,17 +187,17 @@ irods_port - 1247
 irods_session_environment_file - /var/lib/irods/.irods/irods_environment.json.14518
 irods_transfer_buffer_size_for_parallel_transfer_in_megabytes - 4
 irods_user_name - rods
-irods_version - 4.2.0
+irods_version - 5.0.0
 irods_zone_name - tempZone
 schema_name - irods_environment
-schema_version - v3
+schema_version - v5
 ~~~
 
 ## Unattended Install
 
 iRODS can also be installed by providing a file matching the JSON schema found here:
 
-- [https://github.com/irods/irods/blob/4.3.0/schemas/configuration/v4/unattended_installation.json.in](https://github.com/irods/irods/blob/4.3.0/schemas/configuration/v4/unattended_installation.json.in)
+- [https://github.com/irods/irods/blob/5.0.0/schemas/configuration/v5/unattended_installation.json.in](https://github.com/irods/irods/blob/5.0.0/schemas/configuration/v5/unattended_installation.json.in)
 
 This form of installation is known as an **Unattended Install**. Using this form of setup can help with automated deployments.
 
@@ -238,7 +241,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "irods_user_name": "rods",
         "irods_zone_name": "tempZone",
         "schema_name": "service_account_environment",
-        "schema_version": "v4"
+        "schema_version": "v5"
     },
     "server_config": {
         "advanced_settings": {
@@ -271,6 +274,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         ],
         "catalog_service_role": "provider",
         "client_api_allowlist_policy": "enforce",
+        "client_server_policy": "CS_NEG_REFUSE",
         "controlled_user_connection_list": {
             "control_type": "denylist",
             "users": []
@@ -279,6 +283,12 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "default_file_mode": "0600",
         "default_hash_scheme": "SHA256",
         "default_resource_name": "demoResc",
+        "encryption": {
+            "algorithm": "AES-256-CBC",
+            "key_size": 32,
+            "num_hash_rounds": 16,
+            "salt_size": 8
+        },
         "environment_variables": {},
         "federation": [],
         "host": "irods-provider",
@@ -353,11 +363,9 @@ Below you'll find examples showing what the input file might contain for a [Cata
             ""
         ],
         "schema_name": "server_config",
-        "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
-        "schema_version": "v4",
+        "schema_version": "v5",
         "server_port_range_end": 20199,
         "server_port_range_start": 20000,
-        "xmsg_port": 1279,
         "zone_auth_scheme": "native",
         "zone_key": "TEMPORARY_ZONE_KEY",
         "zone_name": "tempZone",
@@ -397,7 +405,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "irods_user_name": "rods",
         "irods_zone_name": "tempZone",
         "schema_name": "service_account_environment",
-        "schema_version": "v4"
+        "schema_version": "v5"
     },
     "server_config": {
         "advanced_settings": {
@@ -430,6 +438,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         ],
         "catalog_service_role": "consumer",
         "client_api_allowlist_policy": "enforce",
+        "client_server_policy": "CS_NEG_REFUSE",
         "controlled_user_connection_list": {
             "control_type": "denylist",
             "users": []
@@ -438,6 +447,12 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "default_file_mode": "0600",
         "default_hash_scheme": "SHA256",
         "default_resource_name": "otherResc",
+        "encryption": {
+            "algorithm": "AES-256-CBC",
+            "key_size": 32,
+            "num_hash_rounds": 16,
+            "salt_size": 8
+        },
         "environment_variables": {},
         "federation": [],
         "host": "irods-consumer",
@@ -502,11 +517,9 @@ Below you'll find examples showing what the input file might contain for a [Cata
             ""
         ],
         "schema_name": "server_config",
-        "schema_validation_base_uri": "file:///var/lib/irods/configuration_schemas",
-        "schema_version": "v4",
+        "schema_version": "v5",
         "server_port_range_end": 20199,
         "server_port_range_start": 20000,
-        "xmsg_port": 1279,
         "zone_auth_scheme": "native",
         "zone_key": "TEMPORARY_ZONE_KEY",
         "zone_name": "tempZone",
@@ -661,7 +674,7 @@ irods@hostname:~/ $ cat .irods/irods_environment.json
     "irods_user_name": "rods",
     "irods_zone_name": "**<newzonename>**",
     "schema_name": "irods_environment",
-    "schema_version": "v3"
+    "schema_version": "v5"
 }
 ~~~
 
