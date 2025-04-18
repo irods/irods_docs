@@ -122,7 +122,7 @@ $ (sudo) python3 /var/lib/irods/scripts/setup_irods.py
 The `setup_irods.py` script will ask for information in four (possibly five) sections:
 
 1. Service Account
-    - Service Account Name
+    - Service Account User
     - Service Account Group
     - Catalog Service Role
 
@@ -135,20 +135,23 @@ The `setup_irods.py` script will ask for information in four (possibly five) sec
     - Database Password
     - Stored Passwords Salt
 
-3. iRODS Server Options
-    - FQDN, Hostname, or IP which identifies the server
+3. Storage
+    - Local Storage
+    - Default Resource Name
+    - Vault Directory Path
+
+4. iRODS Server Options
+    - FQDN, Hostname, or IP
     - Zone Name
     - Zone Port
-    - Parallel Port Range (Begin)
-    - Parallel Port Range (End)
-    - iRODS Administrator Username
+    - Parallel Transfer Port Range (Begin)
+    - Parallel Transfer Port Range (End)
+    - iRODS Administrator User
 
-4. Keys and Passwords
+5. Keys and Passwords
     - Zone Key
     - Negotiation Key
     - iRODS Administrator Password
-
-5. Vault Directory
 
 
 More information about these values can be found in [Chapters 3 and 4 of the iRODS Beginner Training](https://github.com/irods/irods_training/tree/master/beginner).
