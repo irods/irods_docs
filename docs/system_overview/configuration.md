@@ -34,42 +34,38 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         // The number of seconds a server-side temporary password is good.
         "default_temporary_password_lifetime_in_seconds": 120,
 
-        // (Optional)
         // A list of iRODS server hostnames the delay server dispatches rules to for execution.
         // If the list is empty, the delay server will dispatch rules to the local server for execution.
         "delay_rule_executors": [],
 
-        // (Optional)
         // The number of seconds the delay server sleeps before checking the catalog for rules
         // ready for execution.
         "delay_server_sleep_time_in_seconds": 30,
 
-        // (Optional)
         // Contains settings for controlling the behavior of the internal DNS cache.
         "dns_cache": {
-            // The amount of shared memory allocated to the DNS cache.
-            "shared_memory_size_in_bytes": 5000000,
-
-            // The amount of time an entry stays valid before being evicted from the cache.
-            "eviction_age_in_seconds": 3600,
-
             // The number of seconds between runs of the CRON task which clears the internal DNS cache.
             // Changing this value requires a server restart in order to take effect.
-            "cache_clearer_sleep_time_in_seconds": 600
-        },
-
-        // (Optional)
-        // Contains settings for controlling the behavior of the internal Hostname cache.
-        "hostname_cache": {
-            // The amount of shared memory allocated to the Hostname cache.
-            "shared_memory_size_in_bytes": 2500000,
+            "cache_clearer_sleep_time_in_seconds": 600,
 
             // The amount of time an entry stays valid before being evicted from the cache.
             "eviction_age_in_seconds": 3600,
 
+            // The amount of shared memory allocated to the DNS cache.
+            "shared_memory_size_in_bytes": 5000000
+        },
+
+        // Contains settings for controlling the behavior of the internal Hostname cache.
+        "hostname_cache": {
             // The number of seconds between runs of the CRON task which clears the internal hostname cache.
             // Changing this value requires a server restart in order to take effect.
-            "cache_clearer_sleep_time_in_seconds": 600
+            "cache_clearer_sleep_time_in_seconds": 600,
+
+            // The amount of time an entry stays valid before being evicted from the cache.
+            "eviction_age_in_seconds": 3600,
+
+            // The amount of shared memory allocated to the Hostname cache.
+            "shared_memory_size_in_bytes": 2500000
         },
 
         // Defines the maximum data size for single buffer transfers.
@@ -77,7 +73,6 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         // Connecting clients and servers within the same zone must use the same value.
         "maximum_size_for_single_buffer_in_megabytes": 32,
 
-        // (Optional)
         // The maximum number of bytes available to the delay queue.
         // When set to 0, the delay server will use as much memory as it needs to hold queued rules.
         "maximum_size_of_delay_queue_in_bytes": 0,
@@ -89,11 +84,9 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         // Changing this value requires a server restart in order to take effect.
         "migrate_delay_server_sleep_time_in_seconds": 5,
 
-        // (Optional)
         // The number of delay rules allowed to execute simultaneously.
         "number_of_concurrent_delay_rule_executors": 4,
 
-        // (Optional)
         // The amount of time the stacktrace file processing thread sleeps before files are
         // processed and written to the log file.
         // Changing this value requires a server restart in order to take effect.
