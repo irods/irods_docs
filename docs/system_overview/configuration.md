@@ -302,7 +302,8 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
                 // The name of the database used as the catalog.
                 "db_name": "ICAT",
 
-                // The name of the ODBC entry used by the server (normally defined in /etc/odbcinst.ini).
+                // The name of the ODBC entry used by the server (normally defined in /etc/odbcinst.ini)
+                // or the absolute path to a specific ODBC driver (shared library).
                 "db_odbc_driver": "",
 
                 // The password for the "db_username" to connect to the "db_name".
