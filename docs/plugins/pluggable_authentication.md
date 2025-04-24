@@ -78,9 +78,7 @@ With the permissive configuration working with irodsPamAuthCheck, the next step 
 
 ### Setting up TLS
 
-Since PAM requires the user's password in plaintext, iRODS relies on TLS encryption to protect these credentials.  PAM authentication makes use of TLS regardless of the iRODS Zone TLS configuration (meaning even if iRODS explicitly does *not* encrypt data traffic, PAM will use TLS during authentication).
-
-In order to use the iRODS PAM support, you also need to have TLS working between the iRODS client and server.
+Since PAM requires the user's password in plaintext, iRODS relies on TLS encryption to protect these credentials. PAM authentication requires TLS communications. If TLS is not configured and enabled, PAM authentication will fail, and an error will be returned to the client.
 
 See [TLS Documentation](../../system_overview/tls) for instructions to set up TLS communications between iRODS clients and servers.
 
