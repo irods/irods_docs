@@ -584,7 +584,6 @@ Use Python 3's `pip` to install the following packages (this step will require *
 - jsonschema
 - psutil
 - pyodbc
-- requests
 
 Assuming you were successful in satisfying the dependencies and you have a running database, you're now ready to run the setup script. To do that, run the following:
 
