@@ -203,6 +203,12 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         // ... Additional Entries ...
     ],
 
+    // The amount of time each agent waits before entering the fast shutdown phase. This property
+    // applies to graceful shutdown only. Agents will continue servicing client requests for the
+    // specified time. After the timeout, agents will complete the current client request and terminate
+    // the connection. See "Stopping the Server" to learn more about graceful shutdown.
+    "graceful_shutdown_timeout_in_seconds": 30,
+
     // The FQDN or hostname which identifies the server.
     //
     // The following rules apply:
