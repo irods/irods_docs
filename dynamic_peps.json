@@ -2686,18 +2686,6 @@
 				"paramName": "getTempPasswordForOtherOut"
 			}]
 		}, {
-			"funcName": "api_get_xmsg_ticket",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": ""
-			}, {
-				"paramType": "getXmsgTicketInp_t *",
-				"paramName": "getXmsgTicketInp"
-			}, {
-				"paramType": "xmsgTicketInfo_t **",
-				"paramName": "outXmsgTicketInfo"
-			}]
-		}, {
 			"funcName": "api_ies_client_hints",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2896,18 +2884,6 @@
 				"paramName": "json_output"
 			}]
 		}, {
-			"funcName": "api_rcv_xmsg",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": ""
-			}, {
-				"paramType": "rcvXmsgInp_t *",
-				"paramName": "rcvXmsgInp"
-			}, {
-				"paramType": "rcvXmsgOut_t **",
-				"paramName": "rcvXmsgOut"
-			}]
-		}, {
 			"funcName": "api_read_collection",
 			"paramList": [{
 				"paramType": "rsComm_t *",
@@ -2990,15 +2966,6 @@
 			}, {
 				"paramType": "char **",
 				"paramName": "ruleExecId"
-			}]
-		}, {
-			"funcName": "api_send_xmsg",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "sendXmsgInp_t *",
-				"paramName": "sendXmsgInp"
 			}]
 		}, {
 			"funcName": "api_server_report",
