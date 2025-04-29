@@ -1,20 +1,26 @@
 #
 
-Upgrading is handled by the host Operating System via the package manager.  Depending on your package manager, your config files will have been preserved with your local changes since the last installation.  Please see [Changing the zone_key and negotiation_key](installation.md#changing-the-zone_key-and-negotiation_key) for information on server-server authentication.
+Upgrading is handled by the host Operating System via the package manager.  Depending on your package manager, your configuration files will have been preserved with your local changes since the last installation.  Please see [Changing the zone_key and negotiation_key](installation.md#changing-the-zone_key-and-negotiation_key) for information on server-server authentication.
 
-All servers in a Zone must be running the same version of iRODS.  Using inconsistent versions within a Zone may work, but is not rigorously tested.  First, upgrade the iRODS Catalog Provider, then upgrade all the iRODS Catalog Consumers.
+All servers in a Zone must be running the same version of iRODS.  Using inconsistent versions within a Zone may work, but is not tested.  First, upgrade the iRODS Catalog Service Provider, then upgrade all the iRODS Catalog Service Consumers.
 
 It is best practice to stop an iRODS server before upgrading as it will allow the graceful completion of any ongoing transfers or requests.
 
-Upgrades coming from the APT and YUM repositories require only that the server be restarted after upgrade.  The package does not restart the server because any required database schema updates are applied before starting the server.  A database schema update could be a relatively heavy operation and will require an amount of time on large installations (hundreds of millions of records) that should be handled within a declared maintenance window.
+Upgrades of packages from APT and YUM repositories will stop the server as part of the package upgrade process. This is intentional as the administrator is required to apply any catalog schema updates before restarting the server. A catalog schema update could be a relatively heavy operation and will require an amount of time on large installations (hundreds of millions of records) that should be handled within a declared maintenance window.
 
-## Preserving `VERSION.json` history
+## Upgrading to iRODS 5 and later
 
-Before upgrading from iRODS 4.1.x to 4.2+, copy `/var/lib/irods/VERSION.json` to `/var/lib/irods/VERSION.json.previous`.
+iRODS 5 does not upgrade the catalog or `server_config.json` on server startup. This functionality has been kept separate deliberately to make the upgrade process more deterministic and manageable.
 
-With this file in place, the installation history of your deployment will be preserved in the 'previous_version' stanza.
+Upgrading only requires two steps:
 
-Without this file in place, a dummy stanza will be inserted to allow the upgrade to complete successfully, but any previous deployment history will be lost.
+1. Install the new packages.
+1. As the service account user, run `python3 scripts/upgrade_irods.py`.
+
+The `upgrade_irods.py` script is idempotent.
+
+!!! Warning
+    The iRODS server will not start if it detects an unexpected catalog schema version.
 
 ## Migrating from Static PEPs to Dynamic PEPs
 
