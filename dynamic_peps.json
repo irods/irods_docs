@@ -1573,15 +1573,6 @@
 				"paramName": "_client_addr"
 			}]
 		}, {
-			"funcName": "database_general_update",
-			"paramList": [{
-				"paramType": "irods::plugin_context &",
-				"paramName": "_ctx"
-			}, {
-				"paramType": "generalUpdateInp_t *",
-				"paramName": "_update_inp"
-			}]
-		}, {
 			"funcName": "database_update_ticket_write_byte_count",
 			"paramList": [{
 				"paramType": "irods::plugin_context &",
@@ -2495,33 +2486,6 @@
 			}, {
 				"paramType": "int *",
 				"paramName": "generalAdminInp"
-			}]
-		}, {
-			"funcName": "api_general_row_insert",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "int *",
-				"paramName": "generalRowInsertInp"
-			}]
-		}, {
-			"funcName": "api_general_row_purge",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "int *",
-				"paramName": "generalRowPurgeInp"
-			}]
-		}, {
-			"funcName": "api_general_update",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "generalUpdateInp_t *",
-				"paramName": "generalUpdateInp"
 			}]
 		}, {
 			"funcName": "api_get_file_descriptor_info",
