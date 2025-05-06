@@ -108,18 +108,6 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
     // The following values are supported: provider, consumer
     "catalog_service_role": "",
 
-    // Controls which API operations are accessible to non-rodsadmin users.
-    //
-    // The following values are supported: enforce, disabled
-    //
-    // When set to "enforce", the server will expose a subset of operations that can be executed by any user.
-    // Administrative operations will require rodsadmin level privileges. This option does not apply to
-    // rodsadmin users.
-    //
-    // When set to "disabled", the server will operate without consulting the allowlist. This is equivalent
-    // to how the server behaved prior to iRODS 4.3.0.
-    "client_api_allowlist_policy": "enforce",
-
     // Number of seconds after which an existing connection in a connection pool is refreshed.
     "connection_pool_refresh_time_in_seconds": 300,
 
