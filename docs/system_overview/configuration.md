@@ -301,26 +301,26 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         "database": {
             // The type of database iRODS is using for the catalog.
             // The following property names are supported: postgres, mysql, and oracle
-            "catalog_database_type": {
-                // The hostname of the database server (can be localhost).
-                "db_host": "localhost",
+            "technology": ""
 
-                // The name of the database used as the catalog.
-                "db_name": "ICAT",
+            // The FQDN, Hostname, or IP of the database server (can be localhost).
+            "host": "localhost",
 
-                // The name of the ODBC entry used by the server (normally defined in /etc/odbcinst.ini)
-                // or the absolute path to a specific ODBC driver (shared library).
-                "db_odbc_driver": "",
+            // The name of the database used as the catalog.
+            "name": "ICAT",
 
-                // The password for the "db_username" to connect to the "db_name".
-                "db_password": "",
+            // The name of the ODBC entry used by the server (normally defined in /etc/odbcinst.ini)
+            // or the absolute path to a specific ODBC driver (shared library).
+            "odbc_driver": "",
 
-                // The port number on which the database server is listening.
-                "db_port": 0,
+            // The password for the "username" to connect to the "name".
+            "password": "",
 
-                // The database user name.
-                "db_username": ""
-            }
+            // The port number on which the database server is listening.
+            "port": 0,
+
+            // The database user name.
+            "username": ""
         },
 
         // This property is currently unused.

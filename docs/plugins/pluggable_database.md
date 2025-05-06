@@ -2,10 +2,10 @@
 
 The iRODS metadata catalog is installed and managed by separate plugins.  iRODS has PostgreSQL, MySQL, and Oracle database plugins available and tested.
 
-The particular type of database is encoded in `/etc/irods/database_config.json` with the following directive:
+The particular type of database is encoded in `/etc/irods/server_config.json` with the following directive:
 
 ~~~
-"catalog_database_type" : "postgres",
+"technology" : "postgres",
 ~~~
 
 This is populated by the `setup_irods.py` script on configuration.
