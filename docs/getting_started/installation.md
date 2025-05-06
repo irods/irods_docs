@@ -319,14 +319,13 @@ Below you'll find examples showing what the input file might contain for a [Cata
         "plugin_configuration": {
             "authentication": {},
             "database": {
-                "postgres": {
-                    "db_host": "catalog",
-                    "db_name": "ICAT",
-                    "db_odbc_driver": "PostgreSQL ANSI",
-                    "db_password": "testpassword",
-                    "db_port": 5432,
-                    "db_username": "irods"
-                }
+                "technology": "postgres",
+                "host": "catalog",
+                "name": "ICAT",
+                "odbc_driver": "PostgreSQL ANSI",
+                "password": "testpassword",
+                "port": 5432,
+                "username": "irods"
             },
             "network": {},
             "resource": {},
