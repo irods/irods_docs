@@ -273,7 +273,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
             "irods-provider"
         ],
         "catalog_service_role": "provider",
-        "client_api_allowlist_policy": "enforce",
         "client_server_policy": "CS_NEG_REFUSE",
         "controlled_user_connection_list": {
             "control_type": "denylist",
@@ -436,7 +435,6 @@ Below you'll find examples showing what the input file might contain for a [Cata
             "irods-provider"
         ],
         "catalog_service_role": "consumer",
-        "client_api_allowlist_policy": "enforce",
         "client_server_policy": "CS_NEG_REFUSE",
         "controlled_user_connection_list": {
             "control_type": "denylist",
