@@ -178,6 +178,11 @@ In iRODS 4.3.0, log output is managed via **server_config.json**. The server now
         // Controls log output related to the Delay Server process.
         "delay_server": "info",
 
+        // Controls log output related to the GenQuery1 parser.
+        // This log category DOES NOT affect the log output of the GenQuery1 API.
+        // The GenQuery1 API log output is controlled via the "api" log category.
+        "genquery1": "info",
+
         // Controls log output related to the GenQuery2 parser.
         // This log category DOES NOT affect the log output of the GenQuery2 API.
         // The GenQuery2 API log output is controlled via the "api" log category.
