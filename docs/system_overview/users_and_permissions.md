@@ -12,29 +12,6 @@ Inheritance is a collection-specific setting that determines the permission sett
 
 Inheritance is especially useful when working with shared projects such as a public Collection to which all users should have read access. With Inheritance set to Enabled, any sub-Collections created under the public Collection will inherit the properties of the public Collection.  Therefore, a user with read access to the public Collection will also have read access to all Data Objects and Collections created in the public Collection.
 
-## StrictACL
-
-The iRODS setting 'StrictACL' is configured on by default in iRODS. This setting can be found in the `/etc/irods/core.re` file under acAclPolicy{}.
-
-The default setting is:
-
-~~~
-acAclPolicy {msiAclPolicy("STRICT");}
-~~~
-
-To set no policy, change the setting to:
-
-~~~
-acAclPolicy {}
-~~~
-
-or more explicitly:
-
-~~~
-acAclPolicy {msiAclPolicy("REGULAR");}
-~~~
-
-
 ## Tickets (Guest Access)
 
 Users are able to create tickets and associate them (one to one) with a Data Object or Collection. These are either system-generated 15-character pseudo-random strings, composed of upper and lower case characters 'A-Z' and '0-9'; or optionally specified by the user creating the ticket.
