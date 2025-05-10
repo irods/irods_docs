@@ -226,16 +226,31 @@ Each category can be set to one of the following values (ordered from noisiest t
 
 While the logging infrastructure has been modernized, use of it has not yet been applied throughout the iRODS server. This means that the **legacy** log category will be the primary setting for controlling log output (**rodsLog** API output is controlled by the **legacy** log category). This situation will improve with future releases.
 
+## iRODS Message Encoding/Decoding
 
+iRODS supports two message encodings, binary or XML. The choice of which encoding to use is set by the client during the initial handshake and cannot be changed until a new connection is established.
 
+### C/C++ Clients
 
+Applications compiled against the iRODS development package can choose which message encoding to use by setting the `irodsProt` environment variable to the appropriate value.
 
+By default, messages are exchanged between clients and servers using the binary encoding. This is equivalent to running the following in your environment:
 
+```bash
+# The implicit default message encoding.
+export irodsProt=0
 ```
 
-Additionally, client side environment variables will affect all new connections without a server restart:
+To exchange messages using the XML encoding, set `irodsProt` to `1`. For example:
 
-- `irodsProt=1` - This client side environment variable will request the client and server both use the iRODS XML protocol for the entire connection.  Note that the initial iRODS handshake is always XML, so even without `irodsProt` set, a high `spLogLevel` setting on the server will cause some messages to be displayed.
+```bash
+export irodsProt=1
+```
+
+Keep in mind that this only affects new connections for applications compiled against the iRODS development package.
+
+!!! Note
+    The initial iRODS handshake is always in XML.
 
 ## iRODS Server is down
 
