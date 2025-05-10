@@ -226,64 +226,31 @@ Each category can be set to one of the following values (ordered from noisiest t
 
 While the logging infrastructure has been modernized, use of it has not yet been applied throughout the iRODS server. This means that the **legacy** log category will be the primary setting for controlling log output (**rodsLog** API output is controlled by the **legacy** log category). This situation will improve with future releases.
 
-The following table defines how **rodsLog** API log levels are mapped to the new logging API's log levels.
+## iRODS Message Encoding/Decoding
 
-| rodsLog API Log Level   | New Logging API Log Level |
-| ----------------------- | ------------------------- |
-| LOG_DEBUG10             | trace                     |
-| LOG_DEBUG9              | trace                     |
-| LOG_DEBUG8              | trace                     |
-| LOG_DEBUG7              | debug                     |
-| LOG_DEBUG6              | debug                     |
-| LOG_NOTICE              | info                      |
-| LOG_WARNING             | warn                      |
-| LOG_ERROR               | error                     |
-| LOG_SYS_WARNING         | critical                  |
-| LOG_SYS_FATAL           | critical                  |
+iRODS supports two message encodings, binary or XML. The choice of which encoding to use is set by the client during the initial handshake and cannot be changed until a new connection is established.
 
-To demonstrate how the two APIs overlap, let's say a message is logged at `LOG_DEBUG7` via the **rodsLog** API. That message will only be recorded in the log file if the **legacy** log category is set to `trace` or `debug`.
+### C/C++ Clients
 
-And because of this overlap, the next section still applies.
+Applications compiled against the iRODS development package can choose which message encoding to use by setting the `irodsProt` environment variable to the appropriate value.
 
-## Logging and the rodsLog API
+By default, messages are exchanged between clients and servers using the binary encoding. This is equivalent to running the following in your environment:
 
-The following environment variables can be set in the service account or in **server_config.json**. The server must be restarted for the options to take effect (`./irodsctl restart`):
-
-- `spLogLevel=N` - This will send all log messages of `N` or more severe (`1`, or `LOG_SYS_FATAL` is most severe) to the log file. Increasing the log level will increase the number of messages sent to the log file. Setting `spLogLevel` to `8` or more will show the wireline XML packing instructions. This can also be set in the service account's `irods_environment.json` file as `irods_log_level` (and not require a server restart, as each rodsAgent reads this environment file on standup, per incoming iRODS connection).
-
- | Verbosity       | spLogLevel   |
- | --------------- | ------------ |
- | LOG_DEBUG10     | 10           |
- | LOG_DEBUG9      |  9           |
- | LOG_DEBUG8      |  8 (XML)     |
- | LOG_DEBUG       |  7           |
- | LOG_DEBUG6      |  6           |
- | LOG_NOTICE      |  5 (default) |
- | LOG_WARNING     |  4           |
- | LOG_ERROR       |  3           |
- | LOG_SYS_WARNING |  2           |
- | LOG_SYS_FATAL   |  1           |
-
-- `spLogSql=1` - This will send the bind variables, the SQL query, and the return values going to and coming from the database to the log file. This needs to be set on the catalog service provider server. Setting this on a catalog service consumer will have no effect.
-
-Below is an example demonstrating how to set these options in **server_config.json**. Notice that the values are strings rather than integers.
-
-```json
-{
-    // ... Other configuration properties ...
-
-    "environment_variables": {
-        "spLogLevel": "8",
-        "spLogSql": "1"
-    },
-
-    // ... Other configuration properties ...
-}
+```bash
+# The implicit default message encoding.
+export irodsProt=0
 ```
 
-Additionally, client side environment variables will affect all new connections without a server restart:
+To exchange messages using the XML encoding, set `irodsProt` to `1`. For example:
 
-- `irodsProt=1` - This client side environment variable will request the client and server both use the iRODS XML protocol for the entire connection.  Note that the initial iRODS handshake is always XML, so even without `irodsProt` set, a high `spLogLevel` setting on the server will cause some messages to be displayed.
+```bash
+export irodsProt=1
+```
+
+Keep in mind that this only affects new connections and applications compiled against the iRODS development package.
+
+!!! Note
+    The initial iRODS handshake is always in XML.
 
 ## iRODS Server is down
 
