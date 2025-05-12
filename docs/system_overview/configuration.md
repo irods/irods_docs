@@ -668,12 +668,6 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
     // Connecting clients and servers within the same zone must use the same value.
     "irods_maximum_size_for_single_buffer_in_megabytes": 32,
 
-    // (Optional) (Deprecated)
-    // Defines the log level.
-    //
-    // See "Troubleshooting > Debugging Levels" for more details.
-    "irods_log_level": 5,
-
     // (Optional)
     // Defines the level of server certificate authentication to perform.
     //
