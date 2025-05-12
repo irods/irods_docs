@@ -6,6 +6,18 @@ Release Date: 2025-05-XX
 
 TODO Describe release ...
 
+Highlights
+- server startup/shutdown redesign
+- service manager communication
+- openssl 3
+- migration to distro-provided packages
+- access time tracking
+- building against libstdc++
+- server only depends on server config and catalog
+- genquery1 uses flex/bison parser - fixes all known genquery errors
+- genquery2 grants control over DISTINCT keyword - departure from auto-insertion of keyword
+- delay rule locking
+
 This release consists of [? commits from ? contributors](https://github.com/irods/irods/compare/4.3.4...5.0.0) and [an additional 20 closed issues to be included in the upcoming 4.3.5 release](https://github.com/irods/irods/issues?q=milestone%3A4.3.5).
 This release consists of [1482 commits from 32 contributors](https://github.com/irods/irods/compare/4.3.0...5.0.0) and [closed 306 issues marked for 5.0.0](https://github.com/irods/irods/issues?q=milestone%3A5.0.0) and [an additional 41 closed issues to be included in the upcoming 4.2.12 release](https://github.com/irods/irods/issues?q=milestone%3A4.2.12%20closed%3A%3C%3D2022-06-12).
 
@@ -585,7 +597,6 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
             - ISSUE: [#8381] Server establishes connection to self before checking atime queue for updates
                     - TAGS: performance
                     - COMMIT: [#8381] Do not connect to server unless there are access time updates in the queue.
-
             - ISSUE: [#8370] Remove unnecessary call to deinitialize the access time queue in agent factory
                     - TAGS: enhancement
                     - COMMIT: [#8370] Remove unnecessary call to access time queue deinit function.
