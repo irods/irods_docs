@@ -4,22 +4,24 @@
 
 Release Date: 2025-05-XX
 
-TODO Describe release ...
+The iRODS Consortium and RENCI are pleased to announce iRODS 5.0.0.
 
-Highlights
-- server startup/shutdown redesign
-- service manager communication
-- openssl 3
-- migration to distro-provided packages
-- access time tracking
-- building against libstdc++
-- server only depends on server config and catalog
-- genquery1 uses flex/bison parser - fixes all known genquery errors
-- genquery2 grants control over DISTINCT keyword - departure from auto-insertion of keyword
-- delay rule locking
+This release represents a significant effort to make iRODS what users expect from an enterprise grade data management platform.
 
-This release consists of [? commits from ? contributors](https://github.com/irods/irods/compare/4.3.4...5.0.0) and [an additional 20 closed issues to be included in the upcoming 4.3.5 release](https://github.com/irods/irods/issues?q=milestone%3A4.3.5).
-This release consists of [1482 commits from 32 contributors](https://github.com/irods/irods/compare/4.3.0...5.0.0) and [closed 306 issues marked for 5.0.0](https://github.com/irods/irods/issues?q=milestone%3A5.0.0) and [an additional 41 closed issues to be included in the upcoming 4.2.12 release](https://github.com/irods/irods/issues?q=milestone%3A4.2.12%20closed%3A%3C%3D2022-06-12).
+Notable updates include:
+
+- **New Startup/Shutdown Process** -
+- **Service Manager Communication** -
+- **OpenSSL 3** -
+- **Fewer Externals Packages** -
+- **Access Time Tracking** -
+- **libstdc++** -
+- **Server Configuration** -
+- **GenQuery1** -
+- **GenQuery2** -
+- **Delay Rule Locking** -
+
+This release consists of [951 commits from 7 contributors](https://github.com/irods/irods/compare/4.3.0...5.0.0) and [closed 175 issues marked for 5.0.0](https://github.com/irods/irods/issues?q=milestone%3A5.0.0) and [an additional 23 closed issues to be included in the upcoming 4.3.5 release](https://github.com/irods/irods/issues?q=is%3Aissue%20state%3Aclosed%20milestone%3A4.3.5%20closed%3A%3C%3D2025-05-13).
 
 The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and Debian12 are available at <https://packages.irods.org/>.
 
@@ -29,47 +31,31 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 
 ### Changed
 
-- ISSUE: [#7410] Don't put libraries into `/usr/lib` if that's not where they go
-	- TAGS: packaging, build/tools
-	- COMMIT: [#7410] Provide CMake cache variable for package configuration directory
-	- COMMIT: [#7410] Throw warning if old `CMAKE_INSTALL_LIBDIR` cache detected
-	- COMMIT: [#7410] Use default value for `CMAKE_INSTALL_LIBDIR`
-
-- ISSUE: [#8016] C++ client-side auth plugins should directly accept passwords
-	- TAGS: enhancement, consortium-member
-	- COMMIT: [#8016] Erase AUTH_PASSWORD_KEY from response in pam_password
-	- COMMIT: [#8016,#8257] Deprecate and replace clientLoginWithPassword
-	- COMMIT: [#8016] Enable auth plugins to accept passwords in requests
-
-- ISSUE: [#8392] Optimize query performance when adding metadata
-	- TAGS: performance
-	- COMMIT: [#8392] Change query in db_set_avu_metadata_op for efficiency
-
-- ISSUE: [#2626] Move server SSL variables from irods_environment to server_config
-	- TAGS: enhancement
-	- COMMIT: [#2626] Update tests which configure SSL
-	- COMMIT: [#2626] Move SSL/TLS variables to server_config
-
 - ISSUE: [#4685] itrim reporting should say "data objects" instead of "files"
 	- TAGS: enhancement
 	- COMMIT: [#4685] itrim: Show "data objects trimmed", not "files trimmed"
+    - Update message for `itrim` to use "data objects" instead of "files" (#4685).
 
 - ISSUE: [#4861] itrim - Lift deprecation of "-N" option and document best practices
 	- TAGS: documentation, consortium-member, deprecation
 	- COMMIT: [#4861] DataObjTrim: Lift deprecation of COPIES_KW
+    - Lift deprecation of `COPIES_KW` for DataObjTrim API - i.e. `itrim -N` (#4861).
 
 - ISSUE: [#5952] Lift deprecation of all static policy enforcement points (PEPs)
 	- TAGS: enhancement, documentation
 	- no commits found for this issue -
+    - Lift deprecation of all static policy enforcement points (#5952).
 
 - ISSUE: [#6150] Investigate moving `irods::experimental::authentication_base` out of `experimental` namespace
 	- TAGS: enhancement
 	- COMMIT: [#6150] Move auth plugin framework out of experimental namespace
 	- COMMIT: [#6150] Remove authentication plugin header files
+    - Move authentication plugin framework out of experimental namespace (#6150).
 
 - ISSUE: [#7220] Build against libstdc++
 	- TAGS: enhancement, packaging, build/tools
 	- COMMIT: [#6256,#7220] Do not explicitly build against libc++
+    - Default to building against libstdc++ instead of libc++ (#7220).
 
 - ISSUE: [#7229] Redesign/Refactor/Simplify main server logic
 	- TAGS: refactor
@@ -108,7 +94,7 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 	- COMMIT: [#7229,#8023] GenQuery1: Expose delay rule locking columns.
 	- COMMIT: [#7229,#8023] Implement new APIs: rx_delay_rule_lock, rx_delay_rule_unlock
 	- COMMIT: [#7229] Remove iRODS 4 server code.
-        - OTHER
+        - RELATED
             - ISSUE: [#7318] only load configuration files at server startup and upon request
                     - TAGS: enhancement
                     - no commits found for this issue -
@@ -118,16 +104,40 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
             - ISSUE: [#8048] Remove unused file: `kill_pid.py`
                     - TAGS: enhancement
                     - COMMIT: [#7229,#8048] Remove unused file: kill_pid.py
+            - ISSUE: [#8049] Add systemd service file template
+                    - TAGS: enhancement
+                    - COMMIT: [#7229,#8049] Add systemd service file template.
             - ISSUE: [#8074] Instruct admin to run `upgrade_irods.py` following a package upgrade
                     - TAGS: enhancement, documentation
                     - COMMIT: [#8074] Instruct admin to run upgrade_irods.py.
             - ISSUE: [#8286] Document new `host` property in irods/irods_docs
                     - TAGS: documentation
                     - no commits found for this issue -
+            - ISSUE: [#8335] Test involving `ips -v` failing in topology environment
+                    - TAGS: bug, testing
+                    - COMMIT: [#8335] Store client name in environment on agent initialization.
             - ISSUE: [#8333] Implement setup and teardown operations for REPs
                     - TAGS: enhancement
                     - COMMIT: [#8333] Fix rule continuation test for Python REP
                     - COMMIT: [#8333] Fix GenQuery test for Python REP
+    - (CHANGED) Make startup and shutdown behavior for server deterministic (#7229).
+    - (REMOVED) Remove support for `spLogSql` environment variable (#7229).
+    - (REMOVED) Remove `kill_pid.py` script (#7229).
+    - (REMOVED) Remove `schema_validation_base_uri` from server_config.json (#7229).
+    - (REMOVED) Remove control plane (#7229).
+    - (ADDED) Add dedicated server_config.json property for specifying the server's identity (#7229).
+    - (ADDED) Add systemd service file template (#8049).
+    - (CHANGED) Separate upgrade logic from server startup (#7229).
+    - (CHANGED) Require reload of server_config.json to be initiated by `SIGHUP` signal (#7229).
+    - (CHANGED) Remove `irods-grid` (#7229) - CHECK ISSUE NUMBER
+    - TO BE CONTINUED ...
+
+- ISSUE: [#7410] Don't put libraries into `/usr/lib` if that's not where they go
+	- TAGS: packaging, build/tools
+	- COMMIT: [#7410] Provide CMake cache variable for package configuration directory
+	- COMMIT: [#7410] Throw warning if old `CMAKE_INSTALL_LIBDIR` cache detected
+	- COMMIT: [#7410] Use default value for `CMAKE_INSTALL_LIBDIR`
+    - Install libraries andn plugins into expected locations for distributions (#7410).
 
 - ISSUE: [#7483] Migrate to OpenSSL 3 
 	- TAGS: enhancement
@@ -143,41 +153,50 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 	- COMMIT: [#7483] Add new iRODS error codes for OpenSSL errors
 	- COMMIT: [#7483] Remove OPENSSL_API_COMPAT shim for OpenSSL 1.1
 	- COMMIT: [#7483] Remove unused irods::buffer_crypt::gen_hash
-        - OTHER
+        - RELATED
             - ISSUE: [#8369] Remove unused TLS member variables from RodsEnvironment struct
                     - TAGS: enhancement
                     - COMMIT: [#8369] Remove unnecessary TLS member variables from RodsEnvironment struct.
+    - Migrate to OpenSSL 3 (#7483).
+    - Disable deprecated OpenSSL 3 features (#7483).
+    - (REMOVED) Remove `irods::buffer_crypt::gen_hash` (#7483).
+    - (REMOVED) Remove unnecessary TLS member variables from `RodsEnvironment` struct (#8369).
 
 - ISSUE: [#7700] Add new properties to JSON schema on next schema version bump
 	- TAGS: enhancement
 	- COMMIT: [#7700] Add missing server config properties to schema.
 	- COMMIT: [#7700] Make optional iRODS 4 properties required in server_config.json.
+        - RELATED
+            - ISSUE: [#8004] schemas/configuration/v4/database_config.json.in missing definition of db_odbc_driver
+                    - TAGS: enhancement, documentation, consortium-member
+                    - COMMIT: [#8004] Make "db_odbc_driver" config property required in JSON schema.
+    - Make optional iRODS 4 properties required in server_config.json (#7700).
+    - Add missing properties to JSON schema for server_config.json (#7700, #8004).
 
 - ISSUE: [#7726] Switch to distro-provided nlohmann-json
 	- TAGS: packaging, build/tools
 	- COMMIT: [#7726] Migrate to system-provided nlohmann-json
+    - Migrate to system-provided nlohmann-json (#7726).
 
 - ISSUE: [#7937] `KW_CFG_PLUGIN_TYPE_AUTHENTICATION` is "auth" but configuration JSON schema requires "authentication"
 	- TAGS: enhancement
 	- COMMIT: [#7937] test_auth: Update expected prompts with invalid scheme
 	- COMMIT: [#7937] Change plugin dir from "auth" to "authentication"
+    - Rename authentication plugin directory from `auth` to `authentication` (#7937).
 
 - ISSUE: [#7975] Change structure of `database` configuration stanza in server_config.json
 	- TAGS: enhancement, refactor
 	- COMMIT: [#7975,#8485] GenQuery2: Update config path for getting db type
 	- COMMIT: [#7975,#8482] Update db config for mysql update
 	- COMMIT: [#7975] Update database plugin stanza
-        - OTHER
+        - RELATED
             - ISSUE: [#8482] Server setup fails for mysql
                     - TAGS: bug
                     - COMMIT: [#7975,#8482] Update db config for mysql update
             - ISSUE: [#8485] Some unit tests failing for mysql
                     - TAGS: bug, testing
                     - COMMIT: [#7975,#8485] GenQuery2: Update config path for getting db type
-
-- ISSUE: [#8004] schemas/configuration/v4/database_config.json.in missing definition of db_odbc_driver
-	- TAGS: enhancement, documentation, consortium-member
-	- COMMIT: [#8004] Make "db_odbc_driver" config property required in JSON schema.
+    - Make `database` plugin stanza easier to manage and inspect (#7975).
 
 - ISSUE: [#8012] Remove dependency on irods_environment.json from server
 	- TAGS: enhancement
@@ -195,25 +214,37 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 	- COMMIT: [#8012] Define server-side options based on irods_environment.json file.
 	- COMMIT: [#8012] Update schema and template for server_config.json.
 	- COMMIT: [#8012] Define keywords for server-side config options.
-        - OTHER
+        - RELATED
+            - ISSUE: [#2626] Move server SSL variables from irods_environment to server_config
+                    - TAGS: enhancement
+                    - COMMIT: [#2626] Update tests which configure SSL
+                    - COMMIT: [#2626] Move SSL/TLS variables to server_config
             - ISSUE: [#8376] iRODS 5 server should always request server negotiation
                     - TAGS: enhancement
                     - COMMIT: [#8376] Remove support for irods_client_server_negotiation property.
                     - COMMIT: [#8012,#8376] getRodsEnv: Load data from different source based on ProcessType.
+    - Remove server's dependency on service account irods_environment.json file (#8012).
+    - Hard-code `client_server_negotiation` property to `request_server_negotiation` (#8012, #8376).
+    - Make `getRodsEnv` load information from different location based on `ProcessType` (#8012).
 
 - ISSUE: [#8013] Setup script should prompt the admin for the FQDN, hostname, or IP
 	- TAGS: enhancement
 	- COMMIT: [#7229,#8013] Initialize host property in server_config.json on upgrade.
 	- COMMIT: [#7229,#8013] Use host property from server_config.json.
 	- COMMIT: [#7229,#8013] Prompt admin for host to listen on during setup.
+    - Make setup_irods.py prompt for FQDN, Hostname or IP address (#8013).
 
-- ISSUE: [#8022] Use `ProcessType` to detect operating context - server vs pure client
-	- TAGS: enhancement, refactor
-	- COMMIT: [#7229,#8022] Use ProcessType to detect server vs pure client.
+- ISSUE: [#8016] C++ client-side auth plugins should directly accept passwords
+	- TAGS: enhancement, consortium-member
+	- COMMIT: [#8016] Erase AUTH_PASSWORD_KEY from response in pam_password
+	- COMMIT: [#8016,#8257] Deprecate and replace clientLoginWithPassword
+	- COMMIT: [#8016] Enable auth plugins to accept passwords in requests
+    - Enable authentication plugins to accept passwords in requests (#8016).
 
-- ISSUE: [#8252] Return INVALID_GENQUERY_AGGREGATE_FUNCTION from GenQuery1 bison parser
-	- TAGS: enhancement
-	- COMMIT: [#8252] GenQuery1: Return same error as iRODS 4.3.4 on invalid aggregrate function.
+- ISSUE: [#8019] Remove `plugin_home` property from irods_environment.json
+	- TAGS: documentation, deprecation
+	- COMMIT: [#8005,#8019] Adjust customization point for loading plugins.
+    - Rename `plugin_home` to `plugin_directory` in irods_environment.json (#8005, #8019).
 
 - ISSUE: [#8261] GenQuery2 can produce incorrect count
 	- TAGS: bug, consortium-member
@@ -221,90 +252,93 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 	- COMMIT: [#8261] GenQuery2: Allow SQL DISTINCT in functions.
 	- COMMIT: [#8261] GenQuery2: Align handling of DISTINCT keyword with SQL standard.
 	- COMMIT: [#8261] GenQuery2: Silence compiler warning about unused parameter.
-
-- ISSUE: [#8287] Replace all instances of `gethostname` and `boost::asio::host_name` with value of `host` config option
-	- TAGS: refactor
-	- COMMIT: [#8287] rsGeneralAdmin: sort header includes
-	- COMMIT: [#8287] Replace gethostname() with "host" server config option.
+    - GenQuery2: Grant users full control over `DISTINCT` keyword (#8261).
+    - GenQuery2: Allow `DISTINCT` keyword in function calls (#8261).
 
 - ISSUE: [#8317] Replace rodsLog calls with new logger in database plugin
 	- TAGS: enhancement
 	- COMMIT: [#8317] Substitute `rodsLog(...)` with new logger
+    - Log database activity under the `database` log category (#8317).
 
 - ISSUE: [#8318] Replace rodsLog calls with new logger for logging of SQL and bind variables
 	- TAGS: enhancement
 	- COMMIT: [#8318] Change log level on bindvar message
 	- COMMIT: [#8318] Replacing rodsLog in database code
-
-- ISSUE: [#8326] Remove ZeroMQ references from buildsystem
-	- TAGS: build/tools
-	- COMMIT: [#8326] Remove references to zmq
-
-- ISSUE: [#8327] Remove Avro references from buildsystem
-	- TAGS: build/tools
-	- COMMIT: [#8327] Remove references to avro
+    - Log SQL and bind variable information under the `sql` log category (#8318).
 
 - ISSUE: [#8330] Switch to distro-provided CMake
 	- TAGS: packaging, build/tools
 	- COMMIT: [#8330] Migrate to system CMake
+    - Migrate to distribution-provided CMake (#8330).
 
 - ISSUE: [#8331] Switch to distro-provided catch2
 	- TAGS: packaging, build/tools
 	- COMMIT: [#6087,#7765,#8331] Introduce Catch2 v3 compatibility
 	- COMMIT: [#8331] Migrate to system-provided catch2
+    - Migrate to distribution-provided Catch2 (#8331).
 
 - ISSUE: [#8332] Switch to distro-provided fmt and spdlog
 	- TAGS: packaging, build/tools
 	- COMMIT: [#8332] Migrate to system-provided spdlog and fmt
-
-- ISSUE: [#8343] Enforce FQDN size requirements on `host` property in server_config.json
-	- TAGS: enhancement
-	- COMMIT: [#8343] Enforce FQDN length requirements on "host" server config property.
+    - Migrate to distribution-provided fmtlib (#8332).
+    - Migrate to distribution-provided spdlog (#8332).
 
 - ISSUE: [#8353] Apply reasonable constraints to server_config.json schema
 	- TAGS: enhancement
 	- COMMIT: [#8353] Limit acceptable values for port numbers in schema for server config.
 	- COMMIT: [#8353] Apply reasonable constraints to server_config.json schema.
+        - RELATED
+            - ISSUE: [#8343] Enforce FQDN size requirements on `host` property in server_config.json
+                    - TAGS: enhancement
+                    - COMMIT: [#8343] Enforce FQDN length requirements on "host" server config property.
+    - Apply constraints to JSON schema for server_config.json (#8343, #8353).
 
 - ISSUE: [#8360] `pam_password` should return an error when TLS is disabled
 	- TAGS: enhancement
 	- COMMIT: [#8360] Remove test_authentication_PAM_without_negotiation
 	- COMMIT: [#8360] pam_password: Return error if TLS not enabled
 	- COMMIT: [#8360] Add test for pam_password with no TLS
+    - Make `pam_password` authentication plugin return an error when TLS is not enabled (#8360).
 
-- ISSUE: [#8361] Install icommands somewhere else
-	- TAGS: enhancement, packaging
-	- COMMIT: [#8361] Add IRODS_CLIENTS_DIRECTORY CMake variable
-
-- ISSUE: [#8412] Make setup_irods.py prompts more consistent
-	- TAGS: refactor
-	- COMMIT: [#8412] Make setup prompts more consistent.
+- ISSUE: [#8392] Optimize query performance when adding metadata
+	- TAGS: performance
+	- COMMIT: [#8392] Change query in db_set_avu_metadata_op for efficiency
+    - Optimize query performance when adding metadata (#8392).
 
 - ISSUE: [#8428] Move auth plugin classes to `irods::authentication` namespace
 	- TAGS: enhancement
 	- COMMIT: [#8428] Move auth plugins to irods::authentication namespace
-
-- ISSUE: [#8435] PAM-based test experiences error during tear down phase
-	- TAGS: bug, testing
-	- COMMIT: [#8435] Make PAM-based test compatible with Python REP
+    - Move authentication plugins into `irods::authentication` namespace (#8428).
 
 - ISSUE: [#8473] Do not allow admins to disable `client_api_allowlist`
 	- TAGS: enhancement
 	- COMMIT: [#8473] Do not allow admins to change client_api_allowlist_policy
+    - Update server to permanently enforce `client_api_allowlist_policy` (#8473).
+
+- ISSUE: [#8487] iinit ---> show usr/host info
+	- TAGS: enhancement
+	- no commits found for this issue -
+    - Print user and host information to terminal when authenticating via `iinit` (#8487).
 
 ### Removed
 
 - ISSUE: [#2956] Remove GeneralUpdate API
 	- TAGS: deprecation
 	- COMMIT: [#2956] Remove GeneralUpdate API
+    - Remove GeneralUpdate API (#2956).
+
+- COMMIT: [#4932] Remove iput -p / icp -p tests
+    - Remove `-p` option from `iput` and `icp` (#4932).
 
 - ISSUE: [#5247] remove simplequery
 	- TAGS: documentation, refactor, deprecation
 	- COMMIT: [#5247] Remove SimpleQuery
+    - Remove SimpleQuery API (#5247).
 
 - ISSUE: [#6229] Remove `ASSERT_ERROR` and `ASSERT_PASS`
 	- TAGS: enhancement
 	- COMMIT: [#6229] Remove ASSERT_ERROR and ASSERT_PASS
+    - Remove `ASSERT_ERROR` and `ASSERT_PASS` (#6229).
 
 - ISSUE: [#6766] remove `imeta rmw` (and `addw`?) (and `lsw`?) (and `adda`?)
 	- TAGS: deprecation
@@ -312,145 +346,171 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 	- COMMIT: [#6766] ModAVUMetadata: Remove addw
 	- COMMIT: [#6766] imeta: Remove lsw
 	- COMMIT: [#6766] ModAVUMetadata: Remove adda
+    - Remove wildcard operations from ModAVUMetadata API - `adda`, `addw`, `lsw`, `rmw` (#6766).
 
 - ISSUE: [#7504] Trim/`itrim`: Remove `AGE_KW`/`--age` support
 	- TAGS: deprecation
 	- COMMIT: [#7504] Trim: Remove AGE_KW support
+    - Remove support for `AGE_KW` from DataObjTrim API (#7504).
 
 - ISSUE: [#7560] remove support for RBUDP
 	- TAGS: deprecation
 	- COMMIT: [#7560] Remove scattered, unused "tmpStr" variables
 	- COMMIT: [#7560] Remove RBUDP
+    - Remove RBUDP (#7560).
 
 - ISSUE: [#7563] Remove `msiSendMail`
 	- TAGS: deprecation
 	- COMMIT: [#7563] Remove `msiSendMail`
+    - Remove `msiSendMail` (#7563).
 
 - ISSUE: [#7578] Remove `--link` option from `iput` and `irsync`
 	- TAGS: deprecation
 	- COMMIT: [#7578] Remove the `--link` option
+    - Remove `--link` option from `iput` and `irsync` (#7578).
 
 - ISSUE: [#7594] Remove `BACKUP_RESC_NAME_KW` (and other "backup mode" things)
 	- TAGS: deprecation
 	- COMMIT: [#7594] Remove unused variable myResc
 	- COMMIT: [#7594] Remove all "Backup Mode" items
+    - Remove `BACKUP_RESC_NAME_KW` (#7594).
 
 - ISSUE: [#7603] Remove `msiSetResource`
 	- TAGS: deprecation
 	- COMMIT: [#7603] Remove `msiSetResource`
+    - Remove `msiSetResource` (#7603).
 
 - ISSUE: [#7834] Remove update_deprecated_columns.py script
 	- TAGS: deprecation
 	- COMMIT: [#7834] Remove `update_deprecated_columns.py`
+    - Remove update_deprecated_database_columns.py script (#7834).
 
 - ISSUE: [#7904] Remove resource monitoring system and automatic handling of resource status
 	- TAGS: deprecation
 	- COMMIT: [#7904] Remove server monitoring microservices
+    - Remove server monitoring microservices  (#7904).
 
 - ISSUE: [#7960] Remove `imeta qu`
 	- TAGS: deprecation
 	- COMMIT: [#7960] Remove `Test_ImetaQu` from `core_tests_list.json`
 	- COMMIT: [#7960] Remove tests for imeta qu
+    - Remove `imeta qu` (#7960).
 
 - ISSUE: [#7962] Remove interactive mode from `imeta`
 	- TAGS: deprecation
 	- COMMIT: [#7962] Remove tests for imeta interactive mode
+    - Remove interactive mode from `imeta` (#7962).
 
 - ISSUE: [#7980] Remove `dataObjLock` and `dataObjUnlock` APIs
 	- TAGS: deprecation
 	- COMMIT: [#7980] Remove dataObjLock and dataObjUnlock APIs
+    - Remove DataObjLock and DataObjUnlock APIs (#7980).
 
 - ISSUE: [#7985] Remove acAclPolicy{msiAclPolicy('STANDARD');} (strictACL as a knob)
 	- TAGS: deprecation
 	- COMMIT: [#7985] Remove `msiAclPolicy(...)`
-        - OTHER
+        - RELATED
             - ISSUE: [#7954] Do not allow strict ACLs to be disabled
                     - TAGS: enhancement
                     - no commits found for this issue -
+    - Remove ability to disable Strict ACLs (#7954, #7985).
 
 - ISSUE: [#7996] Remove `irodsctl`
 	- TAGS: enhancement
 	- COMMIT: [#7229,#7996] Remove dev_testy function and options.
 	- COMMIT: [#7229,#7996] Remove irodsctl and all references to it.
+    - Remove `irodsctl` (#7996).
 
 - ISSUE: [#8008] Consider removing `status()` function from controller.py and irodsctl
 	- TAGS: enhancement
 	- COMMIT: [#8008] Remove status function from IrodsController.
-
-- ISSUE: [#8019] Remove `plugin_home` property from irods_environment.json
-	- TAGS: documentation, deprecation
-	- COMMIT: [#8005,#8019] Adjust customization point for loading plugins.
+    - Remove status function from IrodsController (#8008).
 
 - ISSUE: [#8020] Remove init script
 	- TAGS: enhancement
 	- COMMIT: [#7229,#8020] Remove SysVinit script.
+    - Remove SysVinit script (#7229, #8020).
 
 - ISSUE: [#8038] Remove `schema_version` property from zone report JSON schema
 	- TAGS: enhancement
 	- COMMIT: [#8038] Remove schema_version property from zone report.
+    - Remove `schema_version` property from zone report (#8038).
 
 - ISSUE: [#8058] Remove unused server_status.json.in file
 	- TAGS: build/tools
 	- COMMIT: [#8058] Remove unused file: server_status.json.in
+    - Remove server_status.json.in (#8058).
 
 - ISSUE: [#8068] Remove `GeneralRowInsert` and `GeneralRowPurge` APIs
 	- TAGS: deprecation
 	- COMMIT: [#8068] Remove GeneralRowInsert and GeneralRowPurge
+    - Remove GeneralRowInsert API (#8068).
+    - Remove GeneralRowPurge API (#8068).
 
 - ISSUE: [#8069] Consider removing `agent_factory_watcher_sleep_time_in_seconds` property from server_config.json
 	- TAGS: consortium-member, deprecation
 	- COMMIT: [#8069] Remove unused config option: agent_factory_watcher_sleep_time_in_seconds
+    - Remove `agent_factory_watcher_sleep_time_in_seconds` from server_config.json (#8069).
 
 - ISSUE: [#8084] remove igetwild
 	- TAGS: deprecation
 	- COMMIT: [#8084] remove igetwild test
+    - Remove `igetwild` (#8084).
 
 - ISSUE: [#8085] remove ilocate
 	- TAGS: deprecation
 	- COMMIT: [#8085] remove ilocate tests
+    - Remove `ilocate` (#8084).
 
 - ISSUE: [#8273] iCommands: Remove `--wlock` and `--rlock` options
 	- TAGS: deprecation
 	- COMMIT: [#8273] Remove wlock and rlock options
+    - Remove `--wlock` and `--rlock` options (#8273).
 
 - ISSUE: [#8300] Remove osauth scheme
 	- TAGS: deprecation
 	- COMMIT: [#8300] Remove osauth and genOSAuth
+    - Remove osauth and `genOSAuth` (#8300).
 
 - ISSUE: [#8367] Remove support for `irods_debug` option from irods_environment.json
 	- TAGS: enhancement
 	- COMMIT: [#8367] Remove rodsDebug member variable from RodsEnvironment struct.
+    - Remove `rodsDebug` member variable from `RodsEnvironment` struct (#8367).
 
 - ISSUE: [#8368] Remove control plane member variables from RodsEnvironment struct
 	- TAGS: enhancement
 	- COMMIT: [#8368] Remove control plane member variables from RodsEnvironment struct.
-
-- ISSUE: [#8407] Remove `rcAuthenticate` and `rsAuthenticate`
-	- TAGS: deprecation
-	- COMMIT: [#8407] Remove rcAuthenticate and rsAuthenticate
+    - Remove control plane member variables from `RodsEnvironment` struct (#8368).
 
 - ISSUE: [#8445] Remove support for specifying a different DSN via an environment variable
 	- TAGS: deprecation
 	- COMMIT: [#8445] Remove support for "irodsOdbcDSN" environment variable
 	- COMMIT: [#8438,#8445] new_database_connection: Remove ability to read server config
+    - Remove option to read server_config.json from `new_database_connection` function (#8438, #8445).
+    - Remove support for "irodsOdbcDSN" environment variable (#8445).
 
 - ISSUE: [#8497] remove unnecessary iadmin subcommands
 	- TAGS: deprecation
 	- no commits found for this issue -
+    - Remove unnecessary iadmin subcommands - `ctime`, `mkdir`, `rmdir`, `ls` (#8497).
 
 ### Deprecated
 
 - ISSUE: [#8257] Deprecate legacy auth plugins
-	- TAGS: deprecation
-	- COMMIT: [#8257] Add rc_authenticate_client for C clients
-	- COMMIT: [#8257] Replace clientLogin with authenticate_client in tests
-	- COMMIT: [#8257] Deprecate clientLogin, replace with authenticate_client
-	- COMMIT: [#8257] Make scheme name required in authenticate_client
-	- COMMIT: [#8257] Move writing irodsA file to native auth plugin
-	- COMMIT: [#8016,#8257] Deprecate and replace clientLoginWithPassword
-	- COMMIT: [#8257] Deprecate legacy auth plugin support
-	- COMMIT: [#8257] Add short-circuit to authenticate_client
-	- COMMIT: [#8257] Remove GSI and Kerberos auth objects
+        - TAGS: deprecation
+        - COMMIT: [#8257] Add rc_authenticate_client for C clients
+        - COMMIT: [#8257] Replace clientLogin with authenticate_client in tests
+        - COMMIT: [#8257] Deprecate clientLogin, replace with authenticate_client
+        - COMMIT: [#8257] Make scheme name required in authenticate_client
+        - COMMIT: [#8257] Move writing irodsA file to native auth plugin
+        - COMMIT: [#8016,#8257] Deprecate and replace clientLoginWithPassword
+        - COMMIT: [#8257] Deprecate legacy auth plugin support
+        - COMMIT: [#8257] Add short-circuit to authenticate_client
+        - COMMIT: [#8257] Remove GSI and Kerberos auth objects
+    - Deprecate legacy authentication plugins (#8257).
+    - Deprecate clientLogin functions (#8257).
+    - (ADDED) Add `rc_authenticate_client` for C clients (#8257).
+    - (CHANGED) Make authentication scheme name required in `authenticate_client` (#8257).
 
 ### Fixed
 
@@ -464,13 +524,16 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 	- COMMIT: [#3902] Update filesystem lib to escape single quotes (as hex).
 	- COMMIT: [#3902] Add utility for converting single quotes to their hex encoding.
 	- COMMIT: [#3902] Replace GenQuery1 ad-hoc parsing code with flex/bison parser.
-        - OTHER
+        - RELATED
             - ISSUE: [#4983] icp breaks when data_object name contains "' and '"
                     - TAGS: bug, consortium-member
                     - COMMIT: [#3902,#4983,#5992,#7174,#7169,#8033] Add tests for long standing GenQuery1 parser issues.
             - ISSUE: [#5992] Errors on collection names containing apostrophes
                     - TAGS: duplicate, bug, consortium-member
                     - COMMIT: [#3902,#4983,#5992,#7174,#7169,#8033] Add tests for long standing GenQuery1 parser issues.
+            - ISSUE: [#7164] `ils -A` does not print ACLs for data object with single quotation mark in name
+                    - TAGS: bug, testing
+                    - COMMIT: [#7164] Add test showing "ils -A" handling embedded single quotes.
             - ISSUE: [#7169] Creating a data object containing a single quote in the name using itouch results in SYS_NO_GOOD_REPLICA
                     - TAGS: bug, consortium-member
                     - COMMIT: [#3902,#4983,#5992,#7174,#7169,#8033] Add tests for long standing GenQuery1 parser issues.
@@ -486,65 +549,64 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
             - ISSUE: [#8033] Some clients encounter errors when querying a path that includes spaces, a single quotation mark, and the word ‘and’
                     - TAGS: bug, consortium-member
                     - COMMIT: [#3902,#4983,#5992,#7174,#7169,#8033] Add tests for long standing GenQuery1 parser issues.
+    - Implement flex-bison parser for GenQuery1 (#3902, #4983, #5992, #7164, #7169, #7174, #7302, #7972, #8033).
 
 - ISSUE: [#4932] test_local_iput_physicalpath fails in a topology setting needs investigation
 	- TAGS: bug, testing
 	- COMMIT: [#4932] Remove FILE_PATH_KW support
 	- COMMIT: [#4932] Remove iput -p / icp -p tests
-
-- ISSUE: [#7164] `ils -A` does not print ACLs for data object with single quotation mark in name
-	- TAGS: bug, testing
-	- COMMIT: [#7164] Add test showing "ils -A" handling embedded single quotes.
+    - Reduce scope of `FILE_PATH_KW` (#4932).
 
 - ISSUE: [#7948] `iinit` shows "iRODS password" prompt for non-native auth schemes
 	- TAGS: bug
         - FIXED IN ICOMMANDS REPO
 	- no commits found for this issue -
+    - Prevent `iinit` from showing native authentication password prompt for non-native authentication schemes (#7948).
 
 - ISSUE: [#8259] GenQuery2 does not consider group permissions
 	- TAGS: bug
 	- COMMIT: [#8259] Make GenQuery2 honor group permissions.
+    - Make GenQuery2 honor group permissions (#8259).
 
 - ISSUE: [#8265] Deallocation of KeyValPair results in bad AVU or error when Python REP is configured
 	- TAGS: bug, consortium-member, prep
 	- COMMIT: [#8265] Restore support for KeyValPair in Python REP
-
-- ISSUE: [#8335] Test involving `ips -v` failing in topology environment
-	- TAGS: bug, testing
-	- COMMIT: [#8335] Store client name in environment on agent initialization.
-
-- ISSUE: [#8423] GitHub Actions: clang-tidy workflow jobs hanging on main
-	- TAGS: build/tools
-	- COMMIT: [#8423] Add per-file timeout to clang-tidy GH action
+    - Restore support for `KeyValPair` in Python REP (#8265).
 
 - ISSUE: [#8439] Redirect bug from Consumer server in GenQuery2 API
 	- TAGS: bug
 	- COMMIT: [#8439] GenQuery2: Do not pass nullptr to logger
 	- COMMIT: [#8439] GenQuery2: Add test which captures redirect issue
+    - Fix redirect bug of client request from Consumer server to Provider server in GenQuery2 API (#8439).
 
 - ISSUE: [#8441] Removing permanently ignores `write` permission level for physical paths
 	- TAGS: bug, consortium-member
 	- COMMIT: [#8441] DataObjUnlink: Unregister before unlinking
 	- COMMIT: [#8441] Add test for unlinking data with no permissions
+    - Unregister replica before unlinking in DataObjUnlink API (#8441).
 
 - ISSUE: [#8492] Package upgrade script tries to import from scripts dir without proper working directory
 	- TAGS: bug, packaging, upgrade
 	- COMMIT: [#8492] Set workdir when stopping irods during package upgrade
+    - Set working directory when stopping server during package upgrade (#8492).
 
 - ISSUE: [#8498] Logger throws JSON exception when passed invalid UTF-8 sequences
 	- TAGS: bug
 	- COMMIT: [#8498] Replace invalid UTF-8 sequences in log messages
+    - Replace invalid UTF-8 sequences in log messages (#8498).
 
 ### Added
 
 - ISSUE: [#7765] Catch2 v3 compatibility
 	- TAGS: testing, build/tools
 	- COMMIT: [#6087,#7765,#8331] Introduce Catch2 v3 compatibility
+    - Add Catch2 v3 compatibility (#6087, #7765, #8331).
 
 - ISSUE: [#8005] Add option to server_config.json for changing where plugins are loaded from
 	- TAGS: enhancement, documentation
 	- COMMIT: [#8005] Fix server-side support for "plugin_directory" option.
 	- COMMIT: [#8005,#8019] Adjust customization point for loading plugins.
+    - Add dedicated property to server_config.json for specifying from which directory plugins are to be loaded (#8005).
 
 - ISSUE: [#8023] Implement API to allow delay servers to claim delay rules
 	- TAGS: enhancement
@@ -552,11 +614,12 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 	- COMMIT: [#7229,#8023] GenQuery2: Expose delay rule locking columns.
 	- COMMIT: [#7229,#8023] GenQuery1: Expose delay rule locking columns.
 	- COMMIT: [#7229,#8023] Implement new APIs: rx_delay_rule_lock, rx_delay_rule_unlock
+    - Implement new API for locking and unlocking delay rules (#8023).
 
 - ISSUE: [#8036] Add service manager status communication to main server
 	- TAGS: enhancement
 	- COMMIT: [#8036] Communicate server status to service manager
-        - OTHER
+        - RELATED
             - ISSUE: [#8123] Package service unit template
                     - TAGS: packaging
                     - no commits found for this issue -
@@ -566,10 +629,7 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
             - ISSUE: [#8147] Server should not signal readiness to service manager until agent factory (and maybe delay server?) are also spun up and ready
                     - TAGS: enhancement
                     - COMMIT: [#8147] Make agent factory notify main server process of readiness
-
-- ISSUE: [#8049] Add systemd service file template
-	- TAGS: enhancement
-	- COMMIT: [#7229,#8049] Add systemd service file template.
+    - Make server communicate status to service manager (#8036).
 
 - ISSUE: [#8260] Make server track access time
 	- TAGS: enhancement
@@ -593,25 +653,64 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
 	- COMMIT: [#8260] Update access time on registration of new data object.
 	- COMMIT: [#8260] Add support for updating access time via rxModDataObjMeta.
 	- COMMIT: [#8260] Implement new API endpoint: rx_update_replica_access_time
-        - OTHER
+        - RELATED
             - ISSUE: [#8381] Server establishes connection to self before checking atime queue for updates
                     - TAGS: performance
                     - COMMIT: [#8381] Do not connect to server unless there are access time updates in the queue.
             - ISSUE: [#8370] Remove unnecessary call to deinitialize the access time queue in agent factory
                     - TAGS: enhancement
                     - COMMIT: [#8370] Remove unnecessary call to access time queue deinit function.
+    - Make server track access time (#8260).
 
 - ISSUE: [#8319] Add log category for GenQuery1
 	- TAGS: enhancement
 	- COMMIT: [#8319] Add GenQuery1 log category
-
-- ISSUE: [#8487] iinit ---> show usr/host info
-	- TAGS: enhancement
-	- no commits found for this issue -
+    - Add dedicated log category for GenQuery1 (#8319).
 
 [Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A5.0.0)
 
 ---------------- ISSUES POOL ----------------
+
+- ISSUE: [#8435] PAM-based test experiences error during tear down phase
+	- TAGS: bug, testing
+	- COMMIT: [#8435] Make PAM-based test compatible with Python REP
+
+- ISSUE: [#8412] Make setup_irods.py prompts more consistent
+	- TAGS: refactor
+	- COMMIT: [#8412] Make setup prompts more consistent.
+
+- ISSUE: [#8361] Install icommands somewhere else
+	- TAGS: enhancement, packaging
+	- COMMIT: [#8361] Add IRODS_CLIENTS_DIRECTORY CMake variable
+
+- ISSUE: [#8326] Remove ZeroMQ references from buildsystem
+	- TAGS: build/tools
+	- COMMIT: [#8326] Remove references to zmq
+
+- ISSUE: [#8327] Remove Avro references from buildsystem
+	- TAGS: build/tools
+	- COMMIT: [#8327] Remove references to avro
+
+- ISSUE: [#8287] Replace all instances of `gethostname` and `boost::asio::host_name` with value of `host` config option
+	- TAGS: refactor
+	- COMMIT: [#8287] rsGeneralAdmin: sort header includes
+	- COMMIT: [#8287] Replace gethostname() with "host" server config option.
+
+- ISSUE: [#8022] Use `ProcessType` to detect operating context - server vs pure client
+	- TAGS: enhancement, refactor
+	- COMMIT: [#7229,#8022] Use ProcessType to detect server vs pure client.
+
+- ISSUE: [#8252] Return INVALID_GENQUERY_AGGREGATE_FUNCTION from GenQuery1 bison parser
+	- TAGS: enhancement
+	- COMMIT: [#8252] GenQuery1: Return same error as iRODS 4.3.4 on invalid aggregrate function.
+
+- ISSUE: [#8423] GitHub Actions: clang-tidy workflow jobs hanging on main
+	- TAGS: build/tools
+	- COMMIT: [#8423] Add per-file timeout to clang-tidy GH action
+
+- ISSUE: [#8407] Remove `rcAuthenticate` and `rsAuthenticate`
+	- TAGS: deprecation
+	- COMMIT: [#8407] Remove rcAuthenticate and rsAuthenticate
 
 - ISSUE: [#8391] Add `DEPRECATED_AUTHENTICATION_PLUGIN` error code to 4.3
 	- TAGS: enhancement
