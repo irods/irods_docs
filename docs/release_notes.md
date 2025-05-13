@@ -121,7 +121,7 @@ The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and 
                     - COMMIT: [#8333] Fix rule continuation test for Python REP
                     - COMMIT: [#8333] Fix GenQuery test for Python REP
     - (CHANGED) Make startup and shutdown behavior for server deterministic (#7229).
-    - (REMOVED) Remove support for `spLogSql` environment variable (#7229).
+    - (REMOVED) Remove support for `spLogSql` environment variable (#7229). -- what about spLogLevel?
     - (REMOVED) Remove `kill_pid.py` script (#7229).
     - (REMOVED) Remove `schema_validation_base_uri` from server_config.json (#7229).
     - (REMOVED) Remove control plane (#7229).
