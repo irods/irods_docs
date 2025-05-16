@@ -21,7 +21,7 @@ Notable updates include:
 
 This release consists of [953 commits from 16 contributors](https://github.com/irods/irods/compare/4.3.0...5.0.0) and [closed 176 issues marked for 5.0.0](https://github.com/irods/irods/issues?q=milestone%3A5.0.0) and [an additional 23 closed issues to be included in the upcoming 4.3.5 release](https://github.com/irods/irods/issues?q=is%3Aissue%20state%3Aclosed%20milestone%3A4.3.5%20closed%3A%3C%3D2025-05-13).
 
-The latest binary packages for AlmaLinux9, RockyLinux9, Ubuntu22, Ubuntu24, and Debian12 are available at <https://packages.irods.org/>.
+The latest binary packages for RockyLinux9, Ubuntu22, Ubuntu24, and Debian12 are available at <https://packages.irods.org/>.
 
 ### Changed
 
