@@ -10,7 +10,7 @@ irodsServer -d
 
 The server will perform various checks during startup to make sure it is safe to accept client requests. The most important check is validation of `server_config.json`. Failing validation will result in the server terminating immediately. All validation errors are reported via stderr.
 
-Logs are written to syslog. See [The Server Log](../../system_overview/troubleshooting/#the-server-log) for information regarding syslog.
+Logs are written to syslog. See [The Server Log](../../system_overview/server_log/#the-server-log) for information regarding syslog.
 
 ### Server PID File
 
