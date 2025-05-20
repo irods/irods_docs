@@ -22,7 +22,6 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
 ```json
 {
     "advanced_settings": {
-        // (Optional)
         // The size of the buffer used for reading during checksum calculation.
         // Increasing this value will result in fewer reads of a replica. Values must be representable as a 32
         // bit integer.
