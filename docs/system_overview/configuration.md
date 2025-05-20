@@ -289,7 +289,7 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         "database": {
             // The type of database iRODS is using for the catalog.
             // The following property names are supported: postgres, mysql, and oracle
-            "technology": ""
+            "technology": "",
 
             // The FQDN, Hostname, or IP of the database server (can be localhost).
             "host": "localhost",
