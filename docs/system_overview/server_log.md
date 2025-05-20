@@ -10,6 +10,9 @@ Because there are multiple implementations of syslog, iRODS does not declare any
 
 ### rsyslog configuration
 
+!!! Important
+    If upgrading to iRODS 5.0.0 and using rsyslog, you'll need to add **irodsAgent** to your rsyslog configuration. Failing to do so will result in important log messages not being written to the log file.
+
 The key points to remember about the following configuration are:
 
 - The log file, **/var/log/irods/irods.log**, will be readable by anyone with access to the OS
