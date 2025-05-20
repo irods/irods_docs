@@ -260,6 +260,7 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         "authentication": "info",
         "database": "info",
         "delay_server": "info",
+        "genquery1": "info",
         "genquery2": "info",
         "legacy": "info",
         "microservice": "info",
