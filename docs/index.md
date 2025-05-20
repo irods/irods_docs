@@ -2,7 +2,7 @@
 
 [![iRODS](images/iRODS-Logo.png)](https://docs.irods.org)
 
-The integrated Rule-Oriented Data System (iRODS) is open source data management software used by research organizations and government agencies worldwide.  iRODS is released as a production-level distribution aimed at deployment in mission critical environments.  It virtualizes data storage resources, so users can take control of their data, regardless of where and on what device the data is stored. As data volumes grow and data services become more complex, iRODS is serving an increasingly important role in data management.
+The integrated Rule-Oriented Data System (iRODS) is open source, policy-based data management software used by research organizations and government agencies worldwide.  iRODS is released as a production-level distribution aimed at deployment in mission critical environments.  It virtualizes data storage resources, so users can take control of their data, regardless of where and on what device the data is stored. As data volumes grow and data services become more complex, iRODS is serving an increasingly important role in data management.
 
 The development infrastructure supports exhaustive testing on supported platforms; plugin support for microservices, storage resources, authentication mechanisms, network protocols, rule engines, new API endpoints, and databases; and extensive documentation, training, and support services.
 
@@ -21,7 +21,7 @@ The development infrastructure supports exhaustive testing on supported platform
 
 ## History
 
-iRODS has a 20+ year history of funded projects.
+iRODS has a 30+ year history of funded projects.
 
 Funders have included DARPA, NSF, DOD, DOE, LC, NARA, NASA, NOAA, USPTO, and LLNL.
 
@@ -41,4 +41,4 @@ The iRODS Consortium and the community greatly appreciate you taking the time to
 
  - [https://github.com/irods](https://github.com/irods)
  - [https://docs.irods.org](https://docs.irods.org)
- - [https://twitter.com/irods](https://twitter.com/irods)
+ - [https://linkedin.com/company/irods](https://www.linkedin.com/company/irods)
