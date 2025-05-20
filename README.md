@@ -13,7 +13,6 @@ Update for correct version
 
 - Update Makefile with correct GITHUB_ACCOUNT
 - Update Makefile with correct GIT_COMMITTISH
-- Update build/irods_for_doxygen/Doxyfile with correct PROJECT_NUMBER
 
 Build
 -----

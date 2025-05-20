@@ -19,10 +19,11 @@ default : doxygen mkdocs
 	@rsync -ar --delete doxygen/ ${DOCS_TARGET_DIR}/doxygen/
 
 get_irods :
-	@echo "Getting iRODS source... v[${GIT_COMMITTISH}]"
+	@echo "Getting iRODS source... https://github.com/${GITHUB_ACCOUNT}/irods@${GIT_COMMITTISH}"
 	@if [ -d ${IRODSTARGET} ] ; then rm -rf ${IRODSTARGET} ; fi
 	@git clone https://github.com/${GITHUB_ACCOUNT}/irods ${IRODSTARGET}
 	@cd ${IRODSTARGET}; git fetch; git checkout ${GIT_COMMITTISH}
+	@cd ${IRODSTARGET}; sed -i "/^PROJECT_NUMBER/c\PROJECT_NUMBER         = ${GIT_COMMITTISH}" Doxyfile
 
 doxygen : get_irods
 	@echo "Generating Doxygen..."
