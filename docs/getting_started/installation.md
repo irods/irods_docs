@@ -274,6 +274,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         ],
         "catalog_service_role": "provider",
         "client_server_policy": "CS_NEG_REFUSE",
+        "connection_pool_refresh_time_in_seconds": 300,
         "controlled_user_connection_list": {
             "control_type": "denylist",
             "users": []
@@ -290,6 +291,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         },
         "environment_variables": {},
         "federation": [],
+        "graceful_shutdown_timeout_in_seconds": 30,
         "host": "irods-provider",
         "host_access_control": {
             "access_entries": []
@@ -437,6 +439,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         ],
         "catalog_service_role": "consumer",
         "client_server_policy": "CS_NEG_REFUSE",
+        "connection_pool_refresh_time_in_seconds": 300,
         "controlled_user_connection_list": {
             "control_type": "denylist",
             "users": []
@@ -453,6 +456,7 @@ Below you'll find examples showing what the input file might contain for a [Cata
         },
         "environment_variables": {},
         "federation": [],
+        "graceful_shutdown_timeout_in_seconds": 30,
         "host": "irods-consumer",
         "host_access_control": {
             "access_entries": []
