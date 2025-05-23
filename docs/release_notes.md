@@ -1,5 +1,27 @@
 #
 
+## 5.0.1
+
+Release Date: 2025-05-2X
+
+The iRODS Consortium and RENCI are pleased to announce iRODS 5.0.1.
+
+This patch release addresses an infinite loop in server redirection.
+
+### Changed
+
+- Include wording about rsyslog configuration and new irodsAgent binary in upgrade instructions (#8524).
+
+### Fixed
+
+- Return `SYS_EXCEED_CONNECT_CNT` on infinite server redirect loop (#8529).
+
+This release consists of [X commits from Y contributors](https://github.com/irods/irods/compare/5.0.0...5.0.1) and [closed N issues marked for 5.0.1](https://github.com/irods/irods/issues?q=milestone%3A5.0.1).
+
+The latest binary packages for RockyLinux9, Ubuntu22, Ubuntu24, and Debian12 are available at <https://packages.irods.org/>.
+
+[Full GitHub Listing](https://github.com/irods/irods/issues?q=milestone%3A5.0.1)
+
 ## 5.0.0
 
 Release Date: 2025-05-20
