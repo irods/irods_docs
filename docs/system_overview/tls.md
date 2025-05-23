@@ -78,24 +78,44 @@ Put the dhparams.pem, server.key and chain.pem files somewhere that the iRODS se
 The server expects to have the following properties set in `server_config.json` when loading configuration at startup:
 
 ~~~
-"tls": {
+"tls_server": {
     "certificate_chain_file": "/etc/irods/chain.pem",
     "certificate_key_file": "/etc/irods/server.key",
     "dh_params_file": "/etc/irods/dhparams.pem"
 }
 ~~~
 
-Here, we define what each of these configuration options means:
+These properties configure TLS in the server for incoming client connections. Here, we define what each of these configuration options means:
 
 certificate_chain_file
-:       The file containing the server's certificate chain. The certificates must be in PEM format and must be sorted starting with the subject's certificate (actual client or server certificate), followed by intermediate CA certificates if applicable, and ending at the highest level (root) CA.
+:       Absolute path to the file containing the server's certificate chain. The certificates must be in PEM format and must be sorted starting with the subject's certificate (actual client or server certificate), followed by intermediate CA certificates if applicable, and ending at the highest level (root) CA.
 
 certificate_key_file
-:       Private key corresponding to the server's certificate in the certificate chain file.
+:       Absolute path to the file containing the private key corresponding to the server's certificate in the certificate chain file.
 
 dh_params_file
-:       The Diffie-Hellman parameter file location.
+:       Absolute path to the Diffie-Hellman parameter file.
 
+Outgoing connections (i.e. server-to-server connections) use a TLS configuration in a separate stanza which looks like this:
+
+~~~
+"tls_client": {
+    "ca_certificate_file": "/etc/irods/server.crt",
+    "ca_certificate_path": "/etc/ssl/certs",
+    "verify_server": "cert"
+}
+~~~
+
+Here, we define what each of these configuration options means:
+
+ca_certificate_file
+:       Location of a file of trusted CA certificates in PEM format. Note that the certificates in this file are used in conjunction with the system default trusted certificates. This configuration is optional.
+
+ca_certificate_path
+:       Location of a directory containing CA certificates in PEM format. The files each contain one CA certificate. The files are looked up by the CA subject name hash value, which must hence be available. If more than one CA certificate with the same name hash value exist, the extension must be different (e.g. 9d66eef0.0, 9d66eef0.1 etc). The search is performed in the ordering of the extension number, regardless of other properties of the certificates. Use the ‘c_rehash’ utility to create the necessary links. This configuration is optional.
+
+verify_server
+:       Defines the level of server certificate authentication to perform. The following values are supported: none, cert, hostname. When set to "none", authentication is skipped. When set to "cert", the server will verify that the certificate was signed by a trusted CA. When set to "hostname", the server will do everything defined by the "cert" level and then verify that the FQDN of the iRODS server matches either the common name or one of the subjectAltNames in the certificate.
 
 In order for the configuration to take effect, the iRODS server configuration must be reloaded. This can be done by sending a `SIGHUP` to the main iRODS server process:
 
