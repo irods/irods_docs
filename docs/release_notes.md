@@ -6,7 +6,7 @@ Release Date: 2025-05-2X
 
 The iRODS Consortium and RENCI are pleased to announce iRODS 5.0.1.
 
-This patch release addresses an infinite loop in server redirection.
+This patch release addresses an infinite loop in server redirection when hostnames are misconfigured.
 
 ### Changed
 
@@ -14,7 +14,7 @@ This patch release addresses an infinite loop in server redirection.
 
 ### Fixed
 
-- Return `SYS_EXCEED_CONNECT_CNT` on infinite server redirect loop (#8529).
+- Return `SYS_EXCEED_CONNECT_CNT` when server redirects to self due to misconfiguration (#8529).
 
 This release consists of [X commits from Y contributors](https://github.com/irods/irods/compare/5.0.0...5.0.1) and [closed N issues marked for 5.0.1](https://github.com/irods/irods/issues?q=milestone%3A5.0.1).
 
