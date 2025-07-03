@@ -149,6 +149,10 @@ Both servers will then be able to service local zone user connections that will 
 
 Not having this required additional stanza will likely result in a `REMOTE_SERVER_SID_NOT_DEFINED` error.
 
+In addition to including catalog service providers in the remote zone with which servers in the local zone can connect, some data transfer APIs (e.g. DataObjPut, used by `iput`) also require that client-connected servers in the local zone be federated with any server in the remote zone hosting a resource to which data may be transferred (i.e. catalog service consumers). This is because of how connection redirection works when moving data to the appropriate server in the remote zone. The server in the local zone with which the client is connected first connects to a catalog service provider in the remote zone in order to determine the resource where the data is to be accessed or written. Once done, a direct connection is made between the local server and the server hosting the destination resource, and a client request for the operative API is made from the local server to the remote server (i.e. a redirect). This does not mean that every server in each zone must be federated with one another. It just means that any servers between which data can flow over the zone boundary must be federated with one another.
+
+If this is not configured, a `SERVER_NEGOTIATION_ERROR` will occur. The catalog service consumer in the remote zone attempts to sign its zone key with the negotiation key of its zone rather than the negotiation key shared for federation, and this should cause the server authentication to fail as the signed keys should not match.
+
 ## Limitations
 
 If a policy ever requires a data object- or catalog-level operation to be performed as part of an rcDataObjPut (put) or rcDataObjGet (get)'s dynamic post-PEPs, the implementation must take remote zones into account.
