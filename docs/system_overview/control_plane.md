@@ -1,5 +1,8 @@
 #
 
+!!! Important
+    The Control Plane is deprecated as of iRODS 4.3.5 and is not shipped in iRODS 5. If your 4.3 deployment relies on this functionality, you will need to have a migration plan in place to avoid issues when upgrading to iRODS 5. If you have questions or need assistance with this, please [contact the iRODS Consortium](https://irods.org/contact/).
+
 A fundamental concept within iRODS is virtualization, the separation of the logical from the physical.  This separation is provided by iRODS along several different axes: storage, networking, authentication, and other plugins as well as the iRODS logical namespace itself. To further refine terminology around this concept, we have separated the use of the terms Zone and Grid into two distinct entities. We now use the term Zone to refer to the purely logical portion of an iRODS deployment and the term Grid to describe the purely physical. An iRODS Zone provides services to clients via the iRODS API and the wire-line protocol.
 
 ![Control Plane Diagram](../images/ControlPlaneDiagram.jpg)
