@@ -73,6 +73,28 @@ Then, attend to any checkboxes and issues that may need to be closed.  If you do
 checkboxes, ask someone with rights to complete this step.  This bookkeeping is important when release notes are
 compiled and statistics are generated for posterity.  Issues in closed milestones are never reopened.
 
+## API Stability
+
+The iRODS Consortium strives to maintain API stability and not break backward compatibility within a major version.
+
+That means, all minor and patch releases for a specific series (e.g. iRODS 5) must always be compatible at the source and protocol level.
+
+To help in achieving that goal, the following rules must be honored at all times:
+
+- No modification or removal of packing instructions
+- No modification or removal of data types used in public APIs
+- No modification or removal of data types sent over the network
+
+If modifications are needed, the developer must create new APIs to support it.
+
+These rules DO NOT apply to APIs designated as experimental.
+
+## ABI Stability
+
+The iRODS Consortium strives to maintain ABI stability for minor and patch releases through our [API Stability policy](#api-stability). However, ABI stability is only a goal, not a guarantee.
+
+This applies to code written in C, C++, and other languages that compile to machine code.
+
 ## TODO comments in iRODS code
 
 TODO comments are allowed in iRODS code but must satisfy the following requirements:
