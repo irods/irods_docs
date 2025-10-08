@@ -77,6 +77,7 @@ nav:
     - Doxygen: 'doxygen/index.html'
     - Contributing: 'developers/contributing.md'
     - Development Tools: 'developers/development_tools.md'
+    - API and ABI Stability: 'developers/api_abi_stability.md'
     - Library Examples: 'developers/library_examples.md'
     - Logging: 'developers/logging.md'
     - Deprecation: 'developers/deprecation.md'
