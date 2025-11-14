@@ -226,6 +226,18 @@
 				"paramName": "_ctx"
 			}]
 		}, {
+			"funcName": "resource_read_checksum_from_storage_device",
+			"paramList": [{
+				"paramType": "irods::plugin_context &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const std::string *",
+				"paramName": "_checksum_scheme"
+			}, {
+				"paramType": "std::string *",
+				"paramName": "_returned_checksum"
+			}]
+		}, {
 			"funcName": "resource_readdir",
 			"paramList": [{
 				"paramType": "irods::plugin_context &",
