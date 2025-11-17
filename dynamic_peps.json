@@ -1590,6 +1590,60 @@
 				"paramType": "irods::plugin_property_map &",
 				"paramName": "_props"
 			}]
+		}, {
+			"funcName": "database_check_password_operation",
+			"paramList": [{
+				"paramType": "irods::plugin_property_map &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_json_input"
+			}, {
+				"paramType": "int *",
+				"paramName": "_valid"
+			}]
+		}, {
+			"funcName": "database_make_session_token_operation",
+			"paramList": [{
+				"paramType": "irods::plugin_property_map &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_json_input"
+			}, {
+				"paramType": "char **",
+				"paramName": "_token"
+			}]
+		}, {
+			"funcName": "database_check_session_token_operation",
+			"paramList": [{
+				"paramType": "irods::plugin_property_map &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_json_input"
+			}, {
+				"paramType": "int *",
+				"paramName": "_valid"
+			}]
+		}, {
+			"funcName": "database_remove_session_tokens_operation",
+			"paramList": [{
+				"paramType": "irods::plugin_property_map &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_json_input"
+			}]
+		}, {
+			"funcName": "database_remove_password_operation",
+			"paramList": [{
+				"paramType": "irods::plugin_property_map &",
+				"paramName": "_ctx"
+			}, {
+				"paramType": "const char *",
+				"paramName": "_json_input"
+			}]
 		}],
 		"groupName": "database"
 	}, {

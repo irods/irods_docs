@@ -1,8 +1,202 @@
 #
 
+## Legacy Native Authentication
+
+!!! Important
+    As of iRODS 5.1.0, this authentication scheme is considered "legacy". Administrators should plan to transition to "irods" authentication.
+
 By default, iRODS uses a secure password system for user authentication.  The user passwords are scrambled and stored in the iCAT database.  Additionally, iRODS supports user authentication via PAM (Pluggable Authentication Modules), which can be configured to support many things, including the LDAP or Active Directory (AD) authentication systems.  PAM and TLS have been configured 'available' out of the box with iRODS, but there is still some setup required to configure an installation to communicate with your external authentication server of choice.
 
 The iRODS administrator can 'force' a particular authentication scheme for a rodsuser by 'blanking' the native password for the rodsuser.  There is currently no way to signal to a particular login attempt that it is using an incorrect scheme ([GitHub Issue #2005](https://github.com/irods/irods/issues/2005)).
+
+## `irods` Authentication
+
+The `irods` authentication scheme is a built-in, password-based authentication mechanism which uses time-limited session tokens to authenticate user connections. It is intended to replace the legacy `native` authentication scheme in a future iRODS release.
+
+This scheme strengthens security, introduces configurable password hashing, and uses OAuth2-style session tokens for subsequent authentications after the initial password-based login.
+
+The `irods` authentication scheme is available in iRODS 5.1.0 and later.
+
+This is the basic flow of `irods` authentication:
+
+1. The client sends a password to the server along with information about the user being authenticated.
+1. The server hashes the password and checks it against the one stored in the catalog.
+1. If successful, a session token is generated and returned to the client.
+1. The client uses the session token to authenticate this connection and any subsequent connections.
+1. Once the session token expires, the client must authenticate using a password to get a new session token.
+
+### How to use
+
+!!! Note
+    TLS is required in order to use `irods` authentication. See [Client TLS Setup](../../system_overview/tls/#client-tls-setup) for more information on how to set up TLS in a client environment.
+
+In order to use `irods` authentication, iCommands users need to set their authentication scheme to "irods" by including this line in the client environment file:
+```json
+"irods_authentication_scheme": "irods"
+```
+One can also use the `--prompt-auth-scheme` option of `iinit` to provide the authentication scheme name.
+
+Run `iinit` and enter the user's password. On success, the user's session token will be stored in `~/.irods/.irods_secrets`.
+
+#### Non-expiring session tokens
+
+`rodsadmin` users may request non-expiring session tokens for use in long-running services in the iRODS zone to avoid the need to re-authenticate with a password to receive a new session token. This is done with the `--no-token-expiration` option of `iinit`, requesting a session token which does not have an expiration time.
+
+#### Managing user passwords
+
+If the server is configured to store hashed user passwords, clients can use the `irods` authentication scheme. The same password-setting mechanisms for setting legacy `native` authentication passwords are used for setting `irods` authentication passwords. The main difference is in the use of a new argument for the password modifying operations of the GeneralAdmin and UserAdmin APIs called `no-scramble`.
+
+The `no-scramble` option simply informs the GeneralAdmin or UserAdmin API that the password being sent was not scrambled before sending it to the server. This means that the server should not attempt to de-scramble the password before use.
+
+!!! Note
+	Using this option with iRODS servers before 5.1.0 will result in not being able to use that password, so it should only be used with iRODS servers of version 5.1.0 or later.
+
+Setting a user's password with `iadmin moduser` looks like this:
+```bash
+iadmin moduser example_user password example_password no-scramble
+```
+
+Setting a user's password with `igroupadmin mkuser` looks like this:
+```bash
+igroupadmin mkuser example_user example_password example_zone no-scramble
+```
+`zone` is required for reasons of backward compatibility.
+
+One can set one's own password with `ipasswd` like this:
+```bash
+ipasswd --no-scramble
+```
+
+A user's password for `irods` authentication can be removed with the `iadmin moduser` option `remove_password`:
+```bash
+iadmin moduser example_user remove_password
+```
+This removes the user's hashed password from `R_USER_CREDENTIALS`. Note: This does **not** remove the user's legacy passwords from `R_USER_PASSWORD`. In order to remove legacy passwords from `R_USER_PASSWORD`, see [Removing legacy passwords from `R_USER_PASSWORD`](#removing-legacy-passwords-from-r_user_password).
+
+#### Managing session tokens
+
+Expired session tokens are cleared for individual users of the `irods` authentication scheme as they authenticate using a password. Frequent password-based authentication may lead to an accumulation of session tokens. Administrators may periodically prune tokens with `iadmin remove_session_tokens`.
+
+To remove all session tokens for all users:
+```bash
+iadmin remove_session_tokens all
+```
+
+To remove expired tokens for all uesrs:
+```bash
+iadmin remove_session_tokens expired
+```
+
+To remove all tokens for a specific user:
+```bash
+iadmin remove_session_tokens all example_user
+```
+
+To remove expired tokens for a specific user:
+```bash
+iadmin remove_session_tokens expired example_user
+```
+
+Be sure to adjust the token lifetime configuration in `R_GRID_CONFIGURATION` according to organizational requirements.
+
+### Server Configuration
+
+#### Password Hashing Configuration
+
+Password hashing parameters are configured via a new **`R_GRID_CONFIGURATION`** entry. Its `namespace` is "authentication" and its `option` is "password_hashing_parameters". The value of the hashing parameters is a JSON string describing the KDF algorithm and its parameters for hashing passwords to store in the catalog. The JSON string needs to include an "algorithm" key to contain the name of the algorithm to use, and a "parameters" key to contain a JSON object describing the parameters to use. The parameters are implementation-specific.
+
+The default value uses the scrypt algorithm, and looks like this:
+```json
+{
+    "algorithm": "scrypt",
+    "parameters": {
+        "N": 16384,
+        "r": 8,
+        "p": 1,
+        "key_length": 64
+    }
+}
+```
+In the catalog, the newline characters may not be present. It has been formatted here for readability.
+
+The value can be adjusted with `iadmin set_grid_configuration`:
+```bash
+iadmin set_grid_configuration authentication password_hashing_parameters '{"algorithm": "scrypt", "parameters": {"N": 16384, "r": 8, "p": 1, "key_length": 64}}'
+```
+
+##### scrypt configuration
+
+This is the default algorithm. See the default value above for reference. The default scrypt parameters provide strong KDF settings based on a variety of reputable sources. See the [IETF scrypt specification](https://datatracker.ietf.org/doc/rfc7914) for parameter details.
+
+#### Session Token Configuration
+
+Session tokens can have their lifetimes configured via **`R_GRID_CONFIGURATION`**. Its `namespace` is "authentication" and its `option` is "token_lifetime_in_seconds". The value must be a positive integer, and represents the number of seconds from the time that a session token is created that it can be used. Once that amount of time has passed, the session token is considered expired.
+
+The default value is 1209600 seconds (or, 2 weeks).
+
+!!! Note
+	The session token expiration time is set at the time it is created, so existing session tokens will not be affected by changes to this configuration.
+
+The value can be adjusted with `iadmin set_grid_configuration`:
+```bash
+iadmin set_grid_configuration authentication token_lifetime_in_seconds 1209600
+```
+
+#### Setting user passwords
+
+The `irods` authentication scheme is a built-in authentication scheme meant to sit alongside and eventually replace the `native` authentication scheme. As such, a configuration has been introduced to change the meaning of what *is* the user's password in iRODS when there are two authentication schemes provided by iRODS. This configuration modifies the behavior of password-setting operations such as `iadmin moduser` or `ipasswd`.
+
+The configuration is called `user_password_storage_mode` and is set in `server_config.json`. It has three valid values:
+
+- "legacy": Setting a user's password will only update `R_USER_PASSWORD`. This is the default value if the configuration is not set, and represents the historical behavior of `native` authentication.
+- "hashed": Setting a user's password will only update `R_USER_CREDENTIALS`.
+- "both": Setting a user's password will update both `R_USER_PASSWORD` and `R_USER_CREDENTIALS`.
+
+!!! Note
+	If the user has a password in `R_USER_PASSWORD` and sets a password in `R_USER_CREDENTIALS`, the password in `R_USER_PASSWORD` will still be usable for `native` authentication until such time as it is removed. The inverse is also true: If the user has a password in `R_USER_CREDENTIALS` and sets a password in `R_USER_PASSWORD`, the password in `R_USER_CREDENTIALS` will still be usable for `irods` authentication until such time as it is removed.
+
+#### Setting up TLS
+
+`irods` authentication requires secure communications between client and server using TLS. See [TLS](../../system_overview/tls) for configuring TLS in the server.
+
+For testing purposes, a configuration in `server_config.json` has been provided to allow for insecure communications between client and server. The configuration looks like this:
+```json
+"plugins": {
+    "authentication": {
+        "irods": {
+            "insecure_mode": false
+        }
+    }
+}
+```
+When `insecure_mode` is `false`, TLS is required. This is the default value and the value used when the configuration is not present. When `insecure_mode` is `true`, TLS is not required to use `irods` authentication. **This should only be used for testing and proof of concept purposes. DO NOT USE `insecure_mode` IN PRODUCTION!**
+
+### Migrating from `native` authentication to `irods` authentication
+
+Deployments should migrate from `native` to `irods` authentication as `native` will eventually be removed in a future major version release.
+
+For sites currently using `native` authentication:
+
+1. Set `user_password_storage_mode` to "both" in `server_config.json` in order to support both systems.
+2. Allow users to authenticate with the new scheme as passwords are updated.
+3. Once migration is complete, switch to `"hashed"`.
+
+#### Removing legacy passwords from `R_USER_PASSWORD`
+
+The iRODS server package provides a Python script to run on a catalog service provider for assisting with the removal of legacy passwords from the catalog. For default packaged installations, the script is located here: `/var/lib/irods/scripts/remove_legacy_passwords.py`. The script has 4 main modes of operation, controlled by command line options:
+
+1. Default: Remove all legacy passwords for a specific user, including the time-limited, generated passwords used by the PAM scheme.
+1. `--forever-passwords-only`: Remove only legacy passwords used with `native` authentication for a specific user. This is useful if an organization wants to continue supporting PAM authentication because it continues to use `R_USER_PASSWORD` to store its time-limited, generated passwords.
+1. `--dry-run`: The `delete` SQL command is executed, but not committed. This shows the user what will happen when running the script without affecting the database.
+1. `--sql-only`: Displays the SQL which would be executed with the given options. This is useful for administrators who want to run the SQL themselves.
+
+Note that this script only allows for removing legacy passwords for one user at a time. This is intentional. This password removal is an important deployment decision, so this script should be run with caution. Administrators can of course directly `delete` *everything* from `R_USER_PASSWORD` themselves using an SQL client.
+
+### Limitations
+
+Only the scrypt KDF algorithm is currently supported. Organizations requiring alternate algorithms should [contact the iRODS team](https://irods.org/contact). More algorithms will be added in future iRODS versions.
+
+iRODS session tokens provide a basic system for periodically requiring users to re-authenticate, but do not implement all of the features laid out in [the OAuth2 specification](https://datatracker.ietf.org/doc/rfc6749).
 
 ## PAM (Pluggable Authentication Module)
 
@@ -243,3 +437,93 @@ The response payload from the server will minimally contain the following:
 ```
 
 The `request_result` key contains a time-limited, randomly-generated iRODS password. This password should be used to authenticate using the native authentication scheme. How the client implements this authentication is entirely up to the developer. For reference, the C++ `pam_password` client-side authentication plugin saves the randomly-generated password to a `.irodsA` file and then starts the authentication process from the "start" operation using the native authentication scheme and the password in that `.irodsA` file.
+
+#### `irods` authentication
+
+The `irods` authentication plugin has three server-side operations which must be called in order. The inputs and outputs from each are described below.
+
+**Step 1: `server_prepare_auth_check`**
+
+This operation - like all server-side plugin operations - requires a "scheme" in the request payload so that the server knows which authentication plugin to load. Otherwise, this operation has no requirements in terms of keys to include in the request payload. The request payload should minimally contain the following:
+```json
+{
+    "scheme": "irods"
+}
+```
+This step enforces secure communications between client and server before any sensitive information (i.e. passwords) are sent over the network.
+
+The response payload should be identical to the request payload.
+
+**Step 2: `server_auth_with_password`**
+
+This operation requires 3 keys: `user_name`, `zone_name`, and `password`.
+
+`user_name` and `zone_name` are the username and zone name for the user being authenticated. A user of the specified name belonging to the specified zone must exist in the local zone's catalog in order for authentication to succeed.
+
+`password` is the user's **plaintext password**. This is the main reason that TLS is required when using this authentication scheme.
+
+How the plugin gets the user's password is entirely up to the library developer. For reference, the C++ client-side authentication plugin has two ways of obtaining the password:
+
+- The `password` key in the request payload
+- Prompting the user and receiving a password from `stdin`
+
+The request payload should minimally contain the following:
+```json
+{
+    "scheme": "irods",
+    "user_name": "<string>",
+    "zone_name": "<string>",
+    "password": "<string>"
+}
+```
+Additionally, the request payload may also include an option to request non-expiring tokens:
+```json
+"session_token_expires": <boolean>
+```
+The default value is `false`, meaning that the returned session token will have an expiration time. If the `session_token_expires` key is included and set to `true`, the returned session token will not have an expiration time.
+ 
+!!! Note
+	If the requesting user is not a `rodsadmin` and includes a `session_token_expires` value of `true`, this will result in a failure to authenticate.
+
+The response payload from the server will minimally contain the following:
+```json
+{
+    "scheme": "irods",
+    "user_name": "<string>",
+    "zone_name": "<string>",
+    "session_token": "<string>"
+}
+```
+The `session_token` key contains a string representing a session token, **in plaintext**. This token should be used to authenticate using the `irods` authentication scheme. How the client stores the session token is entirely up to the developer. For reference, the C++ `irods` client-side authentication plugin saves the session token to a `.irods_secrets` file and then uses the session token to authenticate directly in the `server_auth_with_session_token` operation.
+
+**Step 3: `server_auth_with_session_token`**
+
+This operation requires 3 keys: `user_name`, `zone_name`, and `session_token`.
+
+`user_name` and `zone_name` are the username and zone name for the user being authenticated. A user of the specified name belonging to the specified zone must exist in the local zone's catalog in order for authentication to succeed.
+
+`session_token` is the user's **plaintext session token**. This is one of the reasons that TLS is required when using this authentication scheme.
+
+How the plugin gets the user's password is entirely up to the library developer. For reference, the C++ client-side authentication plugin gets the session token from the session token file which is located in `${HOME}/.irods/.irods_secrets` by default.
+
+The request payload should minimally contain the following:
+```json
+{
+    "scheme": "irods",
+    "user_name": "<string>",
+    "zone_name": "<string>",
+    "session_token": "<string>"
+}
+```
+
+The response payload from the server will minimally contain the following:
+```json
+{
+    "scheme": "irods",
+    "user_name": "<string>",
+    "zone_name": "<string>",
+}
+```
+Note that the session token value was removed to prevent sending it across the network unnecessarily.
+
+After `server_auth_with_session_token` completes, the `RsComm` in the connected agent has all of the appropriate values set and should be ready to perform regular requests.

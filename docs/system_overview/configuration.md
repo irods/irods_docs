@@ -487,7 +487,15 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         "dh_params_file": ""
     },
 
-    // The authentication scheme used by the zone_user: native or pam_password.
+    // (Optional)
+    // Defines how user passwords are stored. This configuration can be one of 3 values:
+    // - legacy: Setting a user's password will only update R_USER_PASSWORD. This is the default value if
+    //   the configuration is not set, and represents the historical behavior of native authentication.
+    // - hashed: Setting a user's password will only update R_USER_CREDENTIALS.
+    // - both: Setting a user's password will update both R_USER_PASSWORD and R_USER_CREDENTIALS.
+    "user_password_storage_mode": "legacy",
+
+    // The authentication scheme used by the zone_user.
     "zone_auth_scheme": "native",
 
     // The shared secret used for authentication and identification of server-to-server communication.
@@ -937,6 +945,9 @@ The default setting for 'standard_conforming_strings' in PostgreSQL 9.1+ was cha
 ## Authentication Configuration
 
 As of iRODS 4.3.1, authentication settings are now configured through rows in the `R_GRID_CONFIGURATION` table in the iRODS Catalog.
+
+!!! Note
+    See [`irods` Authentication Server Configuration](plugins/pluggable_authentication/#server-configuration) for how to configure the `irods` authentication scheme. None of the configuration options described here affects the `irods` authentication scheme.
 
 ### History (pre-4.3.1 configuration)
 
