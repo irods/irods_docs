@@ -307,7 +307,7 @@ If your client does not support the `rError` stack, or you are not sure how to s
 - `AUTH_PLUG_REQ_AN` (1201)
 - `AUTH_PLUG_RESP_AN` (1202)
 
-### Implementing the authentication plugin framework
+## Implementing the authentication plugin framework
 
 !!! Note
     This section will likely only be of interest to client library developers.
@@ -316,7 +316,7 @@ The authentication plugin framework is client-driven, so each client library mus
 
 Client libraries are free to implement client-side authentication operations in whatever way they please. However, in order to use the authentication schemes supported by a given server, the server-side authentication operations must be called with the expected data payload at the expected times. Below, we will explain how the supported authentication schemes operate in turn.
 
-#### Client-driven authentication flow
+### Client-driven authentication flow
 
 The C++ implementation for the authentication plugin framework follows these steps to authenticate a client:
 
@@ -328,13 +328,13 @@ The C++ implementation for the authentication plugin framework follows these ste
 
 How the plugin determines whether the client is authenticated (step 3) is dependent on the authentication scheme. These will be described in detail below.
 
-#### Anatomy of a client-side authentication plugin
+### Anatomy of a client-side authentication plugin
 
 At a minimum, client-side authentication operations need to invoke the appropriate server-side authentication operations in the correct order with the expected data. What these operations are, when they are called, and what data to send will depend on the plugin.
 
 In order to invoke a server-side authentication operation, the client should call API number `AUTHENTICATION_APN` (110000; or, `authenticate`). The API takes a string - the *request* - which is parsed as JSON and returns a string - the *response* - which can be parsed as JSON. Depending on the plugin and the operation, certain keys will be required in the request payload.
 
-#### How to deal with errors
+### How to deal with errors
 
 If an error occurs such that the correct inputs cannot be provided from the client side to the server side operation, the authentication should be considered failed and the flow should be aborted. If the `authenticate` API returns a non-zero return value, the authentication should be considered a failure and the flow should be aborted.
 
