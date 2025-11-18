@@ -652,39 +652,6 @@
 				"paramName": "_zone_name"
 			}]
 		}, {
-			"funcName": "database_simple_query",
-			"paramList": [{
-				"paramType": "irods::plugin_context &",
-				"paramName": "_ctx"
-			}, {
-				"paramType": "const char *",
-				"paramName": "_sql"
-			}, {
-				"paramType": "const char *",
-				"paramName": "_arg1"
-			}, {
-				"paramType": "const char *",
-				"paramName": "_arg2"
-			}, {
-				"paramType": "const char *",
-				"paramName": "_arg3"
-			}, {
-				"paramType": "const char *",
-				"paramName": "_arg4"
-			}, {
-				"paramType": "int",
-				"paramName": "_format"
-			}, {
-				"paramType": "int *",
-				"paramName": "_control"
-			}, {
-				"paramType": "char *",
-				"paramName": "_out_buf"
-			}, {
-				"paramType": "int",
-				"paramName": "_max_out_buf"
-			}]
-		}, {
 			"funcName": "database_del_coll_by_admin",
 			"paramList": [{
 				"paramType": "irods::plugin_context &",
@@ -3014,18 +2981,6 @@
 			}, {
 				"paramType": "const gridConfigurationInp_t *",
 				"paramName": "input"
-			}]
-		}, {
-			"funcName": "api_simple_query",
-			"paramList": [{
-				"paramType": "rsComm_t *",
-				"paramName": "rsComm"
-			}, {
-				"paramType": "int *",
-				"paramName": "simpleQueryInp"
-			}, {
-				"paramType": "int **",
-				"paramName": "simpleQueryOut"
 			}]
 		}, {
 			"funcName": "api_specific_query",
