@@ -11,7 +11,7 @@ The iRODS Consortium currently supports the following rule engine plugins:
  - [C++ Default Policy Rule Engine Plugin](https://github.com/irods/irods/blob/main/plugins/rule_engines/src/cpp_default_policy.cpp)
  - [C++ Audit (AMQP) Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_audit_amqp)
  - [C++ Logical Quotas Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_logical_quotas)
- - [C++ Metadata Guard Rule Engine Plugin](https://github.com/irods/irods_rule_engine_plugin_metadata_guard)
+ - [C++ Metadata Guard Rule Engine Plugin](#metadata-guard-rule-engine-plugin)
  - [C++ Storage Tiering Rule Engine Plugin](https://github.com/irods/irods_capability_storage_tiering)
  - [C++ Indexing Rule Engine Plugin](https://github.com/irods/irods_capability_indexing)
 
@@ -293,3 +293,76 @@ The best practice for using both `delay()` and `remote()` [depends on the use ca
 .. - Failover checking
 ..
 -->
+
+## Metadata Guard Rule Engine Plugin
+
+The Metadata Guard iRODS Rule Engine Plugin protects metadata AVUs with attributes containing certain prefixes from modification by users in an iRODS zone. This is useful for protecting metadata used by administrative systems in the iRODS zone such as the [Storage Tiering Capability](../capabilities/storage_tiering.md) to ensure that these processes are uninterrupted.
+
+### Configuration
+
+The Rule Engine Plugin config is set as metadata on the **zone collection** (e.g. `/tempZone`).
+Each option is explained below.
+```javascript
+{
+    // The list of strings that represent metadata that should be guarded.
+    // In this example, any metadata beginning with "irods::" will be treated special
+    // and require that the user be an administrator or classified as an editor depending
+    // on the configuration.
+    "prefixes": ["irods::"],
+
+    // Only administrators are allowed to modify metadata.
+    // This option supersedes the "editors" option.
+    "admin_only": true,
+
+    // The list of editors that can modify guarded metadata.
+    "editors": [
+        {
+            // The type of entity that is allowed to modify metadata.
+            // The following options are available:
+            // - "user"
+            // - "group"
+            "type": "group",
+
+            // The name of the iRODS entity.
+            // For remote users, you must include the zone (e.g. "rods#tempZone").
+            "name": "rodsadmin"
+        }
+    ]
+}
+```
+Once you've decided on what your config will be, you'll need to use `imeta` to set it. For example:
+```bash
+$ imeta set -C /tempZone irods::metadata_guard '{
+    "prefixes": ["irods::"],
+    "admin_only": false,
+    "editors": [
+        {"type": "group", "name": "rodsadmin"},
+        {"type": "user", "name": "otherrods"},
+        {"type": "user", "name": "alice" }
+    ]
+}'
+```
+Anytime a request to modify metadata is detected by the server, the Rule Engine Plugin will read the JSON
+config and determine whether the user should be allowed to continue.
+
+!!! Note
+    The user setting the metadata on the zone collection must have write permission on that collection!
+
+### Enabling the Rule Engine Plugin
+
+To enable, add the following plugin config to the list of rule engines in `/etc/irods/server_config.json`. 
+The plugin config should be placed before any rule engines that need metadata to be guarded.
+
+Even though this plugin will process PEPs first due to it's positioning, subsequent Rule Engine Plugins will 
+still be allowed to process the same PEPs without any issues.
+```javascript
+"rule_engines": [
+    {
+        "instance_name": "irods_rule_engine_plugin-metadata_guard-instance",
+        "plugin_name": "irods_rule_engine_plugin-metadata_guard",
+        "plugin_specific_configuration": {}
+    },
+    
+    // ... Previously installed Rule Engine Plugin configs ...
+]
+```
