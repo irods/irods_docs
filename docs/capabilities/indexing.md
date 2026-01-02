@@ -64,7 +64,7 @@ requires 4.2.11.0+
 install from `packages.irods.org`:
 
 ```
-$ sudo yum install -y irods-rule-engine-plugin-document-type irods-rule-engine-plugin-elasticsearch irods-rule-engine-plugin-indexing
+$ sudo yum install -y irods-rule-engine-plugin-elasticsearch irods-rule-engine-plugin-indexing
 ```
 
 #### configure
@@ -87,12 +87,6 @@ add to `server_config.json` (note the es_version):
                     "bulk_count" : 100,
                     "es_version" : "6.x",
                     "read_size" : 4194304
-                }
-            },
-            {
-                "instance_name": "irods_rule_engine_plugin-document_type-instance",
-                "plugin_name": "irods_rule_engine_plugin-document_type",
-                "plugin_specific_configuration": {
                 }
             },
         ]
