@@ -117,6 +117,12 @@ ca_certificate_path
 verify_server
 :       Defines the level of server certificate authentication to perform. The following values are supported: none, cert, hostname. When set to "none", authentication is skipped. When set to "cert", the server will verify that the certificate was signed by a trusted CA. When set to "hostname", the server will do everything defined by the "cert" level and then verify that the FQDN of the iRODS server matches either the common name or one of the subjectAltNames in the certificate.
 
+TLS usage is controlled in the server via the `acPreConnect` policy. For iRODS Native Rule Engine Plugin users, this rule should return `CS_NEG_REQUIRE` in its out variable if the server requires TLS communications with clients. This should be placed in the server's `core.re` file:
+```
+acPreConnect(*OUT) { *OUT="CS_NEG_REQUIRE"; }
+```
+This implementation should be adapted for whatever rule engine plugins control policy in a particular deployment.
+
 In order for the configuration to take effect, the iRODS server configuration must be reloaded. This can be done by sending a `SIGHUP` to the main iRODS server process:
 
 ~~~
