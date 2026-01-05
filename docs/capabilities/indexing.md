@@ -6,258 +6,152 @@ With this set of C++ plugins, an iRODS server can populate an Elasticsearch or O
 
 When a collection is annotated for indexing, all its subcollections and data objects are queued for indexing.  If a new data object is added, or a data object is modified, it will be queued for indexing.
 
-## Working with Metalnx
+## Installation
 
-The Metalnx web application provides a browse and search interface into iRODS.  By default, its searches query the iRODS Catalog directly.  But, with an additional search endpoint, it can get its results from Elasticsearch or OpenSearch instead.
+Install the following plugins for the Indexing Capability:
 
-- [1. iRODS](#irods)
-- [2. Elasticsearch or OpenSearch](#elasticsearch-or-opensearch)
-- [3. Indexing Capability](#indexing-capability)
-- [4. Pluggable Search Endpoint](#pluggable-search-endpoint)
-- [5. Metalnx](#metalnx)
+- irods-rule-engine-plugin-indexing
+- irods-rule-engine-plugin-elasticsearch
 
-![Indexing with Metalnx](../images/indexing.png)
+The Elasticsearch plugin is only required if you are using Elasticsearch. Other plugins can be installed as new technologies are implemented.
 
-### 1. iRODS
+Packages can also be built from source: [https://github.com/irods/irods_capability_indexing](https://github.com/irods/irods_capability_indexing)
 
-requires 4.2.10+
+## Configuration
 
-### 2. Elasticsearch or OpenSearch
+Here's an example configuration to enable the Indexing and Elasticsearch plugins. Comments shown are for purposes of explanation and should not be included in an actual configuration. Values shown are the default values.
+```javascript
+"rule_engines": [
+    {
+        "instance_name": "irods_rule_engine_plugin-indexing-instance",
+        "plugin_name": "irods_rule_engine_plugin-indexing",
+        "plugin_specific_configuration": {
+            // The lower limit for randomly generated delay task intervals.
+            "minimum_delay_time": 1,
 
-#### run
+            // The upper limit for randomly generated delay task intervals.
+            "maximum_delay_time": 30,
 
-```
-$ docker run -d \
-     -p 9200:9200 -p 9300:9300 \
-     -e "discovery.type=single-node" \
-     -v elast_data:/usr/share/elasticsearch/data \
-     docker.elastic.co/elasticsearch/elasticsearch:latest
-```
+            // The maximum number of delay rules allowed to be scheduled for
+            // a particular collection at a time.
+            //
+            // If set to 0, the limit is disabled.
+            "job_limit_per_collection_indexing_operation": 1000
+        }
+    },
+    {
+        "instance_name": "irods_rule_engine_plugin-elasticsearch-instance",
+        "plugin_name": "irods_rule_engine_plugin-elasticsearch",
+        "plugin_specific_configuration": {
+            // The list of URLs identifying the elasticsearch service.
+            //
+            // Important things to keep in mind:
+            //
+            //   - URLs must contain the port number
+            //   - If TLS communication is desired, the URL must begin with "https"
+            "hosts": [
+                "http://localhost:9200"
+            ],
 
-#### add indices
+            // The number of text chunks processed at once for elasticsearch
+            // full-text indexing.
+            "bulk_count": 100,
 
-```
-$ curl -X PUT -H'Content-Type: application/json' http://localhost:9200/full_text
+            // The size of an individual text chunk for elasticsearch full-text
+            // indexing.
+            "read_size": 4194304,
 
-$ curl -X PUT -H'Content-Type: application/json' http://localhost:9200/full_text/_mapping/text --data '{ "properties" : { "absolutePath" : { "type" : "keyword" }, "data" : { "type" : "text" } } }'
-```
+            // The absolute path to a TLS certificate used for secure communication
+            // with elasticsearch. If empty, OS-dependent default paths are used for
+            // certificates verification.
+            //
+            // This option only takes effect for host entries beginning with "https".
+            "tls_certificate_file": "",
 
-```
-$ curl -X PUT -H'Content-Type: application/json' http://localhost:9200/metadata
+            // The encoded basic authentication credentials for elasticsearch. The
+            // value must match one of the following:
+            //
+            //   - base64_encode(url_encode(username) + ":" + url_encode(password))
+            //   - base64_encode(username + ":" + password)
+            //
+            // This option is not used when empty. Recommended when using TLS, but
+            // not required.
+            "authorization_basic_credentials": ""
+        }
+    },
 
-$ curl -X PUT -H'Content-Type: application/json' http://localhost:9200/metadata/_mapping/text --data-binary "@/home/repos/irods_capability_indexing/es_mapping.json"
-
-```
-
-show indices
-
-```
-$ curl http://localhost:9200/_cat/indices
-```
-
-### 3. Indexing Capability
-
-requires 4.2.11.0+
-
-#### install
-
-install from `packages.irods.org`:
-
-```
-$ sudo yum install -y irods-rule-engine-plugin-elasticsearch irods-rule-engine-plugin-indexing
-```
-
-#### configure
-
-add to `server_config.json` (note the es_version):
-
-```
-    "rule_engines": [
-            {
-                "instance_name": "irods_rule_engine_plugin-indexing-instance",
-                "plugin_name": "irods_rule_engine_plugin-indexing",
-                "plugin_specific_configuration": {
-                }
-            },
-            {
-                "instance_name": "irods_rule_engine_plugin-elasticsearch-instance",
-                "plugin_name": "irods_rule_engine_plugin-elasticsearch",
-                "plugin_specific_configuration": {
-                    "hosts" : ["http://localhost:9200/"],
-                    "bulk_count" : 100,
-                    "es_version" : "6.x",
-                    "read_size" : 4194304
-                }
-            },
-        ]
+    // ... Previously installed rule engine plugin configs ...
+]
 ```
 
-#### use
+## Setting up indexing
 
-create a collection, and designate it for indexing
+### Create an index
 
+To create a full-text index, run the following:
+```bash
+curl -X PUT -H 'Content-Type: application/json' http://localhost:9200/full_text_index -d '{
+  "mappings": {
+    "properties": {
+      "absolutePath": {"type": "keyword"},
+      "data": {"type": "text"}
+    }
+  }
+}'
 ```
-$ imkdir indexme
-$ imeta add -C indexme irods::indexing::index metadata::metadata elasticsearch
-```
 
-confirm the system is watching that collection
-
-```
-$ iqstat
-id     name
-10018 {"collection-name":"/tempZone/home/rods/indexme","index-name":"metadata","index-type":"metadata","indexer":"elasticsearch","rule-engine-instance-name":"irods_rule_engine_plugin-indexing-instance","rule-engine-operation":"irods_policy_indexing_collection_index","user-name":"rods"} 
-```
-
-#### confirm
-
-wait for the delay server to wake up a couple times...
-
-confirm elastic has been informed
-
-```
-$ curl -XGET 'localhost:9200/metadata/_search?pretty' -H 'Content-Type: application/json' -d'{}'
-{
-  "took" : 2,
-  "timed_out" : false,
-  "_shards" : {
-    "total" : 5,
-    "successful" : 5,
-    "skipped" : 0,
-    "failed" : 0
-  },
-  "hits" : {
-    "total" : 1,
-    "max_score" : 1.0,
-    "hits" : [
-      {
-        "_index" : "metadata",
-        "_type" : "_doc",
-        "_id" : "10016",
-        "_score" : 1.0,
-        "_source" : {
-          "absolutePath" : "/tempZone/home/rods/indexme",
-          "dataSize" : 0,
-          "fileName" : "indexme",
-          "isFile" : false,
-          "lastModifiedDate" : 1635537255,
-          "metadataEntries" : [ ],
-          "mimeType" : "",
-          "parentPath" : "/tempZone/home/rods",
-          "url" : "http://tempZone/home/rods/indexme",
-          "zoneName" : "tempZone"
+To create a metadata index, run the following:
+```bash
+curl -X PUT -H 'Content-Type: application/json' http://localhost:9200/metadata_index -d '{
+  "mappings": {
+    "properties": {
+      "url": {"type": "text"},
+      "zoneName": {"type": "keyword"},
+      "absolutePath": {"type": "keyword"},
+      "fileName": {"type": "text" },
+      "parentPath": {"type": "text"},
+      "isFile": {"type": "boolean"},
+      "dataSize": {"type": "long"},
+      "mimeType": {"type": "keyword"},
+      "lastModifiedDate": {"type": "date", "format": "epoch_second"},
+      "metadataEntries": {
+        "type": "nested", 
+        "properties": {
+          "attribute": {"type": "keyword"}, 
+          "value": {"type": "text"}, 
+          "unit": {"type": "keyword"}
         }
       }
-    ]
+    }
   }
-}
+}'
+```
+Properties shown above represent all the currently supported metadata, but can be excluded as desired.
+
+### Tag a collection for indexing
+
+Indexing operates on specific AVUs annotated to iRODS collections. Indexing metadata takes the following form:
+
+- A: `irods::indexing::index`
+- V: `<index_name>::<index_type>`
+- U: `<technology`
+
+In order to indicate a collection `full_text_collection` for a `full_text` index with Elasticsearch, you can annotate metadata to it like this:
+```bash
+imeta set -C full_text_collection irods::indexing::index full_text_index::full_text elasticsearch
 ```
 
-### 4. Pluggable Search Endpoint
+If any data objects exist in `full_text_collection`, these will immediately be scheduled for indexing; and from this point forward, any new data objects which are created under `full_text_collection` or its sub-collections will be scheduled to be indexed upon creation.
 
-eventually via docker hub, but for now, unreleased
+The same process applies to `metadata` indexes or any other `index_type`s which may exist.
 
-#### configure
+### Tag a resource for indexing
 
-```
-$ git clone https://github.com/irods/metalnx_search_endpoint_elasticsearch
-$ cd metalnx_search_endpoint_elasticsearch
-$ cp server.properties.template server.properties
-```
+An administrator may wish to restrict indexing activities to particular resources, for example when automatically ingesting data.
 
-edit `es.baseurl` and `jwt.secret`
-
-```
-es.baseurl=http://172.17.0.1:9200
-jwt.issuer=metalnx
-jwt.secret=secretsecretsecretsecretsecretsecretsecretsecret
-jwt.lifetime.seconds=600
-jwt.algo=HS384
-project.url.prefix=deprecated
+In order to indicate a resource is available for indexing it may be annotated with metadata like so:
+```bash
+imeta add -R <resource_name> irods::indexing::index true
 ```
 
-the `jwt.secret` must match the configured value in Metalnx
-
-#### build
-
-```
-$ docker build -t metalnx_search_elasticsearch .
-```
-
-#### run
-
-```
-$ docker run -p 8082:8082 -v $(pwd)/server.properties:/etc/irods-ext/project-and-sample-search.properties metalnx_search_elasticsearch
-```
-
-### 5. Metalnx
-
-2.6.0+ will work from docker hub.
-
-#### configure
-
-clone repository
-
-```
-$ git clone https://github.com/irods-contrib/metalnx-web
-$ cd metalnx-web
-```
-
-copy three configuration files
-
-```
-$ mkdir metalnx-configuration
-$ cd metalnx-configuration
-$ cp ../docker-test-framework/etc/irods-ext/customMetalnxConfig.xml .
-$ cp ../docker-test-framework/etc/irods-ext/metalnx.properties .
-$ cp ../docker-test-framework/etc/irods-ext/metalnxConfig.xml .
-```
-
-update `metalnx.properties`
-
-```
-irods.host=172.17.0.1            
-db.url=jdbc:postgresql://db:5432/metalnxdb
-db.username=metalnxuser
-db.password=superdupersecret
-jwt.secret=secretsecretsecretsecretsecretsecretsecretsecret
-pluggablesearch.endpointRegistryList=http://172.17.0.1:8082/v1
-pluggablesearch.enabled=true
-```
-
-create `docker-compose.yml`
-
-```
-version: '3'
-
-services:
-
-  db:
-    image: postgres:11
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: superdupersecret
-      POSTGRES_USER: metalnxuser
-      POSTGRES_DB: metalnxdb
-
-  metalnx:
-    image: irods/metalnx:latest
-    restart: always
-    volumes:
-      - ./metalnx-configuration:/etc/irods-ext
-    ports:
-      - 9000:8080
-```
-
-#### run
-
-get docker compose
-
-```
-$ sudo curl -L "https://github.com/docker/compose/releases/download/latest/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-$ sudo chmod +x /usr/local/bin/docker-compose
-```
-
-```
-$ docker-compose up
-```
+If no resource has this metadata, it is assumed that all resources are available for indexing. Should the tag exist on *any* resource in the system, it is assumed that all available resources for indexing are tagged.
