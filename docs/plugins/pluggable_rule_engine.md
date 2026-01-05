@@ -193,7 +193,7 @@ delay("hints") {
     - `YYYY-MM-DD.hh:mm:ss` - Least significant values can be omitted (e.g. 2015-07-29.12 means noon of July 29, 2015)
   - `PLUSET` - Relative Execution Time - Relative to current time when the delayed execution should be performed.
   - `PRIORITY` - Scheduled Execution Order - Controls the execution order of scheduled rules. Valid priority values are integers in the range [1, 9] where 9 represents the highest priority (executed earlier). Default priority is 5.
-  - `INST_NAME` - Rule Engine Instance Name - Rule engine instance on which the delayed rule will execute. If the instance name is not found, the execution will fail with `SYS_INVALID_INPUT_PARAM`.
+  - `INST_NAME` - Rule Engine Instance Name - Rule engine instance on which the delayed rule will execute. If the instance name is not specified, the rule code will be run against all rule engines defined in the `rule_engines` stanza of `server_config.json` for backward compatibility. This can result in the server's log file becoming very noisy. Therefore, it is considered best practice to always specify a rule engine plugin instance.
   - `EF` - Execution Frequency - How often the delayed execution should be performed. The `EF` value is of the form:
     - `nnnnU <directive>` where
       - `nnnn` is an integer, `U` is the unit (s-seconds, m-minutes, h-hours, d-days, y-years)
