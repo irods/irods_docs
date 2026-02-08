@@ -56,6 +56,7 @@ nav:
     - Configuration: 'system_overview/configuration.md'
     - SSL: 'system_overview/ssl.md'
     - Users and Permissions: 'system_overview/users_and_permissions.md'
+    - Quotas: 'system_overview/quotas.md'
     - GenQuery: 'system_overview/genquery.md'
     - Backing Up: 'system_overview/backing_up.md'
     - Federation: 'system_overview/federation.md'
