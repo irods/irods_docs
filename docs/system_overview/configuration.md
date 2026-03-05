@@ -971,6 +971,10 @@ Determines whether to extend the lifetime of the user's randomly generated passw
 !!! Note
     This configuration is not used with `native` authentication.
 
+#### `password_reuse_previous`
+
+Determines whether to reuse previously generated temporary passwords when re-authenticating. Disabling this is useful when administrators want to allow proper timeouts across multiple client sessions. Accepted values: '0' or '1'. '1' means that any valid, randomly generated passwords which exist at the time of authenticating will be reused for this authentication (matching historical authentication behavior). '0' means that each user authentication will generate and use a new random password. If set to '0', `password_extend_lifetime` no longer has any effect because each user authentication generates and uses a new password. The default value is '1'.
+
 ### Configuring authentication in `R_GRID_CONFIGURATION`
 
 `R_GRID_CONFIGURATION` can be modified through the `iadmin` subcommand `set_grid_configuration`. The current value can be queried using the `iadmin` subcommand `get_grid_configuration`.
