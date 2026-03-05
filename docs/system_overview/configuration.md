@@ -944,33 +944,10 @@ The default setting for 'standard_conforming_strings' in PostgreSQL 9.1+ was cha
 
 ## Authentication Configuration
 
-As of iRODS 4.3.1, authentication settings are now configured through rows in the `R_GRID_CONFIGURATION` table in the iRODS Catalog.
+User authentication settings are configured through rows in the `R_GRID_CONFIGURATION` table in the iRODS Catalog.
 
 !!! Note
     See [`irods` Authentication Server Configuration](plugins/pluggable_authentication/#server-configuration) for how to configure the `irods` authentication scheme. None of the configuration options described here affects the `irods` authentication scheme.
-
-### History (pre-4.3.1 configuration)
-
-Historically, authentication configuration had been limited to the PAM authentication scheme (now known as the `pam_password` authentication scheme). These settings were configured through `server_config.json` like this (default values are shown):
-```json
-{
-	"plugin_configuration": {
-		"authentication": {
-			"pam_password": {
-				"no_extend": false,
-				"password_length": 20,
-				"password_max_time": 1209600,
-				"password_min_time": 121
-			}
-		},
-	}
-}
-```
-The configuration is tied to the server on which the `server_config.json` file exists. The configuration is also named for PAM/`pam_password` authentication even though the configuration values are also used for `native` authentication's time-to-live (TTL) option. For PAM authentication, having the settings tied to a particular server is not a problem because PAM authentication requires redirecting to the catalog service provider.
-
-On upgrade to 4.3.1, the values which exist in `server_config.json` are inserted into `R_GRID_CONFIGURATION`. The configurations apply to authentication zone-wide.
-
-The `password_length` configuration has been removed in 4.3.1. The configuration was used to determine the maximum length of the randomly generated password for PAM authentication scheme users. The randomly generated password is now a fixed length.
 
 ### Configuration Overview
 
