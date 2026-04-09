@@ -951,7 +951,9 @@ User authentication settings are configured through rows in the `R_GRID_CONFIGUR
 
 ### Configuration Overview
 
-`native` and `pam_password` authentication configurations can be managed in `R_GRID_CONFIGURATION` with options in the `authentication` namespace. Here are the supported `option_name`s and values:
+`native` and `pam_password` authentication configurations can be managed in `R_GRID_CONFIGURATION` with options in the `authentication` namespace. Updates to these grid configurations take effect on the next authentication in the system - no server configuration reload required. Any sessions which have already been authenticated at the time of the grid configuration update will not be affected.
+
+Here are the supported `option_name`s and values:
 
 #### `password_max_time`
 
