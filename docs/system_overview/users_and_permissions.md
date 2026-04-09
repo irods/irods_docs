@@ -36,3 +36,59 @@ Tickets can be set to be valid only from specific computers (DNS host names), in
 
 The ticket policy is controlled by 'acTicketPolicy{}' in `/etc/irods/core.re`.  With this policy, the administrator can limit which users may use tickets to access the iRODS Zone.  The default empty policy allows access to all users with valid tickets (including 'anonymous').
 
+## iRODS Permission Levels
+
+The iRODS permission model has ten levels, listed here in ascending order each with its corresponding value in the catalog:
+
+| permission name | catalog value |
+| --------------- | ------------- |
+| `null` | 1000 |
+| `execute` | 1010 |
+| `read_metadata` | 1040 |
+| `read_object` | 1050 |
+| `create_metadata` | 1070 |
+| `modify_metadata` | 1080 |
+| `delete_metadata` | 1090 |
+| `create_object` | 1110 |
+| `modify_object` | 1120 |
+| `delete_object` | 1130 |
+| `own` | 1200 |
+
+The iRODS permissions model is linear, which means that if a user has a certain permission level, the user also has all the permissions under that permission level. For example, any user with `modify_object` permissions on a data object also has `read_object` permissions on that data object.
+
+Historically, 4 of these permission levels have been used throughout iRODS with the others remaining largely unused:
+
+ - `null`
+ - `read_object` (i.e. `read`)
+ - `modify_object` (i.e. `write`)
+ - `own`
+
+### `null`
+
+`null` means that a user has no permissions on the data object or collection. The user cannot change permissions for, read, modify, delete, or even query for a data object or collection or its metadata on which the user has no permissions.
+
+Administrators can grant themselves permissions even on data objects and collections for which they have `null` permissions.
+
+### `read_object` / `read`
+
+`read_object` means that a user has permission to view the catalog entry, contents, and annotated AVU metadata on the data object or collection. The user cannot change permissions for, modify, or delete a data object or collection or its metadata on which the user has `read_object` permissions.
+
+If a user has `read_object` permissions on a collection, the user will only be able to see that collection. The user will not be able to see any of the data objects or collections inside that collection without first granting `read_object` or higher permissions to the user on those individual data objects and collections.
+
+In order to read a data object, the user must have `read_object` permissions on the data object as well as `read_object` permissions on the parent collection where the data object resides.
+
+### `modify_object` / `write`
+
+`modify_object` means that a user has permission to modify the contents of a data object *in addition to* having `read_object` permissions on the data object or collection. The user cannot change permissions for or delete a data object or collection on which the user has `modify_object` permissions.
+
+If a user has `modify_object` permissions on a collection, that means that the user is able to create new data objects and collections inside that collection. In order to modify or delete objects and collections in the collection for which the user has `modify_object` permissions, the user must first be granted the appropriate permissions on those individual data objects and collections.
+
+In order to modify a data object, the user must have `modify_object` permissions on the data object as well as `read_object` permissions on the parent collection where the data object resides.
+
+### `own`
+
+`own` means that the user has permission to do anything with the given data object or collection. *In addition to* the abilities granted by `read_object` and `modify_object`, users can change permissions for and delete data objects or collections for which they have `own` permissions.
+
+If a user has `own` permissions on a collection, the user will only be able to delete the collection if the user has sufficient permissions to delete each individual data object and collection within that collection.
+
+If a user has `own` permissions on a data object or collection, the user can grant permissions (including `own` permissions) on that data object or collection to other users. The user can also modify its own permissions on the data object or collection. Note that if the user modifies its `own` permissions on a data object or collection to a permission level lower than `own`, that user will no longer be able to modify permissions on that data object or collection. If the user sets its own permissions on a data object or collection from `own` to some other level, and that user was the only user with `own` permissions on the data object, then only an administrator will be able to modify permissions on that data object or collection.
