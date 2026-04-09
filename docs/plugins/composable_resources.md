@@ -372,7 +372,10 @@ The non-blocking storage resource behaves exactly like the standard unix file sy
 
 ### Mock Archive
 
-The mock archive storage resource was created mainly for testing purposes to emulate the behavior of object stores (e.g. WOS).  It creates a hash of the file path as the physical name of the Data Object.
+!!! Warning
+    Do not use mock archive resources in production.
+
+The mock archive storage resource was created *only* for testing purposes to emulate the behavior of object stores (e.g. WOS). It creates a hash of the file path as the physical name of the Data Object.
 
 ### Universal Mass Storage Service
 
