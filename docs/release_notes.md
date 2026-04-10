@@ -1,5 +1,65 @@
 #
 
+## 5.1.0
+
+Release Date: 2026-0X-YY
+
+The iRODS Consortium and RENCI are pleased to announce iRODS 5.1.0.
+
+This release ... WORDS
+
+MORE WORDS ...
+
+The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 22.04, Ubuntu 24.04, Debian 12, and Debian 13 are available at <https://packages.irods.org/>.
+
+### Changed
+
+- Use `CHKSUM_LEN` instead of `NAME_LEN` for checksums (#8731).
+- Remove redundant checksum verification in `bulkProcAndRegSubfile` (#8734).
+- GenQuery2: Expose user type through permission-related columns (#8754).   <-- CONTINUE FROM HERE
+
+### Removed
+
+- Remove undefined `getValByInx` declaration (#8707).
+- Remove undefined `untarBuf` and `tarToBuf` declarations (#8708).
+- Remove undefined `resolveStatForStructFileOpr` declaration (#8709).
+- Remove undefined `addIntArray` declaration (#8710).
+- Remove undefined `irodsCloseSock` declaration (#8713).
+- Remove undefined `getParentPathlen` declaration (#8714).
+- Remove undefined `svrReconnect` declaration (#8715).
+
+### Deprecated
+
+- Deprecate `isPathSymlink` function (#8711).
+
+### Fixed
+
+- Fix memory leak related to `bytesBuf_t` (irods/irods_rule_engine_plugin_policy_composition#5).
+- Fix too many arguments in format string (#858).
+- Fix zone reports for server-to-server connect errors (#8607).
+- Make `imiscsvrinfo` report an error when connected to a server older than 4.3.4 (#8653).
+- Make physical quota count the largest overrun (#8691).
+- Make total quota update only apply to correct `resc_id` (#8699).
+- Check return value of `base64_encode` in hashers (#8703).
+- Do not ignore errors from hashers (#8703).
+- Expand internal buffer used by sha512 hasher (#8703).
+- Do not cross lib->server boundary unconditionally (#8740).
+- Specify byte order when invoking `to_bytes` Python method for CRC64/NVME (#8763). <-- REVISIT
+
+### Added
+
+- GeneralAdmin API: Add support for removing passwords (#2899).
+- Add CRC64/NVME hash strategy (#8554).
+- Add resource operation for reading checksums from storage device (#8554).
+- Add and use common tool to get password from stdin (#8697).
+- Add python script to ease removal of user passwords (#8697).
+- Add password hashing utilities for server (#8697).
+- Add hashed password support (#8697).
+- Add authentication session token support (#8697).
+- Add new **irods** authentication scheme (#8697).
+
+[Full GitHub commit history](https://github.com/irods/irods/compare/5.0.2...5.1.0)
+
 ## 5.0.2
 
 Release Date: 2025-10-01
