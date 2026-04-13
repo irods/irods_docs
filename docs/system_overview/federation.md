@@ -45,6 +45,7 @@ For each zone, add an object to the `federation` array in `server_config.json`. 
         "catalog_provider_hosts": ["zoneB-provider.example.org"], 
         "negotiation_key": "_____32_byte_pre_shared_key_____",
         "zone_key": "ZONE_KEY_FOR_ALL_OF_ZONE_B", 
+        "zone_key_signing_hash_scheme": "sha256",
         "zone_name": "ZoneB", 
         "zone_port": 2247
     }
@@ -58,6 +59,7 @@ For each zone, add an object to the `federation` array in `server_config.json`. 
         "catalog_provider_hosts": ["zoneA-provider.example.org"], 
         "negotiation_key": "_____32_byte_pre_shared_key_____",
         "zone_key": "ZONE_KEY_FOR_ALL_OF_ZONE_A", 
+        "zone_key_signing_hash_scheme": "sha256",
         "zone_name": "ZoneA", 
         "zone_port": 1247
     }
@@ -121,7 +123,7 @@ Mutual authentication between servers is always on.
 
 When a user from a remote zone connects to the local zone, the iRODS server will check with the iCAT in the user's home zone to authenticate the user (confirm their password).  Passwords are never sent across federated zones, they always remain in their home zone.
 
-To make this more secure, the iRODS system uses both the `zone_key` and the `negotiation_key` to authenticate the servers in `server_config.json`, via a similar method as iRODS passwords. The `zone_key` must match the remote zone's `zone_key` (the value specified during installation and setup).  The `negotiation_key` should be a shared key only for this pairing of two zones.
+To make this more secure, the iRODS system uses both the `zone_key` and the `negotiation_key` to authenticate the servers in `server_config.json`, via a similar method as iRODS passwords. The `zone_key` must match the remote zone's `zone_key` (the value specified during installation and setup). The `negotiation_key` should be a shared key only for this pairing of two zones. A hash scheme can be configured for comparing signed zone keys using the `zone_key_signing_hash_scheme` configuration and must match in both zones. The hash scheme does not need to match the `zone_key_signing_hash_scheme` of the local zone.
 
 To configure this, open the `/etc/irods/server_config.json` file and add an object to the `federation` array for each remote zone, for example:
 
@@ -131,6 +133,7 @@ To configure this, open the `/etc/irods/server_config.json` file and add an obje
         "catalog_provider_hosts": ["hostname_or_ip_of.remoteZone.org"],
         "negotiation_key": "_____32_byte_pre_shared_key_____",
         "zone_key": "ZONE_KEY_FOR_ALL_OF_REMOTEZONE",
+        "zone_key_signing_hash_scheme": "sha256",
         "zone_name": "remoteZone",
         "zone_port": 1247
     }

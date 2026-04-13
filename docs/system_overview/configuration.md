@@ -185,6 +185,13 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
             // (Optional)
             // The port number used by the remote zone for communication.
             "zone_port": 1247 
+
+            // (Optional)
+            // Hash scheme to use when comparing signed zone keys. The hash scheme must match on both sides of the
+            // server-to-server authentication. The hash scheme defined for a federation stanza does not need to match
+            // the hash scheme of the local zone. Valid values are "md5" and "sha256". Default is "md5". All servers
+            // before 5.1.0 use md5.
+            "zone_key_signing_hash_scheme": "md5"
         },
 
         // ... Additional Entries ...
@@ -502,6 +509,13 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
     // This can be a string of any length, excluding the use of hyphens, for historical purposes.
     // This must be the same across all iRODS servers in a Zone.
     "zone_key": "TEMPORARY_ZONE_KEY",
+
+    // (Optional)
+    // Hash scheme to use when comparing signed zone keys. The hash scheme must match on both sides of the
+    // server-to-server authentication. The hash scheme defined for a federation stanza does not need to match the hash
+    // scheme of the local zone. Valid values are "md5" and "sha256". Default is "md5". All servers before 5.1.0 use
+    // md5.
+    "zone_key_signing_hash_scheme": "md5",
 
     // The name of the Zone in which the server participates.
     // This must be the same across all iRODS servers in a Zone.
