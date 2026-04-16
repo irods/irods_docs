@@ -146,11 +146,13 @@ iadmin set_grid_configuration authentication token_lifetime_in_seconds 1209600
 
 The `irods` authentication scheme is a built-in authentication scheme meant to sit alongside and eventually replace the `native` authentication scheme. As such, a configuration has been introduced to change the meaning of what *is* the user's password in iRODS when there are two authentication schemes provided by iRODS. This configuration modifies the behavior of password-setting operations such as `iadmin moduser` or `ipasswd`.
 
-The configuration is called `user_password_storage_mode` and is set in `server_config.json`. It has three valid values:
+The configuration is controlled in `R_GRID_CONFIGURATION` through the `authentication` namespace and the `password_storage_mode` option. It has three valid values:
 
-- "legacy": Setting a user's password will only update `R_USER_PASSWORD`. This is the default value if the configuration is not set, and represents the historical behavior of `native` authentication.
+- "legacy": Setting a user's password will only update `R_USER_PASSWORD`.
 - "hashed": Setting a user's password will only update `R_USER_CREDENTIALS`.
 - "both": Setting a user's password will update both `R_USER_PASSWORD` and `R_USER_CREDENTIALS`.
+
+For information about how to set `R_GRID_CONFIGURATION` values, see [set_grid_configuration](../../icommands/administrator/#set_grid_configuration) and [get_grid_configuration](../../icommands/administrator/#get_grid_configuration).
 
 !!! Note
 	If the user has a password in `R_USER_PASSWORD` and sets a password in `R_USER_CREDENTIALS`, the password in `R_USER_PASSWORD` will still be usable for `native` authentication until such time as it is removed. The inverse is also true: If the user has a password in `R_USER_CREDENTIALS` and sets a password in `R_USER_PASSWORD`, the password in `R_USER_CREDENTIALS` will still be usable for `irods` authentication until such time as it is removed.
@@ -177,7 +179,7 @@ Deployments should migrate from `native` to `irods` authentication as `native` w
 
 For sites currently using `native` authentication:
 
-1. Set `user_password_storage_mode` to "both" in `server_config.json` in order to support both systems.
+1. Set `R_GRID_CONFIGURATION` option `password_storage_mode` in `authentication` namespace to "both" in order to support both systems.
 2. Allow users to authenticate with the new scheme as passwords are updated.
 3. Once migration is complete, switch to `"hashed"`.
 
