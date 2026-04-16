@@ -494,14 +494,6 @@ iRODS 5 servers only require a working `server_config.json` file. All server pro
         "dh_params_file": ""
     },
 
-    // (Optional)
-    // Defines how user passwords are stored. This configuration can be one of 3 values:
-    // - legacy: Setting a user's password will only update R_USER_PASSWORD. This is the default value if
-    //   the configuration is not set, and represents the historical behavior of native authentication.
-    // - hashed: Setting a user's password will only update R_USER_CREDENTIALS.
-    // - both: Setting a user's password will update both R_USER_PASSWORD and R_USER_CREDENTIALS.
-    "user_password_storage_mode": "legacy",
-
     // The authentication scheme used by the zone_user.
     "zone_auth_scheme": "native",
 
