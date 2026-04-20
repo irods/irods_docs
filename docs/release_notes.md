@@ -49,6 +49,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Deprecate `isPathSymlink` function (#8711).
 - Deprecate interactive mode for `iadmin` (#8738).
 - Deprecate interactive mode for `igroupadmin` (#8738).
+- Deprecate Oracle database plugin (#8829).      <-- CONTINUE FROM HERE
 - Deprecate token addition and removal (#8892).
 
 ### Fixed
@@ -110,7 +111,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add hashed password support (#8697).
 - Add authentication session token support (#8697).
 - Add new **irods** authentication scheme (#8697).
-- Add `user_password_storage_mode` grid configuration option (#8748).      <-- CONTINUE FROM HERE
+- Add `user_password_storage_mode` grid configuration option (#8748).
 - Add `R_USER_CREDENTIALS` table on database upgrade (#8769).
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
 - Add option to skip post-install PUT test during setup (#8901).
