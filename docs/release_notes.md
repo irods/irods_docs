@@ -80,8 +80,8 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Replace spaces with hyphens for agent information (`ips`) (#8733).
 - Do not cross lib->server boundary unconditionally (#8740).
 - Use `OWN` permissions instead of `data_owner_name` when calculating physical quota totals (#8750).
-- Refactor physical quotas query so that quotas are properly processed (#8758).                       <-- CONTINUE FROM HERE
-- Specify byte order when invoking `to_bytes` Python method for CRC64/NVME (#8763).                   <-- REVISIT
+- Refactor physical quotas query so that quotas are properly processed (#8758).
+- Specify byte order when invoking `to_bytes` Python method for CRC64/NVME (#8763).     <-- REVISIT
 - Prevent checksum without status update in replica_close API (#8801).
 - DataObjOpen: Rework update to replica access table to avoid potential uninitialized values (#8808).
 - Avoid brace-initialization when constructing nlohmann JSON objects with other JSON objects (#8839).
@@ -98,7 +98,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 ### Added
 
 - Add `sign_server_sid` replacement: `sign_zone_key` (#2295).
-- Add configuration for zone key signing hash scheme (#2295, #3403).                                  <-- CHANGED: WAS 3404?
+- Add configuration for zone key signing hash scheme (#2295, #3403).      <-- CHANGED: WAS 3404?
 - GeneralAdmin API: Add support for removing passwords (#2899).
 - GenQuery2: Expose new columns for querying when metadata is attached (#7889).
 - Serialize `TicketAdminInput` data structure for policy enforcement (#8518).
@@ -110,7 +110,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add hashed password support (#8697).
 - Add authentication session token support (#8697).
 - Add new **irods** authentication scheme (#8697).
-- Add `user_password_storage_mode` grid configuration option (#8748).
+- Add `user_password_storage_mode` grid configuration option (#8748).      <-- CONTINUE FROM HERE
 - Add `R_USER_CREDENTIALS` table on database upgrade (#8769).
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
 - Add option to skip post-install PUT test during setup (#8901).
