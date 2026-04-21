@@ -379,15 +379,24 @@ The mock archive storage resource was created *only* for testing purposes to emu
 
 ### Universal Mass Storage Service
 
-The univMSS storage resource delegates stage_to_cache and sync_to_arch operations to an external script which is located in the `msiExecCmd_bin` directory.  It currently writes to the Vault path of that resource instance, treating it as a unix file system.
+The univMSS storage resource delegates stage-to-cache and sync-to-archive operations to an external executable which is located in the `msiExecCmd_bin` directory. It currently writes to the Vault path of that resource instance, treating it as a unixfilesystem.
 
-When creating a "univmss" resource, the context string provides the location of the Universal MSS script.
-
-Example:
+When creating a "univmss" resource, the context string must include a reference to an executable via the `script` property. For example:
 
 ~~~
-irods@hostname:~/ $ iadmin mkresc myArchiveResc univmss HOSTNAME:/full/path/to/Vault univMSSInterface.sh
+irods@hostname:~/ $ iadmin mkresc myArchiveResc univmss <hostname>:/full/path/to/Vault 'script=univMSSInterface.sh;escape_single_quotes=1'
 ~~~
+
+!!! Note
+    `escape_single_quotes` was introduced in iRODS 5.1.0. When set to 1, it instructs the resource to escape single quotes in paths. It defaults to 0 for backward compatibility.
+
+Setting the context string to the name of an executable is supported for backward compatibility.
+
+~~~
+irods@hostname:~/ $ iadmin mkresc myArchiveResc univmss <hostname>:/full/path/to/Vault univMSSInterface.sh
+~~~
+
+Using this form will result in `escape_single_quotes` being set to 0.
 
 ## Managing Child Resources
 
