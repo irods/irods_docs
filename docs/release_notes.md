@@ -49,7 +49,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Deprecate `isPathSymlink` function (#8711).
 - Deprecate interactive mode for `iadmin` (#8738).
 - Deprecate interactive mode for `igroupadmin` (#8738).
-- Deprecate Oracle database plugin (#8829).      <-- CONTINUE FROM HERE
+- Deprecate Oracle database plugin (#8829).
 - Deprecate token addition and removal (#8892).
 
 ### Fixed
@@ -95,6 +95,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Allow empty context strings for resources (#8900).
 - Use `FETCH FIRST ROWS ONLY` instead of `LIMIT` (#8907).
 - Fix group permission expansion in filesystem library (#8912).
+- Fix handling of single quotes in paths for univmss resource plugin (#8928).      <-- CONTINUE FROM HERE
 
 ### Added
 
