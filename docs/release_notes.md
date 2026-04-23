@@ -95,7 +95,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Allow empty context strings for resources (#8900).
 - Use `FETCH FIRST ROWS ONLY` instead of `LIMIT` (#8907).
 - Fix group permission expansion in filesystem library (#8912).
-- Fix handling of single quotes in paths for univmss resource plugin (#8928).      <-- CONTINUE FROM HERE
+- Fix handling of single quotes in paths for univmss resource plugin (#8928).
 
 ### Added
 
@@ -111,9 +111,9 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add password hashing utilities for server (#8697).
 - Add hashed password support (#8697).
 - Add authentication session token support (#8697).
-- Add new **irods** authentication scheme (#8697).
+- Add new **irods** authentication scheme (#8697, #8729).
 - Add `user_password_storage_mode` grid configuration option (#8748).
-- Add `R_USER_CREDENTIALS` table on database upgrade (#8769).
+- Add `R_USER_CREDENTIALS` table on database upgrade (#8729, #8769).      <-- CONTINUE FROM HERE
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
 - Add option to skip post-install PUT test during setup (#8901).
 - Hasher: Add digest overload to control output string (#8909).
