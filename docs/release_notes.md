@@ -42,6 +42,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 ### Deprecated
 
 - Deprecate `check_sent_sid`, `sign_server_sid`, `remote_SID_key_map` (#5948).
+- Deprecate `itree -J` (#7943).
 - Deprecate `msiDataObjPut` (#8229).
 - Deprecate adding custom `user_type` tokens (#8233).
 - Deprecate user authentication names (#8408).
@@ -51,6 +52,8 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Deprecate interactive mode for `igroupadmin` (#8738).
 - Deprecate Oracle database plugin (#8829).
 - Deprecate token addition and removal (#8892).
+- Deprecate `PUBLIC_USER_NAME` macro (#8951).
+- Deprecate `PUBLIC_USER_AUTH` macro (#8951).      <-- CONTINUE FROM HERE
 
 ### Fixed
 
@@ -69,6 +72,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Fix memory leak in `getUtil` (#8334).
 - Update modification time on empty overwrite for copy operation (#8413).
 - Remove `imeta ls -C` path length constraint of 256 bytes (#8519).
+- Remove duplicate definitions from `rodsKeyWdDef.h` (#8550).
 - Fix double-free/corruption by setting free'd pointers to `nullptr` in network plugins (#8593).
 - Fix zone reports for server-to-server connect errors (#8607).
 - Make `RESC_NAME_KW` (`-R`) a directive for DataObjOpen API (#8627).
@@ -103,6 +107,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add configuration for zone key signing hash scheme (#2295, #3403).      <-- CHANGED: WAS 3404?
 - GeneralAdmin API: Add support for removing passwords (#2899).
 - GenQuery2: Expose new columns for querying when metadata is attached (#7889).
+- Add `-j` option to `itree` for showing JSON output (#7943).
 - Serialize `TicketAdminInput` data structure for policy enforcement (#8518).
 - Add CRC64/NVME hash strategy (#8554).
 - Add resource operation for reading checksums from storage device (#8554).
@@ -113,7 +118,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add authentication session token support (#8697).
 - Add new **irods** authentication scheme (#8697, #8729).
 - Add `user_password_storage_mode` grid configuration option (#8748).
-- Add `R_USER_CREDENTIALS` table on database upgrade (#8729, #8769).      <-- CONTINUE FROM HERE
+- Add `R_USER_CREDENTIALS` table on database upgrade (#8729, #8769).
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
 - Add option to skip post-install PUT test during setup (#8901).
 - Hasher: Add digest overload to control output string (#8909).
