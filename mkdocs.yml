@@ -67,6 +67,7 @@ nav:
     - Limitations and Restrictions: 'system_overview/limitations_and_restrictions.md'
     - Tips and Tricks: 'system_overview/tips_and_tricks.md'
  - iCommands:
+    - General Information: 'icommands/general_info.md'
     - Administrator: 'icommands/administrator.md'
     - User: 'icommands/user.md'
     - Metadata: 'icommands/metadata.md'
