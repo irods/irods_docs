@@ -203,11 +203,7 @@ There are a few other options that can be used with GenQuery to affect how the r
 
 ### Collation Order
 
-It should be noted, with regard to the case-sensitive query defaults, that one cannot always rely on an assumed
-collation order (i.e. the result of comparing mixed-case string arguments) to be followed.  That is because a
-particular de facto ordering within a character set - as implied by GenQuery operators such as <, =, >, BETWEEN,
-and ORDER (BY) - can easily be impacted by the configuration and design of the backing DBRMS which implements those
-operators.
+It should be noted, with regard to the case-sensitive query defaults, that one cannot always rely on an assumed collation order (i.e. the result of comparing mixed-case string arguments) to be followed.  That is because a particular de facto ordering within a character set - as implied by GenQuery operators such as <, =, >, BETWEEN, and ORDER (BY) - can easily be impacted by the configuration and design of the backing DBRMS which implements those operators.
 
 Consider the following query for example, when run in the context of three data objects named `a`, `A`, and `a_`:
 
@@ -215,9 +211,7 @@ Consider the following query for example, when run in the context of three data 
 select DATA_NAME where DATA_NAME between 'a' 'a_'
 ```
 
-Under the default American setup of MySQL, for example, 'A' will fall in the range defined by `between` (as corroborated 
-by testing the result of the query `select 'a' <= 'A' and 'A' <= 'a_'` in the mysql client) and thus be reported among
-GenQuery's results; whereas under the default setup of PostgreSQL, it will not.
+Under the default American setup of MySQL, for example, 'A' will fall in the range defined by `between` (as corroborated by testing the result of the query `select 'a' <= 'A' and 'A' <= 'a_'` in the mysql client) and thus be reported among GenQuery's results; whereas under the default setup of PostgreSQL, it will not.
 
 ### Attributes
 
