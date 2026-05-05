@@ -22,6 +22,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Modify calculations for physical quotas to account for coordinating resources (#8667).
 - Use `CHKSUM_LEN` instead of `NAME_LEN` for checksums (#8731).
 - Update help text for physical quotas `iadmin` subcommands (#8618).
+- Set RuntimeDirectory in systemd service file templates (#8717).
 - Remove redundant checksum verification in `bulkProcAndRegSubfile` (#8734).
 - Prevent removal of password for currently authenticated user (#8747).
 - Prevent removal of password for service account rodsadmin (#8747).
@@ -53,7 +54,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Deprecate Oracle database plugin (#8829).
 - Deprecate token addition and removal (#8892).
 - Deprecate `PUBLIC_USER_NAME` macro (#8951).
-- Deprecate `PUBLIC_USER_AUTH` macro (#8951).      <-- CONTINUE FROM HERE
+- Deprecate `PUBLIC_USER_AUTH` macro (#8951).
 
 ### Fixed
 
@@ -116,7 +117,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add password hashing utilities for server (#8697).
 - Add hashed password support (#8697).
 - Add authentication session token support (#8697).
-- Add new **irods** authentication scheme (#8697, #8729).
+- Add new **irods** authentication scheme (#8697, #8729, #8963).      <-- CONTINUE FROM HERE
 - Add `user_password_storage_mode` grid configuration option (#8748).
 - Add `R_USER_CREDENTIALS` table on database upgrade (#8729, #8769).
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
