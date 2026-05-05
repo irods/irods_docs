@@ -201,7 +201,9 @@ There are a few other options that can be used with GenQuery to affect how the r
  - no-distinct: Instructs GenQuery to return all results, even repeating identical results where applicable.
  - uppercase: When specified, all VALUEs should be supplied in UPPERCASE and the query will be made case-insensitive.
 
-It should finally be noted, with regard to the case-sensitive query defaults, that one cannot always rely on an assumed
+### Collation Order
+
+It should be noted, with regard to the case-sensitive query defaults, that one cannot always rely on an assumed
 collation order (i.e. the result of comparing mixed-case string arguments) to be followed.  Because GenQuery passes
 operators such as <, =, >, BETWEEN, and ORDER directly to the backing database, such assumptions are inherently
 non-portable.  Consider the following query, when run in the context of three data objects named `a`, `A`, and `a_`:
