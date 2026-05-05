@@ -204,9 +204,12 @@ There are a few other options that can be used with GenQuery to affect how the r
 ### Collation Order
 
 It should be noted, with regard to the case-sensitive query defaults, that one cannot always rely on an assumed
-collation order (i.e. the result of comparing mixed-case string arguments) to be followed.  Because GenQuery passes
-operators such as <, =, >, BETWEEN, and ORDER directly to the backing database, such assumptions are inherently
-non-portable.  Consider the following query, when run in the context of three data objects named `a`, `A`, and `a_`:
+collation order (i.e. the result of comparing mixed-case string arguments) to be followed.  That is because a
+particular de facto ordering within a character set - as implied by GenQuery operators such as <, =, >, BETWEEN,
+and ORDER (BY) - can easily be impacted by the configuration and design of the backing DBRMS which implements those
+operators.
+
+Consider the following query for example, when run in the context of three data objects named `a`, `A`, and `a_`:
 
 ```sql
 select DATA_NAME where DATA_NAME between 'a' 'a_'
