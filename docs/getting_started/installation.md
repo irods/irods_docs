@@ -119,7 +119,7 @@ The `setup_irods.py` script below will prompt for, and then create, if necessary
 $ (sudo) python3 /var/lib/irods/scripts/setup_irods.py
 ~~~
 
-The `setup_irods.py` script will ask for information in four (possibly five) sections:
+The `setup_irods.py` script will ask for information in sections, the number of which depends on the server role and options passed to the script:
 
 1. Service Account
     - Service Account User
@@ -148,7 +148,16 @@ The `setup_irods.py` script will ask for information in four (possibly five) sec
     - Parallel Transfer Port Range (End)
     - iRODS Administrator User
 
-5. Keys and Passwords
+5. iRODS Server TLS Configuration (if using `--tls` option)
+    - Generate and use self-signed certificate (auto-fills remainder of section)
+    - Server's certificate chain file
+    - Server's certificate key file
+    - Diffie-Hellman parameters file
+    - CA certificate file
+    - CA certificate directory path
+    - Certificate verification level
+
+6. Keys and Passwords
     - Zone Key
     - Negotiation Key
     - iRODS Administrator Password
