@@ -22,6 +22,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Modify calculations for physical quotas to account for coordinating resources (#8667).
 - Use `CHKSUM_LEN` instead of `NAME_LEN` for checksums (#8731).
 - Update help text for physical quotas `iadmin` subcommands (#8618).
+- Warn users of compatibility issues between iCommands and server (#8638).
 - Set RuntimeDirectory in systemd service file templates (#8717).
 - Remove redundant checksum verification in `bulkProcAndRegSubfile` (#8734).
 - Prevent removal of password for currently authenticated user (#8747).
@@ -29,6 +30,8 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - GenQuery2: Expose user type through permission-related columns (#8754).
 - Use `irods::authentication::scheme_name` instead of string literals (#8834).
 - Use Hasher options to control session token hashes (#8909).
+- Warn administrator when non-owner attempts to launch server (#8960).
+- Disallow running server with root privileges (#8960).
 
 ### Removed
 
@@ -101,23 +104,29 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Use `FETCH FIRST ROWS ONLY` instead of `LIMIT` (#8907).
 - Fix group permission expansion in filesystem library (#8912).
 - Fix handling of single quotes in paths for univmss resource plugin (#8928).
+- Set server boot time for GetMiscSvrInfo API (#8943).
+- `iqstat`: Check `RcComm` for `nullptr` before use (#8956).
+- `itree`: Fix build error stemming from redefinition of symbol (#8958).
+- Write PID file creation error messages to stderr (#8971).      <-- CONTINUE FROM HERE
 
 ### Added
 
 - Add `sign_server_sid` replacement: `sign_zone_key` (#2295).
 - Add configuration for zone key signing hash scheme (#2295, #3403).      <-- CHANGED: WAS 3404?
 - GeneralAdmin API: Add support for removing passwords (#2899).
+- Add support for configuring TLS during setup (#7717).
 - GenQuery2: Expose new columns for querying when metadata is attached (#7889).
 - Add `-j` option to `itree` for showing JSON output (#7943).
 - Serialize `TicketAdminInput` data structure for policy enforcement (#8518).
 - Add CRC64/NVME hash strategy (#8554).
 - Add resource operation for reading checksums from storage device (#8554).
+- Implement passive logical quotas in-server (#8632).
 - Add and use common tool to get password from stdin (#8697).
 - Add python script to ease removal of user passwords (#8697).
 - Add password hashing utilities for server (#8697).
 - Add hashed password support (#8697).
 - Add authentication session token support (#8697).
-- Add new **irods** authentication scheme (#8697, #8729, #8963).      <-- CONTINUE FROM HERE
+- Add new **irods** authentication scheme (#8697, #8729, #8963).
 - Add `user_password_storage_mode` grid configuration option (#8748).
 - Add `R_USER_CREDENTIALS` table on database upgrade (#8729, #8769).
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
