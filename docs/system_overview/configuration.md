@@ -627,6 +627,13 @@ This is the main iRODS configuration file defining the iRODS environment. Any ch
 
     // (Optional)
     // The current working collection within iRODS.
+    //
+    // "icd" writes the current working collection to a per-session file
+    // (irods_environment.json.<ppid>) rather than modifying this property directly.
+    // The per-session file takes precedence over this value when present.
+    // Running "icd" with no arguments deletes the session file, causing the current
+    // working collection to fall back to this value. If this property is empty, the current
+    // working collection falls back to the value in "irods_home".
     "irods_cwd": "",
 
     // (Optional)
