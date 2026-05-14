@@ -14,9 +14,33 @@ Logs are written to syslog. See [The Server Log](../../system_overview/server_lo
 
 ### Server PID File
 
-By default, the server writes its process ID (PID) to `/var/run/irods/irods-server.pid`.
+By default, the server writes its process ID (PID) to `/run/irods/irods-server.pid`.
 
-Use the `--pid-file` option to specify a different location. This is useful when running multiple iRODS servers on the same host.
+Use the `--pid-file` option to specify a different location. This is useful when running multiple iRODS servers on the same host or to get around permission-related problems. For example:
+
+```sh
+# Create the directory which will hold the PID file.
+mkdir pid_dir
+
+# Always provide the absolute path to the PID file.
+irodsServer --pid-file $(pwd)/pid_dir/irods-server.pid -d
+```
+
+On an OS where `/run` is mounted as tmpfs, the iRODS PID file directory (`/run/irods`) may not persist across reboots. Administrators can resolve the problem through the use of a service manager (e.g. systemd), a tmpfiles configuration, or the `--pid-file` option.
+
+!!! Warning
+    These approaches are NOT mutually exclusive. Care must be taken when using a service manager and tmpfiles configuration for PID file directory management.
+
+See [Managing iRODS via the Service Manager](#managing-irods-via-the-service-manager) for information regarding service manager support.
+
+Below is an example tmpfiles configuration. The "User" and "Group" values must match the user and group of the iRODS service account.
+
+```
+# Create the irods location to hold PID files
+#
+# Type Path        Mode User  Group
+d     /run/irods   0755 irods irods
+```
 
 ## Stopping the Server
 
