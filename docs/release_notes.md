@@ -14,6 +14,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 
 ### Changed
 
+- Allow resource rebalance to continue on stale and missing replicas (#6111).
 - GenQuery2: Return parser error information via rError stack (#8094).
 - Update help text for `irsync` (#8288).
 - Skip policy layer when setting up access control for GenQuery1 (#8304).
@@ -97,6 +98,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Do not use `memset` on RsComm (#8843).
 - Fix memory leaks stemming from `clearMsParam` (#8857).
 - Do not crash delay server when in-memory delay queue buffer is too small (#8859).
+- Fix memory leak in Hasher (#8861).      <-- CONTINUE FROM HERE
 - Fix memory leaks in iRODS Rule Language (#8864).
 - Fix stalling of delay rule processing in delay server by removing unnecessary use of pool memory resource (#8868).
 - GenQuery2: Do not duplicate rows when user has access via multiple groups (#8880).
@@ -107,7 +109,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Set server boot time for GetMiscSvrInfo API (#8943).
 - `iqstat`: Check `RcComm` for `nullptr` before use (#8956).
 - `itree`: Fix build error stemming from redefinition of symbol (#8958).
-- Write PID file creation error messages to stderr (#8971).      <-- CONTINUE FROM HERE
+- Write PID file creation error messages to stderr (#8971).
 
 ### Added
 
@@ -120,7 +122,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Serialize `TicketAdminInput` data structure for policy enforcement (#8518).
 - Add CRC64/NVME hash strategy (#8554).
 - Add resource operation for reading checksums from storage device (#8554).
-- Implement passive logical quotas in-server (#8632).
+- Implement passive logical quotas in-server (#8632, #8970).
 - Add and use common tool to get password from stdin (#8697).
 - Add python script to ease removal of user passwords (#8697).
 - Add password hashing utilities for server (#8697).
