@@ -98,7 +98,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Do not use `memset` on RsComm (#8843).
 - Fix memory leaks stemming from `clearMsParam` (#8857).
 - Do not crash delay server when in-memory delay queue buffer is too small (#8859).
-- Fix memory leak in Hasher (#8861).      <-- CONTINUE FROM HERE
+- Fix memory leak in Hasher (#8861).
 - Fix memory leaks in iRODS Rule Language (#8864).
 - Fix stalling of delay rule processing in delay server by removing unnecessary use of pool memory resource (#8868).
 - GenQuery2: Do not duplicate rows when user has access via multiple groups (#8880).
@@ -110,6 +110,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - `iqstat`: Check `RcComm` for `nullptr` before use (#8956).
 - `itree`: Fix build error stemming from redefinition of symbol (#8958).
 - Write PID file creation error messages to stderr (#8971).
+- Restore printing of INFO-level log messages during initial setup (#8981).      <-- CONTINUE FROM HERE
 
 ### Added
 
