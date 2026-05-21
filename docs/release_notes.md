@@ -33,6 +33,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Use Hasher options to control session token hashes (#8909).
 - Warn administrator when non-owner attempts to launch server (#8960).
 - Disallow running server with root privileges (#8960).
+- Reject relative paths to PID file on server startup (#8980).
 
 ### Removed
 
@@ -43,6 +44,8 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Remove undefined `irodsCloseSock` declaration (#8713).
 - Remove undefined `getParentPathlen` declaration (#8714).
 - Remove undefined `svrReconnect` declaration (#8715).
+- Remove `iGet`, `iDel`, `iTicket` scripts and related files (#8976).
+- Remove `rulegen` tool and related files (#8977).
 
 ### Deprecated
 
