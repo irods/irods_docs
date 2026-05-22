@@ -476,3 +476,15 @@ META_RESC_ATTR_UNITS = 20180203T140006Z
 ```
 
 When a rebalance completes successfully, the timestamp AVU is removed.
+
+If the rebalance operation encounters data objects that cannot be replicated due to being stale or locked, a `-1834000 REBALANCE_NOT_COMPLETE` message will be displayed and a non-zero exit code is returned after replicating all remaining good data objects. Afterwards, the unreplicated data objects must be handled manually if replication is still desired.
+
+For example, assume that rebalance has failed on a hierarchy with a root resource 'ptTest'. Run the following to find all data objects with replicas not marked good that are part of the 'ptTest' resource hierarchy:
+```
+iquest "SELECT COLL_NAME, DATA_NAME WHERE DATA_RESC_HIER LIKE 'ptTest;%' and DATA_REPL_STATUS != '1'"
+```
+
+And to get the number of data objects with replicas not marked good that are part of the 'ptTest' resource hierarchy, run:
+```
+iquest "SELECT COUNT(DATA_ID) WHERE DATA_RESC_HIER LIKE 'ptTest;%' and DATA_REPL_STATUS != '1'"
+```
