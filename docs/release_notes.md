@@ -85,6 +85,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Fix zone reports for server-to-server connect errors (#8607).
 - Make `RESC_NAME_KW` (`-R`) a directive for DataObjOpen API (#8627).
 - Make `imiscsvrinfo` report an error when connected to a server older than 4.3.4 (#8653).
+- Strip trailing slashes from `irods_home` and `irods_cwd` (#8572).
 - Make physical quota count the largest overrun (#8691).
 - Make total quota update only apply to correct `resc_id` (#8699).
 - Check return value of `base64_encode` in hashers (#8703).
@@ -97,6 +98,8 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Specify byte order when invoking `to_bytes` Python method for CRC64/NVME (#8763).     <-- REVISIT
 - Prevent checksum without status update in replica_close API (#8801).
 - DataObjOpen: Rework update to replica access table to avoid potential uninitialized values (#8808).
+- Collapse multiple authentication codes to `CAT_INVALID_AUTHENTICATION` (#8822).
+- Stabilize time difference between authentication with invalid password and authentication with nonexistent user (#8822).
 - Avoid brace-initialization when constructing nlohmann JSON objects with other JSON objects (#8839).
 - Do not use `memset` on RsComm (#8843).
 - Fix memory leaks stemming from `clearMsParam` (#8857).
@@ -113,7 +116,8 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - `iqstat`: Check `RcComm` for `nullptr` before use (#8956).
 - `itree`: Fix build error stemming from redefinition of symbol (#8958).
 - Write PID file creation error messages to stderr (#8971).
-- Restore printing of INFO-level log messages during initial setup (#8981).      <-- CONTINUE FROM HERE
+- Restore printing of INFO-level log messages during initial setup (#8981).
+- Set pointer to `nullptr` after deallocation in `getVaultPathPolicy` (#8991).
 
 ### Added
 
@@ -138,6 +142,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
 - Add option to skip post-install PUT test during setup (#8901).
 - Hasher: Add digest overload to control output string (#8909).
+- Add microservices for customizing how the random scheme vault path policy generates physical paths (#8917).      <-- CONTINUE FROM HERE
 
 [Full GitHub commit history](https://github.com/irods/irods/compare/5.0.2...5.1.0)
 
