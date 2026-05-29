@@ -28,6 +28,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Remove redundant checksum verification in `bulkProcAndRegSubfile` (#8734).
 - Prevent removal of password for currently authenticated user (#8747).
 - Prevent removal of password for service account rodsadmin (#8747).
+- Update feature test macros (#8749).      <-- CONTINUE FROM HERE
 - GenQuery2: Expose user type through permission-related columns (#8754).
 - Use `irods::authentication::scheme_name` instead of string literals (#8834).
 - Use Hasher options to control session token hashes (#8909).
@@ -142,7 +143,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
 - Add option to skip post-install PUT test during setup (#8901).
 - Hasher: Add digest overload to control output string (#8909).
-- Add microservices for customizing how the random scheme vault path policy generates physical paths (#8917).      <-- CONTINUE FROM HERE
+- Add microservices for customizing how the random scheme vault path policy generates physical paths (#8917).
 
 [Full GitHub commit history](https://github.com/irods/irods/compare/5.0.2...5.1.0)
 
