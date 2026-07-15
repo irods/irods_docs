@@ -18,7 +18,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - GenQuery2: Return parser error information via rError stack (#8094).
 - Update help text for `irsync` (#8288).
 - Skip policy layer when setting up access control for GenQuery1 (#8304).
-- Update feature test macros (#8580).
+- Update feature test macros (#8459, #8580, #8749, #9004).
 - Merge iCommands source back into server repository (#8591).
 - Modify calculations for physical quotas to account for coordinating resources (#8667).
 - Use `CHKSUM_LEN` instead of `NAME_LEN` for checksums (#8731).
@@ -28,13 +28,13 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Remove redundant checksum verification in `bulkProcAndRegSubfile` (#8734).
 - Prevent removal of password for currently authenticated user (#8747).
 - Prevent removal of password for service account rodsadmin (#8747).
-- Update feature test macros (#8749).      <-- CONTINUE FROM HERE
 - GenQuery2: Expose user type through permission-related columns (#8754).
 - Use `irods::authentication::scheme_name` instead of string literals (#8834).
 - Use Hasher options to control session token hashes (#8909).
 - Warn administrator when non-owner attempts to launch server (#8960).
 - Disallow running server with root privileges (#8960).
 - Reject relative paths to PID file on server startup (#8980).
+- dstream: Detect narrowing conversion errors for buffer sizes (#9002).
 
 ### Removed
 
@@ -119,19 +119,24 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Write PID file creation error messages to stderr (#8971).
 - Restore printing of INFO-level log messages during initial setup (#8981).
 - Set pointer to `nullptr` after deallocation in `getVaultPathPolicy` (#8991).
+- ModDataObjMeta: Apply timestamp formatting to creation time string (#8999).
+- `ilsresc`: Return nonzero error code on nonexistent resource (#9012).      <-- CONTINUE FROM HERE
+- GenQuery2: Preserve query semantics when generating SQL (#9016).
 
 ### Added
 
 - Add `sign_server_sid` replacement: `sign_zone_key` (#2295).
 - Add configuration for zone key signing hash scheme (#2295, #3403).      <-- CHANGED: WAS 3404?
 - GeneralAdmin API: Add support for removing passwords (#2899).
+- Expose `parent_context` property to `iadmin modresc` (#4022).
 - Add support for configuring TLS during setup (#7717).
 - GenQuery2: Expose new columns for querying when metadata is attached (#7889).
 - Add `-j` option to `itree` for showing JSON output (#7943).
+- dstream: Expose underlying iRODS error codes (#8459).
 - Serialize `TicketAdminInput` data structure for policy enforcement (#8518).
 - Add CRC64/NVME hash strategy (#8554).
 - Add resource operation for reading checksums from storage device (#8554).
-- Implement passive logical quotas in-server (#8632, #8970).
+- Implement passive logical quotas in-server (#8632, #8970, #8994).
 - Add and use common tool to get password from stdin (#8697).
 - Add python script to ease removal of user passwords (#8697).
 - Add password hashing utilities for server (#8697).
@@ -139,11 +144,12 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add authentication session token support (#8697).
 - Add new **irods** authentication scheme (#8697, #8729, #8963).
 - Add `user_password_storage_mode` grid configuration option (#8748).
-- Add `R_USER_CREDENTIALS` table on database upgrade (#8729, #8769).
+- Add `R_USER_CREDENTIALS` table on database upgrade (#8729, #8769, #8994).
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
 - Add option to skip post-install PUT test during setup (#8901).
 - Hasher: Add digest overload to control output string (#8909).
 - Add microservices for customizing how the random scheme vault path policy generates physical paths (#8917).
+- Expose parent context for resources via resource administration library (#9004).
 
 [Full GitHub commit history](https://github.com/irods/irods/compare/5.0.2...5.1.0)
 
