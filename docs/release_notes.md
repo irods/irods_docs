@@ -10,7 +10,7 @@ This release ... WORDS
 
 MORE WORDS ...
 
-The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 22.04, Ubuntu 24.04, Debian 12, and Debian 13 are available at <https://packages.irods.org/>.
+The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 22.04, Ubuntu 24.04, Ubuntu 26.04, Debian 12, and Debian 13 are available at <https://packages.irods.org/>.
 
 ### Changed
 
@@ -35,6 +35,8 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Disallow running server with root privileges (#8960).
 - Reject relative paths to PID file on server startup (#8980).
 - dstream: Detect narrowing conversion errors for buffer sizes (#9002).
+- Return true iRODS error code when Touch API fails to create data object (#9026).
+- `istream`: Return true iRODS error code on dstream failures (#9027).      <-- CONTINUE FROM HERE
 
 ### Removed
 
@@ -120,7 +122,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Restore printing of INFO-level log messages during initial setup (#8981).
 - Set pointer to `nullptr` after deallocation in `getVaultPathPolicy` (#8991).
 - ModDataObjMeta: Apply timestamp formatting to creation time string (#8999).
-- `ilsresc`: Return nonzero error code on nonexistent resource (#9012).      <-- CONTINUE FROM HERE
+- `ilsresc`: Return nonzero error code on nonexistent resource (#9012).
 - GenQuery2: Preserve query semantics when generating SQL (#9016).
 
 ### Added
