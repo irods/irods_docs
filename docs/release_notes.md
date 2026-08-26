@@ -30,13 +30,16 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Prevent removal of password for service account rodsadmin (#8747).
 - GenQuery2: Expose user type through permission-related columns (#8754).
 - Use `irods::authentication::scheme_name` instead of string literals (#8834).
+- Use new version of nanodbc externals package (#8877).
+- Tweak libxml2 dependency for Ubuntu 26.04 (#8877).
 - Use Hasher options to control session token hashes (#8909).
 - Warn administrator when non-owner attempts to launch server (#8960).
 - Disallow running server with root privileges (#8960).
 - Reject relative paths to PID file on server startup (#8980).
+- Move logging of stacktrace files from main server process to the agent factory (#8997).
 - dstream: Detect narrowing conversion errors for buffer sizes (#9002).
 - Return true iRODS error code when Touch API fails to create data object (#9026).
-- `istream`: Return true iRODS error code on dstream failures (#9027).      <-- CONTINUE FROM HERE
+- `istream`: Return true iRODS error code on dstream failures (#9027).
 
 ### Removed
 
@@ -73,6 +76,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Stop server from incrementing ticket `write-file` count after reaching limit (#2720).
 - Return correct error code to client when ticket limit is exceeded (#2720).
 - Honor logical locking in registration/unregistration APIs (#5763).
+- Prevent agent from crashing on invalid rule input (#7074).
 - Update modification time of replica on open with `O_TRUNC` (#7128).
 - Fix `ils` page boundary bug involving linkPoint collections (#7712).
 - Harden DataObjRename API's use of Logical Locking (#7935, #8888).
@@ -110,15 +114,20 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Fix memory leak in Hasher (#8861).
 - Fix memory leaks in iRODS Rule Language (#8864).
 - Fix stalling of delay rule processing in delay server by removing unnecessary use of pool memory resource (#8868).
+- Do not use index operator to get vector pointers (#8877).
+- Make matching for size output from `stat` case-insensitive for univmss resource plugin (#8877).
+- GenQuery1: Use bounds-safe operations when cleaning zone hint (#8877).      <-- CONTINUE FROM HERE
 - GenQuery2: Do not duplicate rows when user has access via multiple groups (#8880).
 - Allow empty context strings for resources (#8900).
 - Use `FETCH FIRST ROWS ONLY` instead of `LIMIT` (#8907).
 - Fix group permission expansion in filesystem library (#8912).
 - Fix handling of single quotes in paths for univmss resource plugin (#8928).
+- Prevent core dump due to file permissions for `irods_environment.json` (#8933).
 - Set server boot time for GetMiscSvrInfo API (#8943).
 - `iqstat`: Check `RcComm` for `nullptr` before use (#8956).
 - `itree`: Fix build error stemming from redefinition of symbol (#8958).
 - Write PID file creation error messages to stderr (#8971).
+- Return error when iCommands are passed too many commandline arguments (#8975).
 - Restore printing of INFO-level log messages during initial setup (#8981).
 - Set pointer to `nullptr` after deallocation in `getVaultPathPolicy` (#8991).
 - ModDataObjMeta: Apply timestamp formatting to creation time string (#8999).
@@ -138,7 +147,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Serialize `TicketAdminInput` data structure for policy enforcement (#8518).
 - Add CRC64/NVME hash strategy (#8554).
 - Add resource operation for reading checksums from storage device (#8554).
-- Implement passive logical quotas in-server (#8632, #8970, #8994).
+- Implement passive logical quotas in-server (#8632, #8970, #8994, #9034, #9050).
 - Add and use common tool to get password from stdin (#8697).
 - Add python script to ease removal of user passwords (#8697).
 - Add password hashing utilities for server (#8697).
@@ -150,7 +159,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Add `password_reuse_previous` grid configuration option for PAM-generated passwords (#8789).        <-- REVISIT FOR CLARITY
 - Add option to skip post-install PUT test during setup (#8901).
 - Hasher: Add digest overload to control output string (#8909).
-- Add microservices for customizing how the random scheme vault path policy generates physical paths (#8917).
+- Add microservices for customizing how the random scheme vault path policy generates physical paths (#8917, #9039).
 - Expose parent context for resources via resource administration library (#9004).
 
 [Full GitHub commit history](https://github.com/irods/irods/compare/5.0.2...5.1.0)
