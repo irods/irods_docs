@@ -108,7 +108,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Collapse multiple authentication codes to `CAT_INVALID_AUTHENTICATION` (#8822).
 - Stabilize time difference between authentication with invalid password and authentication with nonexistent user (#8822).
 - Avoid brace-initialization when constructing nlohmann JSON objects with other JSON objects (#8839).
-- Do not use `memset` on RsComm (#8843).
+- Do not use `memset` on `RsComm` (#8843).
 - Fix memory leaks stemming from `clearMsParam` (#8857).
 - Do not crash delay server when in-memory delay queue buffer is too small (#8859).
 - Fix memory leak in Hasher (#8861).
