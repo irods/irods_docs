@@ -87,12 +87,13 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Fix memory leak in `getUtil` (#8334).
 - Update modification time on empty overwrite for copy operation (#8413).
 - Remove `imeta ls -C` path length constraint of 256 bytes (#8519).
+- Use correct version number in server upgrade instructions (#8536).
 - Remove duplicate definitions from `rodsKeyWdDef.h` (#8550).
+- Strip trailing slashes from `irods_home` and `irods_cwd` (#8572).
 - Fix double-free/corruption by setting free'd pointers to `nullptr` in network plugins (#8593).
 - Fix zone reports for server-to-server connect errors (#8607).
 - Make `RESC_NAME_KW` (`-R`) a directive for DataObjOpen API (#8627).
 - Make `imiscsvrinfo` report an error when connected to a server older than 4.3.4 (#8653).
-- Strip trailing slashes from `irods_home` and `irods_cwd` (#8572).
 - Make physical quota count the largest overrun (#8691).
 - Make total quota update only apply to correct `resc_id` (#8699).
 - Check return value of `base64_encode` in hashers (#8703).
@@ -116,7 +117,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Fix stalling of delay rule processing in delay server by removing unnecessary use of pool memory resource (#8868).
 - Do not use index operator to get vector pointers (#8877).
 - Make matching for size output from `stat` case-insensitive for univmss resource plugin (#8877).
-- GenQuery1: Use bounds-safe operations when cleaning zone hint (#8877).      <-- CONTINUE FROM HERE
+- GenQuery1: Use bounds-safe operations when cleaning zone hint (#8877).
 - GenQuery2: Do not duplicate rows when user has access via multiple groups (#8880).
 - Allow empty context strings for resources (#8900).
 - Use `FETCH FIRST ROWS ONLY` instead of `LIMIT` (#8907).
@@ -133,6 +134,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - ModDataObjMeta: Apply timestamp formatting to creation time string (#8999).
 - `ilsresc`: Return nonzero error code on nonexistent resource (#9012).
 - GenQuery2: Preserve query semantics when generating SQL (#9016).
+- Make delay server honor client username and `delay_rule_executors` list when creating connections to agent factory (#9059).       <-- CONTINUE FROM HERE
 
 ### Added
 
