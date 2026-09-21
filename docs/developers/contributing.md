@@ -73,6 +73,10 @@ Then, attend to any checkboxes and issues that may need to be closed.  If you do
 checkboxes, ask someone with rights to complete this step.  This bookkeeping is important when release notes are
 compiled and statistics are generated for posterity.  Issues in closed milestones are never reopened.
 
+## Artificial Intelligence (AI) Policy
+
+See [https://irods.org/about](https://irods.org/about).
+
 ## API Stability
 
 The iRODS Consortium strives to maintain API stability and not break backward compatibility within a major version.
