@@ -43,6 +43,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Return true iRODS error code when Touch API fails to create data object (#9026).
 - `istream`: Return true iRODS error code on dstream failures (#9027).
 - Log errors from rule engine plugin operations - setup, teardown, start, stop (#9076).
+- Harden internal path handling logic (#9079).
 
 ### Removed
 
@@ -134,6 +135,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Return error when iCommands are passed too many commandline arguments (#8975).
 - Restore printing of INFO-level log messages during initial setup (#8981).
 - Set pointer to `nullptr` after deallocation in `getVaultPathPolicy` (#8991).
+- Make ObjStat API prefer good replicas (#8993).                                    <-- CONTINUE FROM HERE
 - ModDataObjMeta: Apply timestamp formatting to creation time string (#8999).
 - `ilsresc`: Return nonzero error code on nonexistent resource (#9012).
 - GenQuery2: Preserve query semantics when generating SQL (#9016).
@@ -141,6 +143,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Check for empty string to avoid SIGABRT (#9065).
 - Make iRODS Rule Language rule engine plugin operations private (#9074).
 - Fix memory leak and thread-safety `RuleExistsHelper` class (#9077).
+- Limit collection path prefix matching for tickets (#9081).
 
 ### Added
 
@@ -155,7 +158,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Serialize `TicketAdminInput` data structure for policy enforcement (#8518).
 - Add CRC64/NVME hash strategy (#8554).
 - Add resource operation for reading checksums from storage device (#8554).
-- Implement passive logical quotas in-server (#8632, #8970, #8994, #9034, #9050, #9055).       <-- CONTINUE FROM HERE
+- Implement passive logical quotas in-server (#8632, #8970, #8994, #9034, #9050, #9055).
 - Add and use common tool to get password from stdin (#8697).
 - Add python script to ease removal of user passwords (#8697).
 - Add password hashing utilities for server (#8697).
