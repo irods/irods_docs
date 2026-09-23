@@ -6,10 +6,21 @@ Release Date: 2026-0X-YY
 
 The iRODS Consortium and RENCI are pleased to announce iRODS 5.1.0.
 
-This release ... WORDS
+This release represents nearly a year's worth of work to deliver a stable and secure data management platform.
+
+Notable updates include:
+
+- **Backward Compatibility** - Strengthened policy on [API stability](link) and [ABI stability](link).
+- **Ubuntu 26.04** - With Ubuntu 22.04 slowly approaching its EOL date, we've added support for the latest version of Ubuntu.
+- **FIPS Compliance** - To help clear a path for FIPS-enabled environments, the server now provides configuration for using hashing algorithms other than MD5.
+- **New Authentication Scheme** - With this release comes the `irods` authentication scheme. This new scheme was added to address limitations of the `native` authentication scheme. It is provided as an opt-in, but will eventually become the default. See [TODO](link) to learn more.
+- **Logical Quotas** - The server now provides built-in support for Logical Quotas. Unlike the rule engine plugin, this system is passive and behaves like the Physical Quotas system. See [TODO](link) to learn more.
+- **Resource Rebalance** - This release makes it so that all possible replications are completed. The rebalance operation no longer halts on the first issue. The error code `REBALANCE_NOT_COMPLETE` (-1834000) is returned to the client to indicate when this situation has occurred.
+- **Random Scheme Vault Path Policy Enhancements** - Administrators can now customize how physical paths are generated when using the random scheme vault path policy.
 
 MORE WORDS ...
 - talk about the environment variable for phypath hardening
+- talk about the environment variable for icommands-server version mismatch
 - look at tech update slides for ugm to get highlights of release
 
 The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 22.04, Ubuntu 24.04, Ubuntu 26.04, Debian 12, and Debian 13 are available at <https://packages.irods.org/>.
