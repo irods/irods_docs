@@ -146,7 +146,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Return error when iCommands are passed too many commandline arguments (#8975).
 - Restore printing of INFO-level log messages during initial setup (#8981).
 - Set pointer to `nullptr` after deallocation in `getVaultPathPolicy` (#8991).
-- Make ObjStat API prefer good replicas (#8993).                                    <-- CONTINUE FROM HERE
+- Make ObjStat API prefer good replicas (#8993).
 - ModDataObjMeta: Apply timestamp formatting to creation time string (#8999).
 - `ilsresc`: Return nonzero error code on nonexistent resource (#9012).
 - GenQuery2: Preserve query semantics when generating SQL (#9016).
@@ -155,6 +155,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Make iRODS Rule Language rule engine plugin operations private (#9074).
 - Fix memory leak and thread-safety `RuleExistsHelper` class (#9077).
 - Limit collection path prefix matching for tickets (#9081).
+- Fix narrowing conversions for 64-bit integers (#9099).                                    <-- CONTINUE FROM HERE
 
 ### Added
 
@@ -169,7 +170,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Serialize `TicketAdminInput` data structure for policy enforcement (#8518).
 - Add CRC64/NVME hash strategy (#8554).
 - Add resource operation for reading checksums from storage device (#8554).
-- Implement passive logical quotas in-server (#8632, #8970, #8994, #9034, #9050, #9055).
+- Implement passive logical quotas in-server (#8632, #8970, #8994, #9034, #9050, #9055, #9099).
 - Add and use common tool to get password from stdin (#8697).
 - Add python script to ease removal of user passwords (#8697).
 - Add password hashing utilities for server (#8697).
@@ -183,6 +184,7 @@ The latest binary packages for Enterprise Linux 9, Enterprise Linux 10, Ubuntu 2
 - Hasher: Add digest overload to control output string (#8909).
 - Add microservices for customizing how the random scheme vault path policy generates physical paths (#8917, #9039).
 - Expose parent context for resources via resource administration library (#9004).
+- Add verbose flag to `run_tests.py` script (#9097).
 
 [Full GitHub commit history](https://github.com/irods/irods/compare/5.0.2...5.1.0)
 
